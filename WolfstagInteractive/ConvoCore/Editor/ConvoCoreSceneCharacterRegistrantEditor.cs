@@ -14,14 +14,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             var registrant = (ConvoCoreSceneCharacterRegistrant)target;
 
-            // Check whether a registry exists in the scene. Use FindObjectsByType when available
-            // (Unity 2023+), otherwise fall back to the deprecated FindObjectOfType.
-            bool hasRegistry;
-#if UNITY_2023_1_OR_NEWER
-            hasRegistry = FindObjectsByType<ConvoCoreSceneCharacterRegistry>(FindObjectsSortMode.None).Length > 0;
-#else
-            hasRegistry = FindObjectOfType<ConvoCoreSceneCharacterRegistry>() != null;
-#endif
+            // Check whether a registry exists in the scene.
+            bool hasRegistry = FindAnyObjectByType<ConvoCoreSceneCharacterRegistry>() != null;
 
             if (!hasRegistry)
             {

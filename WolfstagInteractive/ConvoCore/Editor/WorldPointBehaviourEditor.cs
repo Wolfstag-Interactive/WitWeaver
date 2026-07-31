@@ -53,12 +53,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (worldPointsProp != null && worldPointsProp.isArray)
             {
                 var missing = new List<string>();
-#if UNITY_2023_1_OR_NEWER
-                var registries = FindObjectsByType<ConvoCoreSpawnPointRegistry>(FindObjectsSortMode.None);
-                var registry   = registries.Length > 0 ? registries[0] : null;
-#else
-                var registry = FindObjectOfType<ConvoCoreSpawnPointRegistry>();
-#endif
+                var registry = FindAnyObjectByType<ConvoCoreSpawnPointRegistry>();
 
                 for (int i = 0; i < worldPointsProp.arraySize; i++)
                 {

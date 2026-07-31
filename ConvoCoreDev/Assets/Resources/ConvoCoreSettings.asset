@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a28658fe4acc884b9a97ae12bf125c6, type: 3}
   m_Name: ConvoCoreSettings
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: ConvoCore::WolfstagInteractive.ConvoCore.ConvoCoreSettings
   SourceOrder: 00000000010000000200000003000000
   resourcesRoot: ConvoCore/Dialogue
   SupportedLanguages:
@@ -19,7 +19,7 @@ MonoBehaviour:
   CurrentLanguage: EN
   AddressablesEnabled: 0
   AddressablesKeyTemplate: '{filePath}.yml'
-  VerboseLogs: 1
+  VerboseLogs: 0
   SaveKeyPrefix: convocore.
   EnableSaveSystem: 1
   EnableVariableStore: 1

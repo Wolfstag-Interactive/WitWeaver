@@ -520,7 +520,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             h += EditorGUIUtility.singleLineHeight + k_Spacing; // foldout
 
     string key =
-        $"{property.serializedObject.targetObject.GetInstanceID()}_{property.propertyPath}_CharacterRep";
+        $"{property.serializedObject.targetObject.GetEntityId()}_{property.propertyPath}_CharacterRep";
     bool open = !CharacterRepresentationFoldouts.TryGetValue(key, out bool stored) || stored;
     if (open)
     {
@@ -899,7 +899,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private Rect DrawCharacterRepresentation(Rect rect, SerializedProperty property)
 {
     string foldoutKey =
-        $"{property.serializedObject.targetObject.GetInstanceID()}_{property.propertyPath}_CharacterRep";
+        $"{property.serializedObject.targetObject.GetEntityId()}_{property.propertyPath}_CharacterRep";
     if (!CharacterRepresentationFoldouts.ContainsKey(foldoutKey))
         CharacterRepresentationFoldouts[foldoutKey] = true;
 
@@ -998,7 +998,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
     int cap = Mathf.Max(1, GetMaxSlotsForEditor());
     bool hasOverflow = listProp.arraySize > cap;
 
-    string overflowKey = $"{property.serializedObject.targetObject.GetInstanceID()}_{property.propertyPath}_EditOverflow";
+    string overflowKey = $"{property.serializedObject.targetObject.GetEntityId()}_{property.propertyPath}_EditOverflow";
     if (!EditOverflowToggles.ContainsKey(overflowKey))
         EditOverflowToggles[overflowKey] = false;
 
@@ -1140,11 +1140,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (dstRepObj != null && srcRepObj != null) dstRepObj.objectReferenceValue = srcRepObj.objectReferenceValue;
         }
         
-        private static readonly Dictionary<int, GUIContent[]> _profilePopupCache = new();
+        private static readonly Dictionary<EntityId, GUIContent[]> _profilePopupCache = new();
 
         private static GUIContent[] GetCachedProfileNames(ConvoCoreConversationData convo, List<ConvoCoreCharacterProfileBaseData> profiles)
         {
-            int id = convo.GetInstanceID();
+            EntityId id = convo.GetEntityId();
             if (_profilePopupCache.TryGetValue(id, out var arr))
                 return arr;
 
@@ -1590,7 +1590,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         {
             unchecked
             {
-                int id = property.serializedObject.targetObject.GetInstanceID();
+                int id = property.serializedObject.targetObject.GetEntityId().GetHashCode();
                 int pathHash = property.propertyPath?.GetHashCode() ?? 0;
                 return (id * 397) ^ pathHash;
             }

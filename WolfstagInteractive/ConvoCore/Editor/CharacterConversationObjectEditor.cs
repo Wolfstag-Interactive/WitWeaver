@@ -33,7 +33,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private ReorderableList _participantConfigList;
         private void OnEnable()
         {
-            _excelFoldout = EditorPrefs.GetBool("ConvoCore.ExcelSourceFoldout." + target.GetInstanceID(), false);
+            _excelFoldout = EditorPrefs.GetBool("ConvoCore.ExcelSourceFoldout." + target.GetEntityId(), false);
             CacheLanguageSettings();
         }
         private void CacheLanguageSettings()
@@ -507,7 +507,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical("box");
 
-            var foldoutKey = "ConvoCore.ExcelSourceFoldout." + target.GetInstanceID();
+            var foldoutKey = "ConvoCore.ExcelSourceFoldout." + target.GetEntityId();
             _excelFoldout = EditorGUILayout.Foldout(_excelFoldout, "Excel Source", true, EditorStyles.foldoutHeader);
             EditorPrefs.SetBool(foldoutKey, _excelFoldout);
 
@@ -971,8 +971,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
         public List<string> Locales = new List<string>();
     }
 
-    // InstanceID -> Entry
-    private static readonly Dictionary<int, Entry> _cache = new Dictionary<int, Entry>();
+    // EntityId -> Entry
+    private static readonly Dictionary<EntityId, Entry> _cache = new Dictionary<EntityId, Entry>();
 
     // Fast non-alloc hash for strings (FNV-1a 32-bit)
     private static uint Fnva32(string s)
@@ -1000,7 +1000,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         var ta = data.ConversationYaml;
         if (ta == null) return null;
 
-        int id = ta.GetInstanceID();
+        EntityId id = ta.GetEntityId();
         string yamlText = ta.text; // ok on main thread
         if (string.IsNullOrEmpty(yamlText)) return null;
 
@@ -1078,7 +1078,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
     public static void Invalidate(TextAsset ta)
     {
         if (ta != null)
-            _cache.Remove(ta.GetInstanceID());
+            _cache.Remove(ta.GetEntityId());
     }
 }
 

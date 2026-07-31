@@ -29,7 +29,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
 
             string uniqueKey = PREF_KEY_PREFIX +
-                               listProp.serializedObject.targetObject.GetInstanceID() + "_" +
+                               listProp.serializedObject.targetObject.GetEntityId() + "_" +
                                listProp.propertyPath;
 
             int pageSize = Mathf.Max(1, EditorPrefs.GetInt(uniqueKey + PAGE_SIZE_KEY_SUFFIX, defaultPageSize));

@@ -82,7 +82,7 @@ namespace WolfstagInteractive.ConvoCore
 #if UNITY_EDITOR
         private static IReadOnlyList<ConvoCoreUIFoundation.DisplaySlotDefinition> GetFoundationSlots()
         {
-            var runner = Object.FindFirstObjectByType<ConvoCore>();
+            var runner = Object.FindAnyObjectByType<ConvoCore>();
             var foundation = runner != null ? runner.ConversationUI : null;
             return foundation != null ? foundation.DisplaySlots : null;
         }

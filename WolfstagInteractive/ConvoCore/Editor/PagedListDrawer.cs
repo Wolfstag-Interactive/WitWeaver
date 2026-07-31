@@ -63,7 +63,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
 
             var attr = (PagedListAttribute)attribute;
-            string uniqueKey = PREF_KEY_PREFIX + property.serializedObject.targetObject.GetInstanceID() + "_" + property.propertyPath;
+            string uniqueKey = PREF_KEY_PREFIX + property.serializedObject.targetObject.GetEntityId() + "_" + property.propertyPath;
 
             int pageSize = Mathf.Max(1, GetSavedPageSize(uniqueKey, attr.DefaultItemsPerPage));
             int total = property.arraySize;

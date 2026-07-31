@@ -173,8 +173,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
             int totalLines = orderedLineIds.Count;
 
             // ── Pagination toolbar ────────────────────────────────────────────
-            string instanceKey = k_PageKey + target.GetInstanceID();
-            string sizeKey     = k_SizeKey + target.GetInstanceID();
+            string instanceKey = k_PageKey + target.GetEntityId();
+            string sizeKey     = k_SizeKey + target.GetEntityId();
             int pageSize    = Mathf.Max(1, EditorPrefs.GetInt(sizeKey, k_DefaultPageSize));
             int totalPages  = Mathf.Max(1, Mathf.CeilToInt(totalLines / (float)pageSize));
             int currentPage = Mathf.Clamp(SessionState.GetInt(instanceKey, 0), 0, totalPages - 1);
@@ -216,7 +216,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var    flatIdxes = groups[lineId];
 
                 // Foldout key
-                string foldKey = target.GetInstanceID() + "_" + lineId;
+                string foldKey = target.GetEntityId() + "_" + lineId;
                 if (!s_LineFoldouts.ContainsKey(foldKey))
                     s_LineFoldouts[foldKey] = false;
 

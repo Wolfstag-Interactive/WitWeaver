@@ -3,9 +3,14 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlAssetCreator.html")]
 
-/// <summary>
+namespace WolfstagInteractive.ConvoCore.Editor
+{
+
+
+    [HelpURL(
+        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlAssetCreator.html")]
+    /// <summary>
     /// Creates a new .yml file in the Project window from the Assets/Create menu,
     /// similar to how Unity creates a new C# script.
     /// </summary>
@@ -43,50 +48,50 @@ ConversationExample:
     es: ""¡¿POR QUÉ ESTAMOS GRITANDO??!""
 ";
 
-    [MenuItem(MenuPath, priority = 10)]
-    public static void CreateYamlFile()
-    {
-        var icon = EditorGUIUtility.IconContent("TextAsset Icon").image as Texture2D;
-
-        ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
-            0,
-            ScriptableObject.CreateInstance<CreateYamlEndNameEditAction>(),
-            DefaultFileName,
-            icon,
-            DefaultYamlTemplate
-        );
-    }
-
-    private sealed class CreateYamlEndNameEditAction : EndNameEditAction
-    {
-        public override void Action(int instanceId, string pathName, string resourceFile)
+        [MenuItem(MenuPath, priority = 10)]
+        public static void CreateYamlFile()
         {
-            try
+            var icon = EditorGUIUtility.IconContent("TextAsset Icon").image as Texture2D;
+
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
+                EntityId.None,
+                ScriptableObject.CreateInstance<CreateYamlAssetCreationEndAction>(),
+                DefaultFileName,
+                icon,
+                DefaultYamlTemplate
+            );
+        }
+
+        private sealed class CreateYamlAssetCreationEndAction : AssetCreationEndAction
+        {
+            public override void Action(EntityId entityId, string pathName, string resourceFile)
             {
-                var fullPath = Path.GetFullPath(pathName);
-
-                var dir = Path.GetDirectoryName(fullPath);
-                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-
-                File.WriteAllText(fullPath, resourceFile);
-
-                AssetDatabase.ImportAsset(pathName);
-                var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(pathName);
-
-                if (asset != null)
+                try
                 {
-                    ProjectWindowUtil.ShowCreatedAsset(asset);
-                    Selection.activeObject = asset;
-                    EditorGUIUtility.PingObject(asset);
+                    var fullPath = Path.GetFullPath(pathName);
+
+                    var dir = Path.GetDirectoryName(fullPath);
+                    if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                        Directory.CreateDirectory(dir);
+
+                    File.WriteAllText(fullPath, resourceFile);
+
+                    AssetDatabase.ImportAsset(pathName);
+                    var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(pathName);
+
+                    if (asset != null)
+                    {
+                        ProjectWindowUtil.ShowCreatedAsset(asset);
+                        Selection.activeObject = asset;
+                        EditorGUIUtility.PingObject(asset);
+                    }
                 }
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"Failed to create YAML file at '{pathName}'.\n{ex}");
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"Failed to create YAML file at '{pathName}'.\n{ex}");
+                }
             }
         }
     }
 }
-
 #endif
