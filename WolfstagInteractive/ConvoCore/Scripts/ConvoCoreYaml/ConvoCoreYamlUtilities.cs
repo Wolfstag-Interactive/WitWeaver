@@ -158,6 +158,9 @@ namespace WolfstagInteractive.ConvoCore
                 if (string.IsNullOrWhiteSpace(yamlConfig.LineID))
                     yamlConfig.LineID = ConvoCoreLineID.NewLineID();
 
+                // Preserve existing Unity-authored data by ConversationID+LineId (fallback: same index)
+                var existing = FindExistingLine(_convoCoreConversationData, conversationKey, yamlConfig.LineID, i);
+
                 var localizedDialogueList = new List<ConvoCoreConversationData.LocalizedDialogue>();
                 if (yamlConfig.LocalizedDialogue != null)
                 {
@@ -166,13 +169,13 @@ namespace WolfstagInteractive.ConvoCore
                         localizedDialogueList.Add(new ConvoCoreConversationData.LocalizedDialogue
                         {
                             Language = kvp.Key,
-                            Text = kvp.Value
+                            Text = kvp.Value,
+                            // YAML only carries text — audio clips are Unity-authored, so carry
+                            // them over from the matched existing line or they are lost on reimport.
+                            Clip = FindExistingClip(existing, kvp.Key)
                         });
                     }
                 }
-
-                // Preserve existing Unity-authored data by ConversationID+LineId (fallback: same index)
-                var existing = FindExistingLine(_convoCoreConversationData, conversationKey, yamlConfig.LineID, i);
 
                 var newLineInfo = new ConvoCoreConversationData.DialogueLineInfo(conversationKey)
                 {
@@ -251,6 +254,25 @@ namespace WolfstagInteractive.ConvoCore
                 var dl = data.DialogueLines[i];
                 if (dl.ConversationID == key && dl.ConversationLineIndex == indexFallback)
                     return dl;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the authored <c>AudioClip</c> for the given language from an existing line's
+        /// localized entries, or <c>null</c> when there is no existing line or no clip for that language.
+        /// </summary>
+        private static AudioClip FindExistingClip(
+            ConvoCoreConversationData.DialogueLineInfo existing, string language)
+        {
+            if (existing?.LocalizedDialogues == null || string.IsNullOrEmpty(language))
+                return null;
+
+            for (int i = 0; i < existing.LocalizedDialogues.Count; i++)
+            {
+                var ld = existing.LocalizedDialogues[i];
+                if (string.Equals(ld.Language, language, StringComparison.OrdinalIgnoreCase))
+                    return ld.Clip;
             }
             return null;
         }

@@ -59,6 +59,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private static readonly GUIContent GC_AllowGoBack        = new("Allow Go Back",
             "When enabled, a '← Go Back' option is appended to the choice list at runtime. " +
             "If selected, the player is taken back to the previous dialogue line.");
+        private static readonly GUIContent GC_TargetLine         = new("Target Line:",
+            "Line in this conversation to jump to when this line completes.");
 
 
         // Preview header text cache
@@ -180,6 +182,15 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 {
                     EditorGUI.PropertyField(rect, containerProp, new GUIContent("Target Container"));
                     rect.y += EditorGUI.GetPropertyHeight(containerProp, true) + k_Spacing;
+
+                    if (IsPlaylistContainer(containerProp))
+                    {
+                        var warnRect = new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight * 2f);
+                        EditorGUI.HelpBox(warnRect,
+                            "Playlist containers can't be branch targets — use a Selector container, " +
+                            "or target its first conversation directly.", MessageType.Warning);
+                        rect.y += warnRect.height + k_Spacing;
+                    }
                 }
 
                 if (aliasProp != null)
@@ -210,9 +221,29 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     rect = DrawChoicesArray(rect, choicesProp);
                 }
             }
+            else if (mode == ConvoCoreConversationData.LineContinuationMode.GoToLine)
+            {
+                var targetLineProp = contProp.FindPropertyRelative("TargetLineID");
+                if (targetLineProp != null)
+                {
+                    EditorGUI.PropertyField(rect, targetLineProp, GC_TargetLine);
+                    rect.y += EditorGUI.GetPropertyHeight(targetLineProp, true) + k_Spacing;
+                }
+
+                if (pushReturnProp != null)
+                {
+                    EditorGUI.PropertyField(rect, pushReturnProp, GC_PushReturnPoint);
+                    rect.y += EditorGUI.GetPropertyHeight(pushReturnProp, true) + k_Spacing;
+                }
+            }
 
             return rect;
         }
+
+        /// <summary>True when the property references a ConversationContainer in Playlist mode.</summary>
+        private static bool IsPlaylistContainer(SerializedProperty containerProp) =>
+            containerProp.objectReferenceValue is ConversationContainer container &&
+            container.ContainerMode == ConversationContainerMode.Playlist;
 
         /// <summary>
         /// Seeds the Labels list of any newly-added ChoiceOption (identified by having an empty Labels list)
@@ -366,7 +397,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var pushReturnProp = contProp.FindPropertyRelative("PushReturnPoint");
 
                 if (containerProp != null)
+                {
                     h += EditorGUI.GetPropertyHeight(containerProp, true) + k_Spacing;
+
+                    if (IsPlaylistContainer(containerProp))
+                        h += EditorGUIUtility.singleLineHeight * 2f + k_Spacing;
+                }
 
                 if (aliasProp != null)
                     h += EditorGUI.GetPropertyHeight(aliasProp, true) + k_Spacing;
@@ -383,6 +419,17 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var choicesProp = contProp.FindPropertyRelative("Choices");
                 if (choicesProp != null)
                     h += GetChoicesArrayHeight(choicesProp);
+            }
+            else if (mode == ConvoCoreConversationData.LineContinuationMode.GoToLine)
+            {
+                var targetLineProp  = contProp.FindPropertyRelative("TargetLineID");
+                var pushReturnProp  = contProp.FindPropertyRelative("PushReturnPoint");
+
+                if (targetLineProp != null)
+                    h += EditorGUI.GetPropertyHeight(targetLineProp, true) + k_Spacing;
+
+                if (pushReturnProp != null)
+                    h += EditorGUI.GetPropertyHeight(pushReturnProp, true) + k_Spacing;
             }
 
             return h;

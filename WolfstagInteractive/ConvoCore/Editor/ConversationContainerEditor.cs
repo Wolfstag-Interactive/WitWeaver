@@ -207,7 +207,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                         }
                         else
                         {
-                            h += EditorGUI.GetPropertyHeight(startIndexProp, true) + space;
+                            h += EditorGUIUtility.singleLineHeight + space; // Start Line dropdown
 
                             if (sel == ConversationSelectionMode.WeightedRandom)
                                 h += EditorGUI.GetPropertyHeight(weightProp, true) + space;
@@ -248,7 +248,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                         }
                         else
                         {
-                            DrawProperty(ref rect, startIndexProp, "Start Line Index");
+                            DrawStartLinePopup(ref rect, element);
 
                             if (sel == ConversationSelectionMode.WeightedRandom)
                                 DrawProperty(ref rect, weightProp, "Weight");
@@ -270,6 +270,85 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUI.PropertyField(rect, prop, new GUIContent(label), true);
             rect.y += h + Spacing;
             rect.height = EditorGUIUtility.singleLineHeight;
+        }
+
+        /// <summary>Sentinel popup value for a legacy int StartLineIndex still in effect.</summary>
+        private const string LegacyStartSentinel = "legacy";
+
+        /// <summary>
+        /// Draws the entry's start line as a dropdown of the target conversation's lines, stored
+        /// as a stable StartLineID. A non-zero legacy StartLineIndex is shown until a line is
+        /// picked; choosing any option moves the entry onto LineID targeting and clears the index.
+        /// </summary>
+        private static void DrawStartLinePopup(ref Rect rect, SerializedProperty element)
+        {
+            var convoProp = element.FindPropertyRelative("ConversationData");
+            var idProp = element.FindPropertyRelative("StartLineID");
+            var legacyProp = element.FindPropertyRelative("StartLineIndex");
+            rect.height = EditorGUIUtility.singleLineHeight;
+
+            var data = convoProp?.objectReferenceValue as ConvoCoreConversationData;
+            if (idProp == null || data?.DialogueLines == null || data.DialogueLines.Count == 0)
+            {
+                using (new EditorGUI.DisabledScope(true))
+                    EditorGUI.LabelField(rect, "Start Line", "(assign a conversation with lines)");
+                rect.y += rect.height + Spacing;
+                return;
+            }
+
+            var options = new System.Collections.Generic.List<GUIContent> { new("(First line)") };
+            var ids = new System.Collections.Generic.List<string> { "" };
+
+            string currentId = idProp.stringValue;
+            int selected = string.IsNullOrEmpty(currentId) ? 0 : -1;
+
+            for (int i = 0; i < data.DialogueLines.Count; i++)
+            {
+                var line = data.DialogueLines[i];
+                if (line == null || string.IsNullOrEmpty(line.LineID)) continue;
+
+                options.Add(new GUIContent($"{i}: {line.characterID} — {GetLinePreview(line)}"));
+                ids.Add(line.LineID);
+                if (selected < 0 && line.LineID == currentId)
+                    selected = ids.Count - 1;
+            }
+
+            if (string.IsNullOrEmpty(currentId) && legacyProp is { intValue: > 0 })
+            {
+                options.Add(new GUIContent($"(Legacy Start Line Index {legacyProp.intValue})"));
+                ids.Add(LegacyStartSentinel);
+                selected = ids.Count - 1;
+            }
+            else if (selected < 0)
+            {
+                options.Add(new GUIContent($"Missing: {currentId}"));
+                ids.Add(currentId);
+                selected = ids.Count - 1;
+            }
+
+            int newSelected = EditorGUI.Popup(rect, new GUIContent("Start Line"), selected, options.ToArray());
+            if (newSelected != selected && ids[newSelected] != LegacyStartSentinel)
+            {
+                idProp.stringValue = ids[newSelected];
+                if (legacyProp != null) legacyProp.intValue = 0;
+            }
+
+            rect.y += rect.height + Spacing;
+        }
+
+        private static string GetLinePreview(ConvoCoreConversationData.DialogueLineInfo line)
+        {
+            if (line.LocalizedDialogues != null)
+            {
+                for (int i = 0; i < line.LocalizedDialogues.Count; i++)
+                {
+                    var text = line.LocalizedDialogues[i].Text;
+                    if (string.IsNullOrWhiteSpace(text)) continue;
+                    text = text.Replace('\n', ' ').Trim();
+                    return text.Length > 30 ? text.Substring(0, 27) + "..." : text;
+                }
+            }
+            return line.LineID ?? "";
         }
 
        

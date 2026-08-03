@@ -19,11 +19,11 @@ In practice this means a typical workflow looks like: write all the dialogue tex
 
 Open a `ConvoCoreConversationData` asset in the Unity Inspector. Each dialogue line entry has a **Continuation Mode** dropdown. Select the mode that describes what should happen after that line finishes displaying.
 
-The four available modes are described below.
+The five available modes are described below.
 
 ---
 
-## The four modes
+## The five modes
 
 ### Continue (default)
 
@@ -53,8 +53,8 @@ After this line finishes, jump to a specific conversation inside a `Conversation
 
 | Field | Description |
 |---|---|
-| **Target Container** | Drag the `ConversationContainer` asset that holds the destination conversation. |
-| **Target Alias Or Name** | The alias (or name) of the entry inside that container to jump to. |
+| **Target Container** | Drag the `ConversationContainer` asset that holds the destination conversation. Must be a **Selector** container — Playlist containers can't be branch targets, and the inspector warns if one is assigned. |
+| **Target Alias Or Name** | The entry inside that container to jump to, picked from a dropdown of the container's entries ("(Let container decide)" defers to the container's selection mode). |
 | **Push Return Point** | If checked, the current position is saved onto the return stack before branching. |
 
 :::note
@@ -78,9 +78,26 @@ If you use `ContainerBranch` without checking **Push Return Point**, control tra
 
 ---
 
+### GoToLine
+
+After this line finishes, jump to another line **within the same conversation**, identified by its stable `LineID`. This is the building block for nonlinear conversations: loops, skips, and hub-and-spoke dialogue that stays inside one conversation asset.
+
+| Field | Description |
+|---|---|
+| **Target Line** | The line in this conversation to jump to, picked from a dropdown of the conversation's lines. |
+| **Push Return Point** | If checked, the line after the current one is saved onto the return stack before jumping. |
+
+Because the target is the line's `LineID` (not its list index), jumps stay stable when lines are reordered or when the YAML is reimported.
+
+:::note
+Reversing (the "go back one line" feature) survives **backward** jumps — after looping back to a hub line, players can still step back through the lines leading up to it. **Forward** jumps reset the reverse history (the skipped lines would be holes), as does switching conversations.
+:::
+
+---
+
 ### PlayerChoice
 
-After this line finishes, display a set of options for the player to choose from and wait for a selection. When the player picks an option, ConvoCore branches to the conversation associated with that option.
+After this line finishes, display a set of options for the player to choose from and wait for a selection. When the player picks an option, ConvoCore either jumps to a target line in the same conversation (the choice's **Target Line**) or branches to the conversation associated with that option via a container.
 
 `PlayerChoice` is covered in full on the [Player Choices](player-choices) page.
 

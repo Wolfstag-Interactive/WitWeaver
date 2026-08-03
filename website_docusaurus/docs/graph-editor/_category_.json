@@ -1,0 +1,8 @@
+{
+  "label": "Graph Editor",
+  "position": 3.5,
+  "link": {
+    "type": "doc",
+    "id": "graph-editor/conversation-graph"
+  }
+}
