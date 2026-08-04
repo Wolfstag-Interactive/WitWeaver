@@ -23,6 +23,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterExpression_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterProfileBaseData_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterProfileExtensions_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCollectionPairs_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreConversationData_8DialogueLineInfo_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreConversationData_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreConversationSaveManager_8cs.html</loc></url>
@@ -719,6 +720,10 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1DialogueHistoryRendererContext.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1ExpressionActionContext-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1ExpressionActionContext.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/struct_expression_action_context-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/struct_expression_action_context.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/struct_wolfstag_interactive_1_1_convo_core_1_1_conversation_branch_result-members.html</loc></url>

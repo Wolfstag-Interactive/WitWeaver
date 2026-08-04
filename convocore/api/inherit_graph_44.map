@@ -1,9 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="5,69,243,109"/>
 <area shape="rect" id="Node000001" href="$classWolfstagInteractive_1_1ConvoCore_1_1PlainTextHistoryRenderer.html" title="Simple dialogue history renderer that appends plain text lines to a TMP_Text component with no markup..." alt="" coords="291,5,512,45"/>
-<area shape="poly" id="edge68_Node000000_Node000001" title=" " alt="" coords="224,64,314,43,315,48,225,69"/>
+<area shape="poly" id="edge69_Node000000_Node000001" title=" " alt="" coords="224,64,314,43,315,48,225,69"/>
 <area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1PrefabHistoryRenderer.html" title="Renderer that requests prefab&#45;based dialogue entry creation via IDialogueHistoryOutputPrefab." alt="" coords="299,69,503,109"/>
-<area shape="poly" id="edge69_Node000000_Node000002" title=" " alt="" coords="257,87,299,87,299,92,257,92"/>
+<area shape="poly" id="edge70_Node000000_Node000002" title=" " alt="" coords="257,87,299,87,299,92,257,92"/>
 <area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1RichTextHistoryRenderer.html" title="History renderer that outputs formatted text (e.g., color and bold speaker names) using a generic IDi..." alt="" coords="293,133,510,173"/>
-<area shape="poly" id="edge70_Node000000_Node000003" title=" " alt="" coords="225,110,315,131,314,136,224,115"/>
+<area shape="poly" id="edge71_Node000000_Node000003" title=" " alt="" coords="225,110,315,131,314,136,224,115"/>
 </map>

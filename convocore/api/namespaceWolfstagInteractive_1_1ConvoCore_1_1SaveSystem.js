@@ -1,5 +1,7 @@
 var namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem =
 [
+    [ "CollectionIntPair", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair.html", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair" ],
+    [ "CollectionStringPair", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair.html", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair" ],
     [ "ConversationSnapshot", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConversationSnapshot.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConversationSnapshot" ],
     [ "ConvoCoreCharacterProfileExtensions", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreCharacterProfileExtensions.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreCharacterProfileExtensions" ],
     [ "ConvoCoreConversationSaveManager", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreConversationSaveManager.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreConversationSaveManager" ],
@@ -29,6 +31,8 @@ var namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem =
       [ "String", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86a27118326006d3829667a400ad23d5d98", null ],
       [ "Int", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86a1686a6c336b71b36d77354cea19a8b52", null ],
       [ "Float", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86a22ae0e2b89e5e3d477f988cc36d3272b", null ],
-      [ "Bool", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86ac26f15e86e3de4c398a8273272aba034", null ]
+      [ "Bool", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86ac26f15e86e3de4c398a8273272aba034", null ],
+      [ "CollectionInt", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86ab7e5ddc4d717010256441ab6e951dab4", null ],
+      [ "CollectionString", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86a5c2495ca8d51b1bf6fb746ed54cdd218", null ]
     ] ]
 ];

@@ -3,6 +3,8 @@ var annotated_dup =
     [ "WolfstagInteractive", "namespaceWolfstagInteractive.html", [
       [ "ConvoCore", "namespaceWolfstagInteractive_1_1ConvoCore.html", [
         [ "SaveSystem", "namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html", [
+          [ "CollectionIntPair", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair.html", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair" ],
+          [ "CollectionStringPair", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair.html", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair" ],
           [ "ConversationSnapshot", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConversationSnapshot.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConversationSnapshot" ],
           [ "ConvoCoreCharacterProfileExtensions", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreCharacterProfileExtensions.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreCharacterProfileExtensions" ],
           [ "ConvoCoreConversationSaveManager", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreConversationSaveManager.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreConversationSaveManager" ],

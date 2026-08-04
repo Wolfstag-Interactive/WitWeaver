@@ -10,6 +10,8 @@ var hierarchy =
     [ "WolfstagInteractive.ConvoCore.ConvoCoreConversationData.CharacterRepresentationData", "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html", null ],
     [ "WolfstagInteractive.ConvoCore.ConvoCoreConversationData.ChoiceOption", "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1ChoiceOption.html", null ],
     [ "WolfstagInteractive.ConvoCore.ChoiceResult", "classWolfstagInteractive_1_1ConvoCore_1_1ChoiceResult.html", null ],
+    [ "WolfstagInteractive.ConvoCore.SaveSystem.CollectionIntPair", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionIntPair.html", null ],
+    [ "WolfstagInteractive.ConvoCore.SaveSystem.CollectionStringPair", "structWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1CollectionStringPair.html", null ],
     [ "WolfstagInteractive.ConvoCore.ConversationBranchResult", "structWolfstagInteractive_1_1ConvoCore_1_1ConversationBranchResult.html", null ],
     [ "WolfstagInteractive.ConvoCore.ConversationContainerRuntime", "classWolfstagInteractive_1_1ConvoCore_1_1ConversationContainerRuntime.html", null ],
     [ "WolfstagInteractive.ConvoCore.SaveSystem.ConversationSnapshot", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConversationSnapshot.html", null ],
@@ -23,7 +25,6 @@ var hierarchy =
     [ "WolfstagInteractive.ConvoCore.ConvoCoreLineIDUtility", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreLineIDUtility.html", null ],
     [ "WolfstagInteractive.ConvoCore.SaveSystem.ConvoCoreSettingsSnapshot", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSettingsSnapshot.html", null ],
     [ "WolfstagInteractive.ConvoCore.SaveSystem.ConvoCoreSnapshotMigrator", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSnapshotMigrator.html", null ],
-    [ "WolfstagInteractive.ConvoCore.SaveSystem.ConvoCoreVariable", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreVariable.html", null ],
     [ "WolfstagInteractive.ConvoCore.ConvoCoreYamlDiagnostic", "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlDiagnostic.html", null ],
     [ "WolfstagInteractive.ConvoCore.ConvoCoreYamlLoader", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlLoader.html", null ],
     [ "WolfstagInteractive.ConvoCore.ConvoCoreYamlParser", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlParser.html", null ],
@@ -93,7 +94,8 @@ var hierarchy =
       [ "WolfstagInteractive.ConvoCore.TMPDialogueHistoryOutput", "classWolfstagInteractive_1_1ConvoCore_1_1TMPDialogueHistoryOutput.html", null ]
     ] ],
     [ "ISerializationCallbackReceiver", null, [
-      [ "WolfstagInteractive.ConvoCore.DialogueLineDisplayOptions", "classWolfstagInteractive_1_1ConvoCore_1_1DialogueLineDisplayOptions.html", null ]
+      [ "WolfstagInteractive.ConvoCore.DialogueLineDisplayOptions", "classWolfstagInteractive_1_1ConvoCore_1_1DialogueLineDisplayOptions.html", null ],
+      [ "WolfstagInteractive.ConvoCore.SaveSystem.ConvoCoreVariable", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreVariable.html", null ]
     ] ],
     [ "WolfstagInteractive.ConvoCore.IUIFoundation", "interfaceWolfstagInteractive_1_1ConvoCore_1_1IUIFoundation.html", [
       [ "WolfstagInteractive.ConvoCore.ConvoCoreUIFoundation", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUIFoundation.html", [

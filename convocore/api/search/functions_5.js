@@ -11,8 +11,9 @@ var searchData=
   ['findgameobject_8',['FindGameObject',['../classWolfstagInteractive_1_1ConvoCore_1_1GameObjectReference.html#a16dbc6f768a40602d984505d1264e76c',1,'WolfstagInteractive::ConvoCore::GameObjectReference']]],
   ['findinchildren_9',['FindInChildren',['../classWolfstagInteractive_1_1ConvoCore_1_1GameObjectHelper.html#a6c64a9563a5339f5543752f026597014',1,'WolfstagInteractive::ConvoCore::GameObjectHelper']]],
   ['findinchildrenrecursive_10',['FindInChildrenRecursive',['../classWolfstagInteractive_1_1ConvoCore_1_1GameObjectHelper.html#a4fad508f95be15637f3413154fc014e4',1,'WolfstagInteractive::ConvoCore::GameObjectHelper']]],
-  ['fireanimatortrigger_11',['FireAnimatorTrigger',['../classWolfstagInteractive_1_1ConvoCore_1_1TransformLerpBehaviour.html#a247bf857af8d1ff06161e9038c6795fa',1,'WolfstagInteractive::ConvoCore::TransformLerpBehaviour']]],
-  ['forcescrolltobottom_12',['ForceScrollToBottom',['../classWolfstagInteractive_1_1ConvoCore_1_1PlainTextHistoryRenderer.html#adfe66489ddda8ec2df1107e5c565656e',1,'WolfstagInteractive::ConvoCore::PlainTextHistoryRenderer']]],
-  ['forcevalidatedialoguelines_13',['ForceValidateDialogueLines',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData.html#afa40ef6dcfb105bdca7ae877776b5d1a',1,'WolfstagInteractive::ConvoCore::ConvoCoreConversationData']]],
-  ['format_14',['Format',['../structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlDiagnostic.html#afccba1c166d3bff6004423177b3eceab',1,'WolfstagInteractive::ConvoCore::ConvoCoreYamlDiagnostic']]]
+  ['findinlist_11',['FindInList',['../classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoVariableStore.html#a277599f4f3f86850a578c06540578534',1,'WolfstagInteractive::ConvoCore::SaveSystem::ConvoVariableStore']]],
+  ['fireanimatortrigger_12',['FireAnimatorTrigger',['../classWolfstagInteractive_1_1ConvoCore_1_1TransformLerpBehaviour.html#a247bf857af8d1ff06161e9038c6795fa',1,'WolfstagInteractive::ConvoCore::TransformLerpBehaviour']]],
+  ['forcescrolltobottom_13',['ForceScrollToBottom',['../classWolfstagInteractive_1_1ConvoCore_1_1PlainTextHistoryRenderer.html#adfe66489ddda8ec2df1107e5c565656e',1,'WolfstagInteractive::ConvoCore::PlainTextHistoryRenderer']]],
+  ['forcevalidatedialoguelines_14',['ForceValidateDialogueLines',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData.html#afa40ef6dcfb105bdca7ae877776b5d1a',1,'WolfstagInteractive::ConvoCore::ConvoCoreConversationData']]],
+  ['format_15',['Format',['../structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlDiagnostic.html#afccba1c166d3bff6004423177b3eceab',1,'WolfstagInteractive::ConvoCore::ConvoCoreYamlDiagnostic']]]
 ];
