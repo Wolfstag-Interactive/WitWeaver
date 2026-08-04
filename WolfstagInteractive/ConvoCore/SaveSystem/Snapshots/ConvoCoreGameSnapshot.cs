@@ -13,7 +13,13 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 [Serializable]
     public class ConvoCoreGameSnapshot
     {
-        public string SchemaVersion = "1.0";
+        /// <summary>
+        /// Schema version written by the current runtime. 1.1 added Collection variables
+        /// (serialized as list-of-pairs inside <see cref="ConvoCoreVariable"/>).
+        /// </summary>
+        public const string CurrentSchemaVersion = "1.1";
+
+        public string SchemaVersion = CurrentSchemaVersion;
         public List<ConvoVariableEntry> GlobalVariables = new List<ConvoVariableEntry>();
         public List<ConversationSnapshot> Conversations = new List<ConversationSnapshot>();
         public long SaveTimestamp;

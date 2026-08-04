@@ -23,10 +23,10 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         };
 
         // Column proportions — must sum to 1.0
-        private const float k_KeyFrac   = 0.38f;
-        private const float k_TypeFrac  = 0.22f;
-        private const float k_ScopeFrac = 0.24f;
-        private const float k_RoFrac    = 0.16f;
+        private const float k_KeyFrac   = 0.34f;
+        private const float k_TypeFrac  = 0.21f;
+        private const float k_ScopeFrac = 0.23f;
+        private const float k_RoFrac    = 0.22f;
 
         // ── Filter state ───────────────────────────────────────────────────────
 
@@ -94,6 +94,22 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                 if (e?.CoreVariable?.Key != null)
                     _authoredDefaults[e.CoreVariable.Key] = e.CoreVariable.AsString();
             }
+
+            // Collections diff by dirty flag, not content — start the playthrough clean.
+            // (Matters when domain reload is disabled in Enter Play Mode Options.)
+            store.ClearAllCollectionDirtyFlags();
+        }
+
+        private static bool IsCollectionType(ConvoVariableType type)
+        {
+            return type == ConvoVariableType.CollectionInt || type == ConvoVariableType.CollectionString;
+        }
+
+        private static string PairsPropertyName(ConvoVariableType type)
+        {
+            return type == ConvoVariableType.CollectionInt
+                ? "CoreVariable.CollectionIntPairs"
+                : "CoreVariable.CollectionStringPairs";
         }
 
         // ── ReorderableList construction ───────────────────────────────────────
@@ -121,7 +137,22 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
         private float GetAuthoredElementHeight(int index)
         {
-            return EditorGUIUtility.singleLineHeight * 2f + 10f;
+            float lineH = EditorGUIUtility.singleLineHeight;
+            float baseH = lineH * 2f + 10f;
+
+            if (index < 0 || index >= _persistentEntriesProp.arraySize) return baseH;
+
+            var element  = _persistentEntriesProp.GetArrayElementAtIndex(index);
+            var typeProp = element.FindPropertyRelative("CoreVariable.Type");
+            var type     = (ConvoVariableType)typeProp.enumValueIndex;
+
+            // In Play Mode Collection rows show a one-line summary (base height). In edit
+            // mode the pairs list is drawn by Unity's default reorderable array field.
+            if (!IsCollectionType(type) || Application.isPlaying) return baseH;
+
+            var pairsProp = element.FindPropertyRelative(PairsPropertyName(type));
+            float pairsH  = pairsProp != null ? EditorGUI.GetPropertyHeight(pairsProp, true) : lineH;
+            return lineH + pairsH + 14f;
         }
 
         private bool MatchesFilter(int index)
@@ -177,7 +208,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             EditorGUI.LabelField(new Rect(colX,                                          y, colW * k_KeyFrac   - 2f, lineH), "Key",   _columnHeaderStyle);
             EditorGUI.LabelField(new Rect(colX + colW * k_KeyFrac,                       y, colW * k_TypeFrac  - 2f, lineH), "Type",  _columnHeaderStyle);
             EditorGUI.LabelField(new Rect(colX + colW * (k_KeyFrac + k_TypeFrac),        y, colW * k_ScopeFrac - 2f, lineH), "Scope", _columnHeaderStyle);
-            EditorGUI.LabelField(new Rect(colX + colW * (k_KeyFrac + k_TypeFrac + k_ScopeFrac), y, colW * k_RoFrac, lineH), "R/O",   _columnHeaderStyle);
+            EditorGUI.LabelField(new Rect(colX + colW * (k_KeyFrac + k_TypeFrac + k_ScopeFrac), y, colW * k_RoFrac, lineH), "Read Only", _columnHeaderStyle);
         }
 
         private void DrawAuthoredElement(Rect rect, int index, bool isActive, bool isFocused)
@@ -194,7 +225,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             float x     = rect.x;
             float w     = rect.width;
 
-            // ── Row 1: Key | Type | Scope | R/O ──────────────────────────────
+            // ── Row 1: Key | Type | Scope | Read Only ────────────────────────
             float y1 = rect.y + pad;
 
             float keyW   = w * k_KeyFrac;
@@ -229,7 +260,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             float roLabelW  = roW - roToggleW - 2f;
             EditorGUI.LabelField(
                 new Rect(x, y1, roLabelW, lineH),
-                new GUIContent("R/O", "When enabled, runtime write calls to this variable are silently rejected."));
+                new GUIContent("Read Only", "When enabled, runtime write calls to this variable are silently rejected."));
             EditorGUI.PropertyField(
                 new Rect(x + roLabelW + 1f, y1, roToggleW, lineH),
                 isReadOnlyProp, GUIContent.none);
@@ -239,7 +270,22 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
             var type = (ConvoVariableType)typeProp.enumValueIndex;
 
-            if (Application.isPlaying && _authoredDefaults != null)
+            if (IsCollectionType(type))
+            {
+                if (Application.isPlaying)
+                    DrawCollectionRuntimeSummary(new Rect(rect.x, y2, w, lineH), keyProp.stringValue, index);
+                else
+                {
+                    var pairsProp = element.FindPropertyRelative(PairsPropertyName(type));
+                    if (pairsProp != null)
+                        EditorGUI.PropertyField(
+                            new Rect(rect.x + 10f, y2, w - 10f, rect.yMax - y2),
+                            pairsProp,
+                            new GUIContent("Collection Defaults", "Authored sub-entries. Sub-keys must be unique and non-empty; duplicates keep the first occurrence at runtime."),
+                            includeChildren: true);
+                }
+            }
+            else if (Application.isPlaying && _authoredDefaults != null)
             {
                 string key      = keyProp.stringValue;
                 string authored = _authoredDefaults.TryGetValue(key, out var a) ? a : string.Empty;
@@ -269,6 +315,28 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             {
                 DrawDefaultValueRow(new Rect(rect.x, y2, w, lineH), element, type);
             }
+        }
+
+        // Play Mode: one-line read-only summary of the Collection's current runtime state
+        // (session copy if copied-on-write, authored otherwise). The row highlights orange
+        // while the entry's dirty flag is set — the flag is the diff, no content comparison.
+        private void DrawCollectionRuntimeSummary(Rect rect, string key, int index)
+        {
+            var store = (ConvoVariableStore)target;
+
+            bool dirty = false;
+            var raw = store.GetRawEntries();
+            if (index >= 0 && index < raw.Count && raw[index] != null)
+                dirty = raw[index].IsDirtySinceSnapshot;
+
+            if (dirty)
+                EditorGUI.DrawRect(new Rect(rect.x, rect.y - 1f, rect.width, rect.height + 2f),
+                    new Color(1f, 0.65f, 0f, 0.18f));
+
+            int count = store.GetCollectionCount(key);
+            EditorGUI.LabelField(rect,
+                new GUIContent($"Collection — {count} {(count == 1 ? "entry" : "entries")}",
+                    "Current runtime sub-entry count. Orange = modified this playthrough."));
         }
 
         private static string GetCurrentValueString(SerializedProperty element, ConvoVariableType type)
@@ -365,7 +433,6 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             EnsureStyles();
 
             float lineH = EditorGUIUtility.singleLineHeight;
-            float elemH = lineH * 2f + 10f;
 
             using (new EditorGUILayout.VerticalScope("box"))
             {
@@ -380,7 +447,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                 EditorGUI.LabelField(new Rect(colX,                                                        colRect.y, colW * k_KeyFrac   - 2f, lineH), "Key",   _columnHeaderStyle);
                 EditorGUI.LabelField(new Rect(colX + colW * k_KeyFrac,                                    colRect.y, colW * k_TypeFrac  - 2f, lineH), "Type",  _columnHeaderStyle);
                 EditorGUI.LabelField(new Rect(colX + colW * (k_KeyFrac + k_TypeFrac),                     colRect.y, colW * k_ScopeFrac - 2f, lineH), "Scope", _columnHeaderStyle);
-                EditorGUI.LabelField(new Rect(colX + colW * (k_KeyFrac + k_TypeFrac + k_ScopeFrac),       colRect.y, colW * k_RoFrac,         lineH), "R/O",   _columnHeaderStyle);
+                EditorGUI.LabelField(new Rect(colX + colW * (k_KeyFrac + k_TypeFrac + k_ScopeFrac),       colRect.y, colW * k_RoFrac,         lineH), "Read Only", _columnHeaderStyle);
 
                 EditorGUI.DrawRect(new Rect(colRect.x, colRect.yMax, colRect.width, 1f),
                     new Color(0.3f, 0.3f, 0.3f, 0.4f));
@@ -391,7 +458,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                 {
                     if (!MatchesFilter(i)) continue;
 
-                    var rect = GUILayoutUtility.GetRect(0, elemH, GUILayout.ExpandWidth(true));
+                    var rect = GUILayoutUtility.GetRect(0, GetAuthoredElementHeight(i), GUILayout.ExpandWidth(true));
                     if (matchCount % 2 == 0)
                         EditorGUI.DrawRect(rect, new Color(0f, 0f, 0f, 0.04f));
 
