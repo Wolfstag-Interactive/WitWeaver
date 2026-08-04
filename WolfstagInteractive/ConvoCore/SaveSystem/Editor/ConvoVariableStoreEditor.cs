@@ -335,7 +335,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
             int count = store.GetCollectionCount(key);
             EditorGUI.LabelField(rect,
-                new GUIContent($"Collection — {count} {(count == 1 ? "entry" : "entries")}",
+                new GUIContent($"Collection - {count} {(count == 1 ? "entry" : "entries")}",
                     "Current runtime sub-entry count. Orange = modified this playthrough."));
         }
 

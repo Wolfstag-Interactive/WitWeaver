@@ -44,7 +44,7 @@ Variables are strongly typed. Supported types:
 
 Attempting to read a variable as the wrong type returns the default value for that type (e.g. `0` for Int, `false` for Bool) rather than throwing. Use `TryGet` methods to distinguish between "variable not found" and "variable has the zero value".
 
-The two Collection types hold a named group of typed sub-entries instead of a single value — see [Collections](#collections) below.
+The first four types hold a single value. The two Collection types instead hold a whole group of named values inside one variable. See [Collections](#collections) below.
 
 ---
 
@@ -83,7 +83,7 @@ public class QuestSystem : MonoBehaviour
 }
 ```
 
-All `Set` methods overwrite any existing value for that key and return `false` if the write was rejected (read-only entry or type conflict). If the key does not exist, a new entry is created in the layer that matches the requested scope: `Session` writes go to the in-memory session layer, while `Global` and `Conversation` writes go to the persistent entry list — the same list the save system exports from. The `scope` parameter defaults to `ConvoVariableScope.Global` when omitted. To author entries with defaults, descriptions, and tags visible in the inspector, declare them up front (see [Inspector declaration](#declaring-variables-in-the-inspector)).
+All `Set` methods overwrite any existing value for that key. They return `false` if the write was rejected, which happens when the entry is marked read-only or the key already belongs to a different kind of variable. If the key does not exist yet, a new entry is created automatically. `Session` variables live only in memory, while `Global` and `Conversation` variables go into the same list the save system writes to disk. If you leave out the `scope` parameter, it defaults to `ConvoVariableScope.Global`. To give a variable a default value, description, or tags that show up in the inspector, declare it up front (see [Inspector declaration](#declaring-variables-in-the-inspector)).
 
 ---
 
@@ -123,7 +123,7 @@ int directGold = variable.GetInt();
 ```
 
 :::warning
-`GetVariable()` returns `null` if the variable does not exist — dereferencing the result without a null check will throw a `NullReferenceException`. Prefer the `TryGet` variants in gameplay code unless you have pre-declared the variable and are certain it will be present.
+`GetVariable()` returns `null` if the variable does not exist. Using the result without checking for `null` first will cause a `NullReferenceException`. Prefer the `TryGet` methods in gameplay code unless you have pre-declared the variable and are certain it will be present.
 :::
 
 ---
@@ -143,7 +143,7 @@ if (exists)
 
 ## Collections
 
-A **Collection** is a variable that holds a named group of typed sub-entries — string sub-keys mapped to `int` or `string` values. Collections are built for inventory-style state: item counts, relationship maps, discovered-location sets.
+A **Collection** is a variable that holds a group of named values inside it. Each entry in the group has its own text sub-key paired with an `int` or `string` value. Collections are a natural fit for inventory-style data: item counts, per-character relationship values, discovered locations, unlocked recipes, dialogue topics the player has heard, completed side quests, etc.
 
 ```csharp
 // Writes. Creates the Collection (in the session layer) if the top-level key
@@ -170,38 +170,38 @@ _store.ResetVariable("inventory");    // reverts to authored defaults (or remove
 
 Key rules:
 
-- **The backing dictionary is never exposed.** All reads and writes go through the sub-key methods above, so change events always fire and the live diff stays accurate.
-- **`GetCollectionKeys` returns a new copy on every call**, so you can safely mutate the Collection while iterating a previously returned list.
-- **Removing the last sub-key leaves an empty Collection**, not a deleted variable — an empty inventory is valid state, and `HasVariable(key)` remains `true`.
-- **Type boundaries are enforced**: a scalar `Set` on a Collection key (or a Collection write on a scalar key) is a logged no-op — nothing is silently replaced. Scalar `TryGet` on a Collection key simply returns `false`.
-- **`IsReadOnly` blocks every mutating operation**, including `RemoveCollectionEntry` and `ClearCollection`.
-- Only `int` and `string` sub-values exist. There is no `CollectionFloat` (float drift invites bugs in count-like data) or `CollectionBool` (model boolean membership as key presence/absence). Nested Collections are not supported.
+- **You always work through the methods above.** The store never hands out the raw data inside a Collection. This is what lets it fire change events on every write and keep the inspector display accurate.
+- **`GetCollectionKeys` returns a fresh copy every time**, so it is safe to loop over the returned list while adding or removing entries from the Collection.
+- **Removing the last entry leaves an empty Collection**, not a deleted variable. An empty inventory is still a valid inventory, so `HasVariable(key)` stays `true`.
+- **A Collection cannot be accidentally replaced.** Calling a single-value `Set` method (like `SetInt`) on a Collection key, or a Collection method on a single-value variable, logs a warning and changes nothing. Single-value `TryGet` calls on a Collection key simply return `false`.
+- **A Read Only Collection rejects every change**, including removing entries and clearing.
+- Entry values can only be `int` or `string`. There is no float version (float rounding tends to drift in count-style data) and no bool version (to track a yes/no per key, add or remove the key itself). Collections cannot be nested inside each other.
 
-### Scopes and copy-on-write
+### Scopes and authored defaults
 
-Collections participate in scopes exactly like scalars: `Global`, `Conversation`, `Session`. Authored Collections declared in the inspector, however, get one extra guarantee: **the authored data is never mutated at runtime**. The first mutating operation deep-copies the authored Collection into the in-memory session layer and applies the change to the copy; reads resolve the copy first. Saving exports the copy's current values; loading restores into the session layer. Exiting Play Mode (or calling `ResetVariable`) discards the copy and the Collection reverts to its authored defaults.
+Collections use the same three scopes as every other variable: `Global`, `Conversation`, and `Session`. Collections you set up in the inspector get one extra safety guarantee: **the values you authored are never changed at runtime**. The first time the game modifies one of these Collections, the store quietly makes a temporary copy in memory and edits that copy instead, leaving your original untouched. Reads automatically use the copy once it exists. Saving writes out the copy's current values, and loading a save restores into the copy as well. When you leave Play Mode (or call `ResetVariable`), the copy is thrown away and the Collection is back to exactly what you authored.
 
 ### Change events
 
-Every mutating Collection operation fires `OnVariableChanged` once, keyed by the top-level key. The payload is the affected **sub-entry** value (ints rendered as strings), not the whole Collection:
+Every change to a Collection fires `OnVariableChanged` once, using the Collection's own key. The values passed to the event describe the single entry that changed (numbers arrive as strings), not the whole Collection:
 
 | Operation | oldValue | newValue |
 |---|---|---|
 | `SetCollection*` (new sub-key) | `null` | the value |
 | `SetCollection*` (existing sub-key) | previous value | new value |
 | `RemoveCollectionEntry` | removed value | `null` |
-| `ClearCollection` | `null` | `null` (a single event, not one per sub-key) |
+| `ClearCollection` | `null` | `null` (a single event, not one per entry) |
 
-Per-sub-key listeners are not supported — subscribe to the top-level key.
+You cannot listen to one specific entry inside a Collection. Subscribe to the Collection's key instead.
 
 ### Authoring Collections in the inspector
 
-Selecting **CollectionInt** or **CollectionString** as an entry's Type replaces the single Default Value field with a reorderable **Collection Defaults** list of sub-key rows. Sub-keys must be unique and non-empty; invalid rows are tinted red but never block editing — if duplicates survive to runtime, the first occurrence wins and a warning is logged.
+Selecting **CollectionInt** or **CollectionString** as an entry's Type replaces the single Default Value field with a **Collection Defaults** list, where each row is one sub-key and its value. Rows can be dragged to reorder, and the + and - buttons add and remove them. Sub-keys must be unique and cannot be empty; rows that break either rule are tinted red. The red tint is only a hint and never blocks you while editing. If a duplicate does make it into Play Mode, the first row wins and a warning is logged.
 
-During Play Mode the row shows a read-only summary (`Collection — N entries`) of the current runtime state. The row highlights orange as soon as the Collection has been **touched** this playthrough — the highlight is a dirty flag, not a content comparison, so a write that happens to restore the authored value still shows orange.
+During Play Mode the row shows a short read-only summary (`Collection - N entries`) of the live values. The row also highlights orange as soon as anything in the Collection has been changed during the current play session. The highlight means "this was touched", not "this is different from the default": writing a value that happens to match the authored default still shows orange.
 
-:::warning[Conditions read scalars only]
-YAML condition expressions cannot read Collection sub-keys. If a branch needs to react to a count ("has at least 3 keys"), mirror that number into a scalar variable whenever you update the Collection, and condition on the scalar.
+:::warning[Conditions read single values only]
+YAML condition expressions cannot look inside a Collection. If a dialogue branch needs to react to a count (for example "has at least 3 keys"), keep a copy of that number in a regular Int variable whenever you update the Collection, and write the condition against that variable.
 :::
 
 ---
@@ -258,7 +258,7 @@ private void OnAnyVariableChanged(string key, string oldValue, string newValue)
 }
 ```
 
-`OnVariableChanged` only fires when the value actually changed for scalar variables. For Collection variables the payload carries the affected sub-entry values — see [Change events](#change-events).
+For single-value variables, `OnVariableChanged` only fires when the value actually changed. For Collections, the event describes the entry that changed. See [Change events](#change-events).
 
 :::tip
 Use `Subscribe` / `Unsubscribe` for targeted bindings (e.g. a UI element that displays one variable). Use `OnVariableChanged` for broad listeners like debug overlays or analytics. Always unsubscribe in `OnDisable` to avoid memory leaks when objects are destroyed.
@@ -283,7 +283,7 @@ Variables can be pre-declared in the **Variable Store** inspector under `_persis
 Pre-declared variables appear in the inspector during Play Mode with their current runtime value shown next to the authored default.
 
 :::warning
-The authored defaults represent the **starting state for a new game** — they are the baseline the save system builds on. How runtime writes interact with them depends on the variable kind: scalar `Global`/`Conversation` writes update the entry in place (the inspector's live diff tracks the authored value separately), while **Collection** writes never touch the authored data at all — they mutate a session-layer copy ([copy-on-write](#scopes-and-copy-on-write)). When the save system loads a slot, it restores the saved values on top of this baseline. Exiting Play Mode reloads the asset, so values you see in the next session start from the authored defaults again.
+The defaults you author here are the **starting state for a new game**. The save system builds on top of them. Single-value variables (`Bool`, `Int`, `Float`, `String`) update their entry directly when the game writes to them; the inspector remembers the authored value separately so it can still show you what changed. Collection variables never touch the authored data at all, because the game works on a temporary in-memory copy (see [Scopes and authored defaults](#scopes-and-authored-defaults)). When a save slot is loaded, the saved values are applied on top of this baseline. Leaving Play Mode reloads the asset, so the next session starts from the authored defaults again.
 :::
 
 ---
@@ -295,9 +295,9 @@ The variable store keeps two internal entry lists:
 | List | Access | Lifetime |
 |---|---|---|
 | `_persistentEntries` | Serialized field; authored in the inspector | Lives with the asset. Holds `Global` and `Conversation` scoped entries. |
-| `_sessionEntries` | `[NonSerialized]`; created lazily | In-memory only; gone when Play Mode exits or the application closes. Holds `Session` scoped entries plus Collection copy-on-write copies. |
+| `_sessionEntries` | `[NonSerialized]`; created lazily | In-memory only; gone when Play Mode exits or the application closes. Holds `Session` scoped entries plus the temporary copies of Collections that have been changed. |
 
-When reading a variable, the store checks `_sessionEntries` first, then falls back to `_persistentEntries`. Where writes land depends on the variable kind: scalar writes go to the list matching the requested scope (so `Global`/`Conversation` scalars update the persistent entry in place), while **Collection** mutations always land in the session layer — the first write deep-copies an authored Collection there, so authored Collection defaults are never modified at runtime.
+When reading a variable, the store checks `_sessionEntries` first and then falls back to `_persistentEntries`. Where a write lands depends on the kind of variable. Single-value writes go to the list that matches the requested scope, so a `Global` or `Conversation` value updates its persistent entry directly. Collection changes always go to the session list: the first change copies the authored Collection there, and every change after that edits the copy. That is why authored Collection defaults are never modified at runtime.
 
 :::info[For Advanced Users]
 The variable store editor tracks a **snapshot of authored defaults** captured when Unity exits Edit Mode. During Play Mode, any variable whose current runtime value differs from its authored default is highlighted in orange in the inspector. This **live diff** makes it easy to see at a glance which variables have been touched during a test playthrough, without running a separate debug overlay.
@@ -310,16 +310,16 @@ You can also use the editor's **scope filter** and **text filter toolbar** to qu
 ## Clearing variables
 
 ```csharp
-// Clear all Session-scoped variables (does not affect Global/Conversation entries,
-// or Collection copy-on-write copies carrying those scopes)
+// Clear all Session-scoped variables. Global and Conversation variables are
+// not affected, and neither are the temporary copies of changed Collections.
 _store.ClearByScope(ConvoVariableScope.Session);
 
-// Clear all variables of a specific scope. Scalars are removed; authored
-// Collections revert to their authored defaults instead of being deleted.
+// Clear all variables of a specific scope. Single-value variables are removed;
+// authored Collections revert to their authored defaults instead of being deleted.
 _store.ClearByScope(ConvoVariableScope.Conversation);
 
-// Reset a single Collection variable to its authored defaults (or remove it
-// entirely if it was created at runtime). Scalars are not supported and log
+// Reset a single Collection to its authored defaults, or remove it entirely if
+// it was created at runtime. Single-value variables are not supported and log
 // a warning.
 _store.ResetVariable("inventory");
 ```
