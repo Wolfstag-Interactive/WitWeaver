@@ -35,7 +35,7 @@ For the majority of projects, the migrator requires no configuration whatsoever.
 
 | From | To | What changed |
 |---|---|---|
-| `1.0` | `1.1` | [Collection variables](./variable-store.md#collections) were added. Collections are stored as a list of sub-key/value pairs inside each variable, so no 1.0 data needs to be transformed — the step passes the snapshot through unchanged and only updates the version string. |
+| `1.0` | `1.1` | [Collection variables](./variable-store.md#collections) were added. Collections are stored as a list of sub-key/value pairs inside each variable, so no 1.0 data needs to be transformed. The step passes the snapshot through unchanged and only updates the version string. |
 
 The 1.0 → 1.1 step is the first registered migration and establishes the pattern for future schema changes: a `"1.0"` save loads through the migrator, comes out stamped `"1.1"`, and continues through the normal restore path.
 
@@ -139,7 +139,7 @@ public static ConvoCoreSettingsSnapshot Migrate(ConvoCoreSettingsSnapshot snapsh
 }
 ```
 
-The settings schema is still at `"1.0"` — the Collections change in game schema 1.1 did not affect settings.
+The settings schema is still at `"1.0"`. The Collections change in game schema 1.1 did not affect settings.
 
 ---
 
@@ -188,7 +188,7 @@ Migration steps are applied in ascending version order. If a save file is multip
 
 ## Detecting missing migration steps
 
-If the migrator reads a snapshot whose `SchemaVersion` has no matching case in the switch — for example a save written by a newer build, or a version whose step was never added — it logs a warning and passes the snapshot through unmodified:
+If the migrator reads a snapshot whose `SchemaVersion` has no matching case in the switch (for example a save written by a newer build, or a version whose step was never added), it logs a warning and passes the snapshot through unmodified:
 
 ```
 [ConvoCoreSnapshotMigrator] Unknown game snapshot schema version '2.0'. Returning unmodified.
