@@ -194,14 +194,17 @@ private void OnDisable()
     _saveManager.OnSnapshotAssembled -= InjectGameData;
 }
 
-private void InjectGameData(ConvoCoreGameSnapshot snapshot)
+private void InjectGameData(string slot, ConvoCoreGameSnapshot snapshot)
 {
     // Add a global variable to carry player level into the snapshot
-    snapshot.GlobalVariables.Add(new ConvoCoreVariableEntry
+    snapshot.GlobalVariables.Add(new ConvoVariableEntry
     {
-        Key = "player_level",
-        TypedValue = _playerLevel.ToString(),
-        VariableType = ConvoCoreVariableType.Int
+        CoreVariable = new ConvoCoreVariable
+        {
+            Key = "player_level",
+            Type = ConvoVariableType.Int
+        }.SetInt(_playerLevel),
+        Scope = ConvoVariableScope.Global
     });
 }
 ```

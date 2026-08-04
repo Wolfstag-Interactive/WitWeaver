@@ -5,6 +5,8 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         String,
         Int,
         Float,
-        Bool
+        Bool,
+        CollectionInt,     // sub-entries are string -> int
+        CollectionString   // sub-entries are string -> string
     }
 }

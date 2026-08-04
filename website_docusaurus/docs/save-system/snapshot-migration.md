@@ -11,7 +11,9 @@ As you develop and ship updates to your game, the structure of your save data ma
 
 ## How it works
 
-`ConvoCoreSnapshotMigrator.Migrate()` is called automatically by `ConvoCoreSaveManager` inside `Load()` and `InitializeSettings()`, before the snapshot is distributed to the rest of the system. The migrator reads the `SchemaVersion` string from the snapshot and applies any registered migration steps in version order until the snapshot is current.
+`ConvoCoreSnapshotMigrator.Migrate()` is called automatically by `ConvoCoreSaveManager` inside `Load()` and `InitializeSettings()`, before the snapshot is distributed to the rest of the system. The migrator reads the `SchemaVersion` string from the snapshot and applies the chain of migration steps in version order until the snapshot is current.
+
+The migrator itself is a static class with one step method per schema change, dispatched by a `switch` on the version string. ConvoCore ships as source, so adding a step means adding a case to that switch (see [Adding a migration step](#adding-a-migration-step)).
 
 The migration pipeline is transparent to your gameplay code - you never need to call `Migrate()` directly.
 
@@ -21,11 +23,21 @@ The migration pipeline is transparent to your gameplay code - you never need to 
 
 Both `ConvoCoreGameSnapshot` and `ConvoCoreSettingsSnapshot` carry a `SchemaVersion` string property. When the save manager writes a snapshot, it stamps the current schema version into this field. When it reads a snapshot back, the stamped version tells the migrator how many steps (if any) need to be applied.
 
-The current schema version is `"1.0"`.
+The current schema version is `"1.1"` (exposed in code as `ConvoCoreGameSnapshot.CurrentSchemaVersion`).
 
 :::note
 For the majority of projects, the migrator requires no configuration whatsoever. It is infrastructure for forward-compatibility, a safety net that costs nothing until you need it. You only need to register migration steps if you deliberately change the shape of the save schema between shipped versions.
 :::
+
+---
+
+## Built-in migrations
+
+| From | To | What changed |
+|---|---|---|
+| `1.0` | `1.1` | [Collection variables](./variable-store.md#collections) were added. Collections are stored as a list of sub-key/value pairs inside each variable, so no 1.0 data needs to be transformed — the step passes the snapshot through unchanged and only updates the version string. |
+
+The 1.0 → 1.1 step is the first registered migration and establishes the pattern for future schema changes: a `"1.0"` save loads through the migrator, comes out stamped `"1.1"`, and continues through the normal restore path.
 
 ---
 
@@ -47,94 +59,87 @@ Regenerating a `ConversationGuid` after the game has shipped is a destructive op
 
 ## Adding a migration step
 
-Register steps at startup, before `Initialize()` is called. The typical location is your bootstrapper's `Awake()` method.
+Steps live inside `ConvoCoreSnapshotMigrator` (`SaveSystem/Migration/ConvoCoreSnapshotMigrator.cs`). To add one, extend the `switch` in `Migrate()` with a case for the previous version, write a private step method, and bump `ConvoCoreGameSnapshot.CurrentSchemaVersion`. Each case chains into the next so older saves walk the whole ladder:
 
 ```csharp
-using WolfstagInteractive.ConvoCore.SaveSystem;
-using UnityEngine;
-
-public class GameBootstrapper : MonoBehaviour
+public static ConvoCoreGameSnapshot Migrate(ConvoCoreGameSnapshot snapshot)
 {
-    [SerializeField] private ConvoCoreSaveManager _saveManager;
+    if (snapshot == null) return null;
 
-    private void Awake()
+    switch (snapshot.SchemaVersion)
     {
-        RegisterMigrationSteps();
-
-        _saveManager.Initialize();
-        _saveManager.InitializeSettings();
+        case "1.0":
+            // 1.0 saves pass through 1.0→1.1, then fall into the 1.1 case below.
+            return Migrate(MigrateGame_1_0_to_1_1(snapshot));
+        case "1.1":
+            return Migrate(MigrateGame_1_1_to_1_2(snapshot));
+        case ConvoCoreGameSnapshot.CurrentSchemaVersion:
+            return snapshot;
+        default:
+            Debug.LogWarning($"[ConvoCoreSnapshotMigrator] Unknown game snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
+            return snapshot;
     }
+}
 
-    private void RegisterMigrationSteps()
+// Example step: schema 1.1 to 1.2
+// - Renamed global variable "quest_started" to "main_quest_active"
+// - Added a default for the new "faction_standing" global variable
+private static ConvoCoreGameSnapshot MigrateGame_1_1_to_1_2(ConvoCoreGameSnapshot snapshot)
+{
+    // Rename a global variable key
+    var questStarted = snapshot.GlobalVariables
+        .Find(e => e.CoreVariable != null && e.CoreVariable.Key == "quest_started");
+    if (questStarted != null)
+        questStarted.CoreVariable.Key = "main_quest_active";
+
+    // Add a new global variable with a default value (idempotent)
+    bool alreadyExists = snapshot.GlobalVariables
+        .Exists(e => e.CoreVariable != null && e.CoreVariable.Key == "faction_standing");
+    if (!alreadyExists)
     {
-        // Migration from schema 1.0 to 2.0:
-        // - Renamed global variable "quest_started" to "main_quest_active"
-        // - Moved "player_class" from Conversation scope to Global scope
-        ConvoCoreSnapshotMigrator.Register("1.0", "2.0", snapshot =>
+        snapshot.GlobalVariables.Add(new ConvoVariableEntry
         {
-            // Rename a global variable key
-            var questStarted = snapshot.GlobalVariables
-                .Find(v => v.Key == "quest_started");
-            if (questStarted != null)
-                questStarted.Key = "main_quest_active";
-
-            // Promote a conversation-scoped variable to global scope
-            foreach (var conv in snapshot.Conversations)
+            CoreVariable = new ConvoCoreVariable
             {
-                var playerClass = conv.Variables.Find(v => v.Key == "player_class");
-                if (playerClass != null)
-                {
-                    conv.Variables.Remove(playerClass);
-                    snapshot.GlobalVariables.Add(playerClass);
-                    break; // Only need one copy at global scope
-                }
-            }
-
-            return snapshot;
-        });
-
-        // Migration from schema 2.0 to 3.0:
-        // - Added a default value for the new "faction_standing" global variable
-        ConvoCoreSnapshotMigrator.Register("2.0", "3.0", snapshot =>
-        {
-            bool alreadyExists = snapshot.GlobalVariables
-                .Exists(v => v.Key == "faction_standing");
-
-            if (!alreadyExists)
-            {
-                snapshot.GlobalVariables.Add(new ConvoCoreVariableEntry
-                {
-                    Key = "faction_standing",
-                    TypedValue = "0",
-                    VariableType = ConvoCoreVariableType.Int,
-                    Scope = ConvoVariableScope.Global
-                });
-            }
-
-            return snapshot;
+                Key = "faction_standing",
+                Type = ConvoVariableType.Int
+            }.SetInt(0),
+            Scope = ConvoVariableScope.Global
         });
     }
+
+    snapshot.SchemaVersion = "1.2";
+    return snapshot;
 }
 ```
 
-After registering these steps, a save file stamped `"1.0"` will have **both** steps applied in sequence before the snapshot is used. A save file stamped `"2.0"` will only have the second step applied. A save file already at `"3.0"` passes through with no changes.
+With this chain in place, a save file stamped `"1.0"` has **both** steps applied in sequence before the snapshot is used. A save stamped `"1.1"` only gets the second step. A save already at the current version passes through with no changes.
+
+The built-in `1.0 → 1.1` step ([Collections](./variable-store.md#collections)) follows exactly this pattern and is a good template to copy.
 
 ---
 
 ## Settings migration
 
-Settings snapshots (`ConvoCoreSettingsSnapshot`) are migrated separately. Use `ConvoCoreSnapshotMigrator.RegisterSettings()` to register steps for settings schema changes:
+Settings snapshots (`ConvoCoreSettingsSnapshot`) are migrated separately through the `Migrate(ConvoCoreSettingsSnapshot)` overload in the same class, using the same switch-and-step pattern:
 
 ```csharp
-ConvoCoreSnapshotMigrator.RegisterSettings("1.0", "2.0", settingsSnapshot =>
+public static ConvoCoreSettingsSnapshot Migrate(ConvoCoreSettingsSnapshot snapshot)
 {
-    // Example: migrate a renamed field
-    if (string.IsNullOrEmpty(settingsSnapshot.LanguageCode))
-        settingsSnapshot.LanguageCode = settingsSnapshot.LegacyLocale ?? "EN";
+    if (snapshot == null) return null;
 
-    return settingsSnapshot;
-});
+    switch (snapshot.SchemaVersion)
+    {
+        case "1.0":
+            return MigrateSettings_1_0(snapshot);
+        default:
+            Debug.LogWarning($"[ConvoCoreSnapshotMigrator] Unknown settings snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
+            return snapshot;
+    }
+}
 ```
+
+The settings schema is still at `"1.0"` — the Collections change in game schema 1.1 did not affect settings.
 
 ---
 
@@ -142,25 +147,26 @@ ConvoCoreSnapshotMigrator.RegisterSettings("1.0", "2.0", settingsSnapshot =>
 
 When you make a schema change:
 
-1. Increment the schema version string in the `ConvoCoreGameSnapshot` class (and/or `ConvoCoreSettingsSnapshot` if settings changed). Keep the version as a `"major.minor"` string: increment `major` for breaking changes, `minor` for additive changes.
+1. Bump `ConvoCoreGameSnapshot.CurrentSchemaVersion` (and/or the settings snapshot's version if settings changed). Keep the version as a `"major.minor"` string: increment `major` for breaking changes, `minor` for additive changes.
 
-2. Add a comment at the class declaration noting what changed and when:
+2. Note what changed in the version constant's doc comment:
 
 ```csharp
-/// <summary>
-/// Schema history:
-/// 1.0 - initial release
-/// 2.0 - renamed quest_started to main_quest_active; promoted player_class to Global scope
-/// 3.0 - added faction_standing global variable with default 0
-/// </summary>
 public class ConvoCoreGameSnapshot
 {
-    public string SchemaVersion = "3.0";
+    /// <summary>
+    /// Schema version written by the current runtime.
+    /// 1.0 - initial release
+    /// 1.1 - added Collection variables (list-of-pairs inside ConvoCoreVariable)
+    /// </summary>
+    public const string CurrentSchemaVersion = "1.1";
+
+    public string SchemaVersion = CurrentSchemaVersion;
     // ...
 }
 ```
 
-3. Register the corresponding migration step (see above).
+3. Add the corresponding migration step to the migrator's switch (see above).
 
 4. Test the migration by manually editing a save file's `SchemaVersion` field back to an older version and loading it in Play Mode, verifying the migrated values are correct.
 
@@ -169,7 +175,7 @@ public class ConvoCoreGameSnapshot
 ## Migration step requirements
 
 :::info[For Advanced Users]
-Migration steps are applied in ascending version order. If a save file is multiple versions behind, all steps in the chain are applied sequentially. For example, a `"1.0"` save with steps registered for `1.0→2.0`, `2.0→3.0`, and `3.0→4.0` will have all three steps applied in that order.
+Migration steps are applied in ascending version order. If a save file is multiple versions behind, all steps in the chain are applied sequentially: each `case` in the switch runs its step and hands the result to the next version's handling, so a `"1.0"` save with steps for `1.0→1.1` and `1.1→1.2` gets both applied in that order.
 
 **Idempotency**: Each migration step should be safe to apply more than once. Guard all mutations with existence checks (as shown in the examples above). This protects against edge cases where the migrator is accidentally called twice on the same snapshot during development.
 
@@ -182,11 +188,10 @@ Migration steps are applied in ascending version order. If a save file is multip
 
 ## Detecting missing migration steps
 
-If `ConvoCoreSaveManager.Load()` reads a snapshot whose `SchemaVersion` is greater than the current version registered in the code, it logs a warning:
+If the migrator reads a snapshot whose `SchemaVersion` has no matching case in the switch — for example a save written by a newer build, or a version whose step was never added — it logs a warning and passes the snapshot through unmodified:
 
 ```
-[ConvoCore] Warning: save file schema version "3.0" is newer than the current schema "2.0".
-The save was created with a newer version of the game. Some data may not be loaded correctly.
+[ConvoCoreSnapshotMigrator] Unknown game snapshot schema version '2.0'. Returning unmodified.
 ```
 
-This typically indicates a player is running an older build after saving with a newer one. There is no automatic fix for downgrade scenarios; handle this case by displaying a warning to the player or preventing the load.
+An unknown *newer* version typically indicates a player is running an older build after saving with a newer one. There is no automatic fix for downgrade scenarios; handle this case by displaying a warning to the player or preventing the load. An unknown *older* version means a migration step is missing from the chain.
