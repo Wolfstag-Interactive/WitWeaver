@@ -98,6 +98,7 @@ $(document).ready(function(){initNavTree('classWolfstagInteractive_1_1ConvoCore_
 <a href="#events">Events</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">WolfstagInteractive.ConvoCore.ConvoCore Class Reference</div></div>
 </div><!--header-->
@@ -213,6 +214,9 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:ad112fbab187152ea211e9c5a61b4bd44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef93c3524a23aaf0a299b87f1bbfdb5e" id="r_aef93c3524a23aaf0a299b87f1bbfdb5e"><td class="memItemLeft" align="right" valign="top">List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#aef93c3524a23aaf0a299b87f1bbfdb5e">ResolveChoiceLabels</a> (List&lt; <a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1ChoiceOption.html">ConvoCoreConversationData.ChoiceOption</a> &gt; choices)</td></tr>
 <tr class="separator:aef93c3524a23aaf0a299b87f1bbfdb5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5897fb465be6b8112f1d91a176e1fab0" id="r_a5897fb465be6b8112f1d91a176e1fab0"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a5897fb465be6b8112f1d91a176e1fab0">ResolveLocalizedList</a> (List&lt; <a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1LocalizedDialogue.html">ConvoCoreConversationData.LocalizedDialogue</a> &gt; entries, string fallback)</td></tr>
+<tr class="memdesc:a5897fb465be6b8112f1d91a176e1fab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves a standalone list of localized entries (a choice label or the Go Back label) through the same fallback chain used for dialogue lines.  <br /></td></tr>
+<tr class="separator:a5897fb465be6b8112f1d91a176e1fab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8afa13241331240c42169cdc636840f0" id="r_a8afa13241331240c42169cdc636840f0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a8afa13241331240c42169cdc636840f0">HandleChoiceBranch</a> (<a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1ChoiceOption.html">ConvoCoreConversationData.ChoiceOption</a> choice)</td></tr>
 <tr class="separator:a8afa13241331240c42169cdc636840f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0361ff66b289fcccbbab9bfbe452f240" id="r_a0361ff66b289fcccbbab9bfbe452f240"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a0361ff66b289fcccbbab9bfbe452f240">HandleLineContinuation</a> (<a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1DialogueLineInfo.html">ConvoCoreConversationData.DialogueLineInfo</a> line)</td></tr>
@@ -271,6 +275,12 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a03244e5512ea2c3af03c70665f5f7c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6506c2deeccec59ea1e5039af4bf0b10" id="r_a6506c2deeccec59ea1e5039af4bf0b10"><td class="memItemLeft" align="right" valign="top">readonly List&lt; <a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore_1_1LineFrame.html">LineFrame</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a6506c2deeccec59ea1e5039af4bf0b10">_history</a> = new()</td></tr>
 <tr class="separator:a6506c2deeccec59ea1e5039af4bf0b10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a00aee728a0be5b01451a225f50a4603d" id="r_a00aee728a0be5b01451a225f50a4603d"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a00aee728a0be5b01451a225f50a4603d">k_DefaultGoBackLabel</a> = &quot;← Go Back&quot;</td></tr>
+<tr class="memdesc:a00aee728a0be5b01451a225f50a4603d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used when ConvoCoreSettings.GoBackLabel resolves to nothing, so the option is still readable in a project whose settings asset has not been filled in.  <br /></td></tr>
+<tr class="separator:a00aee728a0be5b01451a225f50a4603d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main conversation runner MonoBehaviour. </p>
@@ -770,6 +780,51 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5897fb465be6b8112f1d91a176e1fab0" name="a5897fb465be6b8112f1d91a176e1fab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5897fb465be6b8112f1d91a176e1fab0">&#9670;&#160;</a></span>ResolveLocalizedList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string WolfstagInteractive.ConvoCore.ConvoCore.ResolveLocalizedList </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; <a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1LocalizedDialogue.html">ConvoCoreConversationData::LocalizedDialogue</a> &gt;&#160;</td>
+          <td class="paramname"><em>entries</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>fallback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Resolves a standalone list of localized entries (a choice label or the Go Back label) through the same fallback chain used for dialogue lines. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entries</td><td>Localized entries to resolve. May be null or empty.</td></tr>
+    <tr><td class="paramname">fallback</td><td>Returned when nothing resolves to usable text.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1366,6 +1421,30 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00aee728a0be5b01451a225f50a4603d" name="a00aee728a0be5b01451a225f50a4603d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00aee728a0be5b01451a225f50a4603d">&#9670;&#160;</a></span>k_DefaultGoBackLabel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string WolfstagInteractive.ConvoCore.ConvoCore.k_DefaultGoBackLabel = &quot;← Go Back&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Used when ConvoCoreSettings.GoBackLabel resolves to nothing, so the option is still readable in a project whose settings asset has not been filled in. </p>
 
 </div>
 </div>

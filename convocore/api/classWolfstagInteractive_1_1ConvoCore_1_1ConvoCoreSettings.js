@@ -19,6 +19,7 @@ var classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings =
     [ "ExcelSkipEmptyRows", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#af8872e1bf604b0ca6c9f84f458a46de7", null ],
     [ "ExcelSkipSheetPrefix", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#ad41d4b56943747d443138d46aeefa448", null ],
     [ "ExcelWarnOnUnrecognizedColumns", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#ace735a0a478b253f92f80e03eeb2e895", null ],
+    [ "GoBackLabel", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#af072204cf94b11c04a142970f84dc73b", null ],
     [ "historyRendererProfiles", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#a5a207bc089ac5f7a02931b86f93990c0", null ],
     [ "resourcesRoot", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#a46146ff7db984e957bd99e19d2e5cf4e", null ],
     [ "SaveKeyPrefix", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#a4798a6cbaa2add1d3be5e81ff0f0d13d", null ],

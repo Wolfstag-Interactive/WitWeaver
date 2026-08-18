@@ -50,5 +50,6 @@ var searchData=
   ['getsupportedlanguages_47',['GetSupportedLanguages',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreLanguageManager.html#a7d11047718286fcdcea81002ac71a6bd',1,'WolfstagInteractive::ConvoCore::ConvoCoreLanguageManager']]],
   ['getvariable_48',['GetVariable',['../classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoVariableStore.html#a7be48a638b7b0490c3595e6ac9d79f75',1,'WolfstagInteractive::ConvoCore::SaveSystem::ConvoVariableStore']]],
   ['global_49',['Global',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a8887fc42c7436b5dcbf07bb12f77dc73a4cc6684df7b4a92b1dec6fce3264fac8',1,'WolfstagInteractive::ConvoCore::SaveSystem']]],
-  ['globalvariables_50',['GlobalVariables',['../classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreGameSnapshot.html#a85243374f4a3e2ea135c8587e4be8554',1,'WolfstagInteractive::ConvoCore::SaveSystem::ConvoCoreGameSnapshot']]]
+  ['globalvariables_50',['GlobalVariables',['../classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreGameSnapshot.html#a85243374f4a3e2ea135c8587e4be8554',1,'WolfstagInteractive::ConvoCore::SaveSystem::ConvoCoreGameSnapshot']]],
+  ['gobacklabel_51',['GoBackLabel',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html#af072204cf94b11c04a142970f84dc73b',1,'WolfstagInteractive::ConvoCore::ConvoCoreSettings']]]
 ];

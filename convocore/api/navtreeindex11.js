@@ -1,5 +1,11 @@
 var NAVTREEINDEX11 =
 {
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a45c8e73959701bf6f9652372b376ecb8":[1,0,0,0,28,0,5],
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a45c8e73959701bf6f9652372b376ecb8":[0,0,0,0,28,0,5],
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a85fa8651a009a0572e8baccc218569d9":[0,0,0,0,28,0,3],
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a85fa8651a009a0572e8baccc218569d9":[1,0,0,0,28,0,3],
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a8f1f001acebe682b050bb28bc19cac7f":[1,0,0,0,28,0,4],
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a8f1f001acebe682b050bb28bc19cac7f":[0,0,0,0,28,0,4],
 "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a92bd4a0592a3e0ac85f5c0a40a81223a":[1,0,0,0,28,0,2],
 "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a92bd4a0592a3e0ac85f5c0a40a81223a":[0,0,0,0,28,0,2],
 "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#acd63b1e20645978b0bff59e20f8ff71a":[0,0,0,0,28,0,1],

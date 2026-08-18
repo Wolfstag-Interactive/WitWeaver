@@ -1,5 +1,11 @@
 var NAVTREEINDEX10 =
 {
+"functions_func_w.html":[1,3,1,21],
+"functions_func_y.html":[1,3,1,22],
+"functions_g.html":[1,3,0,7],
+"functions_h.html":[1,3,0,8],
+"functions_i.html":[1,3,0,9],
+"functions_j.html":[1,3,0,10],
 "functions_k.html":[1,3,0,11],
 "functions_l.html":[1,3,0,12],
 "functions_m.html":[1,3,0,13],
@@ -243,11 +249,5 @@ var NAVTREEINDEX10 =
 "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html":[1,0,0,0,28,0],
 "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html":[0,0,0,0,28,0],
 "structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a28f3af4df7ea4c3fbef41c22be8ee351":[1,0,0,0,28,0,0],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a28f3af4df7ea4c3fbef41c22be8ee351":[0,0,0,0,28,0,0],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a45c8e73959701bf6f9652372b376ecb8":[1,0,0,0,28,0,5],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a45c8e73959701bf6f9652372b376ecb8":[0,0,0,0,28,0,5],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a85fa8651a009a0572e8baccc218569d9":[0,0,0,0,28,0,3],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a85fa8651a009a0572e8baccc218569d9":[1,0,0,0,28,0,3],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a8f1f001acebe682b050bb28bc19cac7f":[1,0,0,0,28,0,4],
-"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a8f1f001acebe682b050bb28bc19cac7f":[0,0,0,0,28,0,4]
+"structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1CharacterRepresentationData.html#a28f3af4df7ea4c3fbef41c22be8ee351":[0,0,0,0,28,0,0]
 };
