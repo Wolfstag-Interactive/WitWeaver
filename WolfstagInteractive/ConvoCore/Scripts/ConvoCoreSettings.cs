@@ -55,6 +55,14 @@ namespace WolfstagInteractive.ConvoCore
         public List<string> SupportedLanguages = new List<string> { "EN" };
         [Tooltip("Currently active language code")]
         public string CurrentLanguage = "EN";
+
+        [Tooltip("Localized label for the Go Back option appended to player choices when a line " +
+                 "has Allow Go Back enabled. One entry per supported language.")]
+        public List<ConvoCoreConversationData.LocalizedDialogue> GoBackLabel =
+            new List<ConvoCoreConversationData.LocalizedDialogue>
+            {
+                new ConvoCoreConversationData.LocalizedDialogue { Language = "EN", Text = "← Go Back" }
+            };
         public bool AddressablesEnabled = false; // flip on when project uses it
         public string AddressablesKeyTemplate = "{filePath}.yml"; // maps FilePath -> key
         public bool VerboseLogs = false;

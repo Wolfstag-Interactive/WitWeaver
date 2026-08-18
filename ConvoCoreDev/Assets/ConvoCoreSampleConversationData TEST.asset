@@ -22,7 +22,7 @@ MonoBehaviour:
   - ConversationID: LabIntroPart2
     LineID: L_de250d5f6295
     ConversationLineIndex: 0
-    characterID: Player
+    characterID: Ava
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
@@ -47,11 +47,55 @@ MonoBehaviour:
     UserInputMethod: 0
     TimeBeforeNextLine: 0
     LineContinuationSettings:
-      Mode: 0
+      Mode: 3
       TargetContainer: {fileID: 0}
       TargetAliasOrName: 
       PushReturnPoint: 0
-      Choices: []
+      Choices:
+      - Labels:
+        - Language: en
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
+      - Labels:
+        - Language: en
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: gggfdd
+        PushReturnPoint: 0
+      - Labels:
+        - Language: en
+          Text: fffg
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: ff
+        PushReturnPoint: 0
+      - Labels:
+        - Language: en
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
+      - Labels: []
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
       AllowGoBack: 0
   - ConversationID: LabIntroPart2
     LineID: L_79a74b9db137

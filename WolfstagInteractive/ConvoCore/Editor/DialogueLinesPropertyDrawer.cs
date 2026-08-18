@@ -56,6 +56,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private static readonly GUIContent GC_BranchKey         = new("Branch Key:");
         private static readonly GUIContent GC_PushReturnPoint   = new("Push Return Point:");
         private static readonly GUIContent GC_Choices            = new("Choices");
+        private static readonly GUIContent GC_ChoiceTargetContainer = new("Target Container");
+        private static readonly GUIContent GC_ChoiceTargetAlias     = new("Target Alias/Name");
         private static readonly GUIContent GC_AllowGoBack        = new("Allow Go Back",
             "When enabled, a '← Go Back' option is appended to the choice list at runtime. " +
             "If selected, the player is taken back to the previous dialogue line.");
@@ -206,43 +208,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var choicesProp = contProp.FindPropertyRelative("Choices");
                 if (choicesProp != null)
                 {
-                    SeedNewChoiceLabels(choicesProp);
                     rect = DrawChoicesArray(rect, choicesProp);
                 }
             }
 
             return rect;
-        }
-
-        /// <summary>
-        /// Seeds the Labels list of any newly-added ChoiceOption (identified by having an empty Labels list)
-        /// with one entry per language defined in ConvoCoreSettings.SupportedLanguages.
-        /// This removes the need to manually type language codes when authoring choices in the inspector.
-        /// </summary>
-        private static void SeedNewChoiceLabels(SerializedProperty choicesProp)
-        {
-            var languages = ConvoCoreSettings.Instance?.SupportedLanguages;
-            if (languages == null || languages.Count == 0) return;
-
-            bool changed = false;
-            for (int i = 0; i < choicesProp.arraySize; i++)
-            {
-                var element = choicesProp.GetArrayElementAtIndex(i);
-                var labelsProp = element.FindPropertyRelative("Labels");
-                if (labelsProp == null || labelsProp.arraySize > 0) continue;
-
-                labelsProp.arraySize = languages.Count;
-                for (int j = 0; j < languages.Count; j++)
-                {
-                    var entry = labelsProp.GetArrayElementAtIndex(j);
-                    entry.FindPropertyRelative("Language").stringValue = languages[j];
-                    entry.FindPropertyRelative("Text").stringValue = "";
-                }
-                changed = true;
-            }
-
-            if (changed)
-                choicesProp.serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
         /// <summary>
@@ -265,17 +235,83 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 choicesProp.arraySize = newSize;
             rect.y += line + k_Spacing;
 
+            var supported = ConvoCoreChoiceLabelsDrawer.GetSupportedLanguages();
+
             for (int i = 0; i < choicesProp.arraySize; i++)
             {
                 var element = choicesProp.GetArrayElementAtIndex(i);
                 var label   = GetChoiceElementLabel(element, i);
-                float h     = EditorGUI.GetPropertyHeight(element, label, true);
-                EditorGUI.PropertyField(rect, element, label, true);
-                rect.y += h + k_Spacing;
+                rect = DrawChoiceElement(rect, element, label, supported);
+                rect.y += k_Spacing; // Matches the per-element spacing in GetChoicesArrayHeight
             }
 
             EditorGUI.indentLevel--;
             return rect;
+        }
+
+        /// <summary>
+        /// Draws a single ChoiceOption. The Labels list is replaced by one fixed text row per
+        /// language cached on the conversation asset; the remaining fields draw normally.
+        /// Label rows (and the sync that backs them) are only produced for expanded choices, so a
+        /// conversation with hundreds of collapsed lines pays no cost for them.
+        /// </summary>
+        private static Rect DrawChoiceElement(Rect rect, SerializedProperty element, GUIContent label,
+            IList<string> supported)
+        {
+            float line = EditorGUIUtility.singleLineHeight;
+
+            element.isExpanded = EditorGUI.Foldout(
+                new Rect(rect.x, rect.y, rect.width, line), element.isExpanded, label, true);
+            rect.y += line + k_Spacing;
+
+            if (!element.isExpanded) return rect;
+
+            EditorGUI.indentLevel++;
+
+            rect = ConvoCoreChoiceLabelsDrawer.Draw(rect, element.FindPropertyRelative("Labels"), supported);
+
+            rect = DrawChoiceField(rect, element, "TargetContainer", GC_ChoiceTargetContainer);
+            rect = DrawChoiceField(rect, element, "TargetAliasOrName", GC_ChoiceTargetAlias);
+            rect = DrawChoiceField(rect, element, "PushReturnPoint", GC_PushReturnPoint);
+
+            EditorGUI.indentLevel--;
+            return rect;
+        }
+
+        private static Rect DrawChoiceField(Rect rect, SerializedProperty element, string relativeName,
+            GUIContent label)
+        {
+            var prop = element.FindPropertyRelative(relativeName);
+            if (prop == null) return rect;
+
+            float h = EditorGUI.GetPropertyHeight(prop, true);
+            EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, h), prop, label, true);
+            rect.y += h + k_Spacing;
+            return rect;
+        }
+
+        /// <summary>
+        /// Height consumed by <see cref="DrawChoiceElement"/> so it matches exactly.
+        /// </summary>
+        private static float GetChoiceElementHeight(SerializedProperty element, IList<string> supported)
+        {
+            float line = EditorGUIUtility.singleLineHeight;
+            float h    = line + k_Spacing; // Foldout header
+
+            if (!element.isExpanded) return h;
+
+            h += ConvoCoreChoiceLabelsDrawer.GetHeight(element.FindPropertyRelative("Labels"), supported);
+            h += GetChoiceFieldHeight(element, "TargetContainer");
+            h += GetChoiceFieldHeight(element, "TargetAliasOrName");
+            h += GetChoiceFieldHeight(element, "PushReturnPoint");
+
+            return h;
+        }
+
+        private static float GetChoiceFieldHeight(SerializedProperty element, string relativeName)
+        {
+            var prop = element.FindPropertyRelative(relativeName);
+            return prop == null ? 0f : EditorGUI.GetPropertyHeight(prop, true) + k_Spacing;
         }
 
         /// <summary>
@@ -290,11 +326,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             h += line + k_Spacing; // Size field
 
+            var supported = ConvoCoreChoiceLabelsDrawer.GetSupportedLanguages();
+
             for (int i = 0; i < choicesProp.arraySize; i++)
             {
                 var element = choicesProp.GetArrayElementAtIndex(i);
-                var label   = GetChoiceElementLabel(element, i);
-                h += EditorGUI.GetPropertyHeight(element, label, true) + k_Spacing;
+                h += GetChoiceElementHeight(element, supported) + k_Spacing;
             }
 
             return h;
