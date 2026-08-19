@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['selector_0',['Selector',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a6c70857d1accf842107cbea48908d710a0c3cd33e7bf626da4897316a7158a7a4',1,'WolfstagInteractive::ConvoCore']]],
-  ['sequential_1',['Sequential',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a842505d4978372cedbefe3e48d25b707aa7e82daa7280af25afbaa076ac16eb1e',1,'WolfstagInteractive::ConvoCore']]],
-  ['session_2',['Session',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a8887fc42c7436b5dcbf07bb12f77dc73a71c7ae294b7abd866b3fb295b3b9e4a4',1,'WolfstagInteractive::ConvoCore::SaveSystem']]],
-  ['skiprow_3',['SkipRow',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a94a97dbcb9d0d470cea1b3f05679ee5ea9bd180aa0636dc56e4ba452d3c23aa0b',1,'WolfstagInteractive::ConvoCore']]],
-  ['standalone_4',['Standalone',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a0cd6501ed9818f514485c79a95be3401a5c80f101108a356211fcb26b3f83eabb',1,'WolfstagInteractive::ConvoCore']]],
-  ['string_5',['String',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a49466d7ea46b39b1e03baedb09da5a86a27118326006d3829667a400ad23d5d98',1,'WolfstagInteractive::ConvoCore::SaveSystem']]]
+  ['random_0',['Random',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a842505d4978372cedbefe3e48d25b707a64663f4646781c9c0110838b905daa23',1,'WolfstagInteractive::ConvoCore']]],
+  ['resources_1',['Resources',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ae5e9633d75a8b3c6bf69f6eaa4339485addcf50c29294d4414f3f7c1bbc892cb5',1,'WolfstagInteractive::ConvoCore']]],
+  ['restart_2',['Restart',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ab51458c34c46dd42dd277279af380b8ba51cfbcff36da74a9fc47f3a5140f99f2',1,'WolfstagInteractive::ConvoCore']]],
+  ['restartfrombeginning_3',['RestartFromBeginning',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a1145946d2893158ed508ac21bd73295ba4f566c1693cc671a6405ded69607e5f7',1,'WolfstagInteractive::ConvoCore::SaveSystem']]],
+  ['resume_4',['Resume',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ab51458c34c46dd42dd277279af380b8baf1cefec9e2196c672a622347f1fbc325',1,'WolfstagInteractive::ConvoCore']]],
+  ['resumefromactiveline_5',['ResumeFromActiveLine',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a1145946d2893158ed508ac21bd73295ba5bc1b9821b03775972cbeba0dc7dfe51',1,'WolfstagInteractive::ConvoCore::SaveSystem']]]
 ];

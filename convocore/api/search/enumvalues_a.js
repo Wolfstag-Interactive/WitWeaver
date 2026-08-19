@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['random_0',['Random',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a842505d4978372cedbefe3e48d25b707a64663f4646781c9c0110838b905daa23',1,'WolfstagInteractive::ConvoCore']]],
-  ['resources_1',['Resources',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ae5e9633d75a8b3c6bf69f6eaa4339485addcf50c29294d4414f3f7c1bbc892cb5',1,'WolfstagInteractive::ConvoCore']]],
-  ['restart_2',['Restart',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ab51458c34c46dd42dd277279af380b8ba51cfbcff36da74a9fc47f3a5140f99f2',1,'WolfstagInteractive::ConvoCore']]],
-  ['restartfrombeginning_3',['RestartFromBeginning',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a1145946d2893158ed508ac21bd73295ba4f566c1693cc671a6405ded69607e5f7',1,'WolfstagInteractive::ConvoCore::SaveSystem']]],
-  ['resume_4',['Resume',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ab51458c34c46dd42dd277279af380b8baf1cefec9e2196c672a622347f1fbc325',1,'WolfstagInteractive::ConvoCore']]],
-  ['resumefromactiveline_5',['ResumeFromActiveLine',['../namespaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem.html#a1145946d2893158ed508ac21bd73295ba5bc1b9821b03775972cbeba0dc7dfe51',1,'WolfstagInteractive::ConvoCore::SaveSystem']]]
+  ['paused_0',['Paused',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a783c34858791c0cc16ae3fc36a7dfa82ae99180abf47a8b3a856e0bcb2656990a',1,'WolfstagInteractive::ConvoCore::ConvoCore']]],
+  ['persistent_1',['Persistent',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ae5e9633d75a8b3c6bf69f6eaa4339485a5fe7b9358c9cb1b9eaa8d5aec000def4',1,'WolfstagInteractive::ConvoCore']]],
+  ['pingpong_2',['PingPong',['../namespaceWolfstagInteractive_1_1ConvoCore.html#abe4580c9b84ba18790160b78384926e5a99e52704462d3580db3528cad7ea9660',1,'WolfstagInteractive::ConvoCore']]],
+  ['playerchoice_3',['PlayerChoice',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData.html#a0aa0fdd4cefc8aad605fe6d59182a0d9ae61d97bb2a7d7f91f86f092fc5ce4d65',1,'WolfstagInteractive::ConvoCore::ConvoCoreConversationData']]],
+  ['playlist_4',['Playlist',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a6c70857d1accf842107cbea48908d710abfb6800020a06f5986570499d33f3ce5',1,'WolfstagInteractive::ConvoCore']]],
+  ['playstate_5',['PlayState',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a375546f4e6d9514a77ab9bd3779529f5a2ba7455eb5d0d0e4eee971e8427d3192',1,'WolfstagInteractive::ConvoCore']]]
 ];

@@ -1,18 +1,20 @@
 <map id="WolfstagInteractive.ConvoCore.ConvoCoreBlendShapeDisplay" name="WolfstagInteractive.ConvoCore.ConvoCoreBlendShapeDisplay">
-<area shape="rect" id="Node000001" title="Prefab display component that maps expression display names to SkinnedMeshRenderer blend shape indice..." alt="" coords="1139,97,1392,137"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase.html" title="Generic base class for all prefab&#45;based character displays." alt="" coords="725,52,963,77"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="962,76,1115,95,1139,98,1138,104,1114,101,962,82"/>
+<area shape="rect" id="Node000001" title="Prefab display component that maps expression display names to SkinnedMeshRenderer blend shape indice..." alt="" coords="1139,99,1392,139"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase.html" title="Generic base class for all prefab&#45;based character displays." alt="" coords="725,55,963,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="962,79,1115,98,1139,101,1138,106,1114,103,962,84"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="230,5,354,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,21,675,46,725,51,725,56,674,51,367,26"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,21,675,46,733,52,733,57,674,51,367,26"/>
 <area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreCharacterDisplay.html" title=" " alt="" coords="187,55,397,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="411,64,725,63,725,68,411,69"/>
-<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="424,98,675,138"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="688,115,1138,114,1138,120,688,120"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="411,65,725,65,725,70,411,70"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="424,99,675,139"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="688,117,1138,117,1138,122,688,122"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="5,132,135,157"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="148,136,159,135,424,121,424,126,159,141,149,141"/>
-<area shape="rect" id="Node000008" href="$classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="184,160,400,185"/>
-<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="149,152,192,157,191,163,148,157"/>
-<area shape="rect" id="Node000007" href="$classWolfstagInteractive_1_1ConvoCore_1_1PrefabCharacterRepresentationData.html" title="Defines how a prefab&#45;based character is displayed in a ConvoCore conversation." alt="" coords="699,165,989,205"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1003,164,1114,147,1180,134,1181,139,1115,153,1003,169"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="414,173,698,179,698,184,414,178"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="148,136,159,135,424,122,424,127,159,141,148,141"/>
+<area shape="rect" id="Node000008" href="$classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="184,157,400,183"/>
+<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="148,151,184,155,184,160,148,156"/>
+<area shape="rect" id="Node000007" href="$classWolfstagInteractive_1_1ConvoCore_1_1PrefabCharacterRepresentationData.html" title="Defines how a prefab&#45;based character is displayed in a ConvoCore conversation." alt="" coords="699,167,989,207"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1003,167,1114,150,1180,137,1181,142,1115,155,1003,172"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="414,171,698,180,698,185,414,176"/>
+<area shape="rect" id="Node000009" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IExpressionCatalogProvider.html" title="Implemented by character representations that expose a list of expressions (stable GUID + human&#45;reada..." alt="" coords="191,207,393,232"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="406,210,698,193,699,198,407,215"/>
 </map>

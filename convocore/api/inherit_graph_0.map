@@ -1,7 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" title=" " alt="" coords="5,45,225,70"/>
-<area shape="rect" id="Node000001" href="$classWolfstagInteractive_1_1ConvoCore_1_1DialogueLineDisplayOptions.html" title=" " alt="" coords="286,5,526,45"/>
-<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="239,41,285,36,286,41,239,46"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreVariable.html" title="A strongly&#45;typed named variable that can hold a string, int, float, or bool value." alt="" coords="273,69,539,109"/>
-<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="239,68,273,72,273,77,239,74"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,13,104,38"/>
+<area shape="rect" id="Node000001" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IAnimatedExpressionPlayback.html" title="A live animation instance driving one surface." alt="" coords="152,5,405,45"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="118,23,152,23,152,28,118,28"/>
 </map>

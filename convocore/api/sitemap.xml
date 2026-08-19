@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/AnimatedCharacterRepresentationData_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/AnimatedExpressionPayload_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/AudioBackend_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/BaseDialogueLineAction_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/BaseExpressionAction_8cs.html</loc></url>
@@ -13,6 +15,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoAudioReference_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreActionOnlyDisplay_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreAddressablesUtil_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreAnimatedPortraitPlayer_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreAnimatorBehaviour_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreAnimatorDisplay_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreAudioEventKeyReference_8cs.html</loc></url>
@@ -20,7 +23,6 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreBlendShapeDisplay_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterBehaviour_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterDisplayBase_8cs.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterExpression_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterProfileBaseData_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCharacterProfileExtensions_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/ConvoCoreCollectionPairs_8cs.html</loc></url>
@@ -96,6 +98,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/IDialogueHistoryOutput_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/IDialogueLineEditorCustomizable_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/IEditorPreviewableRepresentation_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/IExpressionCatalogProvider_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/JsonFileConvoSaveProvider_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/PagedListAttribute_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/PlainTextHistoryRenderer_8cs.html</loc></url>
@@ -172,8 +175,16 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/_sprite_character_representation_data_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/_t_m_p_dialogue_history_output_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/annotated.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedCharacterRepresentationData-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedCharacterRepresentationData.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedExpressionMapping-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedExpressionMapping.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedExpressionPayload-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedExpressionPayload.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatorExpressionMapping-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatorExpressionMapping.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatorPrefabAnimationPayload-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatorPrefabAnimationPayload.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseDialogueLineAction-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseDialogueLineAction.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseExpressionAction-members.html</loc></url>
@@ -205,6 +216,8 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreActionOnlyDisplay.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAddressablesUtil-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAddressablesUtil.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatedPortraitPlayer-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatedPortraitPlayer.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatorBehaviour-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatorBehaviour.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatorDisplay-members.html</loc></url>
@@ -223,8 +236,6 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterBehaviour.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterExpression-members.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterExpression.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterProfileBaseData-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterProfileBaseData.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData-members.html</loc></url>
@@ -317,6 +328,8 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ExpressionIDSelectorAttribute.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ExternalBehaviour-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ExternalBehaviour.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1FlipbookAnimationPayload-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1FlipbookAnimationPayload.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1FollowTargetBehaviour-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1FollowTargetBehaviour.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1FollowTargetBehaviour_1_1FollowSlotEntry-members.html</loc></url>
@@ -345,8 +358,6 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PrefabHistoryRenderer.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PreprocessorResult-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PreprocessorResult.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1RepresentationExpressionOverride-members.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1RepresentationExpressionOverride.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1RepresentationPair-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1RepresentationPair.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1RichTextHistoryRenderer-members.html</loc></url>
@@ -631,6 +642,10 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/hierarchy.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/index.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/inherits.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IAnimatedExpressionPlayback-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IAnimatedExpressionPlayback.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IAnimatedPortraitSurface-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IAnimatedPortraitSurface.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IConversationContext.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoAudioProvider-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoAudioProvider.html</loc></url>
@@ -658,6 +673,8 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutput.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutputPrefab-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutputPrefab.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IExpressionCatalogProvider-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IExpressionCatalogProvider.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IUIFoundation-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IUIFoundation.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1IConvoSaveProvider-members.html</loc></url>
@@ -698,6 +715,8 @@
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/namespacemembers.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/namespacemembers_enum.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/namespaces.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1AnimatedPlaybackContext-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1AnimatedPlaybackContext.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1CharacterBehaviourContext-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1CharacterBehaviourContext.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/convocore/api/structWolfstagInteractive_1_1ConvoCore_1_1ConversationBranchResult-members.html</loc></url>

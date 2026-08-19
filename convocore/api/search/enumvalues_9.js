@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['paused_0',['Paused',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a783c34858791c0cc16ae3fc36a7dfa82ae99180abf47a8b3a856e0bcb2656990a',1,'WolfstagInteractive::ConvoCore::ConvoCore']]],
-  ['persistent_1',['Persistent',['../namespaceWolfstagInteractive_1_1ConvoCore.html#ae5e9633d75a8b3c6bf69f6eaa4339485a5fe7b9358c9cb1b9eaa8d5aec000def4',1,'WolfstagInteractive::ConvoCore']]],
-  ['playerchoice_2',['PlayerChoice',['../classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData.html#a0aa0fdd4cefc8aad605fe6d59182a0d9ae61d97bb2a7d7f91f86f092fc5ce4d65',1,'WolfstagInteractive::ConvoCore::ConvoCoreConversationData']]],
-  ['playlist_3',['Playlist',['../namespaceWolfstagInteractive_1_1ConvoCore.html#a6c70857d1accf842107cbea48908d710abfb6800020a06f5986570499d33f3ce5',1,'WolfstagInteractive::ConvoCore']]]
+  ['once_0',['once',['../classWolfstagInteractive_1_1ConvoCore_1_1CameraRelativeBehaviour.html#a900c52d67bebd13d6ec1a5126e424f5aae1a9dc9f23534e63de9df0d540ac1611',1,'WolfstagInteractive.ConvoCore.CameraRelativeBehaviour.Once'],['../namespaceWolfstagInteractive_1_1ConvoCore.html#abe4580c9b84ba18790160b78384926e5ae1a9dc9f23534e63de9df0d540ac1611',1,'WolfstagInteractive.ConvoCore.Once']]],
+  ['onconversationbegin_1',['OnConversationBegin',['../namespaceWolfstagInteractive_1_1ConvoCore.html#af50021c14d434054490b385035bdfca8aa56d9bc90ba3312d9a8243ecca85b620',1,'WolfstagInteractive::ConvoCore']]],
+  ['onfirstappearance_2',['OnFirstAppearance',['../namespaceWolfstagInteractive_1_1ConvoCore.html#af50021c14d434054490b385035bdfca8a5bc97530fef6d11a55c783eca0b0d40c',1,'WolfstagInteractive::ConvoCore']]]
 ];

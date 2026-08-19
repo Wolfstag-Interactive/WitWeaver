@@ -1,0 +1,7 @@
+<map id="WolfstagInteractive.ConvoCore.ConvoCoreAnimatedPortraitPlayer" name="WolfstagInteractive.ConvoCore.ConvoCoreAnimatedPortraitPlayer">
+<area shape="rect" id="Node000001" title="uGUI reference implementation of IAnimatedPortraitSurface: hosts animated expression playback on an e..." alt="" coords="37,79,276,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,129,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,38,131,77,128,81,87,42"/>
+<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IAnimatedPortraitSurface.html" title="UI&#45;agnostic render target for animated portrait playback." alt="" coords="154,5,341,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,42,186,81,182,77,223,38"/>
+</map>
