@@ -21,6 +21,7 @@ Out of the box, ConvoCore plays dialogue. What it does *with* that dialogue — 
 |---|---|---|
 | **Dialogue actions** | Before/after hooks on individual lines — trigger any game logic | [Custom Actions](dialogue-actions/custom-actions) |
 | **Character representations** | How characters look — sprites, prefabs, Spine, VRM, or any visual system | [Character Representations](characters/character-representations) |
+| **Animation backends** | How animated portraits play: flipbooks, Animator prefabs, Live2D, or any animation system | [Animated Representations](characters/animated-representations#writing-a-custom-animation-backend) |
 | **Character behaviours** | Where 3D characters are placed and how they move — spawn points, follow targets, camera-relative, or anything else | [Character Behaviours](prefab-characters/presence-types) |
 | **UI layer** | The entire dialogue display — text boxes, portraits, choice buttons, 3D panels | [Building a Custom UI](ui/building-a-ui) |
 | **Save provider** | Where save data is stored — JSON file, YAML, cloud, PlayerPrefs, encrypted | [Save Providers](save-system/save-providers) |
@@ -72,7 +73,7 @@ public class MyCustomAction : BaseDialogueLineAction
 
 ## Character Representations — Any Visual System
 
-The built-in representation types (Sprite and Prefab) cover most 2D and 3D setups. For anything else — Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters — extend `CharacterRepresentationBase`:
+The built-in representation types (Sprite, Prefab, and Animated) cover most 2D and 3D setups. For anything else — Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters — extend `CharacterRepresentationBase`:
 
 ```csharp
 [CreateAssetMenu(menuName = "ConvoCore/Character Representation/My Representation")]

@@ -259,7 +259,7 @@ namespace WolfstagInteractive.ConvoCore
         // Representation rendering
         // ------------------------------------------------------------------
 
-        private void RenderRepresentation(ConvoCoreConversationData.CharacterRepresentationData data, int index)
+        protected virtual void RenderRepresentation(ConvoCoreConversationData.CharacterRepresentationData data, int index)
         {
             var conversationData = ConvoCoreInstance?.GetCurrentConversationData();
             if (conversationData == null) return;
@@ -287,6 +287,17 @@ namespace WolfstagInteractive.ConvoCore
                 RenderSpriteRepresentation(spriteMapping, data.LineSpecificDisplayOptions, index);
 
                 // Sprite visuals are applied above; now run the representation's expression actions.
+                RunExpressionActions(representation, data.SelectedExpressionId, _lastLineIndex, display: null);
+                return;
+            }
+
+            if (processed is AnimatedExpressionMapping animatedMapping)
+            {
+                RenderAnimatedRepresentation(animatedMapping,
+                    representation as AnimatedCharacterRepresentationData,
+                    data.LineSpecificDisplayOptions, index);
+
+                // Animated visuals are applied above; now run the representation's expression actions.
                 RunExpressionActions(representation, data.SelectedExpressionId, _lastLineIndex, display: null);
                 return;
             }
@@ -372,6 +383,45 @@ namespace WolfstagInteractive.ConvoCore
         }
 
         /// <summary>
+        /// Renders an animated expression mapping onto the speaker portrait (index 0)
+        /// and the character's full-body slot Image, mirroring
+        /// <see cref="RenderSpriteRepresentation"/> but driving the images through a
+        /// <see cref="ConvoCoreAnimatedPortraitPlayer"/> instead of a static sprite.
+        /// </summary>
+        protected virtual void RenderAnimatedRepresentation(AnimatedExpressionMapping mapping,
+            AnimatedCharacterRepresentationData representationData, DialogueLineDisplayOptions lineOptions, int index)
+        {
+            var displayOptions = MergeDisplayOptions(lineOptions, mapping.DisplayOptions);
+            bool useUnscaledTime = representationData == null || representationData.UseUnscaledTime;
+
+            // Portrait image is reserved for the primary speaker (index 0) only.
+            if (index == 0 && SpeakerPortraitImage && mapping.PortraitAnimation is { IsConfigured: true })
+            {
+                SpeakerPortraitImage.rectTransform.localScale = new Vector3(
+                    displayOptions.FlipPortraitX ? -displayOptions.PortraitScale.x : displayOptions.PortraitScale.x,
+                    displayOptions.FlipPortraitY ? -displayOptions.PortraitScale.y : displayOptions.PortraitScale.y,
+                    displayOptions.PortraitScale.z);
+                SpeakerPortraitImage.gameObject.SetActive(true);
+                ConvoCoreAnimatedPortraitPlayer.GetOrAdd(SpeakerPortraitImage)
+                    .Play(mapping.PortraitAnimation, useUnscaledTime);
+                TryFadeIn(SpeakerPortraitImage);
+            }
+
+            var fullBodyImage = GetSpriteSlotImage(displayOptions?.DisplaySlot ?? string.Empty, index);
+            if (fullBodyImage && mapping.FullBodyAnimation is { IsConfigured: true })
+            {
+                fullBodyImage.rectTransform.localScale = new Vector3(
+                    displayOptions.FlipFullBodyX ? -displayOptions.FullBodyScale.x : displayOptions.FullBodyScale.x,
+                    displayOptions.FlipFullBodyY ? -displayOptions.FullBodyScale.y : displayOptions.FullBodyScale.y,
+                    displayOptions.FullBodyScale.z);
+                fullBodyImage.gameObject.SetActive(true);
+                ConvoCoreAnimatedPortraitPlayer.GetOrAdd(fullBodyImage)
+                    .Play(mapping.FullBodyAnimation, useUnscaledTime);
+                TryFadeIn(fullBodyImage);
+            }
+        }
+
+        /// <summary>
         /// Returns the full-body sprite Image for a slot. Looks up by slot name in
         /// <see cref="ConvoCoreUIFoundation.DisplaySlots"/> (via <see cref="Image"/> on the
         /// <see cref="ConvoCoreUIFoundation.DisplaySlotDefinition.SlotObject"/>), then falls back
@@ -396,9 +446,21 @@ namespace WolfstagInteractive.ConvoCore
 
         private void HideAllSpriteImages()
         {
-            SpeakerPortraitImage?.gameObject.SetActive(false);
+            if (SpeakerPortraitImage)
+            {
+                // Stop any animated playback so Image.enabled is restored and hosted
+                // animator children deactivate before the next line renders.
+                ConvoCoreAnimatedPortraitPlayer.StopOn(SpeakerPortraitImage.gameObject);
+                SpeakerPortraitImage.gameObject.SetActive(false);
+            }
+
             foreach (var slot in DisplaySlots)
-                slot?.SlotObject?.GetComponent<Image>()?.gameObject.SetActive(false);
+            {
+                var slotImage = slot?.SlotObject?.GetComponent<Image>();
+                if (slotImage == null) continue;
+                ConvoCoreAnimatedPortraitPlayer.StopOn(slotImage.gameObject);
+                slotImage.gameObject.SetActive(false);
+            }
         }
 
         private CharacterRepresentationBase GetRepresentationFromData(ConvoCoreConversationData convoData,

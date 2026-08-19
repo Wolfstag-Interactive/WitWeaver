@@ -7,30 +7,35 @@ using UnityEngine;
 
 namespace WolfstagInteractive.ConvoCore
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SpriteCharacterRepresentationData.html")]
-[CreateAssetMenu(fileName = "SpriteRepresentation", menuName = "ConvoCore/Character/Representation/Sprite Character Representation")]
-    //This class dictates how a sprite should be represented by telling ConvoCore how to get and apply expressions and expression actions 
-    public class SpriteCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
+    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedCharacterRepresentationData.html")]
+[CreateAssetMenu(fileName = "AnimatedRepresentation", menuName = "ConvoCore/Character/Representation/Animated Character Representation")]
+    // Maps expressions to animated portrait/full-body payloads (flipbook frames,
+    // animator prefabs, or custom AnimatedExpressionPayload subclasses).
+    public class AnimatedCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
 #if UNITY_EDITOR
         , IDialogueLineEditorCustomizable
 #endif
     {
-        public List<SpriteExpressionMapping> ExpressionMappings = new();
+        [Tooltip("Drive animations with unscaled time so they keep playing while the game is paused.")]
+        public bool UseUnscaledTime = true;
+
+        public List<AnimatedExpressionMapping> ExpressionMappings = new();
 
         public IReadOnlyList<(string id, string name)> GetExpressionCatalog() =>
             ExpressionMappings.Select(m => (ExpressionId: m.ExpressionID, m.DisplayName)).ToList();
 
-        private bool TryResolveById(string id, out SpriteExpressionMapping mapping)
+        private bool TryResolveById(string id, out AnimatedExpressionMapping mapping)
         {
             mapping = ExpressionMappings.FirstOrDefault(m => m.ExpressionID == id);
             return mapping != null;
         }
+
         public override void ApplyExpression(string expressionId, ConvoCore runtime, ConvoCoreConversationData conversation, int lineIndex,
             IConvoCoreCharacterDisplay display)
         {
             if (!TryResolveById(expressionId, out var mapping))
             {
-                Debug.LogWarning($"[SpriteCharacterRepresentationData] Expression '{expressionId}' not found on '{name}'.");
+                Debug.LogWarning($"[AnimatedCharacterRepresentationData] Expression '{expressionId}' not found on '{name}'.");
                 return;
             }
 
@@ -44,7 +49,7 @@ namespace WolfstagInteractive.ConvoCore
                 Conversation = conversation,
                 LineIndex    = lineIndex,
                 Representation = this,
-                Display      = display, 
+                Display      = display,
                 ExpressionId = mapping.ExpressionID
             };
 
@@ -54,14 +59,13 @@ namespace WolfstagInteractive.ConvoCore
                 if (action != null)
                     action.ExecuteAction(ctx);
             }
-            
         }
 
         public override object GetExpressionMappingByGuid(string expressionGuid)
         {
             if (string.IsNullOrEmpty(expressionGuid))
                 return null;
-            
+
             return ExpressionMappings.FirstOrDefault(m => m.ExpressionID == expressionGuid);
         }
 
@@ -75,7 +79,7 @@ namespace WolfstagInteractive.ConvoCore
             if (TryResolveById(expressionId, out var byGuid))
                 return byGuid;
 
-            Debug.LogWarning($"Sprite expression '{expressionId}' not found; using first mapping as fallback.");
+            Debug.LogWarning($"Animated expression '{expressionId}' not found; using first mapping as fallback.");
             return ExpressionMappings.Count > 0 ? ExpressionMappings[0] : null;
         }
 
@@ -130,22 +134,23 @@ namespace WolfstagInteractive.ConvoCore
 
         public override void DrawInlineEditorPreview(object mappingData, Rect position)
         {
-            var mapping = (mappingData as SpriteExpressionMapping) ??
+            var mapping = (mappingData as AnimatedExpressionMapping) ??
                           (ExpressionMappings.Count > 0 ? ExpressionMappings[0] : null);
             if (mapping == null)
             {
-                EditorGUI.LabelField(position, "No sprite mapping to preview.");
+                EditorGUI.LabelField(position, "No animated mapping to preview.");
                 return;
             }
 
-            Texture2D portraitTex = mapping.PortraitSprite != null ? mapping.PortraitSprite.texture : null;
-            Texture2D fullBodyTex = mapping.FullBodySprite != null ? mapping.FullBodySprite.texture : null;
+            var portraitSprite = mapping.PortraitAnimation?.GetPreviewSprite(0f);
+            var fullBodySprite = mapping.FullBodyAnimation?.GetPreviewSprite(0f);
+            Texture2D portraitTex = portraitSprite != null ? portraitSprite.texture : null;
+            Texture2D fullBodyTex = fullBodySprite != null ? fullBodySprite.texture : null;
 
-            // FIX: explicit null checks—can't treat Texture2D as bool
             int count = (portraitTex != null ? 1 : 0) + (fullBodyTex != null ? 1 : 0);
             if (count == 0)
             {
-                EditorGUI.LabelField(position, "(No sprites)");
+                EditorGUI.LabelField(position, "(No preview frames)");
                 return;
             }
 
@@ -205,13 +210,13 @@ namespace WolfstagInteractive.ConvoCore
                 m.EnsureValidBasics();
             }
         }
-
 #endif
     }
 
     [System.Serializable]
-    // This class defines what a sprite expression is
-    public sealed class SpriteExpressionMapping
+    // One expression on an animated representation: an animation payload per channel
+    // (portrait / full-body), plus the usual display options and expression actions.
+    public sealed class AnimatedExpressionMapping
     {
         [SerializeField, Tooltip("Stable unique ID (GUID). Non-editable.")]
         private string expressionID = System.Guid.NewGuid().ToString("N");
@@ -221,16 +226,18 @@ namespace WolfstagInteractive.ConvoCore
         [Tooltip("Human-readable name shown in dropdowns and inspector list headers.")]
         public string DisplayName = "Neutral";
 
-        [Tooltip("Portrait sprite for the expression.")]
-        public Sprite PortraitSprite;
+        [SerializeReference, Tooltip("Animation for the speaker portrait. Leave empty to skip the portrait channel.")]
+        public AnimatedExpressionPayload PortraitAnimation;
 
-        [Tooltip("Full body sprite for the expression.")]
-        public Sprite FullBodySprite;
+        [SerializeReference, Tooltip("Animation for the full-body slot. Leave empty to skip the full-body channel.")]
+        public AnimatedExpressionPayload FullBodyAnimation;
 
         [Header("Default Display Options")]
         public DialogueLineDisplayOptions DisplayOptions = new DialogueLineDisplayOptions();
+
         [Tooltip("Actions that run when this expression is applied on this representation")]
         public List<BaseExpressionAction> ExpressionActions = new();
+
         public void EnsureValidId(HashSet<string> used)
         {
             if (string.IsNullOrWhiteSpace(expressionID) || !used.Add(expressionID))

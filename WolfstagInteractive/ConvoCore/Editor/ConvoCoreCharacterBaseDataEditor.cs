@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace WolfstagInteractive.ConvoCore.Editor
 {
@@ -11,7 +10,6 @@ namespace WolfstagInteractive.ConvoCore.Editor
         SerializedProperty isPlayerProp;
         SerializedProperty characterNameProp;
         SerializedProperty playerPlaceholderProp;
-        SerializedProperty characterExpressionsProp;
         SerializedProperty characterDescriptionProp;
 
         private void OnEnable()
@@ -40,8 +38,6 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
             EditorGUILayout.PropertyField(characterNameProp);
             DrawCharacterDescription();
-            // Check for duplicate expression names
-            CheckAndDisplayDuplicateExpressionNames();
 
             // Draw the rest of the properties excluding script and the ones already shown
             EditorGUILayout.Space();
@@ -64,44 +60,5 @@ namespace WolfstagInteractive.ConvoCore.Editor
             characterDescriptionProp.stringValue = EditorGUI.TextArea(fieldRect, characterDescriptionProp.stringValue);
         }
 
-        private void CheckAndDisplayDuplicateExpressionNames()
-        {
-            // Dictionary to count occurrences of each expression name
-            Dictionary<string, int> nameCounts = new Dictionary<string, int>();
-
-            // Make sure the property is valid and is an array
-            if (characterExpressionsProp != null && characterExpressionsProp.isArray)
-            {
-                for (int i = 0; i < characterExpressionsProp.arraySize; i++)
-                {
-                    // Get the element reference (a ScriptableObject asset)
-                    var expressionReferenceProperty = characterExpressionsProp.GetArrayElementAtIndex(i);
-                    var expressionAsset = expressionReferenceProperty.objectReferenceValue as ConvoCoreCharacterExpression;
-                    if (expressionAsset != null && !string.IsNullOrEmpty(expressionAsset.expressionName))
-                    {
-                        // Count duplicate names
-                        if (nameCounts.ContainsKey(expressionAsset.expressionName))
-                        {
-                            nameCounts[expressionAsset.expressionName]++;
-                        }
-                        else
-                        {
-                            nameCounts.Add(expressionAsset.expressionName, 1);
-                        }
-                    }
-                }
-
-                // Display a HelpBox for any duplicate expression names found
-                foreach (var pair in nameCounts)
-                {
-                    if (pair.Value > 1)
-                    {
-                        EditorGUILayout.HelpBox(
-                            $"Duplicate expression name found: '{pair.Key}' is used {pair.Value} times. Ensure each expression has a unique name to prevent conflicts.",
-                            MessageType.Warning);
-                    }
-                }
-            }
-        }
     }
 }

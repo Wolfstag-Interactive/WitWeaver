@@ -14,19 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConversationTitle: 
   ConversationParticipantProfiles:
-  - {fileID: 11400000, guid: cca04ff07be1b1a478acbfc412045f2e, type: 2}
-  - {fileID: 11400000, guid: 871b502169fa7f74e9d3d3a7b87b6503, type: 2}
-  - {fileID: 11400000, guid: 086dcde826a3fcb4b903e747228d482b, type: 2}
+  - {fileID: 11400000, guid: af00d9a6e77ccd24e8bbaca6a4ef3e61, type: 2}
+  - {fileID: 11400000, guid: d25bd83da2980654e9156896604fe71c, type: 2}
   ParticipantConfigurationDefaults: []
   DialogueLines:
   - ConversationID: LabIntroPart2
     LineID: L_de250d5f6295
     ConversationLineIndex: 0
-    characterID: Ava
+    characterID: Player
     CharacterRepresentations:
     - SelectedCharacterID: 
-      SelectedRepresentationName: Sprites
-      SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
+      SelectedRepresentationName: Test Sprite
+      SelectedRepresentation: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
       LineSpecificDisplayOptions:
@@ -47,7 +46,7 @@ MonoBehaviour:
     UserInputMethod: 0
     TimeBeforeNextLine: 0
     LineContinuationSettings:
-      Mode: 3
+      Mode: 0
       TargetContainer: {fileID: 0}
       TargetAliasOrName: 
       PushReturnPoint: 0
@@ -103,8 +102,8 @@ MonoBehaviour:
     characterID: Fae
     CharacterRepresentations:
     - SelectedCharacterID: 
-      SelectedRepresentationName: Sprites
-      SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
+      SelectedRepresentationName: Test Sprite
+      SelectedRepresentation: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
       LineSpecificDisplayOptions:
@@ -112,7 +111,7 @@ MonoBehaviour:
         FlipPortraitY: 0
         FlipFullBodyX: 0
         FlipFullBodyY: 0
-        DisplaySlot: Left
+        DisplaySlot: Right
         PortraitScale: {x: 1, y: 1, z: 1}
         FullBodyScale: {x: 1, y: 1, z: 1}
     LocalizedDialogues:
@@ -238,7 +237,7 @@ MonoBehaviour:
   - ConversationID: LabIntroPart2
     LineID: L_423f905b9953
     ConversationLineIndex: 5
-    characterID: Player
+    characterID: Ava
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites

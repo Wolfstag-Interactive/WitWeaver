@@ -22,7 +22,7 @@ namespace WolfstagInteractive.ConvoCore
     [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PrefabCharacterRepresentationData.html")]
     [CreateAssetMenu(fileName = "PrefabCharacterRepresentation",
         menuName = "ConvoCore/Character/Representation/Prefab Character Representation")]
-    public class PrefabCharacterRepresentationData : CharacterRepresentationBase
+    public class PrefabCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
 #if UNITY_EDITOR
         , IDialogueLineEditorCustomizable
 #endif
