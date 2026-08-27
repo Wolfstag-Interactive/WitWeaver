@@ -5,29 +5,29 @@ title: Conversation Save Manager
 
 # Conversation Save Manager
 
-`ConvoCoreConversationSaveManager` is a MonoBehaviour that sits alongside your `ConvoCore` component on a scene GameObject. It tracks progress for one conversation (or one entry in a `ConversationContainer`) and feeds the resume context back into the runner automatically when the conversation starts.
+`WitWeaverConversationSaveManager` is a MonoBehaviour that sits alongside your `WitWeaver` component on a scene GameObject. It tracks progress for one conversation (or one entry in a `ConversationContainer`) and feeds the resume context back into the runner automatically when the conversation starts.
 
 ---
 
-## How it connects to ConvoCore
+## How it connects to WitWeaver
 
-You do not need to write any glue code. `ConvoCore.PlayConversation()` calls `GetComponent<IConvoStartContextProvider>()` on its own GameObject before starting. `ConvoCoreConversationSaveManager` implements that interface and returns a `ConvoStartContext` describing what to do. If no provider is present, the runner starts fresh as usual - the interface is optional.
+You do not need to write any glue code. `WitWeaver.PlayConversation()` calls `GetComponent<IWitWeaverStartContextProvider>()` on its own GameObject before starting. `WitWeaverConversationSaveManager` implements that interface and returns a `WitWeaverStartContext` describing what to do. If no provider is present, the runner starts fresh as usual - the interface is optional.
 
 :::note
-`IConvoStartContextProvider` lives in the ConvoCore runtime assembly (not the save system assembly) so the core runner can reference it without creating a circular dependency. The save system assembly implements the interface. You never need to call the interface directly; it is wired up automatically.
+`IWitWeaverStartContextProvider` lives in the WitWeaver runtime assembly (not the save system assembly) so the core runner can reference it without creating a circular dependency. The save system assembly implements the interface. You never need to call the interface directly; it is wired up automatically.
 :::
 
 ---
 
 ## Setup
 
-1. Select the GameObject that has your `ConvoCore` component.
-2. Add Component → `ConvoCoreConversationSaveManager`.
-3. In the inspector, assign your `ConvoCoreSaveManager` and `ConvoVariableStore` assets.
+1. Select the GameObject that has your `WitWeaver` component.
+2. Add Component → `WitWeaverConversationSaveManager`.
+3. In the inspector, assign your `WitWeaverSaveManager` and `WitWeaverVariableStore` assets.
 4. Configure the conversation source (see below).
 5. Choose your start mode and auto-commit flags.
 
-That is all. On the first run, `ConvoCore` starts fresh and the saver records progress. On subsequent runs, it restores the saved state before the runner starts.
+That is all. On the first run, `WitWeaver` starts fresh and the saver records progress. On subsequent runs, it restores the saved state before the runner starts.
 
 ---
 
@@ -35,11 +35,11 @@ That is all. On the first run, `ConvoCore` starts fresh and the saver records pr
 
 Pick **one** of the two modes:
 
-**Direct Conversation mode**: track a single `ConvoCoreConversationData` asset:
+**Direct Conversation mode**: track a single `WitWeaverConversationData` asset:
 
 | Field | Description |
 |---|---|
-| **Direct Conversation** | Assign the `ConvoCoreConversationData` asset you want to track. |
+| **Direct Conversation** | Assign the `WitWeaverConversationData` asset you want to track. |
 
 **Container mode**: track one entry inside a `ConversationContainer`:
 
@@ -58,8 +58,8 @@ Use Direct Conversation mode for standalone NPCs. Use Container mode when one Ga
 
 | Field | Description |
 |---|---|
-| **Save Manager** | The `ConvoCoreSaveManager` ScriptableObject asset. |
-| **Variable Store** | The `ConvoVariableStore` ScriptableObject asset. |
+| **Save Manager** | The `WitWeaverSaveManager` ScriptableObject asset. |
+| **Variable Store** | The `WitWeaverVariableStore` ScriptableObject asset. |
 
 ---
 
@@ -88,10 +88,10 @@ These flags control when `CommitSnapshot()` is called automatically. All default
 
 | Flag | Trigger |
 |---|---|
-| **Auto Commit On Start** | Fired when `ConvoCore.StartedConversation` fires. Commits the snapshot at conversation start (useful for recording that the player entered this conversation). |
-| **Auto Commit On End** | Fired when `ConvoCore.EndedConversation` fires. Commits the snapshot when the conversation stops (paused, ended, or completed). |
-| **Auto Commit On Line Complete** | Fired when `ConvoCore.OnLineCompleted` fires. Commits after every line. Most granular option - highest I/O frequency. |
-| **Auto Commit On Choice Made** | Fired when `ConvoCore.OnChoiceMade` fires. Commits whenever the player selects a branch choice. |
+| **Auto Commit On Start** | Fired when `WitWeaver.StartedConversation` fires. Commits the snapshot at conversation start (useful for recording that the player entered this conversation). |
+| **Auto Commit On End** | Fired when `WitWeaver.EndedConversation` fires. Commits the snapshot when the conversation stops (paused, ended, or completed). |
+| **Auto Commit On Line Complete** | Fired when `WitWeaver.OnLineCompleted` fires. Commits after every line. Most granular option - highest I/O frequency. |
+| **Auto Commit On Choice Made** | Fired when `WitWeaver.OnChoiceMade` fires. Commits whenever the player selects a branch choice. |
 
 :::tip
 For most projects, enable only **Auto Commit On End**. This records progress once per conversation session and minimises disk writes. Enable **Auto Commit On Choice Made** if your conversations have long branching paths and you want to resume mid-branch.
@@ -107,19 +107,19 @@ For most projects, enable only **Auto Commit On End**. This records progress onc
 | **Auto Restore On Start** | Calls `TryAutoRestore()` in `Start()`. Safer default - gives other Awake() callbacks time to run first (e.g. the save manager bootstrapper). |
 
 :::warning
-If your bootstrapper initialises `ConvoCoreSaveManager` in `Awake()` and `ConvoCoreConversationSaveManager` also restores in `Awake()`, the order of execution matters. Use **Auto Restore On Start** unless you have configured Script Execution Order to guarantee the bootstrapper runs first.
+If your bootstrapper initialises `WitWeaverSaveManager` in `Awake()` and `WitWeaverConversationSaveManager` also restores in `Awake()`, the order of execution matters. Use **Auto Restore On Start** unless you have configured Script Execution Order to guarantee the bootstrapper runs first.
 :::
 
 ---
 
-## How ConvoCore uses the start context
+## How WitWeaver uses the start context
 
-When `PlayConversation()` is called, ConvoCore invokes `IConvoStartContextProvider.GetStartContext()`. The saver returns a `ConvoStartContext` struct:
+When `PlayConversation()` is called, WitWeaver invokes `IWitWeaverStartContextProvider.GetStartContext()`. The saver returns a `WitWeaverStartContext` struct:
 
 ```csharp
-public struct ConvoStartContext
+public struct WitWeaverStartContext
 {
-    public ConvoStartMode Mode;    // Fresh, Resume, or Restart
+    public WitWeaverStartMode Mode;    // Fresh, Resume, or Restart
     public string StartLineId;     // LineID to begin from (Resume mode only)
     public HashSet<string> VisitedLineIds; // Lines already marked as visited
 }
@@ -127,22 +127,22 @@ public struct ConvoStartContext
 
 - **Fresh**: runner starts from index 0, no visited lines marked.
 - **Resume**: runner calls `BeginFromLine(StartLineId)` and `ApplyVisitedLines(VisitedLineIds)` before displaying the first line.
-- **Restart**: runner starts from index 0, but `ConvoVariableStore` already has Conversation-scoped variables restored from the snapshot.
+- **Restart**: runner starts from index 0, but `WitWeaverVariableStore` already has Conversation-scoped variables restored from the snapshot.
 
 ---
 
 ## Committing snapshots manually
 
 ```csharp
-// Push the current conversation progress to ConvoCoreSaveManager's registry.
-// Does not write to disk - call ConvoCoreSaveManager.Save() to persist.
+// Push the current conversation progress to WitWeaverSaveManager's registry.
+// Does not write to disk - call WitWeaverSaveManager.Save() to persist.
 _conversationSaver.CommitSnapshot();
 
 // Read the current in-memory snapshot without committing it.
 ConversationSnapshot snap = _conversationSaver.GetConversationSnapshot();
 ```
 
-Calling `CommitSnapshot()` does not automatically trigger a disk write. The snapshot is registered with `ConvoCoreSaveManager`, which assembles all registered snapshots into a `ConvoCoreGameSnapshot` when `Save()` is called.
+Calling `CommitSnapshot()` does not automatically trigger a disk write. The snapshot is registered with `WitWeaverSaveManager`, which assembles all registered snapshots into a `WitWeaverGameSnapshot` when `Save()` is called.
 
 ---
 
@@ -151,13 +151,13 @@ Calling `CommitSnapshot()` does not automatically trigger a disk write. The snap
 Set **Restore Behavior** to `AskViaEvent` to display a "Continue from save?" UI before the conversation starts.
 
 ```csharp
-using WolfstagInteractive.ConvoCore.SaveSystem;
+using WolfstagInteractive.WitWeaver.SaveSystem;
 using UnityEngine;
 
 public class ConversationResumeUI : MonoBehaviour
 {
-    [SerializeField] private ConvoCoreConversationSaveManager _saver;
-    [SerializeField] private ConvoCore _runner;
+    [SerializeField] private WitWeaverConversationSaveManager _saver;
+    [SerializeField] private WitWeaver _runner;
     [SerializeField] private GameObject _resumePanel;
 
     private void OnEnable()
@@ -217,4 +217,4 @@ These properties reflect the current in-memory state and update in real time dur
 
 ## Custom inspector
 
-The `ConvoCoreConversationSaveManager` inspector repaints at 0.1-second intervals during Play Mode so the read-only state properties update in real time without requiring manual inspector refreshes. The inspector layout adapts based on whether a snapshot exists; if no save data is present for the current conversation, the restore section is hidden.
+The `WitWeaverConversationSaveManager` inspector repaints at 0.1-second intervals during Play Mode so the read-only state properties update in real time without requiring manual inspector refreshes. The inspector layout adapts based on whether a snapshot exists; if no save data is present for the current conversation, the restore section is hidden.

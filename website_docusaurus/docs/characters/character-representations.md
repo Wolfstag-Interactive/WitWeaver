@@ -28,7 +28,7 @@ CharacterProfile ("Guard")
                                   └── Prefab  ──▶  GuardPrefab.prefab
 ```
 
-At runtime, the ConvoCore runner reads each line’s character ID and desired representation name, looks up the matching entry in the profile’s Representations list, and calls `ApplyExpression()` to update the visible character display.
+At runtime, the WitWeaver runner reads each line’s character ID and desired representation name, looks up the matching entry in the profile’s Representations list, and calls `ApplyExpression()` to update the visible character display.
 
 ---
 
@@ -44,35 +44,35 @@ One profile can hold many representations. For example, a guard character might 
 
 ## Built-in Representation Types
 
-ConvoCore ships with three ready-to-use representation types.
+WitWeaver ships with three ready-to-use representation types.
 
 ### SpriteCharacterRepresentationData
 
 Used for 2D sprite-based characters. Holds a list of expression mappings directly on the asset.
 
-**Creating one**: Right-click → **Create → ConvoCore → Character → Representation → Sprite Character Representation**
+**Creating one**: Right-click → **Create → WitWeaver → Character → Representation → Sprite Character Representation**
 
 **What it stores**:
 - A list of expression mappings, each with a display name, a stable GUID, a portrait sprite, and a full body sprite
 - The runner calls `ApplyExpression()` on this representation when a line begins, which passes the correct sprite to your UI’s character display component
 
-When the runner processes a dialogue line, it reads the line’s selected expression GUID, finds the matching entry in this representation’s mapping, and gives the sprite to your `ConvoCoreCharacterDisplayBase` subclass to render.
+When the runner processes a dialogue line, it reads the line’s selected expression GUID, finds the matching entry in this representation’s mapping, and gives the sprite to your `WitWeaverCharacterDisplayBase` subclass to render.
 
 ### PrefabCharacterRepresentationData
 
 Used for 3D prefab-based characters or any setup where a prefab reference is more appropriate than a flat sprite.
 
-**Creating one**: Right-click → **Create → ConvoCore → Character → Representation → Prefab Character Representation**
+**Creating one**: Right-click → **Create → WitWeaver → Character → Representation → Prefab Character Representation**
 
 **What it stores**:
 - A reference to a prefab that your display code can instantiate, activate, or reference
-- The runner surfaces this prefab through the standard `ApplyExpression()` call; what you do with it is entirely up to your `ConvoCoreCharacterDisplayBase` implementation
+- The runner surfaces this prefab through the standard `ApplyExpression()` call; what you do with it is entirely up to your `WitWeaverCharacterDisplayBase` implementation
 
 ### AnimatedCharacterRepresentationData
 
 Used for portraits and full body images that play an animation instead of showing a single still sprite: blinking, talking loops, Animator-driven rigs, etc.
 
-**Creating one**: Right-click → **Create → ConvoCore → Character → Representation → Animated Character Representation**
+**Creating one**: Right-click → **Create → WitWeaver → Character → Representation → Animated Character Representation**
 
 **What it stores**:
 - A list of expression mappings, each holding up to two animations (one for the speaker portrait, one for the full body slot)
@@ -121,18 +121,18 @@ You can create your own representation type for any visual system: a spine anima
 Extend `CharacterRepresentationBase` (which is a `ScriptableObject`) and implement the following members:
 
 ```csharp
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-[CreateAssetMenu(menuName = "ConvoCore/Character Representation/My Custom Representation")]
+[CreateAssetMenu(menuName = "WitWeaver/Character Representation/My Custom Representation")]
 public class MyCustomRepresentationData : CharacterRepresentationBase
 {
     // Called by the runner to apply an expression to a character display.
     public override void ApplyExpression(
         string expressionId,
-        ConvoCore runner,
-        ConvoCoreConversationData data,
+        WitWeaver runner,
+        WitWeaverConversationData data,
         int lineIndex,
-        ConvoCoreCharacterDisplayBase display)
+        WitWeaverCharacterDisplayBase display)
     {
         // Look up your expression data by GUID and apply it to your display.
         // For example: trigger an animation, swap a material, or update a shader param.
@@ -160,13 +160,13 @@ public class MyCustomRepresentationData : CharacterRepresentationBase
 }
 ```
 
-If your representation needs to perform a one-time setup step before it is first used in a conversation (for example, loading assets asynchronously or acquiring a reference to a scene object), implement `IConvoCoreRepresentationInitializable`:
+If your representation needs to perform a one-time setup step before it is first used in a conversation (for example, loading assets asynchronously or acquiring a reference to a scene object), implement `IWitWeaverRepresentationInitializable`:
 
 ```csharp
 public class MyCustomRepresentationData : CharacterRepresentationBase,
-    IConvoCoreRepresentationInitializable
+    IWitWeaverRepresentationInitializable
 {
-    public void Initialize(ConvoCore runner, ConvoCoreConversationData data)
+    public void Initialize(WitWeaver runner, WitWeaverConversationData data)
     {
         // Called once before the first line in the conversation that uses this representation.
     }

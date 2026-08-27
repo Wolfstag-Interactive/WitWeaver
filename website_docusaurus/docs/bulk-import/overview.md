@@ -5,7 +5,7 @@ title: Bulk YAML Import
 
 # Bulk YAML Import
 
-The Bulk Import window lets you scan a folder of YAML files, preview every conversation key found, and batch-create or batch-update `ConvoCoreConversationData` ScriptableObject assets in one click. Each entry is processed independently — a parse error in one file never blocks the rest.
+The Bulk Import window lets you scan a folder of YAML files, preview every conversation key found, and batch-create or batch-update `WitWeaverConversationData` ScriptableObject assets in one click. Each entry is processed independently — a parse error in one file never blocks the rest.
 
 Use this tool when setting up a new project with many existing YAML files, or when you want to re-sync a batch of assets after making changes to the source files outside Unity.
 
@@ -13,7 +13,7 @@ Use this tool when setting up a new project with many existing YAML files, or wh
 
 ## Opening the Window
 
-**Tools → Wolfstag Interactive → ConvoCore → Bulk Import**
+**Tools → Wolfstag Interactive → WitWeaver → Bulk Import**
 
 The window remembers your last input and output folder selections across sessions.
 
@@ -25,7 +25,7 @@ The Configuration screen collects the source folder, destination folder, and imp
 
 ### Input YAML Folder
 
-The folder ConvoCore will scan for `.yml` and `.yaml` files. Assign the folder using the object field (drag a folder from the Project panel) or click **Browse** to open a folder picker.
+The folder WitWeaver will scan for `.yml` and `.yaml` files. Assign the folder using the object field (drag a folder from the Project panel) or click **Browse** to open a folder picker.
 
 :::warning
 The input folder must be inside your project's `Assets/` directory. The Scan button is disabled while the folder is invalid or empty.
@@ -33,7 +33,7 @@ The input folder must be inside your project's `Assets/` directory. The Scan but
 
 ### Output Folder for New Assets
 
-Where newly created `ConvoCoreConversationData` assets will be saved. The folder is created automatically if it does not exist — you do not need to create it first.
+Where newly created `WitWeaverConversationData` assets will be saved. The folder is created automatically if it does not exist — you do not need to create it first.
 
 When you set an input folder, the output folder defaults to a `Conversations/` sibling folder at the same level. Once you manually change the output folder, auto-defaulting stops.
 
@@ -43,11 +43,11 @@ Choosing the same folder for input and output is allowed. Your YAML files and co
 
 ### Recursive
 
-When enabled (default), ConvoCore scans the input folder and all subfolders. Disable this to scan only the top-level folder.
+When enabled (default), WitWeaver scans the input folder and all subfolders. Disable this to scan only the top-level folder.
 
 ### Asset Naming
 
-Controls how the filename of each new `ConvoCoreConversationData` asset is derived.
+Controls how the filename of each new `WitWeaverConversationData` asset is derived.
 
 | Mode | Filename pattern | Best for |
 |---|---|---|
@@ -62,7 +62,7 @@ Asset naming only applies to **new** assets created during the import. Existing 
 
 ### Scanning
 
-Click **Scan** to analyse the input folder. ConvoCore reads every YAML file, parses each one, and builds a manifest of every conversation key found. The window moves to the Preview screen with the results.
+Click **Scan** to analyse the input folder. WitWeaver reads every YAML file, parses each one, and builds a manifest of every conversation key found. The window moves to the Preview screen with the results.
 
 ---
 
@@ -85,7 +85,7 @@ Each row is colour-coded to show what will happen during import.
 | Icon | Status | Meaning |
 |---|---|---|
 | ● Green | **New** | No existing asset has this conversation key. A new asset will be created. |
-| ↑ Blue | **Update** | An existing `ConvoCoreConversationData` asset with this key was found. It will be re-synced from the YAML. |
+| ↑ Blue | **Update** | An existing `WitWeaverConversationData` asset with this key was found. It will be re-synced from the YAML. |
 | ⚠ Yellow | **Conflict** | The same conversation key appears in more than one YAML file. The row is excluded from import. |
 | ✕ Red | **Error** | The file could not be read, failed to parse, or the conversation key has no dialogue lines. The row is excluded from import. |
 
@@ -138,9 +138,9 @@ Each row shows the outcome icon, the conversation key, and the path to the creat
 
 ## How the Import Works
 
-For each selected entry, ConvoCore runs the same pipeline used by the per-asset YAML workflow:
+For each selected entry, WitWeaver runs the same pipeline used by the per-asset YAML workflow:
 
-1. **Embed** — the YAML file's text is stored as a `TextAsset` sub-asset named `EmbeddedYaml` on the `ConvoCoreConversationData`. LineIDs are generated for any line that is missing one and written back to the source file.
+1. **Embed** — the YAML file's text is stored as a `TextAsset` sub-asset named `EmbeddedYaml` on the `WitWeaverConversationData`. LineIDs are generated for any line that is missing one and written back to the source file.
 2. **Import** — the embedded YAML is parsed and `DialogueLineInfo` objects are created for every dialogue line under the matching conversation key.
 3. **Save** — the asset is marked dirty and saved. The `SourceYamlAssetPath` is recorded so the YAML Watcher can auto-sync the asset when the source file changes later.
 
@@ -156,7 +156,7 @@ After a bulk import, the YAML Watcher is active for every created or updated ass
 
 ### "No YAML files found in the selected folder"
 
-ConvoCore found no `.yml` or `.yaml` files under the input path. Check that:
+WitWeaver found no `.yml` or `.yaml` files under the input path. Check that:
 
 - The input folder path shown under the folder field is the folder you intended (not a parent folder).
 - The **Recursive** toggle is enabled if your YAML files are in subdirectories.
@@ -180,7 +180,7 @@ This can happen if an error occurred during the embed or import step after the a
 
 ### After import, edits to a YAML file are not auto-syncing
 
-Confirm that `SourceYamlAssetPath` is set on the `ConvoCoreConversationData` asset (visible in the Inspector under the YAML section). If the field is blank, open the Bulk Import window, scan the same folder, and run the import again — the path is written during import.
+Confirm that `SourceYamlAssetPath` is set on the `WitWeaverConversationData` asset (visible in the Inspector under the YAML section). If the field is blank, open the Bulk Import window, scan the same folder, and run the import again — the path is written during import.
 
 ---
 
@@ -189,4 +189,4 @@ Confirm that `SourceYamlAssetPath` is set on the `ConvoCoreConversationData` ass
 | Understand the YAML format for dialogue files | [YAML Overview →](../yaml-reference/yaml-overview) |
 | Set up YAML auto-sync for a single asset | [YAML Loading →](../yaml-reference/yaml-loading) |
 | Author dialogue in a spreadsheet instead | [Excel Workflow →](../spreadsheet-workflow/overview) |
-| Configure ConvoCore-wide settings | [ConvoCore Settings →](../settings/convocore-settings) |
+| Configure WitWeaver-wide settings | [WitWeaver Settings →](../settings/witweaver-settings) |

@@ -5,7 +5,7 @@ title: Canvas UI
 
 # Canvas UI
 
-`ConvoCoreSampleUICanvas` is the canvas-space dialogue UI. It handles all dialogue text, speaker names, choice buttons, and character rendering — both sprites and prefabs — inside a Unity Canvas.
+`WitWeaverSampleUICanvas` is the canvas-space dialogue UI. It handles all dialogue text, speaker names, choice buttons, and character rendering — both sprites and prefabs — inside a Unity Canvas.
 
 Use this class when your characters live on the canvas rather than in the 3D world.
 
@@ -15,12 +15,12 @@ Use this class when your characters live on the canvas rather than in the 3D wor
 
 ### 1. Add the spawner and pool
 
-`ConvoCoreSampleUICanvas` needs a `ConvoCorePrefabRepresentationSpawner` to instantiate prefab characters and a `ConvoCorePrefabPool` to manage instances.
+`WitWeaverSampleUICanvas` needs a `WitWeaverPrefabRepresentationSpawner` to instantiate prefab characters and a `WitWeaverPrefabPool` to manage instances.
 
-1. Select the GameObject that holds your `ConvoCoreSampleUICanvas` component.
-2. **Add Component → ConvoCorePrefabPool**. This is the instance pool; leave it at default settings to start.
-3. **Add Component → ConvoCorePrefabRepresentationSpawner**. Drag the `ConvoCorePrefabPool` component into the **Pool** field.
-4. Drag the `ConvoCorePrefabRepresentationSpawner` component into the **Prefab Representation Spawner** field on `ConvoCoreSampleUICanvas`.
+1. Select the GameObject that holds your `WitWeaverSampleUICanvas` component.
+2. **Add Component → WitWeaverPrefabPool**. This is the instance pool; leave it at default settings to start.
+3. **Add Component → WitWeaverPrefabRepresentationSpawner**. Drag the `WitWeaverPrefabPool` component into the **Pool** field.
+4. Drag the `WitWeaverPrefabRepresentationSpawner` component into the **Prefab Representation Spawner** field on `WitWeaverSampleUICanvas`.
 
 ### 2. Create slot anchors
 
@@ -29,7 +29,7 @@ Slot anchors are `RectTransform` GameObjects inside your Canvas hierarchy. Each 
 1. Inside your Canvas, create empty GameObjects to act as anchors (right-click the Canvas → **UI → Empty** or **Create Empty**).
 2. Name them descriptively: `SlotLeft`, `SlotCenter`, `SlotRight`, or whatever suits your layout.
 3. Position each anchor using the `RectTransform` as you would any canvas element.
-4. On `ConvoCoreSampleUICanvas`, expand the **Slot Anchors** list and add each anchor `RectTransform` to the list.
+4. On `WitWeaverSampleUICanvas`, expand the **Slot Anchors** list and add each anchor `RectTransform` to the list.
 
 :::tip
 The order of anchors in the list matters. When a line's display options don't specify a named slot, the UI falls back to the list index: index 0 is used for the first character, index 1 for the second, and so on. Arrange the list in the order you want characters to appear left-to-right.
@@ -37,7 +37,7 @@ The order of anchors in the list matters. When a line's display options don't sp
 
 ### 3. Assign the remaining fields
 
-Fill in the standard dialogue UI fields on `ConvoCoreSampleUICanvas`: dialogue text, speaker name, choice panel, continue button, and any history UI elements.
+Fill in the standard dialogue UI fields on `WitWeaverSampleUICanvas`: dialogue text, speaker name, choice panel, continue button, and any history UI elements.
 
 ---
 
@@ -71,10 +71,10 @@ If your slot list has fewer entries than the number of characters on a line, the
 
 ## Mixed Representations
 
-A single dialogue line can include both sprite characters and prefab characters. `ConvoCoreSampleUICanvas` handles both without additional configuration.
+A single dialogue line can include both sprite characters and prefab characters. `WitWeaverSampleUICanvas` handles both without additional configuration.
 
 - **Sprite characters** are rendered into `Image` components at their assigned slot positions.
-- **Prefab characters** are spawned by the `ConvoCorePrefabRepresentationSpawner` and parented under the corresponding slot anchor `RectTransform`.
+- **Prefab characters** are spawned by the `WitWeaverPrefabRepresentationSpawner` and parented under the corresponding slot anchor `RectTransform`.
 
 Because both types share the same slot list, a line that has one sprite character and one prefab character will place the sprite into one `Image` slot and the prefab under one anchor, simultaneously.
 
@@ -92,21 +92,21 @@ Prefab characters spawned by the canvas UI are managed per-slot. When a new line
 - If a different character occupies the slot, the previous instance is released back to the pool before the new one is resolved.
 - Characters not referenced in a line are released when the next line begins.
 
-At conversation end, `ConvoCorePrefabRepresentationSpawner.ReleaseAll()` is called automatically by the canvas UI, returning all active instances to the pool.
+At conversation end, `WitWeaverPrefabRepresentationSpawner.ReleaseAll()` is called automatically by the canvas UI, returning all active instances to the pool.
 
-Scene-resident characters (those using `CharacterSourceMode.SceneResident` on their `PrefabCharacterRepresentationData`) are **never** released, pooled, or destroyed by the spawner. The spawner simply locates them via `ConvoCoreSceneCharacterRegistry` and treats them as externally managed.
+Scene-resident characters (those using `CharacterSourceMode.SceneResident` on their `PrefabCharacterRepresentationData`) are **never** released, pooled, or destroyed by the spawner. The spawner simply locates them via `WitWeaverSceneCharacterRegistry` and treats them as externally managed.
 
 ---
 
 ## Scene-Resident Characters
 
-If a character is already present in your scene — placed by hand, spawned by your own code, or persisted across scenes — register it with `ConvoCoreSceneCharacterRegistry` so the canvas UI can find it.
+If a character is already present in your scene — placed by hand, spawned by your own code, or persisted across scenes — register it with `WitWeaverSceneCharacterRegistry` so the canvas UI can find it.
 
-1. Add **ConvoCoreSceneCharacterRegistry** to any GameObject in the scene.
-2. Add **ConvoCoreSceneCharacterRegistrant** to the scene character's root GameObject.
+1. Add **WitWeaverSceneCharacterRegistry** to any GameObject in the scene.
+2. Add **WitWeaverSceneCharacterRegistrant** to the scene character's root GameObject.
 3. Set the **Character Id** field on the registrant to match the `SceneCharacterId` on the character's `PrefabCharacterRepresentationData`.
 4. Set the `CharacterSourceMode` on the `PrefabCharacterRepresentationData` to **Scene Resident**.
-5. Drag the `ConvoCoreSceneCharacterRegistry` into the **Scene Character Registry** field on your `ConvoCorePrefabRepresentationSpawner`.
+5. Drag the `WitWeaverSceneCharacterRegistry` into the **Scene Character Registry** field on your `WitWeaverPrefabRepresentationSpawner`.
 
 When the spawner resolves a scene-resident character, it looks it up in the registry and returns it directly. No spawning, parenting, or pooling occurs.
 
@@ -114,9 +114,9 @@ When the spawner resolves a scene-resident character, it looks it up in the regi
 
 ## Fade In and Out
 
-If you want characters to fade in when they appear and fade out when they are released, add a **ConvoCoreSimpleFade** component to your character prefab. The spawner calls `FadeIn()` when a character is resolved and `FadeOut()` when it is released.
+If you want characters to fade in when they appear and fade out when they are released, add a **WitWeaverSimpleFade** component to your character prefab. The spawner calls `FadeIn()` when a character is resolved and `FadeOut()` when it is released.
 
-See [Display Components → ConvoCoreSimpleFade](display-components#convocoresimplefade) for configuration details.
+See [Display Components → WitWeaverSimpleFade](display-components#witweaversimplefade) for configuration details.
 
 ---
 

@@ -5,7 +5,7 @@ title: Excel Workflow
 
 # Excel Workflow
 
-ConvoCore supports authoring dialogue in `.xlsx` spreadsheets as an alternative to hand-editing YAML. The spreadsheet is the source of truth: every time you save the file in Excel (or any spreadsheet editor), Unity reimports it, generates LineIDs, writes them back to the `.xlsx`, and rebuilds the `ConvoCoreConversationData` ScriptableObject automatically.
+WitWeaver supports authoring dialogue in `.xlsx` spreadsheets as an alternative to hand-editing YAML. The spreadsheet is the source of truth: every time you save the file in Excel (or any spreadsheet editor), Unity reimports it, generates LineIDs, writes them back to the `.xlsx`, and rebuilds the `WitWeaverConversationData` ScriptableObject automatically.
 
 ---
 
@@ -18,7 +18,7 @@ The YAML workflow gives you full control but requires comfort with the format. T
 - Excel features like filtering, sorting, conditional formatting, and comments for review annotations
 - Simpler handoff to external localisation teams who deliver updated sheets
 
-Both workflows use the same runtime data — a spreadsheet import produces exactly the same `ConvoCoreConversationData` as a YAML import.
+Both workflows use the same runtime data — a spreadsheet import produces exactly the same `WitWeaverConversationData` as a YAML import.
 
 ---
 
@@ -30,8 +30,8 @@ Each **worksheet tab** in the workbook maps to one **conversation key**. The tab
 
 | Column | Header (configurable) | Description |
 |---|---|---|
-| Character ID | `CharacterID` | The character speaking the line. Must match a `CharacterID` registered on the `ConvoCoreConversationData` asset. |
-| Line ID | `LineID` | A stable unique identifier for each line. Leave blank on first import — ConvoCore generates and writes back IDs automatically. |
+| Character ID | `CharacterID` | The character speaking the line. Must match a `CharacterID` registered on the `WitWeaverConversationData` asset. |
+| Line ID | `LineID` | A stable unique identifier for each line. Leave blank on first import — WitWeaver generates and writes back IDs automatically. |
 | Language columns | Any 2–5 letter code (e.g. `en`, `fr`, `es`) | One column per language. The header is used as the language code. Any column whose header matches the pattern `[a-zA-Z]{2,5}(-[a-zA-Z]{2,4})?` is treated as a language column. |
 
 Any other columns are ignored by the parser (they are preserved in the file untouched).
@@ -58,7 +58,7 @@ By default, the first row (row index `0`) is treated as the header. Change this 
 
 ### Multiple Conversations in One File
 
-Use multiple tabs. Each tab produces one conversation key in the `ConvoCoreConversationData`.
+Use multiple tabs. Each tab produces one conversation key in the `WitWeaverConversationData`.
 
 ### Skipping Sheets
 
@@ -75,13 +75,13 @@ _LookupTable       ← skipped
 
 ## Setup
 
-### 1. Create a ConvoCoreConversationData asset
+### 1. Create a WitWeaverConversationData asset
 
-Right-click in the Project panel and choose **Create → ConvoCore → New Conversation**. This creates a `ConvoCoreConversationData` ScriptableObject.
+Right-click in the Project panel and choose **Create → WitWeaver → New Conversation**. This creates a `WitWeaverConversationData` ScriptableObject.
 
 ### 2. Link the spreadsheet
 
-Select the `ConvoCoreConversationData` asset. In the Inspector, find the **Excel Source** section and assign your `.xlsx` file to the **Source Excel Asset** field.
+Select the `WitWeaverConversationData` asset. In the Inspector, find the **Excel Source** section and assign your `.xlsx` file to the **Source Excel Asset** field.
 
 The path is stored as a Unity asset path (e.g. `Assets/Dialogue/ForestScene.xlsx`). Moving or renaming the file inside the Unity Project panel automatically updates the stored path — the link is not broken by file renames.
 
@@ -109,7 +109,7 @@ Every import runs these steps in order:
 
 5. **Validate YAML** — the generated YAML is parsed immediately to verify it is well-formed before it is committed anywhere.
 
-6. **Embed YAML** — the YAML string is stored as a `TextAsset` sub-asset named `EmbeddedYaml` on the `ConvoCoreConversationData` asset, and `ConversationYaml` is pointed at it.
+6. **Embed YAML** — the YAML string is stored as a `TextAsset` sub-asset named `EmbeddedYaml` on the `WitWeaverConversationData` asset, and `ConversationYaml` is pointed at it.
 
 7. **Import** — `ImportFromYamlForKey` runs for each conversation key, populating the ScriptableObject's dialogue data exactly as a YAML import would.
 
@@ -125,21 +125,21 @@ The writeback step modifies **only the LineID column cells** in the xlsx. All ot
 - **Cell styles**, number formats, fonts, and fill colours
 - **Merged cells**, frozen panes, and other sheet-level properties
 - **Non-dialogue sheets** (e.g. `_README`) — they are copied byte-for-byte into the output file
-- **Any other columns** not used by ConvoCore
+- **Any other columns** not used by WitWeaver
 
 When a cell already has a LineID written in it, only the cell's text value and type are updated. The cell's style index (`s` attribute) is preserved, so conditional formatting and column formatting rules continue to apply. When a cell is blank and needs a new LineID inserted, the style of the nearest sibling cell in the same column is applied to the new cell.
 
 :::warning
-Do not manually edit LineID values. ConvoCore treats them as stable identifiers that persist across reimports and are referenced by save data. If a LineID changes or disappears, any save data referencing that line will break. Let ConvoCore generate and manage them.
+Do not manually edit LineID values. WitWeaver treats them as stable identifiers that persist across reimports and are referenced by save data. If a LineID changes or disappears, any save data referencing that line will break. Let WitWeaver generate and manage them.
 :::
 
 ---
 
 ## Auto-Sync on File Save
 
-`ConvoCoreExcelWatcher` is an `AssetPostprocessor` that watches for `.xlsx` changes in the project. When an `.xlsx` file that is linked to a `ConvoCoreConversationData` asset is imported (which happens automatically when the file is saved), the full pipeline runs without any manual action.
+`WitWeaverExcelWatcher` is an `AssetPostprocessor` that watches for `.xlsx` changes in the project. When an `.xlsx` file that is linked to a `WitWeaverConversationData` asset is imported (which happens automatically when the file is saved), the full pipeline runs without any manual action.
 
-The watcher also handles **file renames and moves** inside the Unity Project panel. If you rename or move the `.xlsx` in the Project panel, the `SourceExcelAssetPath` and `SourceExcelAsset` reference on the linked `ConvoCoreConversationData` are updated automatically to reflect the new path.
+The watcher also handles **file renames and moves** inside the Unity Project panel. If you rename or move the `.xlsx` in the Project panel, the `SourceExcelAssetPath` and `SourceExcelAsset` reference on the linked `WitWeaverConversationData` are updated automatically to reflect the new path.
 
 The watcher performs no work when no `.xlsx` files are involved in an import (e.g. when Unity reimports a texture or a script), so it adds negligible overhead to the normal import process.
 
@@ -156,14 +156,14 @@ Excel formulas (`=A1&B1`, `=UPPER(C2)`, etc.) are handled based on the `ExcelFor
 | `UseEmptyString` | Treats formula cells as empty strings. The row is included but the formula result is discarded. |
 
 :::tip
-For static dialogue content, avoid formulas in CharacterID and language columns. Formulas work well for metadata or helper columns that ConvoCore ignores, since those columns are never read.
+For static dialogue content, avoid formulas in CharacterID and language columns. Formulas work well for metadata or helper columns that WitWeaver ignores, since those columns are never read.
 :::
 
 ---
 
 ## Spreadsheet Settings
 
-All spreadsheet settings live in `ConvoCoreSettings` under the **Spreadsheet** tab. Open via **Tools → ConvoCore → Open Settings**.
+All spreadsheet settings live in `WitWeaverSettings` under the **Spreadsheet** tab. Open via **Tools → WitWeaver → Open Settings**.
 
 | Field | Default | Description |
 |---|---|---|
@@ -194,7 +194,7 @@ The `.xlsx` file could not be saved back. This usually means the file is open in
 
 ### "Internal YAML generation error"
 
-This is a ConvoCore bug. The pipeline generated YAML from the parsed data but the YAML could not be re-parsed. This should not happen with normal dialogue text. If you encounter it, check the Console for the parse error detail and report it with the contents of the affected cell(s).
+This is a WitWeaver bug. The pipeline generated YAML from the parsed data but the YAML could not be re-parsed. This should not happen with normal dialogue text. If you encounter it, check the Console for the parse error detail and report it with the contents of the affected cell(s).
 
 ### Edits to the xlsx are not triggering a reimport
 
@@ -202,4 +202,4 @@ Unity only fires the `AssetPostprocessor` when it detects a file change. If you 
 
 ### A character's dialogue is missing after import
 
-Check that the `CharacterID` values in the spreadsheet exactly match the IDs registered on the `ConvoCoreConversationData` asset's Participants list. The CharacterID match is case-sensitive at the data level (the column header match is case-insensitive, but the cell values are used as-is).
+Check that the `CharacterID` values in the spreadsheet exactly match the IDs registered on the `WitWeaverConversationData` asset's Participants list. The CharacterID match is case-sensitive at the data level (the column header match is case-insensitive, but the cell values are used as-is).

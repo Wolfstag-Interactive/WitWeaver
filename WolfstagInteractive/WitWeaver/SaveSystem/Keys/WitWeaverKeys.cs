@@ -1,0 +1,26 @@
+namespace WolfstagInteractive.WitWeaver.SaveSystem
+{
+    internal static class WitWeaverKeys
+    {
+        public const string DefaultPrefix = "witweaver.";
+
+        private static string Prefix
+        {
+            get
+            {
+                var settings = WitWeaverSettings.Instance;
+                if (settings != null && !string.IsNullOrEmpty(settings.SaveKeyPrefix))
+                    return settings.SaveKeyPrefix;
+                return DefaultPrefix;
+            }
+        }
+
+        public static string Settings => Prefix + "settings";
+
+        public static string GameSlot(string slot) => Prefix + "game." + slot;
+
+        public static string CharacterName(string characterId) => Prefix + "character.name." + characterId;
+
+        public static string Variable(string key) => Prefix + "var." + key;
+    }
+}

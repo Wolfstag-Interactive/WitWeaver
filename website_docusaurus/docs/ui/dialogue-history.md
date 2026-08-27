@@ -7,7 +7,7 @@ title: Dialogue History
 
 ## What Is Dialogue History?
 
-`ConvoCoreDialogueHistoryUI` is an optional component that maintains a rolling log of dialogue lines as a conversation plays. It pairs a **renderer** (which formats each entry as text or a prefab) with an **output** (which displays the formatted result on screen). Use it to build a chat-window style UI, an in-game transcript, a visual-novel message log, or an accessibility replay feature.
+`WitWeaverDialogueHistoryUI` is an optional component that maintains a rolling log of dialogue lines as a conversation plays. It pairs a **renderer** (which formats each entry as text or a prefab) with an **output** (which displays the formatted result on screen). Use it to build a chat-window style UI, an in-game transcript, a visual-novel message log, or an accessibility replay feature.
 
 :::tip
 Dialogue history is completely optional. Add it only if your UI design requires a scrollable transcript. Most standard dialogue boxes (name, text, and portrait) do not need it.
@@ -17,7 +17,7 @@ Dialogue history is completely optional. Add it only if your UI design requires 
 
 ## Adding It to the Scene
 
-Add the `ConvoCoreDialogueHistoryUI` component to any GameObject in the scene (typically the same `DialoguePanel` GameObject as your `ConvoCoreUIFoundation` subclass, or a child of it).
+Add the `WitWeaverDialogueHistoryUI` component to any GameObject in the scene (typically the same `DialoguePanel` GameObject as your `WitWeaverUIFoundation` subclass, or a child of it).
 
 **Inspector fields**:
 
@@ -31,17 +31,17 @@ Add the `ConvoCoreDialogueHistoryUI` component to any GameObject in the scene (t
 
 ## Calling AddLine from Your UI
 
-In your `ConvoCoreUIFoundation` subclass, call `AddLine()` each time a line is displayed. The most natural place is inside `UpdateDialogueUI()`:
+In your `WitWeaverUIFoundation` subclass, call `AddLine()` each time a line is displayed. The most natural place is inside `UpdateDialogueUI()`:
 
 ```csharp
-[SerializeField] private ConvoCoreDialogueHistoryUI _historyUI;
+[SerializeField] private WitWeaverDialogueHistoryUI _historyUI;
 
 protected override void UpdateDialogueUI(
     DialogueLineInfo lineInfo,
     string localizedText,
     string speakerName,
     CharacterRepresentationBase representation,
-    ConvoCoreCharacterProfileBaseData primaryProfile)
+    WitWeaverCharacterProfileBaseData primaryProfile)
 {
     // Update the current line display as normal.
     _speakerNameText.text = speakerName;
@@ -80,7 +80,7 @@ Wraps the speaker name in a TextMeshPro `<color>` tag using the character's name
 
 ### PrefabHistoryRenderer
 
-Instantiates a prefab for each history entry instead of generating text. The prefab receives the speaker name, dialogue text, and name color. The prefab's root component must implement `IConvoCoreHistoryEntry` (or have a child component that does).
+Instantiates a prefab for each history entry instead of generating text. The prefab receives the speaker name, dialogue text, and name color. The prefab's root component must implement `IWitWeaverHistoryEntry` (or have a child component that does).
 
 **When to use**: Custom-styled history entries with icons, avatars, timestamps, or complex layouts that cannot be expressed as a text string.
 
@@ -90,9 +90,9 @@ Instantiates a prefab for each history entry instead of generating text. The pre
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using WolfstagInteractive.ConvoCore.UI;
+using WolfstagInteractive.WitWeaver.UI;
 
-public class MyHistoryEntry : MonoBehaviour, IConvoCoreHistoryEntry
+public class MyHistoryEntry : MonoBehaviour, IWitWeaverHistoryEntry
 {
     [SerializeField] private TMP_Text _speakerLabel;
     [SerializeField] private TMP_Text _dialogueLabel;
@@ -140,7 +140,7 @@ Call `_historyUI.Clear()` at the start of each new conversation. Without clearin
 The most reliable place to clear is inside `InitializeUI()`:
 
 ```csharp
-protected override void InitializeUI(ConvoCore runner)
+protected override void InitializeUI(WitWeaver runner)
 {
     _historyUI.Clear();
     _dialoguePanel.SetActive(true);

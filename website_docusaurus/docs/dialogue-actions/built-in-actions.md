@@ -5,13 +5,13 @@ title: Built-in Actions
 
 # Built-in Actions
 
-ConvoCore ships with six ready-to-use dialogue actions in the `SampleActions` folder. Each is a `ScriptableObject` you create as an asset and assign to dialogue lines in the inspector. Create them via **Right-click in the Project panel → Create → ConvoCore → Actions → [Action Name]**.
+WitWeaver ships with six ready-to-use dialogue actions in the `SampleActions` folder. Each is a `ScriptableObject` you create as an asset and assign to dialogue lines in the inspector. Create them via **Right-click in the Project panel → Create → WitWeaver → Actions → [Action Name]**.
 
 ---
 
 ## Enable / Disable GameObject
 
-**Create:** Right-click → Create → ConvoCore → Actions → Enable Or Disable GameObject
+**Create:** Right-click → Create → WitWeaver → Actions → Enable Or Disable GameObject
 
 Activates or deactivates a GameObject in the scene when the dialogue line is reached. The action completes in a single frame; there is no animation.
 
@@ -26,14 +26,14 @@ Activates or deactivates a GameObject in the scene when the dialogue line is rea
 **Practical uses:** showing or hiding UI panels, activating trigger zones, toggling scene decorations that appear mid-conversation.
 
 :::note
-If the target GameObject is already in the desired state when the action runs, ConvoCore logs a message and skips the `SetActive` call. This prevents redundant state changes but otherwise does nothing.
+If the target GameObject is already in the desired state when the action runs, WitWeaver logs a message and skips the `SetActive` call. This prevents redundant state changes but otherwise does nothing.
 :::
 
 ---
 
 ## Fade In / Out Sprite Renderer
 
-**Create:** Right-click → Create → ConvoCore → Actions → Fade In Or Out SpriteRenderer
+**Create:** Right-click → Create → WitWeaver → Actions → Fade In Or Out SpriteRenderer
 
 Fades the alpha of a `SpriteRenderer` over a configurable duration using an `AnimationCurve`. The action waits for the full fade to complete before the runner proceeds.
 
@@ -62,7 +62,7 @@ Use **Enable GameObject On Fade In** together with **Disable GameObject On Fade 
 
 ## Instantiate Prefab
 
-**Create:** Right-click → Create → ConvoCore → Actions → InstantiatePrefab
+**Create:** Right-click → Create → WitWeaver → Actions → InstantiatePrefab
 
 Spawns a prefab into the scene when the line is reached. The instance is placed at a specified world position with a specified rotation. The action completes immediately after instantiation.
 
@@ -84,7 +84,7 @@ The built-in Instantiate action does not track the spawned instance. If reversal
 
 ## Modify Transform
 
-**Create:** Right-click → Create → ConvoCore → Actions → ModifyTransform
+**Create:** Right-click → Create → WitWeaver → Actions → ModifyTransform
 
 Finds a `Transform` in the scene by name and sets its world position, rotation, and scale to the specified values. The action completes in a single frame.
 
@@ -109,7 +109,7 @@ Also note: if more than one GameObject in the scene shares the same name, `GameO
 
 ## Play Audio Clip
 
-**Create:** Right-click → Create → ConvoCore → Actions → PlayAudioClip
+**Create:** Right-click → Create → WitWeaver → Actions → PlayAudioClip
 
 Plays an `AudioClip` at a world position using Unity's `AudioSource.PlayClipAtPoint`. The action **waits for the full clip to finish** before the runner proceeds; the clip's duration determines how long the action takes.
 
@@ -126,14 +126,14 @@ Plays an `AudioClip` at a world position using Unity's `AudioSource.PlayClipAtPo
 :::note
 This action uses `AudioSource.PlayClipAtPoint`, which creates a temporary `AudioSource` at the specified world position for the duration of the clip. It is not the right choice for dialogue voiceover that should align with line display timing.
 
-For character voiceover that plays alongside a displayed line, assign the `AudioClip` directly to the `clip` field on the `DialogueLineInfo` in the Conversation Data inspector. ConvoCore handles that clip's playback automatically as part of the line rendering flow, without blocking line advancement on the clip's duration.
+For character voiceover that plays alongside a displayed line, assign the `AudioClip` directly to the `clip` field on the `DialogueLineInfo` in the Conversation Data inspector. WitWeaver handles that clip's playback automatically as part of the line rendering flow, without blocking line advancement on the clip's duration.
 :::
 
 ---
 
 ## Action Group
 
-**Create:** Right-click → Create → ConvoCore → Actions → Action Group
+**Create:** Right-click → Create → WitWeaver → Actions → Action Group
 
 A composite action that runs a list of other `BaseDialogueLineAction` assets in sequence. The group itself is a single action asset; assign it to a line's action list and it executes all its children one after another, each waiting for the previous to complete.
 

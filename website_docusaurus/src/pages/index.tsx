@@ -5,7 +5,7 @@ export default function Home(): JSX.Element | null {
     const history = useHistory();
 
     useEffect(() => {
-        history.replace('/convocore/');
+        history.replace('/witweaver/');
     }, [history]);
 
     return null;

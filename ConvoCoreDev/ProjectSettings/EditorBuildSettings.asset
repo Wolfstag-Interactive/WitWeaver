@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/ConvoCore2DSampleScene.unity
+    path: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleScene.unity
     guid: 404f18641a592ea48b573018a60528fe
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7b177ef0c426378438953eaba80889e0, type: 2}

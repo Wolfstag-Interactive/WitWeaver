@@ -1,20 +1,20 @@
 ---
 slug: /
-title: ConvoCore
+title: WitWeaver
 sidebar_position: 1
 ---
 
-# ConvoCore
+# WitWeaver
 
-ConvoCore is a Unity native dialogue framework for building the dialogue system your game deserves, in any genre, at any scale. Write your conversations in plain, readable YAML or spreadsheets, keep them in source control, and let ConvoCore compile them into runtime-ready Conversation ScriptableObjects.
+WitWeaver is a Unity native dialogue framework for building the dialogue system your game deserves, in any genre, at any scale. Write your conversations in plain, readable YAML or spreadsheets, keep them in source control, and let WitWeaver compile them into runtime-ready Conversation ScriptableObjects.
 
-Other dialogue systems actively take over your game's architecture. ConvoCore stays in its lane as a focused dialogue tool, built to grow alongside your project. Every layer, from dialogue actions and character representations to UI and save providers, are designed to be easily extended or replaced without touching the foundation. Character expressions, branching logic, localization, and save state live in the Unity editor, while your UI, camera, and rendering pipeline stay entirely in your hands.
+Other dialogue systems actively take over your game's architecture. WitWeaver stays in its lane as a focused dialogue tool, built to grow alongside your project. Every layer, from dialogue actions and character representations to UI and save providers, are designed to be easily extended or replaced without touching the foundation. Character expressions, branching logic, localization, and save state live in the Unity editor, while your UI, camera, and rendering pipeline stay entirely in your hands.
 
 ## How it works
 
 ```
 ┌────────────────┐                ┌────────────────────────┐               ┌──────────────────┐
-│   YAML file    │  ──────────▶   │  Conversation Data     │  ─────────▶   │  ConvoCore       │
+│   YAML file    │  ──────────▶   │  Conversation Data     │  ─────────▶   │  WitWeaver       │
 │ (your dialogue)│  compiles      │  (ScriptableObject)    │  runs in      │  (MonoBehaviour) │
 └────────────────┘                └────────────────────────┘  Play Mode    └──────────────────┘
        ▲                                                                        │
@@ -36,16 +36,16 @@ Other dialogue systems actively take over your game's architecture. ConvoCore st
 
 ## Extend and customize
 
-Every layer of ConvoCore is designed to be replaced or extended without touching the core:
+Every layer of WitWeaver is designed to be replaced or extended without touching the core:
 
 | Extension point | What you can do |
 |---|---|
 | **Custom dialogue actions** | Trigger any game logic - camera moves, quest flags, spawns, cinematics - before or after any line |
 | **Custom character representations** | Plug in Spine, VRM, prefab avatars, or any visual system alongside the built-in sprite and prefab types |
-| **Custom UI** | Build any display layer - text boxes, speech bubbles, 3D panels, visual novels - using the `ConvoCoreUIFoundation` base class |
-| **Custom save providers** | Store saves in the cloud, in PlayerPrefs, or encrypted on disk via the `IConvoSaveProvider` interface |
+| **Custom UI** | Build any display layer - text boxes, speech bubbles, 3D panels, visual novels - using the `WitWeaverUIFoundation` base class |
+| **Custom save providers** | Store saves in the cloud, in PlayerPrefs, or encrypted on disk via the `IWitWeaverSaveProvider` interface |
 
-[Extending ConvoCore →](extending-convocore)
+[Extending WitWeaver →](extending-witweaver)
 
 ## Where to start
 
@@ -55,8 +55,8 @@ If you're new to Unity or C#, begin with **[Installation](getting-started/instal
 
 | I want to… | Go here |
 |---|---|
-| Install ConvoCore | [Installation →](getting-started/installation) |
+| Install WitWeaver | [Installation →](getting-started/installation) |
 | Create my first conversation | [Quick Start →](getting-started/quick-start) |
 | Understand the YAML format | [YAML Format →](yaml-reference/yaml-format) |
-| Browse the C# API | [API Reference ↗](https://docs.wolfstaginteractive.com/convocore/api/) |
-| Extend ConvoCore with custom code | [Extending ConvoCore →](extending-convocore) |
+| Browse the C# API | [API Reference ↗](https://docs.wolfstaginteractive.com/witweaver/api/) |
+| Extend WitWeaver with custom code | [Extending WitWeaver →](extending-witweaver) |

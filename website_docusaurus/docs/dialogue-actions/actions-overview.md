@@ -10,7 +10,7 @@ Dialogue actions are the primary way to connect your dialogue to the rest of you
 Because actions are assets rather than scene components, each one is reusable across dozens of conversations, configurable per-instance in the Inspector, and tracked in version control just like any other project file. A single `FadeInCharacter` action can be shared by every scene that uses that character; change the timing once and it updates everywhere.
 
 :::tip
-Dialogue actions are one of ConvoCore's most powerful features. Everything you see in the [built-in actions](built-in-actions) is built on the same `BaseDialogueLineAction` base class that your own actions use. If the built-in actions do not cover your needs, [creating a custom action](custom-actions) takes only a few minutes.
+Dialogue actions are one of WitWeaver's most powerful features. Everything you see in the [built-in actions](built-in-actions) is built on the same `BaseDialogueLineAction` base class that your own actions use. If the built-in actions do not cover your needs, [creating a custom action](custom-actions) takes only a few minutes.
 :::
 
 ---
@@ -37,7 +37,7 @@ The conversation runner does not proceed to the next step until the current acti
 Every action asset exposes a `RunOnlyOncePerConversation` boolean field.
 
 - When **disabled** (the default), the action executes every time that line is reached, including after a reversal.
-- When **enabled**, ConvoCore records which lines have already triggered this action during the current conversation playthrough. If the player reverses past the line and reaches it again, the action is skipped on the second pass.
+- When **enabled**, WitWeaver records which lines have already triggered this action during the current conversation playthrough. If the player reverses past the line and reaches it again, the action is skipped on the second pass.
 
 Use `RunOnlyOncePerConversation` for actions that have side effects that should not repeat: spawning a prop into the scene, triggering a quest flag, playing a one-shot cinematic.
 
@@ -45,7 +45,7 @@ Use `RunOnlyOncePerConversation` for actions that have side effects that should 
 
 ## Reversal Behavior
 
-ConvoCore supports stepping backwards through dialogue via `ReverseOneLine()`. When the player reverses, the runner undoes the **before-actions** of the line being left, not the after-actions, because those already ran before the current line began.
+WitWeaver supports stepping backwards through dialogue via `ReverseOneLine()`. When the player reverses, the runner undoes the **before-actions** of the line being left, not the after-actions, because those already ran before the current line began.
 
 Reversal calls `ExecuteOnReversedLineAction()` on each before-action, in **reverse order** (last action first). This is the action's opportunity to undo whatever `ExecuteLineAction()` did: restore a position, hide a character that was revealed, destroy a spawned prop.
 
@@ -64,7 +64,7 @@ After-actions are never reversed. They ran after the player advanced past a line
 
 ## Assigning Actions in the Inspector
 
-Open a `ConvoCoreConversationData` asset and select a dialogue line. You will see two lists:
+Open a `WitWeaverConversationData` asset and select a dialogue line. You will see two lists:
 
 - **Actions Before Dialogue Line**
 - **Actions After Dialogue Line**
@@ -81,7 +81,7 @@ Actions within a single list (before or after) run **sequentially**. The runner 
 
 ## The Action Lifecycle at Runtime
 
-When ConvoCore executes a line, the full sequence is:
+When WitWeaver executes a line, the full sequence is:
 
 1. Instantiate all before-actions (via `ScriptableObject.Instantiate`, each gets a fresh copy).
 2. Execute each before-action's `ExecuteLineAction()` coroutine in order. Wait for each to complete.

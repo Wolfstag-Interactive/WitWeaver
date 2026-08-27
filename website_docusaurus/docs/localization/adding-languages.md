@@ -5,15 +5,15 @@ title: Adding Languages
 
 # Adding Languages
 
-This page walks through the full process of adding a new language to your ConvoCore project, from registering the language in settings through testing it at runtime.
+This page walks through the full process of adding a new language to your WitWeaver project, from registering the language in settings through testing it at runtime.
 
 ---
 
-## Step 1: Add the Language to ConvoCoreSettings
+## Step 1: Add the Language to WitWeaverSettings
 
-ConvoCore will only accept `SetLanguage` calls for language codes that appear in the **Supported Languages** list. This is the authoritative list of languages your project exposes.
+WitWeaver will only accept `SetLanguage` calls for language codes that appear in the **Supported Languages** list. This is the authoritative list of languages your project exposes.
 
-1. Open **Tools → ConvoCore → Open Settings**. This opens the `ConvoCoreSettings` asset in the inspector.
+1. Open **Tools → WitWeaver → Open Settings**. This opens the `WitWeaverSettings` asset in the inspector.
 2. In the **Supported Languages** list, click the **+** button and type your new language code (e.g., `FR` for French, `DE` for German, `pt-BR` for Brazilian Portuguese).
 3. Save the asset (Ctrl+S or File → Save).
 
@@ -60,18 +60,18 @@ Dialogue:
 ```
 
 :::tip
-Partial translations are fully supported. If a line has no `FR` key, ConvoCore automatically falls back to `EN` (or the first available key). Ship what you have and fill in the rest as translation work progresses. You do not need 100% coverage before enabling a language.
+Partial translations are fully supported. If a line has no `FR` key, WitWeaver automatically falls back to `EN` (or the first available key). Ship what you have and fill in the rest as translation work progresses. You do not need 100% coverage before enabling a language.
 :::
 
 ---
 
 ## Step 3: Reimport and Validate
 
-After saving your YAML file, the **YAML Watcher** detects the change and triggers a reimport automatically in the editor. The `ConvoCoreConversationData` asset is updated with the new localization entries.
+After saving your YAML file, the **YAML Watcher** detects the change and triggers a reimport automatically in the editor. The `WitWeaverConversationData` asset is updated with the new localization entries.
 
 To verify the import succeeded:
 
-1. Select the `ConvoCoreConversationData` asset for the conversation you edited.
+1. Select the `WitWeaverConversationData` asset for the conversation you edited.
 2. In the inspector, expand the **Dialogue Lines** list and select a line.
 3. Confirm that `LocalizedDialogues` contains entries for both `EN` and `FR` (or whichever codes you added).
 
@@ -85,7 +85,7 @@ Enter Play Mode and switch languages via code:
 
 ```csharp
 // Switch to French.
-ConvoCoreLanguageManager.Instance.SetLanguage("FR");
+WitWeaverLanguageManager.Instance.SetLanguage("FR");
 ```
 
 Then start a conversation. The French text should appear for any line that has an `FR` entry. Lines without `FR` will display the English fallback.
@@ -93,7 +93,7 @@ Then start a conversation. The French text should appear for any line that has a
 If you want to switch language while a conversation is already playing and see the change immediately:
 
 ```csharp
-ConvoCoreLanguageManager.Instance.SetLanguage("FR");
+WitWeaverLanguageManager.Instance.SetLanguage("FR");
 _runner.UpdateUIForLanguage("FR");
 ```
 
@@ -103,33 +103,33 @@ _runner.UpdateUIForLanguage("FR");
 
 ## Step 5: Build a Language Selector (Optional)
 
-A language selector UI lets players pick their language from a list. Populate it dynamically from `ConvoCoreLanguageManager` so it always reflects the project's current Supported Languages:
+A language selector UI lets players pick their language from a list. Populate it dynamically from `WitWeaverLanguageManager` so it always reflects the project's current Supported Languages:
 
 ```csharp
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
 public class LanguageSelectorUI : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown _dropdown;
 
-    // Reference to the active ConvoCore runner, if any.
-    [SerializeField] private ConvoCore _runner;
+    // Reference to the active WitWeaver runner, if any.
+    [SerializeField] private WitWeaver _runner;
 
     private List<string> _languages;
 
     private void Start()
     {
-        _languages = ConvoCoreLanguageManager.Instance.GetSupportedLanguages();
+        _languages = WitWeaverLanguageManager.Instance.GetSupportedLanguages();
 
         _dropdown.ClearOptions();
         foreach (string lang in _languages)
             _dropdown.options.Add(new TMP_Dropdown.OptionData(lang));
 
         // Set the dropdown to the currently active language.
-        string current = ConvoCoreLanguageManager.Instance.CurrentLanguage;
+        string current = WitWeaverLanguageManager.Instance.CurrentLanguage;
         int currentIndex = _languages.FindIndex(
             l => string.Equals(l, current, System.StringComparison.OrdinalIgnoreCase));
         _dropdown.SetValueWithoutNotify(currentIndex >= 0 ? currentIndex : 0);
@@ -146,7 +146,7 @@ public class LanguageSelectorUI : MonoBehaviour
     private void OnLanguageSelected(int index)
     {
         string selected = _languages[index];
-        ConvoCoreLanguageManager.Instance.SetLanguage(selected);
+        WitWeaverLanguageManager.Instance.SetLanguage(selected);
 
         if (_runner != null)
             _runner.UpdateUIForLanguage(selected);
@@ -154,7 +154,7 @@ public class LanguageSelectorUI : MonoBehaviour
 }
 ```
 
-Assign this component to your settings menu and wire up the `TMP_Dropdown` and (optionally) the `ConvoCore` runner in the inspector.
+Assign this component to your settings menu and wire up the `TMP_Dropdown` and (optionally) the `WitWeaver` runner in the inspector.
 
 ---
 
@@ -162,19 +162,19 @@ Assign this component to your settings menu and wire up the `TMP_Dropdown` and (
 
 Use this checklist when adding any new language:
 
-- [ ] Language code added to **Supported Languages** in `ConvoCoreSettings`.
+- [ ] Language code added to **Supported Languages** in `WitWeaverSettings`.
 - [ ] All YAML files updated with translations for the new code (or at least the most important conversations).
-- [ ] `ConvoCoreConversationData` assets reimported and validated in the inspector.
+- [ ] `WitWeaverConversationData` assets reimported and validated in the inspector.
 - [ ] Language tested in Play Mode with `SetLanguage`.
 - [ ] Fallback behavior confirmed for any lines that are not yet translated.
 - [ ] Language selector UI updated if your project has one.
-- [ ] `ConvoCoreSettings.asset` is in a `Resources/` folder so it is included in the build.
+- [ ] `WitWeaverSettings.asset` is in a `Resources/` folder so it is included in the build.
 
 ---
 
 ## Regional Variants
 
-ConvoCore supports regional language variants out of the box. Use IETF BCP 47 format for regional codes:
+WitWeaver supports regional language variants out of the box. Use IETF BCP 47 format for regional codes:
 
 ```yaml
 LocalizedDialogue:
@@ -183,10 +183,10 @@ LocalizedDialogue:
   fr-CA: "Bonjour, eh."
 ```
 
-If the active language is `"fr-CA"` and a line has an `fr-CA` key, it is used. If the line only has `fr`, ConvoCore's fallback chain strips the region suffix and matches `fr` automatically. This means you do not need to duplicate translations for every regional variant; add the base locale and only add regional variants where the text genuinely differs.
+If the active language is `"fr-CA"` and a line has an `fr-CA` key, it is used. If the line only has `fr`, WitWeaver's fallback chain strips the region suffix and matches `fr` automatically. This means you do not need to duplicate translations for every regional variant; add the base locale and only add regional variants where the text genuinely differs.
 
 Add each regional code you want players to be able to select to the Supported Languages list separately (e.g., both `"fr"` and `"fr-CA"` if you want to support both).
 
 :::info[For Advanced Users]
-The fallback chain in `ConvoCoreDialogueLocalizationHandler` is: exact match → base locale of requested → `"en"` → base locale of `"en"` → first available key. This means even with a completely untranslated line, the worst case is displaying the English text rather than a blank or error, as long as at least one `EN` key exists. The `IsFallback` flag and `ErrorMessage` field on the returned `LocalizedDialogueResult` let you audit exactly which fallback path was taken for each line during testing.
+The fallback chain in `WitWeaverDialogueLocalizationHandler` is: exact match → base locale of requested → `"en"` → base locale of `"en"` → first available key. This means even with a completely untranslated line, the worst case is displaying the English text rather than a blank or error, as long as at least one `EN` key exists. The `IsFallback` flag and `ErrorMessage` field on the returned `LocalizedDialogueResult` let you audit exactly which fallback path was taken for each line during testing.
 :::

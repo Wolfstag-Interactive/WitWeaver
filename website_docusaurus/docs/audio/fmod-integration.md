@@ -5,7 +5,7 @@ title: FMOD Integration
 
 # FMOD Integration
 
-ConvoCore can drive voice dialogue through FMOD Studio by mapping each dialogue line to an FMOD event path. ConvoCore passes the event path to a provider component; the provider calls the FMOD API. This keeps the ConvoCore core assembly free of FMOD compile dependencies.
+WitWeaver can drive voice dialogue through FMOD Studio by mapping each dialogue line to an FMOD event path. WitWeaver passes the event path to a provider component; the provider calls the FMOD API. This keeps the WitWeaver core assembly free of FMOD compile dependencies.
 
 ---
 
@@ -15,7 +15,7 @@ ConvoCore can drive voice dialogue through FMOD Studio by mapping each dialogue 
   Minimum recommended version: FMOD 2.01+.
   Download from [fmod.com/download](https://www.fmod.com/download).
 - Your dialogue audio exported from FMOD Studio as events with paths such as `event:/VO/CharacterA/Line001`.
-- The **ConvoCoreAudioProviderFMOD** sample script imported from the ConvoCore samples folder (see step 1 below).
+- The **WitWeaverAudioProviderFMOD** sample script imported from the WitWeaver samples folder (see step 1 below).
 
 ---
 
@@ -23,23 +23,23 @@ ConvoCore can drive voice dialogue through FMOD Studio by mapping each dialogue 
 
 ### 1. Import the FMOD Sample Provider
 
-ConvoCore ships a ready-made FMOD provider in the package samples. Import it into your project:
+WitWeaver ships a ready-made FMOD provider in the package samples. Import it into your project:
 
 1. In Unity open **Window → Package Manager**.
-2. Find **ConvoCore** in the list.
+2. Find **WitWeaver** in the list.
 3. Under **Samples**, import **Audio / FMOD Integration**.
 
-This adds `ConvoCoreAudioProviderFMOD.cs` to your project. The file will not compile unless the FMOD Unity Integration is also installed.
+This adds `WitWeaverAudioProviderFMOD.cs` to your project. The file will not compile unless the FMOD Unity Integration is also installed.
 
 ---
 
 ### 2. Add the Provider to Your Runner
 
-Select the GameObject that has your **ConvoCore** runner component:
+Select the GameObject that has your **WitWeaver** runner component:
 
 1. Click **Add Component**.
-2. Search for and add **ConvoCoreAudioProviderFMOD**.
-3. In the **ConvoCore** inspector, drag the `ConvoCoreAudioProviderFMOD` component into the **Audio Provider Object** field.
+2. Search for and add **WitWeaverAudioProviderFMOD**.
+3. In the **WitWeaver** inspector, drag the `WitWeaverAudioProviderFMOD` component into the **Audio Provider Object** field.
 
 ---
 
@@ -47,13 +47,13 @@ Select the GameObject that has your **ConvoCore** runner component:
 
 Right-click in the Project panel:
 
-**Create → ConvoCore → Audio Manifest**
+**Create → WitWeaver → Audio Manifest**
 
 In the manifest inspector:
 
 1. Set **Audio Backend** to `FMOD`.
 2. Set **Mode** to `Conversation Driven`.
-3. Drag your `ConvoCoreConversationData` into the **Source Conversation** field.
+3. Drag your `WitWeaverConversationData` into the **Source Conversation** field.
 4. Click **Sync Rows From Conversation**.
 
 Each row now shows a **language tag** and an **Event Path** text field. The `AudioClip` slot is hidden — it is not used by the FMOD backend.
@@ -72,20 +72,20 @@ event:/VO/CharacterA/TownSquare_Greeting_FR
 These paths must exactly match events that exist in your FMOD Studio project and have been built into a bank that is loaded at runtime.
 
 :::tip
-If the same event path is used for all locales (e.g. your FMOD project handles localisation internally via parameters or banks), enter the path on the language-agnostic `(any)` row and delete the locale-specific rows. ConvoCore will use the `(any)` entry as a fallback for any language.
+If the same event path is used for all locales (e.g. your FMOD project handles localisation internally via parameters or banks), enter the path on the language-agnostic `(any)` row and delete the locale-specific rows. WitWeaver will use the `(any)` entry as a fallback for any language.
 :::
 
 ---
 
 ### 5. Assign the Manifest to the Conversation
 
-Open your `ConvoCoreConversationData` asset and drag the manifest into the **Audio Manifest** field.
+Open your `WitWeaverConversationData` asset and drag the manifest into the **Audio Manifest** field.
 
 ---
 
 ### 6. Load Your FMOD Banks
 
-FMOD events must be in a loaded bank before ConvoCore tries to play them. You have two common options:
+FMOD events must be in a loaded bank before WitWeaver tries to play them. You have two common options:
 
 - **FMOD Studio Settings (Master Bank auto-load)**: In *Edit → FMOD Studio → Edit Settings*, enable auto-loading of the banks that contain your VO events.
 - **FMODUnity.StudioBankLoader component**: Add this component to a scene object and specify the bank names. It loads them on `Awake`.
@@ -100,10 +100,10 @@ If an event path is correct but the bank is not loaded, `RuntimeManager.CreateIn
 
 When the conversation reaches a voice line:
 
-1. ConvoCore calls `ResolveEventKey` on the manifest to find the event path for the current line and language.
-2. It wraps the path in a `ConvoCoreAudioEventKeyReference` and passes it to `ConvoCoreAudioProviderFMOD.PlayVoiceLine`.
+1. WitWeaver calls `ResolveEventKey` on the manifest to find the event path for the current line and language.
+2. It wraps the path in a `WitWeaverAudioEventKeyReference` and passes it to `WitWeaverAudioProviderFMOD.PlayVoiceLine`.
 3. The provider calls `RuntimeManager.CreateInstance(eventPath)`, then `.start()` and `.release()`.
-4. If the line's progression is `AudioComplete`, ConvoCore polls `IsPlaying` (backed by `getPlaybackState`) until the event stops.
+4. If the line's progression is `AudioComplete`, WitWeaver polls `IsPlaying` (backed by `getPlaybackState`) until the event stops.
 
 ---
 
@@ -148,11 +148,11 @@ Calling `.release()` immediately after `.start()` is the idiomatic FMOD pattern.
 
 - Verify the bank containing your events is loaded before the conversation starts.
 - Verify the event path in the manifest exactly matches the path in FMOD Studio (paths are case-sensitive).
-- Check that the `ConvoCoreAudioProviderFMOD` component is assigned to **Audio Provider Object** on the ConvoCore runner.
+- Check that the `WitWeaverAudioProviderFMOD` component is assigned to **Audio Provider Object** on the WitWeaver runner.
 
 **Conversation stalls on `AudioComplete` lines and never advances.**
 
-- Verify that `ConvoCoreAudioProviderFMOD` is attached and the **Audio Provider Object** field is wired up. If the provider is missing, `IsPlaying` is never polled and the `WaitForAudioComplete` loop runs until its 300-second safety cap.
+- Verify that `WitWeaverAudioProviderFMOD` is attached and the **Audio Provider Object** field is wired up. If the provider is missing, `IsPlaying` is never polled and the `WaitForAudioComplete` loop runs until its 300-second safety cap.
 
 **`AudioComplete` advances too early, cutting off the audio.**
 

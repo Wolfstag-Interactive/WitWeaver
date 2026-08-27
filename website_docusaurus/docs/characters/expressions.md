@@ -55,9 +55,9 @@ Two entries on the same representation should never share a display name. The re
 
 ## Setting Expressions on Dialogue Lines
 
-Expressions are assigned per dialogue line in the `ConvoCoreConversationData` inspector.
+Expressions are assigned per dialogue line in the `WitWeaverConversationData` inspector.
 
-1. Select your `ConvoCoreConversationData` asset.
+1. Select your `WitWeaverConversationData` asset.
 2. Expand a dialogue line's entry.
 3. Pick the character's **Representation** for that line.
 4. The **Expression** dropdown fills with the display names of every expression on that representation.
@@ -91,16 +91,16 @@ For logic that should fire when an expression is applied (playing a sound, spawn
 
 ```csharp
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-[CreateAssetMenu(menuName = "ConvoCore/Expression Actions/Play Emotion Sound")]
+[CreateAssetMenu(menuName = "WitWeaver/Expression Actions/Play Emotion Sound")]
 public class PlayEmotionSoundAction : BaseExpressionAction
 {
     [SerializeField] private AudioClip _clip;
 
     public override void ExecuteAction(ExpressionActionContext context)
     {
-        // context.Runtime        - the ConvoCore runner
+        // context.Runtime        - the WitWeaver runner
         // context.Conversation   - the active conversation data
         // context.LineIndex      - which line is being shown
         // context.Representation - the representation the expression belongs to

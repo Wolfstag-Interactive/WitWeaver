@@ -1,0 +1,17 @@
+{
+    "name": "WolfstagInteractive.WitWeaver.SaveSystem",
+    "rootNamespace": "WolfstagInteractive.WitWeaver.SaveSystem",
+    "references": [
+        "GUID:de62e13e66fc2a3428f2c4f7d71e24eb",
+        "GUID:b3f49edfedc855a48aa1a9e5d3cba438"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

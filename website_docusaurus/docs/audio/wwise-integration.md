@@ -5,7 +5,7 @@ title: Wwise Integration
 
 # Wwise Integration
 
-ConvoCore can drive voice dialogue through Audiokinetic Wwise by mapping each dialogue line to a Wwise event name. ConvoCore passes the event name to a provider component; the provider calls `AkSoundEngine.PostEvent`. This keeps the ConvoCore core assembly free of Wwise compile dependencies.
+WitWeaver can drive voice dialogue through Audiokinetic Wwise by mapping each dialogue line to a Wwise event name. WitWeaver passes the event name to a provider component; the provider calls `AkSoundEngine.PostEvent`. This keeps the WitWeaver core assembly free of Wwise compile dependencies.
 
 ---
 
@@ -15,7 +15,7 @@ ConvoCore can drive voice dialogue through Audiokinetic Wwise by mapping each di
   Download from the [Audiokinetic Launcher](https://www.audiokinetic.com/en/download).
 - Your dialogue audio exposed as Wwise events with names such as `VO_CharA_Intro_01`.
 - The SoundBank(s) containing your VO events generated in Wwise and added to your Unity project.
-- The **ConvoCoreAudioProviderWwise** sample script imported from the ConvoCore samples folder (see step 1 below).
+- The **WitWeaverAudioProviderWwise** sample script imported from the WitWeaver samples folder (see step 1 below).
 
 ---
 
@@ -23,23 +23,23 @@ ConvoCore can drive voice dialogue through Audiokinetic Wwise by mapping each di
 
 ### 1. Import the Wwise Sample Provider
 
-ConvoCore ships a ready-made Wwise provider in the package samples. Import it into your project:
+WitWeaver ships a ready-made Wwise provider in the package samples. Import it into your project:
 
 1. In Unity open **Window → Package Manager**.
-2. Find **ConvoCore** in the list.
+2. Find **WitWeaver** in the list.
 3. Under **Samples**, import **Audio / Wwise Integration**.
 
-This adds `ConvoCoreAudioProviderWwise.cs` to your project. The file will not compile unless the Wwise Unity Integration is also installed.
+This adds `WitWeaverAudioProviderWwise.cs` to your project. The file will not compile unless the Wwise Unity Integration is also installed.
 
 ---
 
 ### 2. Add the Provider to Your Runner
 
-Select the GameObject that has your **ConvoCore** runner component:
+Select the GameObject that has your **WitWeaver** runner component:
 
 1. Click **Add Component**.
-2. Search for and add **ConvoCoreAudioProviderWwise**.
-3. In the **ConvoCore** inspector, drag the `ConvoCoreAudioProviderWwise` component into the **Audio Provider Object** field.
+2. Search for and add **WitWeaverAudioProviderWwise**.
+3. In the **WitWeaver** inspector, drag the `WitWeaverAudioProviderWwise` component into the **Audio Provider Object** field.
 
 ---
 
@@ -61,13 +61,13 @@ Posting a Wwise event whose bank is not loaded returns `AK_INVALID_PLAYING_ID`. 
 
 Right-click in the Project panel:
 
-**Create → ConvoCore → Audio Manifest**
+**Create → WitWeaver → Audio Manifest**
 
 In the manifest inspector:
 
 1. Set **Audio Backend** to `Wwise`.
 2. Set **Mode** to `Conversation Driven`.
-3. Drag your `ConvoCoreConversationData` into the **Source Conversation** field.
+3. Drag your `WitWeaverConversationData` into the **Source Conversation** field.
 4. Click **Sync Rows From Conversation**.
 
 Each row now shows a **language tag** and an **Event Name** text field. The `AudioClip` slot is hidden — it is not used by the Wwise backend.
@@ -86,14 +86,14 @@ VO_CharA_TownSquare_Greeting_FR
 These names must exactly match events that exist in your Wwise project and are present in a loaded SoundBank.
 
 :::tip
-If you want one event for all languages, enter its name on the `(any)` row and remove the locale-specific rows. ConvoCore will use the `(any)` row as a fallback when no exact language match is found.
+If you want one event for all languages, enter its name on the `(any)` row and remove the locale-specific rows. WitWeaver will use the `(any)` row as a fallback when no exact language match is found.
 :::
 
 ---
 
 ### 6. Assign the Manifest to the Conversation
 
-Open your `ConvoCoreConversationData` asset and drag the manifest into the **Audio Manifest** field.
+Open your `WitWeaverConversationData` asset and drag the manifest into the **Audio Manifest** field.
 
 ---
 
@@ -101,11 +101,11 @@ Open your `ConvoCoreConversationData` asset and drag the manifest into the **Aud
 
 When the conversation reaches a voice line:
 
-1. ConvoCore calls `ResolveEventKey` on the manifest to find the event name for the current line and language.
-2. It wraps the name in a `ConvoCoreAudioEventKeyReference` and passes it to `ConvoCoreAudioProviderWwise.PlayVoiceLine`.
+1. WitWeaver calls `ResolveEventKey` on the manifest to find the event name for the current line and language.
+2. It wraps the name in a `WitWeaverAudioEventKeyReference` and passes it to `WitWeaverAudioProviderWwise.PlayVoiceLine`.
 3. The provider calls `AkSoundEngine.PostEvent(eventName, gameObject, AK_EndOfEvent, callback)`.
 4. When the event finishes, Wwise fires the `AK_EndOfEvent` callback, which sets `IsPlaying = false`.
-5. If the line's progression is `AudioComplete`, ConvoCore detects `IsPlaying == false` and advances.
+5. If the line's progression is `AudioComplete`, WitWeaver detects `IsPlaying == false` and advances.
 
 ---
 
@@ -164,7 +164,7 @@ The `AK_EndOfEvent` callback is fired on the Wwise audio thread in some configur
 
 **Conversation stalls on `AudioComplete` lines.**
 
-- Verify that `ConvoCoreAudioProviderWwise` is assigned to **Audio Provider Object** on the ConvoCore runner.
+- Verify that `WitWeaverAudioProviderWwise` is assigned to **Audio Provider Object** on the WitWeaver runner.
 - Confirm the `AK_EndOfEvent` callback is firing. If the bank loaded but the event name is wrong, `PostEvent` returns a playing ID but `AK_EndOfEvent` may never fire (or fires immediately). Log the event name in `PlayVoiceLine` to verify it matches your expectation.
 
 **Audio plays but pause/resume does not work.**

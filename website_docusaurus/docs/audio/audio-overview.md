@@ -5,7 +5,7 @@ title: Audio Overview
 
 # Audio Overview
 
-ConvoCore includes a full voice-line audio system that is designed to be backend-agnostic. You can play dialogue audio through Unity's built-in AudioSource, FMOD Studio, Wwise, or any custom audio engine — without changing your conversation data or YAML files.
+WitWeaver includes a full voice-line audio system that is designed to be backend-agnostic. You can play dialogue audio through Unity's built-in AudioSource, FMOD Studio, Wwise, or any custom audio engine — without changing your conversation data or YAML files.
 
 ---
 
@@ -13,7 +13,7 @@ ConvoCore includes a full voice-line audio system that is designed to be backend
 
 ### Presentation Mode
 
-Every dialogue line has a `PresentationMode` property that controls what ConvoCore does when it reaches that line:
+Every dialogue line has a `PresentationMode` property that controls what WitWeaver does when it reaches that line:
 
 | Mode | Behaviour |
 |---|---|
@@ -31,18 +31,18 @@ Use `AudioOnly` for cutscene-style conversations where you want voice acting wit
 
 ### Audio Manifest
 
-The `ConvoCoreAudioManifest` ScriptableObject maps dialogue line IDs to audio assets or event references. It sits between your conversation data and your audio engine.
+The `WitWeaverAudioManifest` ScriptableObject maps dialogue line IDs to audio assets or event references. It sits between your conversation data and your audio engine.
 
-**Create one** via *Right-click in Project → Create → ConvoCore → Audio Manifest*.
+**Create one** via *Right-click in Project → Create → WitWeaver → Audio Manifest*.
 
-Assign it to the **Audio Manifest** field on your `ConvoCoreConversationData` asset.
+Assign it to the **Audio Manifest** field on your `WitWeaverConversationData` asset.
 
 The manifest has two authoring modes:
 
 | Mode | When to use |
 |---|---|
 | **Conversation Driven** | You have a YAML-based conversation. Click **Sync Rows From Conversation** to generate one entry per line per locale. Fill in the audio per row. |
-| **Standalone** | You are building a voice-only sequence with no text. Add lines manually in the manifest, then click **Generate Conversation Asset** to produce a matching `ConvoCoreConversationData`. |
+| **Standalone** | You are building a voice-only sequence with no text. Add lines manually in the manifest, then click **Generate Conversation Asset** to produce a matching `WitWeaverConversationData`. |
 
 ---
 
@@ -55,7 +55,7 @@ The manifest has a **Backend** field that selects the audio engine:
 | **UnityAudioSource** | Drag-and-drop `AudioClip` assets directly into each entry row. No middleware required. |
 | **FMOD** | Type the FMOD event path (e.g. `event:/VO/CharA/Line001`) into each entry row. |
 | **Wwise** | Type the Wwise event name (e.g. `VO_CharA_Intro_01`) into each entry row. |
-| **Custom** | All three slots are shown (Clip, Event Key, Reference). Your own `IConvoAudioProvider` implementation drives playback. |
+| **Custom** | All three slots are shown (Clip, Event Key, Reference). Your own `IWitWeaverAudioProvider` implementation drives playback. |
 
 Changing the Backend field updates the inspector slot display for every entry row so you only see the fields that are relevant.
 
@@ -63,37 +63,37 @@ Changing the Backend field updates the inspector slot display for every entry ro
 
 ### Audio Progression
 
-When ConvoCore finishes displaying a line, it checks the line's **Progression Method** to decide when to advance:
+When WitWeaver finishes displaying a line, it checks the line's **Progression Method** to decide when to advance:
 
 | Method | Behaviour |
 |---|---|
 | **UserInput** | Waits for the player to press the advance button. |
 | **Timed** | Waits for `TimeBeforeNextLine` seconds, then advances automatically. |
-| **AudioComplete** | Waits until `IConvoAudioProvider.IsPlaying` returns `false`, then advances. Use this for voice-acted lines where the audio clip drives the pacing. |
+| **AudioComplete** | Waits until `IWitWeaverAudioProvider.IsPlaying` returns `false`, then advances. Use this for voice-acted lines where the audio clip drives the pacing. |
 
 :::note
-If a line's mode is `AudioOnly` and its progression is `UserInput`, ConvoCore automatically coerces the progression to `AudioComplete` (or `Timed` if no provider is available). This prevents the conversation from stalling on a line with no visible UI element for the player to interact with.
+If a line's mode is `AudioOnly` and its progression is `UserInput`, WitWeaver automatically coerces the progression to `AudioComplete` (or `Timed` if no provider is available). This prevents the conversation from stalling on a line with no visible UI element for the player to interact with.
 :::
 
 ---
 
-### IConvoAudioProvider
+### IWitWeaverAudioProvider
 
-All audio backends communicate with ConvoCore through the `IConvoAudioProvider` interface. The built-in Unity provider (`ConvoCoreUnityAudioProvider`) implements it out of the box. For FMOD and Wwise, sample provider scripts are included in `Samples~/Audio/` (see the backend-specific pages).
+All audio backends communicate with WitWeaver through the `IWitWeaverAudioProvider` interface. The built-in Unity provider (`WitWeaverUnityAudioProvider`) implements it out of the box. For FMOD and Wwise, sample provider scripts are included in `Samples~/Audio/` (see the backend-specific pages).
 
 | Member | Description |
 |---|---|
-| `PlayVoiceLine(line, reference)` | Called when ConvoCore wants to play audio for a line. |
+| `PlayVoiceLine(line, reference)` | Called when WitWeaver wants to play audio for a line. |
 | `StopVoiceLine()` | Called on conversation stop, skip, and line reverse. |
-| `PauseVoiceLine()` | Called when `ConvoCore.PauseConversation()` is invoked. |
-| `ResumeVoiceLine()` | Called when `ConvoCore.ResumeConversation()` is invoked. |
+| `PauseVoiceLine()` | Called when `WitWeaver.PauseConversation()` is invoked. |
+| `ResumeVoiceLine()` | Called when `WitWeaver.ResumeConversation()` is invoked. |
 | `IsPlaying` | Polled by the `AudioComplete` progression loop. |
 
 ---
 
 ### Locale Resolution
 
-Every entry in the manifest has a **Language** field. When resolving audio for a line, ConvoCore performs a two-pass lookup:
+Every entry in the manifest has a **Language** field. When resolving audio for a line, WitWeaver performs a two-pass lookup:
 
 1. **Exact locale match** — finds the entry whose `Language` matches the active language code (case-insensitive).
 2. **Language-agnostic fallback** — if no exact match exists, finds the entry whose `Language` is empty. This acts as a "play this clip for any language".
@@ -104,11 +104,11 @@ This means you can have separate audio clips per locale for fully localized voic
 
 ## Setting Up Audio (Quick Start)
 
-1. Create a `ConvoCoreAudioManifest` asset.
+1. Create a `WitWeaverAudioManifest` asset.
 2. Set **Backend** to the engine you are using.
 3. Set **Mode** to `ConversationDriven`, assign your **Source Conversation**, and click **Sync Rows From Conversation**.
 4. Fill in the audio for each row.
-5. Assign the manifest to the **Audio Manifest** field on your `ConvoCoreConversationData`.
+5. Assign the manifest to the **Audio Manifest** field on your `WitWeaverConversationData`.
 6. Set **Default Presentation Mode** on the conversation to `AudioAndText` (or `AudioOnly`).
 7. Press Play.
 

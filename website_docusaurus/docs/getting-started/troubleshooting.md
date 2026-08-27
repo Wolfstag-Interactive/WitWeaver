@@ -5,7 +5,7 @@ title: Troubleshooting
 
 # Troubleshooting
 
-This page covers the most common problems encountered when setting up or using ConvoCore, along with their causes and fixes.
+This page covers the most common problems encountered when setting up or using WitWeaver, along with their causes and fixes.
 
 ---
 
@@ -17,11 +17,11 @@ This page covers the most common problems encountered when setting up or using C
 
 1. **YAML not imported** -- Open the Conversation Data asset and click **Import YAML from Key**, then **Sync from Source**. Without this step the asset contains no dialogue lines and the conversation ends immediately.
 
-2. **`StartConversation()` is never called** -- The ConvoCore component does not auto-start. You must call `StartConversation()` (from a script, a UnityEvent, or a trigger). Check your starter script is active and the runner reference is assigned.
+2. **`StartConversation()` is never called** -- The WitWeaver component does not auto-start. You must call `StartConversation()` (from a script, a UnityEvent, or a trigger). Check your starter script is active and the runner reference is assigned.
 
-3. **ConvoCore component is inactive** -- Select the `DialogueRunner` GameObject and confirm the component is enabled and the GameObject is active.
+3. **WitWeaver component is inactive** -- Select the `DialogueRunner` GameObject and confirm the component is enabled and the GameObject is active.
 
-4. **Wrong conversation assigned** -- The Conversation Data slot on the ConvoCore component may be empty or point to a different asset. Check the Inspector.
+4. **Wrong conversation assigned** -- The Conversation Data slot on the WitWeaver component may be empty or point to a different asset. Check the Inspector.
 
 ---
 
@@ -29,7 +29,7 @@ This page covers the most common problems encountered when setting up or using C
 
 **Symptom:** Following the Quick Start guide, the Console shows nothing when you press Play.
 
-**Fix:** Enable the **Debug Log Lines** checkbox. Select the `DialogueRunner` GameObject, find the **Debug** section on the ConvoCore component, and check **Debug Log Lines**. Each line will then print to the Console as `[ConvoCore] Line N -- CharacterName: "text"`. Click a log entry to highlight the runner in the Hierarchy.
+**Fix:** Enable the **Debug Log Lines** checkbox. Select the `DialogueRunner` GameObject, find the **Debug** section on the WitWeaver component, and check **Debug Log Lines**. Each line will then print to the Console as `[WitWeaver] Line N -- CharacterName: "text"`. Click a log entry to highlight the runner in the Hierarchy.
 
 ---
 
@@ -144,9 +144,9 @@ See [Event Subscription Safety](../core-systems/conversation-state#event-subscri
 
 2. **ConversationGuid changed** -- The save system keys snapshots by `ConversationGuid`. If you called `RegenerateGuid()` or the asset was re-created, the old save data no longer matches. Existing save files become orphaned.
 
-3. **`ConvoCoreConversationSaveManager` not on the same GameObject** -- The save manager must be on the same GameObject as the `ConvoCore` runner, or it will not be found via `GetComponent`.
+3. **`WitWeaverConversationSaveManager` not on the same GameObject** -- The save manager must be on the same GameObject as the `WitWeaver` runner, or it will not be found via `GetComponent`.
 
-4. **Auto-restore flags not set** -- Confirm that **Restore On Awake** or **Restore On Start** is checked on the `ConvoCoreConversationSaveManager` component.
+4. **Auto-restore flags not set** -- Confirm that **Restore On Awake** or **Restore On Start** is checked on the `WitWeaverConversationSaveManager` component.
 
 ---
 
@@ -162,6 +162,6 @@ See [Event Subscription Safety](../core-systems/conversation-state#event-subscri
 
 ## The UI Foundation Methods Feel Backward
 
-If the connection between `ConvoCoreUIFoundation` and the runner is confusing, read it this way: ConvoCore *calls into* your UI, not the other way around. You do not poll ConvoCore -- ConvoCore calls `UpdateDialogueUI()`, `WaitForUserInput()`, and `PresentChoices()` on your component at the right moments. Your job is to override those methods and make them do the right visual thing.
+If the connection between `WitWeaverUIFoundation` and the runner is confusing, read it this way: WitWeaver *calls into* your UI, not the other way around. You do not poll WitWeaver -- WitWeaver calls `UpdateDialogueUI()`, `WaitForUserInput()`, and `PresentChoices()` on your component at the right moments. Your job is to override those methods and make them do the right visual thing.
 
 [UI Foundation](../ui/ui-foundation) | [Building a Custom UI](../ui/building-a-ui)

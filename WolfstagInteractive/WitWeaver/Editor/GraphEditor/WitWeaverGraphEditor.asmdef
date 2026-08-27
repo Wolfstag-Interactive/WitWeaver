@@ -1,0 +1,27 @@
+{
+    "name": "WitWeaverGraphEditor",
+    "rootNamespace": "",
+    "references": [
+        "WitWeaver",
+        "WitWeaverEditor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "WITWEAVER_GRAPHTOOLKIT"
+    ],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "[6000.4,9999.9.9]",
+            "define": "WITWEAVER_GRAPHTOOLKIT"
+        }
+    ],
+    "noEngineReferences": false
+}

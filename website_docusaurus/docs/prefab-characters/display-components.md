@@ -5,9 +5,9 @@ title: Display Components
 
 # Display Components
 
-A display component is a `MonoBehaviour` you add to a prefab character that translates ConvoCore expression calls into concrete visual changes. When the runner applies an expression to a character, the display component is what decides what actually happens on screen: an Animator state change, a blend shape transition, or a custom action.
+A display component is a `MonoBehaviour` you add to a prefab character that translates WitWeaver expression calls into concrete visual changes. When the runner applies an expression to a character, the display component is what decides what actually happens on screen: an Animator state change, a blend shape transition, or a custom action.
 
-All display components implement `IConvoCoreCharacterDisplay` and extend `ConvoCoreCharacterDisplayBase`.
+All display components implement `IWitWeaverCharacterDisplay` and extend `WitWeaverCharacterDisplayBase`.
 
 ---
 
@@ -17,8 +17,8 @@ Display components and `BaseExpressionAction` ScriptableObjects cover different 
 
 | Responsibility | Handled by |
 |---|---|
-| Animator parameter changes | `ConvoCoreAnimatorDisplay` |
-| Blend shape weight changes | `ConvoCoreBlendShapeDisplay` |
+| Animator parameter changes | `WitWeaverAnimatorDisplay` |
+| Blend shape weight changes | `WitWeaverBlendShapeDisplay` |
 | Audio, particles, custom effects | `BaseExpressionAction` on the representation asset |
 | Any combination of the above | Both, simultaneously |
 
@@ -39,7 +39,7 @@ This means:
 
 ---
 
-## ConvoCoreAnimatorDisplay
+## WitWeaverAnimatorDisplay
 
 Drives Animator parameters in response to expression changes. This is the most common display component for 3D characters with animation controllers.
 
@@ -70,7 +70,7 @@ Trigger → SetTrigger(parameterName)
 
 **Example setup:**
 
-A character has expressions named `Neutral`, `Happy`, and `Angry` in their representation asset. The `ConvoCoreAnimatorDisplay` mapping list would look like:
+A character has expressions named `Neutral`, `Happy`, and `Angry` in their representation asset. The `WitWeaverAnimatorDisplay` mapping list would look like:
 
 | Expression Display Name | Parameter Name | Parameter Type | Value |
 |---|---|---|---|
@@ -86,7 +86,7 @@ If your Animator uses a Trigger rather than a persistent parameter — for examp
 
 ---
 
-## ConvoCoreBlendShapeDisplay
+## WitWeaverBlendShapeDisplay
 
 Drives `SkinnedMeshRenderer` blend shape weights in response to expression changes. A single expression can drive multiple blend shapes simultaneously, which is required for real facial rigs where expressions are composed from several shapes.
 
@@ -124,38 +124,38 @@ Both sets move in parallel during the same coroutine pass, so outgoing and incom
 
 **Keeping Neutral Reset Indices in sync:**
 
-After configuring your expression mappings, right-click the `ConvoCoreBlendShapeDisplay` component header in the Inspector and select **Populate Neutral Reset Indices From Mappings**. This scans all expression mapping targets, collects every unique blend shape index, and writes the result to **Neutral Reset Indices** in sorted order.
+After configuring your expression mappings, right-click the `WitWeaverBlendShapeDisplay` component header in the Inspector and select **Populate Neutral Reset Indices From Mappings**. This scans all expression mapping targets, collects every unique blend shape index, and writes the result to **Neutral Reset Indices** in sorted order.
 
 Run this again any time you add or remove expressions from the mapping list.
 
 :::warning
-Any existing prefabs configured with an earlier version of `ConvoCoreBlendShapeDisplay` will have blank **Targets** lists in the Inspector, as the old single-index format is no longer supported. Re-enter the expression mappings using the new **Targets** list per expression, then run **Populate Neutral Reset Indices From Mappings** to regenerate the reset list.
+Any existing prefabs configured with an earlier version of `WitWeaverBlendShapeDisplay` will have blank **Targets** lists in the Inspector, as the old single-index format is no longer supported. Re-enter the expression mappings using the new **Targets** list per expression, then run **Populate Neutral Reset Indices From Mappings** to regenerate the reset list.
 :::
 
 ---
 
-## ConvoCoreActionOnlyDisplay
+## WitWeaverActionOnlyDisplay
 
-A minimal passthrough component. It provides a valid `IConvoCoreCharacterDisplay` on the prefab so ConvoCore can bind and call expression methods, but adds no built-in visual change of its own. All expression results come from `BaseExpressionAction` ScriptableObjects on the representation asset.
+A minimal passthrough component. It provides a valid `IWitWeaverCharacterDisplay` on the prefab so WitWeaver can bind and call expression methods, but adds no built-in visual change of its own. All expression results come from `BaseExpressionAction` ScriptableObjects on the representation asset.
 
 This component has two jobs:
 
-1. **Interface surface** — satisfies the requirement for an `IConvoCoreCharacterDisplay` on the prefab without imposing any visual logic.
+1. **Interface surface** — satisfies the requirement for an `IWitWeaverCharacterDisplay` on the prefab without imposing any visual logic.
 2. **Action delegation** — `PrefabCharacterRepresentationData.ApplyExpression()` runs the `BaseExpressionAction` assets attached to the expression mapping. Those actions are the visual response.
 
-**No inspector fields** beyond what `ConvoCoreCharacterDisplayBase` provides.
+**No inspector fields** beyond what `WitWeaverCharacterDisplayBase` provides.
 
 **Use when:** you want full control over expression behaviour via ScriptableObject actions and don't need built-in Animator or blend shape support. Common for characters whose expressions are handled entirely through audio, particles, events, or other custom effect systems.
 
 :::note
-`ConvoCoreActionOnlyDisplay` supersedes the retired `SimplePrefabRepresentationDisplay`, which is still present for backward compatibility but marked as deprecated. New prefabs should use `ConvoCoreActionOnlyDisplay`.
+`WitWeaverActionOnlyDisplay` supersedes the retired `SimplePrefabRepresentationDisplay`, which is still present for backward compatibility but marked as deprecated. New prefabs should use `WitWeaverActionOnlyDisplay`.
 :::
 
 ---
 
-## ConvoCoreSimpleFade
+## WitWeaverSimpleFade
 
-Implements `IConvoCoreFadeIn` and `IConvoCoreFadeOut`. When the spawner resolves or releases a character, it checks for these interfaces and calls them if present. `ConvoCoreSimpleFade` handles the fade by animating either a `Renderer` material's alpha or a `CanvasGroup` alpha over a configurable duration.
+Implements `IWitWeaverFadeIn` and `IWitWeaverFadeOut`. When the spawner resolves or releases a character, it checks for these interfaces and calls them if present. `WitWeaverSimpleFade` handles the fade by animating either a `Renderer` material's alpha or a `CanvasGroup` alpha over a configurable duration.
 
 **Inspector fields:**
 
@@ -168,7 +168,7 @@ Implements `IConvoCoreFadeIn` and `IConvoCoreFadeOut`. When the spawner resolves
 | **Fade Out Duration** | Time in seconds for the fade-out. |
 
 :::note
-`ConvoCoreSimpleFade` is not called for scene-resident characters. The spawner only calls fade interfaces on instances it owns — characters that were spawned from the pool. If you want a scene-resident character to fade, trigger the fade yourself in response to ConvoCore's `StartedConversation` and `EndedConversation` events.
+`WitWeaverSimpleFade` is not called for scene-resident characters. The spawner only calls fade interfaces on instances it owns — characters that were spawned from the pool. If you want a scene-resident character to fade, trigger the fade yourself in response to WitWeaver's `StartedConversation` and `EndedConversation` events.
 :::
 
 ---
@@ -180,8 +180,8 @@ Implements `IConvoCoreFadeIn` and `IConvoCoreFadeOut`. When the spawner resolves
 ```
 MyCharacter.prefab
 ├── [root] GameObject
-│     ├── ConvoCoreAnimatorDisplay   (or BlendShapeDisplay / ActionOnlyDisplay)
-│     ├── ConvoCoreSimpleFade        (optional)
+│     ├── WitWeaverAnimatorDisplay   (or BlendShapeDisplay / ActionOnlyDisplay)
+│     ├── WitWeaverSimpleFade        (optional)
 │     ├── Animator
 │     └── ... (your own components)
 ```
@@ -191,25 +191,25 @@ MyCharacter.prefab
 ```
 MySceneCharacter.prefab / GameObject
 ├── [root]
-│     ├── ConvoCoreAnimatorDisplay
-│     ├── ConvoCoreSceneCharacterRegistrant
+│     ├── WitWeaverAnimatorDisplay
+│     ├── WitWeaverSceneCharacterRegistrant
 │     ├── Animator
 │     └── ... (your own components)
 ```
 
-`ConvoCoreSceneCharacterRegistrant` registers the object with `ConvoCoreSceneCharacterRegistry` automatically on `OnEnable`. No code is required.
+`WitWeaverSceneCharacterRegistrant` registers the object with `WitWeaverSceneCharacterRegistry` automatically on `OnEnable`. No code is required.
 
 ---
 
 ## Writing a Custom Display Component
 
-Extend `ConvoCoreCharacterDisplayBase` to create a display component for any visual system:
+Extend `WitWeaverCharacterDisplayBase` to create a display component for any visual system:
 
 ```csharp
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 using UnityEngine;
 
-public class MyCustomDisplay : ConvoCoreCharacterDisplayBase
+public class MyCustomDisplay : WitWeaverCharacterDisplayBase
 {
     // Called when a representation asset is bound.
     // Build any runtime lookups you need here.
@@ -233,7 +233,7 @@ public class MyCustomDisplay : ConvoCoreCharacterDisplayBase
 }
 ```
 
-`ConvoCoreCharacterDisplayBase` handles scale and flip logic (from `ApplyDisplayOptions`) for you. Override `ApplyDisplayOptions()` if your component needs additional behaviour when display options change, but call `base.ApplyDisplayOptions(options)` to preserve the default scale and flip handling.
+`WitWeaverCharacterDisplayBase` handles scale and flip logic (from `ApplyDisplayOptions`) for you. Override `ApplyDisplayOptions()` if your component needs additional behaviour when display options change, but call `base.ApplyDisplayOptions(options)` to preserve the default scale and flip handling.
 
 ---
 

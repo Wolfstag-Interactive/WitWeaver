@@ -5,13 +5,13 @@ title: YAML Format
 
 # YAML Format
 
-This page is the complete field reference for ConvoCore's YAML dialogue format. Every supported field is documented here with an explanation of its purpose, whether it is required, and examples showing correct usage.
+This page is the complete field reference for WitWeaver's YAML dialogue format. Every supported field is documented here with an explanation of its purpose, whether it is required, and examples showing correct usage.
 
 ---
 
 ## Root structure
 
-A ConvoCore YAML file contains one or more conversations. Each conversation is a **top-level key** - the Conversation Key - mapped to a list of dialogue lines. The Conversation Key is the identifier that links this YAML block to a `ConvoCoreConversationData` asset in Unity.
+A WitWeaver YAML file contains one or more conversations. Each conversation is a **top-level key** - the Conversation Key - mapped to a list of dialogue lines. The Conversation Key is the identifier that links this YAML block to a `WitWeaverConversationData` asset in Unity.
 
 ```yaml
 MyConversation:
@@ -36,7 +36,7 @@ EveningGreeting:
       EN: "Good evening!"
 ```
 
-Each conversation key must have a corresponding `ConvoCoreConversationData` asset in your Unity project with its **Conversation Key** field set to that exact string.
+Each conversation key must have a corresponding `WitWeaverConversationData` asset in your Unity project with its **Conversation Key** field set to that exact string.
 
 ---
 
@@ -46,7 +46,7 @@ Each conversation key must have a corresponding `ConvoCoreConversationData` asse
 
 **Required.**
 
-The identifier of the character speaking this line. This value must exactly match the `CharacterID` field on the corresponding `ConvoCoreCharacterProfileBaseData` asset.
+The identifier of the character speaking this line. This value must exactly match the `CharacterID` field on the corresponding `WitWeaverCharacterProfileBaseData` asset.
 
 ```yaml
 - CharacterID: "Guard"
@@ -55,7 +55,7 @@ The identifier of the character speaking this line. This value must exactly matc
 ```
 
 :::warning
-`CharacterID` is case-sensitive. `"guard"`, `"Guard"`, and `"GUARD"` are three different identifiers. If ConvoCore cannot find a character profile matching the ID on a line, it will log a warning and attempt to continue with no character display. Always copy the CharacterID exactly from the character profile asset.
+`CharacterID` is case-sensitive. `"guard"`, `"Guard"`, and `"GUARD"` are three different identifiers. If WitWeaver cannot find a character profile matching the ID on a line, it will log a warning and attempt to continue with no character display. Always copy the CharacterID exactly from the character profile asset.
 :::
 
 ---
@@ -64,13 +64,13 @@ The identifier of the character speaking this line. This value must exactly matc
 
 **Automatically generated. Do not write these manually.**
 
-A `LineID` is a stable, unique identifier for each dialogue line within its conversation. ConvoCore uses LineIDs to track which lines the player has visited and where they left off - essential for save/restore to work correctly even after you add, remove, or reorder lines in the YAML.
+A `LineID` is a stable, unique identifier for each dialogue line within its conversation. WitWeaver uses LineIDs to track which lines the player has visited and where they left off - essential for save/restore to work correctly even after you add, remove, or reorder lines in the YAML.
 
-**LineIDs are generated for you automatically.** When you link a YAML file to a `ConvoCoreConversationData` asset (by assigning it in the inspector and running validation), ConvoCore reads your YAML, assigns a unique ID to every line that doesn't already have one, and writes them back into the YAML file. You will see them appear in your source file after the first import:
+**LineIDs are generated for you automatically.** When you link a YAML file to a `WitWeaverConversationData` asset (by assigning it in the inspector and running validation), WitWeaver reads your YAML, assigns a unique ID to every line that doesn't already have one, and writes them back into the YAML file. You will see them appear in your source file after the first import:
 
 ```yaml
 - CharacterID: "Guard"
-  LineID: "a1b2c3d4"    # ← written by ConvoCore automatically
+  LineID: "a1b2c3d4"    # ← written by WitWeaver automatically
   LocalizedDialogue:
     EN: "Halt! Who goes there?"
 ```
@@ -78,7 +78,7 @@ A `LineID` is a stable, unique identifier for each dialogue line within its conv
 Once a LineID has been generated for a line, it is stable for the lifetime of that line. You can freely add new lines, remove other lines, or reorder the conversation. The existing IDs do not change, so saved progress remains valid.
 
 :::warning
-Do not edit or delete a LineID that ConvoCore has written. Changing an ID is equivalent to removing the old line and adding a new one - any save data referencing the old ID will no longer match and the player's progress for that line will be lost. Treat auto-generated LineIDs as read-only.
+Do not edit or delete a LineID that WitWeaver has written. Changing an ID is equivalent to removing the old line and adding a new one - any save data referencing the old ID will no longer match and the player's progress for that line will be lost. Treat auto-generated LineIDs as read-only.
 :::
 
 :::note
@@ -91,9 +91,9 @@ If you delete a line from the YAML, its LineID disappears with it. Save data tha
 
 **Required.**
 
-A map of language codes to display strings. The language code keys must match the codes registered in your `ConvoCoreSettings` asset, but matching is case-insensitive at runtime - `EN`, `en`, and `En` all resolve correctly.
+A map of language codes to display strings. The language code keys must match the codes registered in your `WitWeaverSettings` asset, but matching is case-insensitive at runtime - `EN`, `en`, and `En` all resolve correctly.
 
-At least one language key must be present. If the player's currently active language has no entry for a line, ConvoCore falls back to the first available language and logs a warning.
+At least one language key must be present. If the player's currently active language has no entry for a line, WitWeaver falls back to the first available language and logs a warning.
 
 **Single-language example:**
 ```yaml
@@ -131,20 +131,20 @@ TownSquare:
       EN: "Move along, then."
 ```
 
-After linking this file to a `ConvoCoreConversationData` asset and running validation, ConvoCore writes the LineIDs back into the file automatically:
+After linking this file to a `WitWeaverConversationData` asset and running validation, WitWeaver writes the LineIDs back into the file automatically:
 
 ```yaml
 TownSquare:
   - CharacterID: "Guard"
-    LineID: "a1b2c3d4"    # written by ConvoCore - do not edit
+    LineID: "a1b2c3d4"    # written by WitWeaver - do not edit
     LocalizedDialogue:
       EN: "Halt! Who goes there?"
   - CharacterID: "Player"
-    LineID: "e5f6a7b8"    # written by ConvoCore - do not edit
+    LineID: "e5f6a7b8"    # written by WitWeaver - do not edit
     LocalizedDialogue:
       EN: "It's just me, passing through."
   - CharacterID: "Guard"
-    LineID: "c9d0e1f2"    # written by ConvoCore - do not edit
+    LineID: "c9d0e1f2"    # written by WitWeaver - do not edit
     LocalizedDialogue:
       EN: "Move along, then."
 ```
@@ -178,7 +178,7 @@ LocalizedDialogue:
   EN: 'It's a trap!'
 ```
 
-ConvoCore includes a pre-processor that auto-wraps many common apostrophe cases before handing the YAML to the parser, but relying on that behavior is not recommended. Writing double-quoted values consistently is the safest and most explicit approach.
+WitWeaver includes a pre-processor that auto-wraps many common apostrophe cases before handing the YAML to the parser, but relying on that behavior is not recommended. Writing double-quoted values consistently is the safest and most explicit approach.
 
 ---
 
@@ -214,7 +214,7 @@ Prefer the folded scalar (`>`) for dialogue that your UI will word-wrap automati
 
 ### The `{PlayerName}` placeholder
 
-Write `{PlayerName}` anywhere inside a dialogue string. At runtime, ConvoCore replaces it with the `CharacterName` from the character profile asset that has the `IsPlayerCharacter` flag checked.
+Write `{PlayerName}` anywhere inside a dialogue string. At runtime, WitWeaver replaces it with the `CharacterName` from the character profile asset that has the `IsPlayerCharacter` flag checked.
 
 ```yaml
 - CharacterID: "Innkeeper"
@@ -234,7 +234,7 @@ There must be exactly one character profile in your project with `IsPlayerCharac
 
 ## Inspector-only fields
 
-Not every property of a dialogue line is set in the YAML file. The following fields exist on each line inside the `ConvoCoreConversationData` asset and are configured in the Unity Inspector - they have no YAML equivalent and cannot be set from the text file.
+Not every property of a dialogue line is set in the YAML file. The following fields exist on each line inside the `WitWeaverConversationData` asset and are configured in the Unity Inspector - they have no YAML equivalent and cannot be set from the text file.
 
 | Field | Inspector label | What it controls |
 |---|---|---|
@@ -249,7 +249,7 @@ These fields are separate from the YAML by design: **YAML stays as readable pros
 
 ## Multiple conversations in one file
 
-A single YAML file can contain as many conversations as you like. Each top-level key is an independent conversation. You must create a separate `ConvoCoreConversationData` asset for each key and set its **Conversation Key** field accordingly.
+A single YAML file can contain as many conversations as you like. Each top-level key is an independent conversation. You must create a separate `WitWeaverConversationData` asset for each key and set its **Conversation Key** field accordingly.
 
 ```yaml
 ShopGreeting:
@@ -276,7 +276,7 @@ Grouping related short conversations in one file keeps the source directory tidy
 ---
 
 :::info[For Advanced Users]
-The `ConvoCoreYamlParser` uses YamlDotNet with `IgnoreUnmatchedProperties` enabled. Any key present in your YAML that does not correspond to a known field (for example, a comment-as-field or a future field you are testing) is silently ignored - it will not cause a parse error.
+The `WitWeaverYamlParser` uses YamlDotNet with `IgnoreUnmatchedProperties` enabled. Any key present in your YAML that does not correspond to a known field (for example, a comment-as-field or a future field you are testing) is silently ignored - it will not cause a parse error.
 
-Language code normalization happens at parse time: all language codes are lowercased before being stored in the `DialogueLineInfo.LocalizedDialogue` dictionary. The `ConvoCoreDialogueLocalizationHandler.GetLocalizedDialogue()` method also lowercases the requested language code before performing the dictionary lookup. This means a mismatch between the casing in your YAML (`EN`) and the casing in `ConvoCoreSettings` (`en`) is handled transparently - they will always match.
+Language code normalization happens at parse time: all language codes are lowercased before being stored in the `DialogueLineInfo.LocalizedDialogue` dictionary. The `WitWeaverDialogueLocalizationHandler.GetLocalizedDialogue()` method also lowercases the requested language code before performing the dictionary lookup. This means a mismatch between the casing in your YAML (`EN`) and the casing in `WitWeaverSettings` (`en`) is handled transparently - they will always match.
 :::

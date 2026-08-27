@@ -5,15 +5,15 @@ title: Quick Start
 
 # Quick Start
 
-This guide walks you through creating a simple “Hello World” conversation from scratch. By the end you will have a fully wired ConvoCore setup running in a Unity scene, with console log output confirming that lines are advancing correctly. Adding a visible UI is covered in the [UI Foundation](../ui/ui-foundation) page; this guide focuses on getting the core logic working first.
+This guide walks you through creating a simple “Hello World” conversation from scratch. By the end you will have a fully wired WitWeaver setup running in a Unity scene, with console log output confirming that lines are advancing correctly. Adding a visible UI is covered in the [UI Foundation](../ui/ui-foundation) page; this guide focuses on getting the core logic working first.
 
 :::info[Minimum Setup at a Glance]
-Every ConvoCore conversation needs exactly four things:
+Every WitWeaver conversation needs exactly four things:
 
 1. **A YAML file**: your dialogue text
 2. **A Character Profile asset**: defines who is speaking
 3. **A Conversation Data asset**: links the YAML and participants together
-4. **A ConvoCore component** on a GameObject: the runtime runner
+4. **A WitWeaver component** on a GameObject: the runtime runner
 
 This guide builds each one from scratch, step by step.
 :::
@@ -24,7 +24,7 @@ This guide builds each one from scratch, step by step.
 
 ## Step 1: Create a YAML file
 
-Right-click anywhere in the **Project** panel → **Create → ConvoCore → Create Yaml File**. Name the new file `MyFirstConversation`.
+Right-click anywhere in the **Project** panel → **Create → WitWeaver → Create Yaml File**. Name the new file `MyFirstConversation`.
 
 Open the file (double-click to open in your script editor) and replace its contents with the following:
 
@@ -32,7 +32,7 @@ Open the file (double-click to open in your script editor) and replace its conte
 MyFirstConversation:
   - CharacterID: "Narrator"
     LocalizedDialogue:
-      EN: "Hello! This is your first ConvoCore conversation."
+      EN: "Hello! This is your first WitWeaver conversation."
   - CharacterID: "Narrator"
     LocalizedDialogue:
       EN: "Press any key to advance to the next line."
@@ -42,14 +42,14 @@ MyFirstConversation:
 ```
 
 :::note
-**What is YAML?** YAML (“YAML Ain’t Markup Language”) is a human-readable plain-text format commonly used for configuration and data files. ConvoCore uses YAML for dialogue: you write your lines in YAML, and ConvoCore compiles them into Unity assets. The indentation in YAML is significant: use two spaces per indent level (not tabs).
+**What is YAML?** YAML (“YAML Ain’t Markup Language”) is a human-readable plain-text format commonly used for configuration and data files. WitWeaver uses YAML for dialogue: you write your lines in YAML, and WitWeaver compiles them into Unity assets. The indentation in YAML is significant: use two spaces per indent level (not tabs).
 :::
 
 ---
 
 ## Step 2: Create a Character Profile
 
-Right-click in the **Project** panel → **Create → ConvoCore → Character Profile**. Name the new asset `Narrator`.
+Right-click in the **Project** panel → **Create → WitWeaver → Character Profile**. Name the new asset `Narrator`.
 
 Select the asset and look at its **Inspector**:
 
@@ -59,14 +59,14 @@ Select the asset and look at its **Inspector**:
 Leave all other fields at their defaults for now.
 
 :::tip
-**Character ID is case-sensitive** and must exactly match the `CharacterID` value in your YAML. If your YAML says `"Narrator"` but the profile says `"narrator"`, ConvoCore will not be able to link them and will log a warning at parse time. Always copy-paste the ID rather than typing it twice.
+**Character ID is case-sensitive** and must exactly match the `CharacterID` value in your YAML. If your YAML says `"Narrator"` but the profile says `"narrator"`, WitWeaver will not be able to link them and will log a warning at parse time. Always copy-paste the ID rather than typing it twice.
 :::
 
 ---
 
 ## Step 3: Create a Conversation Data asset
 
-Right-click in the **Project** panel → **Create → ConvoCore → Conversation Dialogue Object**. Name the new asset `MyFirstConversation`.
+Right-click in the **Project** panel → **Create → WitWeaver → Conversation Dialogue Object**. Name the new asset `MyFirstConversation`.
 
 Select the asset and configure it in the **Inspector**:
 
@@ -74,7 +74,7 @@ Select the asset and configure it in the **Inspector**:
 
 2. **Participant Profiles**: Click the **+** button on the Participant Profiles list and drag the `Narrator` Character Profile asset into the new slot.
 
-3. **Import and compile the YAML**: With the asset still selected, click the **Import YAML from Key** button in the Inspector. ConvoCore will find the YAML file by matching the Conversation Key you set in step 1, parse it, and populate the compiled dialogue data. Then click **Sync from Source** to regenerate LineIDs and finalize the asset. Check the Console for any parse warnings.
+3. **Import and compile the YAML**: With the asset still selected, click the **Import YAML from Key** button in the Inspector. WitWeaver will find the YAML file by matching the Conversation Key you set in step 1, parse it, and populate the compiled dialogue data. Then click **Sync from Source** to regenerate LineIDs and finalize the asset. Check the Console for any parse warnings.
 
 :::note
 **What is a ScriptableObject?** In Unity, a ScriptableObject is a data asset stored as a file in your project, similar to a spreadsheet or config file that you can edit visually in the Inspector. The Conversation Data asset is a ScriptableObject that holds the compiled version of your YAML: the list of participants, the ordered dialogue lines, localized text, and metadata. You never need to edit the compiled data by hand; always edit the YAML and re-import.
@@ -86,20 +86,20 @@ If you skip the **Import YAML from Key** and **Sync from Source** steps, the Con
 
 ---
 
-## Step 4: Add ConvoCore to the scene
+## Step 4: Add WitWeaver to the scene
 
 Open (or create) the scene you want to test in.
 
 1. In the **Hierarchy** panel, right-click → **Create Empty**. Rename the new GameObject to `DialogueRunner`.
 
-2. With `DialogueRunner` selected, click **Add Component** in the Inspector. Search for **ConvoCore** and add the `ConvoCore` component.
+2. With `DialogueRunner` selected, click **Add Component** in the Inspector. Search for **WitWeaver** and add the `WitWeaver` component.
 
-3. In the ConvoCore component Inspector:
+3. In the WitWeaver component Inspector:
    - Find the **Input Mode** (or **Conversation Input**) field and set it to **Single Conversation**.
    - A **Conversation** field will appear. Drag your `MyFirstConversation` Conversation Data asset into it.
 
 :::note
-**What is a MonoBehaviour?** A MonoBehaviour is a C# script you attach to a GameObject to give it behaviour, like adding an engine to a car. The `ConvoCore` component is a MonoBehaviour that manages conversation state: which line is current, when to advance, which character is speaking, and when the conversation ends. It runs the logic but does not display anything itself.
+**What is a MonoBehaviour?** A MonoBehaviour is a C# script you attach to a GameObject to give it behaviour, like adding an engine to a car. The `WitWeaver` component is a MonoBehaviour that manages conversation state: which line is current, when to advance, which character is speaking, and when the conversation ends. It runs the logic but does not display anything itself.
 :::
 
 ---
@@ -108,19 +108,19 @@ Open (or create) the scene you want to test in.
 
 For this tutorial, you will start the conversation automatically when the scene loads. In a real project you would trigger it from a collider, button, or cutscene event.
 
-1. In the **Hierarchy**, right-click → **Create Empty**. Rename the new GameObject to `ConvoStarter`.
+1. In the **Hierarchy**, right-click → **Create Empty**. Rename the new GameObject to `WitWeaverStarter`.
 
-2. In the Inspector for `ConvoStarter`, click **Add Component → New Script**. Name the script `ConvoStarter` and click **Create and Add**.
+2. In the Inspector for `WitWeaverStarter`, click **Add Component → New Script**. Name the script `WitWeaverStarter` and click **Create and Add**.
 
-3. Open `ConvoStarter.cs` in your editor and replace its contents with:
+3. Open `WitWeaverStarter.cs` in your editor and replace its contents with:
 
 ```csharp
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-public class ConvoStarter : MonoBehaviour
+public class WitWeaverStarter : MonoBehaviour
 {
-    [SerializeField] private ConvoCore _runner;
+    [SerializeField] private WitWeaver _runner;
 
     private void Start()
     {
@@ -129,7 +129,7 @@ public class ConvoStarter : MonoBehaviour
 }
 ```
 
-4. Save the script. Back in Unity, select the `ConvoStarter` GameObject. In the Inspector, drag the `DialogueRunner` GameObject into the **Runner** field that has appeared on the `ConvoStarter` component.
+4. Save the script. Back in Unity, select the `WitWeaverStarter` GameObject. In the Inspector, drag the `DialogueRunner` GameObject into the **Runner** field that has appeared on the `WitWeaverStarter` component.
 
 :::tip
 For production use, wire `StartConversation()` to a **UnityEvent** instead, for example from a trigger collider’s `OnTriggerEnter`, a UI button’s `onClick` event, or a timeline signal. Calling it from `Start()` works for testing, but it fires before your scene has fully settled (e.g., before any fade-in or camera transition completes).
@@ -142,30 +142,30 @@ For production use, wire `StartConversation()` to a **UnityEvent** instead, for 
 Before pressing Play, enable per-line console logging so you can verify the conversation is running:
 
 1. Select the `DialogueRunner` GameObject in the Hierarchy.
-2. In the Inspector, find the **Debug** section on the ConvoCore component.
+2. In the Inspector, find the **Debug** section on the WitWeaver component.
 3. Check the **Debug Log Lines** checkbox.
 
 Now press **Play**. Open the **Console** (Window → General → Console). You should see a log entry for each dialogue line:
 
 ```
-[ConvoCore] Line 0 - Narrator: "Hello! This is your first ConvoCore conversation."
-[ConvoCore] Line 1 - Narrator: "Press any key to advance to the next line."
-[ConvoCore] Line 2 - Narrator: "That's it! You've finished the conversation."
+[WitWeaver] Line 0 - Narrator: "Hello! This is your first WitWeaver conversation."
+[WitWeaver] Line 1 - Narrator: "Press any key to advance to the next line."
+[WitWeaver] Line 2 - Narrator: "That's it! You've finished the conversation."
 ```
 
 :::tip
-Click any log entry in the Console and Unity will **highlight the ConvoCore runner** in the Hierarchy. This makes it easy to find the component responsible for the output in complex scenes.
+Click any log entry in the Console and Unity will **highlight the WitWeaver runner** in the Hierarchy. This makes it easy to find the component responsible for the output in complex scenes.
 :::
 
 :::note
-**ConvoCore is headless by design.** It manages conversation state and fires C# events at each stage, but displaying text, portraits, or choices is entirely up to your UI layer. This means you can use any UI system (Unity uGUI, UI Toolkit, TextMeshPro, or a custom renderer) without ConvoCore knowing or caring. The [UI Foundation](../ui/ui-foundation) page explains how to build a display layer. Turn off **Debug Log Lines** when you are done testing.
+**WitWeaver is headless by design.** It manages conversation state and fires C# events at each stage, but displaying text, portraits, or choices is entirely up to your UI layer. This means you can use any UI system (Unity uGUI, UI Toolkit, TextMeshPro, or a custom renderer) without WitWeaver knowing or caring. The [UI Foundation](../ui/ui-foundation) page explains how to build a display layer. Turn off **Debug Log Lines** when you are done testing.
 :::
 
 If you see errors instead of log output, the most common causes are:
 
 - **Conversation does nothing** - The YAML was not imported. Re-run **Import YAML from Key** and **Sync from Source** (Step 3).
 - **“Character ID not found”** - The CharacterID in the YAML does not match any Character Profile. Check case and spelling (Step 2).
-- **No log output at all** - Make sure **Debug Log Lines** is checked in the ConvoCore component’s Debug section.
+- **No log output at all** - Make sure **Debug Log Lines** is checked in the WitWeaver component’s Debug section.
 
 See [Troubleshooting →](troubleshooting) for a full list of common issues.
 
@@ -173,13 +173,13 @@ See [Troubleshooting →](troubleshooting) for a full list of common issues.
 
 ## Step 7: Next steps
 
-You now have a working ConvoCore setup. Here is where to go next:
+You now have a working WitWeaver setup. Here is where to go next:
 
 | I want to… | Go here |
 |---|---|
 | Understand all the YAML options (branches, choices, expressions) | [YAML Format →](../yaml-reference/yaml-format) |
 | Display dialogue text and portraits on screen | [UI Foundation →](../ui/ui-foundation) |
-| Learn about the ConvoCore component in depth | [ConvoCore Component →](../core-systems/convocore-component) |
+| Learn about the WitWeaver component in depth | [WitWeaver Component →](../core-systems/witweaver-component) |
 | Add branching choices | [Player Choices →](../core-systems/player-choices) |
 | Save conversation progress between sessions | [Save System →](../save-system/save-system-overview) |
 | Solve a common setup problem | [Troubleshooting →](troubleshooting) |

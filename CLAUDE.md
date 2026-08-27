@@ -1,8 +1,8 @@
-# ConvoCore - Claude Code Context
+# WitWeaver - Claude Code Context
 
 ## Project Overview
 
-**ConvoCore** is a Unity dialogue and conversation framework (Unity Package Manager package) built for scalable multi-character conversations. It is a tooling product, not a game-specific system. Author: Dylan Alter (Wolfstag Interactive), version 1.0.0, supports Unity 2021.3+.
+**WitWeaver** is a Unity dialogue and conversation framework (Unity Package Manager package) built for scalable multi-character conversations. It is a tooling product, not a game-specific system. Author: Dylan Alter (Wolfstag Interactive), version 1.0.0, supports Unity 2021.3+.
 
 Dialogue is authored in **YAML as the single source of truth**, compiled into **ScriptableObjects** for runtime and editor use. All systems are modular, replaceable, and genre-agnostic (no assumptions about UI, rendering, cameras, etc.).
 
@@ -11,11 +11,11 @@ Dialogue is authored in **YAML as the single source of truth**, compiled into **
 ## Repository Structure
 
 ```
-ConvoCore/
-├── WolfstagInteractive/ConvoCore/      # Core UPM package source
+WitWeaver/
+├── WolfstagInteractive/WitWeaver/      # Core UPM package source
 │   ├── Scripts/                        # Runtime C# scripts
-│   │   ├── ConvoCoreYaml/              # YAML parsing & loading
-│   │   ├── ConvoCoreContainers/        # Runtime conversation context
+│   │   ├── WitWeaverYaml/              # YAML parsing & loading
+│   │   ├── WitWeaverContainers/        # Runtime conversation context
 │   │   ├── UI/                         # UI foundation & history
 │   │   └── SampleActions/             # Example dialogue actions
 │   ├── Editor/                         # Custom inspectors & editor tools
@@ -24,8 +24,8 @@ ConvoCore/
 │   └── package.json                    # UPM manifest
 ├── ConvoCoreTest/                      # Test Unity project
 │   └── Assets/
-│       ├── ConvoCore/                  # Package symlink/copy
-│       ├── ConvoCoreCustomActions/     # Custom action extensions
+│       ├── WitWeaver/                  # Package symlink/copy
+│       ├── WitWeaverCustomActions/     # Custom action extensions
 │       └── Samples/                   # 2D & 3D sample scenes
 ├── Docs/                               # Generated Doxygen docs
 ├── website_docusaurus/                 # Documentation website (Docusaurus)
@@ -38,18 +38,18 @@ ConvoCore/
 
 | Script | Purpose |
 |---|---|
-| `ConvoCore.cs` | Main conversation runner; manages state, line progression, actions, and events |
-| `ConvoCoreConversationData.cs` | ScriptableObject holding dialogue data, participants, YAML refs, localization |
+| `WitWeaver.cs` | Main conversation runner; manages state, line progression, actions, and events |
+| `WitWeaverConversationData.cs` | ScriptableObject holding dialogue data, participants, YAML refs, localization |
 | `ConversationContainer.cs` | Wraps conversation data with UI configuration |
-| `ConvoCoreYamlParser.cs` | Parses YAML files into dialogue structures |
-| `ConvoCoreYamlLoader.cs` | Loads and manages YAML file references |
-| `ConvoCoreYamlWatcher.cs` | Watches for YAML file changes in editor |
+| `WitWeaverYamlParser.cs` | Parses YAML files into dialogue structures |
+| `WitWeaverYamlLoader.cs` | Loads and manages YAML file references |
+| `WitWeaverYamlWatcher.cs` | Watches for YAML file changes in editor |
 | `CharacterRepresentationBase.cs` | Base class for character visual representations |
 | `SpriteCharacterRepresentationData.cs` / `PrefabCharacterRepresentationData.cs` / `AnimatedCharacterRepresentationData.cs` | Built-in representations; expressions live as GUID-keyed mapping lists on each asset |
 | `BaseDialogueLineAction.cs` | Base for pre/post-line custom ScriptableObject actions |
-| `ConvoCoreUIFoundation.cs` | Base UI setup |
-| `ConvoCoreDialogueHistoryUI.cs` | Dialogue history display |
-| `ConvoCoreLanguageManager.cs` | Language/locale management |
+| `WitWeaverUIFoundation.cs` | Base UI setup |
+| `WitWeaverDialogueHistoryUI.cs` | Dialogue history display |
+| `WitWeaverLanguageManager.cs` | Language/locale management |
 
 ---
 
@@ -80,7 +80,7 @@ Dialogue:
 
 ---
 
-## Events (ConvoCore.cs)
+## Events (WitWeaver.cs)
 
 - `StartedConversation`
 - `PausedConversation`
@@ -93,6 +93,6 @@ Dialogue:
 
 - **Add a new dialogue action**: Extend `BaseDialogueLineAction` as a ScriptableObject, implement pre/post-line hooks
 - **Add a new character representation**: Extend `CharacterRepresentationBase`
-- **Create a new conversation**: Use the Unity Asset Menu → Create → ConvoCore → New Conversation (generates a YAML template)
-- **Add a new UI**: Extend `ConvoCoreUIFoundation` and `ConvoCoreCharacterDisplayBase`
-- **Localization**: Add language keys to YAML dialogue entries; `ConvoCoreLanguageManager` handles runtime switching
+- **Create a new conversation**: Use the Unity Asset Menu → Create → WitWeaver → New Conversation (generates a YAML template)
+- **Add a new UI**: Extend `WitWeaverUIFoundation` and `WitWeaverCharacterDisplayBase`
+- **Localization**: Add language keys to YAML dialogue entries; `WitWeaverLanguageManager` handles runtime switching
