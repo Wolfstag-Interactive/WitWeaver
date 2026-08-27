@@ -11,7 +11,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             switch (snapshot.SchemaVersion)
             {
                 case "1.0":
-                    return MigrateGame_1_0(snapshot);
+                    return MigrateGame_1_0_to_1_1(snapshot);
+                case ConvoCoreGameSnapshot.CurrentSchemaVersion:
+                    return snapshot;
                 default:
                     Debug.LogWarning($"[ConvoCoreSnapshotMigrator] Unknown game snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
                     return snapshot;
@@ -32,9 +34,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             }
         }
 
-        private static ConvoCoreGameSnapshot MigrateGame_1_0(ConvoCoreGameSnapshot snapshot)
+        private static ConvoCoreGameSnapshot MigrateGame_1_0_to_1_1(ConvoCoreGameSnapshot snapshot)
         {
-            // Version 1.0 is the current version, no migration needed.
+            // 1.1 added Collection variables. No Collections existed in 1.0 snapshots, so the
+            // data passes through unchanged and only the version string is updated.
+            snapshot.SchemaVersion = "1.1";
             return snapshot;
         }
 

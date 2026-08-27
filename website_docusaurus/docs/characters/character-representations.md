@@ -44,16 +44,16 @@ One profile can hold many representations. For example, a guard character might 
 
 ## Built-in Representation Types
 
-ConvoCore ships with two ready-to-use representation types.
+ConvoCore ships with three ready-to-use representation types.
 
 ### SpriteCharacterRepresentationData
 
-Used for 2D sprite-based characters. Holds an expression-to-sprite mapping via `ConvoCoreCharacterExpression` assets.
+Used for 2D sprite-based characters. Holds a list of expression mappings directly on the asset.
 
-**Creating one**: Right-click → **Create → ConvoCore → Character Representation → Sprite**
+**Creating one**: Right-click → **Create → ConvoCore → Character → Representation → Sprite Character Representation**
 
 **What it stores**:
-- A list of expression mappings, each pairing a `ConvoCoreCharacterExpression` asset with a sprite
+- A list of expression mappings, each with a display name, a stable GUID, a portrait sprite, and a full body sprite
 - The runner calls `ApplyExpression()` on this representation when a line begins, which passes the correct sprite to your UI’s character display component
 
 When the runner processes a dialogue line, it reads the line’s selected expression GUID, finds the matching entry in this representation’s mapping, and gives the sprite to your `ConvoCoreCharacterDisplayBase` subclass to render.
@@ -62,11 +62,23 @@ When the runner processes a dialogue line, it reads the line’s selected expres
 
 Used for 3D prefab-based characters or any setup where a prefab reference is more appropriate than a flat sprite.
 
-**Creating one**: Right-click → **Create → ConvoCore → Character Representation → Prefab**
+**Creating one**: Right-click → **Create → ConvoCore → Character → Representation → Prefab Character Representation**
 
 **What it stores**:
 - A reference to a prefab that your display code can instantiate, activate, or reference
 - The runner surfaces this prefab through the standard `ApplyExpression()` call; what you do with it is entirely up to your `ConvoCoreCharacterDisplayBase` implementation
+
+### AnimatedCharacterRepresentationData
+
+Used for portraits and full body images that play an animation instead of showing a single still sprite: blinking, talking loops, Animator-driven rigs, etc.
+
+**Creating one**: Right-click → **Create → ConvoCore → Character → Representation → Animated Character Representation**
+
+**What it stores**:
+- A list of expression mappings, each holding up to two animations (one for the speaker portrait, one for the full body slot)
+- Each animation is a payload: a flipbook (sprite frames plus a playback speed), an Animator prefab, or a custom payload type you write yourself
+
+The included 2D canvas UI plays these animations in the same portrait and slot images used by static sprites. See [Animated Representations](animated-representations) for the full guide, including how to plug in outside animation systems like Live2D or Spine.
 
 ---
 
@@ -175,7 +187,7 @@ Representations and expressions work together:
 
 For example, a `SpriteCharacterRepresentationData` might contain entries for `Happy`, `Angry`, and `Neutral` expressions. When a dialogue line has the `Happy` expression selected, the runner reads the sprite mapped to `Happy` in that representation and passes it to your display.
 
-This means the same expression asset can be reused across multiple representations: the expression defines the name and GUID, while the representation defines what that expression looks like for that specific visual variant.
+Each representation owns its own expression list. Two representations of the same character can both have a `Happy` entry with different sprites, and each entry has its own GUID. Because a line's expression selection points at one specific representation's entry, changing the line's representation also clears its expression selection.
 
 See [Expressions](expressions) for full details on creating and assigning expressions.
 

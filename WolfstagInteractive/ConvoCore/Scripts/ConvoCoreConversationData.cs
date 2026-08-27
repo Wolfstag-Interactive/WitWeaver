@@ -490,10 +490,105 @@ namespace WolfstagInteractive.ConvoCore
 
             ValidateAndFixDialogueLines();
 #if UNITY_EDITOR
+            ValidateChoiceLabels();
             UnityEditor.EditorUtility.SetDirty(this);
             UnityEditor.AssetDatabase.SaveAssets();
 #endif
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Editor-only authoring check for player choice labels. Reports labels that are missing
+        /// for a language listed in ConvoCore settings, choices with no labels at all, and label
+        /// entries whose language is no longer listed there.
+        ///
+        /// Nothing is modified: orphaned entries are only reported, never removed.
+        /// </summary>
+        private void ValidateChoiceLabels()
+        {
+            if (DialogueLines == null) return;
+
+            var supportedLanguages = ConvoCoreSettings.Instance?.SupportedLanguages;
+
+            foreach (var line in DialogueLines)
+            {
+                if (line == null) continue;
+                if (line.LineContinuationSettings.Mode != LineContinuationMode.PlayerChoice) continue;
+
+                var choices = line.LineContinuationSettings.Choices;
+                if (choices == null) continue;
+
+                for (int choiceIndex = 0; choiceIndex < choices.Count; choiceIndex++)
+                {
+                    var labels = choices[choiceIndex].Labels;
+
+                    // A choice with no labels at all always resolves to "[Choice]" at runtime,
+                    // which is never intentional.
+                    if (labels == null || labels.Count == 0)
+                    {
+                        Debug.LogWarning(
+                            $"[ConvoCore] Conversation '{ConversationKey}' line '{line.LineID}' " +
+                            $"choice {choiceIndex}: no labels defined. Runtime will show '[Choice]'.",
+                            this);
+                        continue;
+                    }
+
+                    if (supportedLanguages != null)
+                    {
+                        foreach (var lang in supportedLanguages)
+                        {
+                            if (string.IsNullOrWhiteSpace(lang)) continue;
+
+                            bool hasText = false;
+                            foreach (var label in labels)
+                            {
+                                if (!string.Equals(label.Language, lang, StringComparison.OrdinalIgnoreCase))
+                                    continue;
+                                hasText = !string.IsNullOrWhiteSpace(label.Text);
+                                break;
+                            }
+
+                            if (!hasText)
+                            {
+                                Debug.LogWarning(
+                                    $"[ConvoCore] Conversation '{ConversationKey}' line '{line.LineID}' " +
+                                    $"choice {choiceIndex}: missing '{lang}' label. Runtime will fall back.",
+                                    this);
+                            }
+                        }
+                    }
+
+                    // Orphans are harmless at runtime, so these are informational only.
+                    foreach (var label in labels)
+                    {
+                        if (string.IsNullOrWhiteSpace(label.Language)) continue;
+
+                        bool supported = false;
+                        if (supportedLanguages != null)
+                        {
+                            foreach (var lang in supportedLanguages)
+                            {
+                                if (string.Equals(label.Language, lang, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    supported = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!supported)
+                        {
+                            Debug.Log(
+                                $"[ConvoCore] Conversation '{ConversationKey}' line '{line.LineID}' " +
+                                $"choice {choiceIndex}: orphaned '{label.Language}' label " +
+                                "(language not listed in ConvoCore settings).",
+                                this);
+                        }
+                    }
+                }
+            }
+        }
+#endif
 
         /// <summary>
         /// Debug method to inspect character profiles structure

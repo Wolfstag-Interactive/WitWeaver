@@ -20,6 +20,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private SerializedProperty _addressablesKeyTemplateProp;
         private SerializedProperty _supportedLanguagesProp;
         private SerializedProperty _currentLanguageProp;
+        private SerializedProperty _goBackLabelProp;
         private SerializedProperty _verboseLogsProp;
         private SerializedProperty _saveKeyPrefixProp;
         private SerializedProperty _enableSaveSystemProp;
@@ -49,6 +50,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             _addressablesKeyTemplateProp        = serializedObject.FindProperty("AddressablesKeyTemplate");
             _supportedLanguagesProp             = serializedObject.FindProperty("SupportedLanguages");
             _currentLanguageProp                = serializedObject.FindProperty("CurrentLanguage");
+            _goBackLabelProp                    = serializedObject.FindProperty("GoBackLabel");
             _verboseLogsProp                    = serializedObject.FindProperty("VerboseLogs");
             _saveKeyPrefixProp                  = serializedObject.FindProperty("SaveKeyPrefix");
             _enableSaveSystemProp               = serializedObject.FindProperty("EnableSaveSystem");
@@ -182,6 +184,17 @@ namespace WolfstagInteractive.ConvoCore.Editor
             {
                 EditorGUILayout.HelpBox("Add at least one supported language!", MessageType.Warning);
             }
+
+            EditorGUILayout.Space();
+
+            // System strings: framework-owned button text, one row per supported language.
+            EditorGUILayout.LabelField("System Strings", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(new GUIContent("Go Back Option",
+                "Shown as the last option on player choice lines that have Allow Go Back enabled."));
+
+            if (_goBackLabelProp != null)
+                ConvoCoreChoiceLabelsDrawer.DrawLayout(_goBackLabelProp, settings.SupportedLanguages,
+                    drawHeader: false);
         }
 
         private void DrawSaveSystemTab()

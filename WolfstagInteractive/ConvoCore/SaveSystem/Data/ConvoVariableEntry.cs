@@ -14,5 +14,20 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public ConvoCoreVariable CoreVariable;
         public ConvoVariableScope Scope;
         public bool IsReadOnly;
+
+        // Set by ConvoVariableStore whenever a Collection mutation touches this key; read by
+        // the inspector to highlight the row. The flag IS the live diff — no content
+        // comparison — so a write that restores the authored value still counts as dirty.
+        // Reset on authored-defaults snapshot recapture and on ResetVariable.
+        [NonSerialized] private bool _isDirtySinceSnapshot;
+
+        /// <summary>
+        /// True when a Collection mutation has touched this entry's key since the last
+        /// authored-defaults snapshot. Editor-diff signal only; never serialized.
+        /// </summary>
+        public bool IsDirtySinceSnapshot => _isDirtySinceSnapshot;
+
+        internal void MarkCollectionDirty() => _isDirtySinceSnapshot = true;
+        internal void ClearCollectionDirty() => _isDirtySinceSnapshot = false;
     }
 }

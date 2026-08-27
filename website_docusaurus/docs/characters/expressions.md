@@ -5,52 +5,51 @@ title: Expressions
 
 # Expressions
 
-Expressions are named emotional states (`Happy`, `Angry`, `Surprised`, `Neutral`) that control what a character looks like during a specific dialogue line. Each expression maps to a visual change: a different sprite, an animation trigger, a shader parameter update, or any custom logic you provide.
+Expressions are named emotional states (`Happy`, `Angry`, `Surprised`, `Neutral`) that control what a character looks like during a specific dialogue line. Each expression maps to a visual change: a different sprite, an animation, or any custom logic you provide.
+
+Expressions are not separate assets. Each one lives as an entry inside a representation asset's **Expression Mappings** list. A representation owns its expressions, and each entry pairs a name with the visual data that representation needs.
 
 ---
 
-## ConvoCoreCharacterExpression
+## Where Expressions Live
 
-A `ConvoCoreCharacterExpression` is a ScriptableObject that names an emotion and maps it to visual data.
+Every built-in representation type stores its expressions the same way: a list of mapping entries directly on the asset. What each entry holds depends on the representation type.
 
-**Create one**: Right-click in the **Project** panel → **Create → ConvoCore → Character Expression**
+| Representation type | What each expression entry holds |
+|---|---|
+| **Sprite** | A portrait sprite and a full body sprite |
+| **Prefab** | Expression actions only (the prefab's display component or actions provide the visuals) |
+| **Animated** | An animation for the portrait and one for the full body (flipbook frames, an Animator prefab, or a custom payload) |
 
-### Fields
+Every entry, regardless of type, also has:
 
 | Field | Description |
 |---|---|
-| **Expression Name** | A human-readable label shown in the inspector and expression picker (e.g., `"Surprised"`, `"Happy"`, `"Neutral"`). |
-| **Expression GUID** | An auto-generated, stable unique identifier. The GUID is what ConvoCore uses internally to reference this expression, not the name. |
-| **Default Sprite** | The sprite used for this expression when no per-representation override is set. |
-| **Representation Overrides** | A list of `RepresentationExpressionOverride` entries. Each entry pairs a specific `CharacterRepresentationBase` asset with an alternate sprite, allowing the same emotion to look different across visual variants of the same character. |
+| **Display Name** | A human-readable label shown in dropdowns (`"Happy"`, `"Surprised"`, etc.). |
+| **GUID** | An auto-generated, stable unique identifier. Dialogue lines store this, not the name. Read-only in the inspector. |
+| **Expression Actions** | Optional `BaseExpressionAction` assets that run when the expression is applied. See below. |
 
-### Expression GUIDs
+To add an expression, select the representation asset and click **+** on its Expression Mappings list. The GUID is generated for you.
 
-The GUID is the most important property of a `ConvoCoreCharacterExpression` asset.
-
-:::tip
-Prefer expression GUIDs over expression names when referencing expressions in code. GUIDs are stable across renames - even if you rename `"Surprised"` to `"Shocked"`, the GUID stays the same and all dialogue lines that reference it continue to work correctly. Display names are cosmetic; GUIDs are the actual identity.
-:::
-
-When you create a new `ConvoCoreCharacterExpression`, ConvoCore generates a GUID for it automatically. You should never need to set or change this value manually.
-
-:::warning
-Deleting a `ConvoCoreCharacterExpression` asset and creating a new one with the same name will produce a different GUID. Any dialogue lines that referenced the old expression's GUID will lose their expression assignment. Rename expressions freely; avoid deleting and recreating them.
+:::note
+Prefab representations have one extra layer: a shared expression pool on the asset, plus optional per-configuration-entry overrides. When an entry defines an override with the same ID, the override wins. See [Prefab Characters](../prefab-characters/overview).
 :::
 
 ---
 
-## Representation Overrides
+## Names and GUIDs
 
-The **Representation Overrides** list handles the case where a character has multiple visual variants (representations) and the same emotion should look different across them.
+The display name is for people. The GUID is the actual identity.
 
-For example, a character with a `"Default"` and an `"Armored"` representation might use:
-- A smiling sprite for `Happy` in the `"Default"` variant
-- A slightly different smiling sprite (with a helmet visible) for `Happy` in the `"Armored"` variant
+:::tip
+Rename expressions freely. Dialogue lines reference the GUID, so renaming `"Surprised"` to `"Shocked"` changes nothing for existing lines. The new name simply appears in the dropdowns.
+:::
 
-Rather than creating two separate expression assets, you create one `Happy` expression and add a Representation Override entry that points to the `Armored` representation and provides the alternate sprite.
+:::warning
+Deleting a mapping entry and adding a new one with the same name produces a different GUID. Any lines that referenced the old entry fall back to the first expression in the list and log a warning. Rename entries instead of deleting and recreating them.
+:::
 
-When the runner applies an expression, it checks the Representation Overrides list first. If a matching override is found for the active representation, that override's sprite is used. Otherwise, the **Default Sprite** is used.
+Two entries on the same representation should never share a display name. The representation inspectors warn you when this happens: a warning box appears at the top of the asset and the affected rows are highlighted. The GUIDs remain unique either way, but duplicate names make the per-line dropdown ambiguous for whoever is authoring lines.
 
 ---
 
@@ -59,76 +58,67 @@ When the runner applies an expression, it checks the Representation Overrides li
 Expressions are assigned per dialogue line in the `ConvoCoreConversationData` inspector.
 
 1. Select your `ConvoCoreConversationData` asset.
-2. In the Inspector, expand a dialogue line's entry.
-3. Find the **Display Settings** sub-section for that line.
-4. The **Selected Expression Id** field shows the currently assigned expression GUID (or blank for none).
-5. Click the field to open the expression GUID selector, which lists all expression assets linked to the speaking character's representations.
-6. Select the expression you want.
+2. Expand a dialogue line's entry.
+3. Pick the character's **Representation** for that line.
+4. The **Expression** dropdown fills with the display names of every expression on that representation.
+5. Pick one. The line stores the matching GUID behind the scenes.
 
-The selector only shows expressions that are actually attached to the speaking character's representation(s), so you will not accidentally assign an expression from a different character.
+Hovering the expression field shows a small preview of the selected expression, so you can confirm the right sprite or frame without opening the representation asset.
 
 :::note
-If the expression selector is empty, it means the speaking character's profile has no representations, or the representations have no expression mappings configured. Add expressions to the character's representation asset(s) first, then return to assign them on lines.
+If the dropdown shows a message instead of names: "Assign a Representation to select an Expression" means the line has no representation picked yet, and "(No Expressions)" means the chosen representation asset has an empty Expression Mappings list. Add entries to the representation first, then come back to the line.
 :::
+
+Changing the line's representation clears its expression selection, because expressions belong to a specific representation. Pick the new representation's expression afterwards.
 
 ---
 
-## BaseExpressionAction
+## What Happens at Runtime
 
-For expression changes that require more than a static sprite swap (triggering an animation, playing a particle effect, blending a shader, or any coroutine-based visual), create a ScriptableObject that extends `BaseExpressionAction`.
+When a dialogue line displays:
+
+1. The line hands its stored expression GUID to the character's representation.
+2. The representation looks up the matching mapping entry and the UI applies its visuals (sets the sprites, starts the animations, or resolves the prefab display).
+3. Any Expression Actions on that entry run, in list order.
+
+If the line has no expression selected, or the GUID no longer exists on the representation, the representation falls back to the first entry in its list and logs a console warning. Keep the first entry as a sensible neutral state so the fallback always looks reasonable.
+
+---
+
+## Expression Actions
+
+For logic that should fire when an expression is applied (playing a sound, spawning a particle burst, nudging the camera, setting an Animator parameter, etc.), create a ScriptableObject that extends `BaseExpressionAction` and attach it to the mapping entry's **Expression Actions** list.
 
 ```csharp
-using System.Collections;
 using UnityEngine;
 using WolfstagInteractive.ConvoCore;
-using WolfstagInteractive.ConvoCore.UI;
 
-[CreateAssetMenu(menuName = "ConvoCore/Expression Actions/My Expression Action")]
-public class MyExpressionAction : BaseExpressionAction
+[CreateAssetMenu(menuName = "ConvoCore/Expression Actions/Play Emotion Sound")]
+public class PlayEmotionSoundAction : BaseExpressionAction
 {
-    [SerializeField] private float _transitionDuration = 0.3f;
+    [SerializeField] private AudioClip _clip;
 
-    protected override IEnumerator ExecuteExpression(
-        string expressionId,
-        ConvoCore runner,
-        ConvoCoreCharacterDisplayBase display)
+    public override void ExecuteAction(ExpressionActionContext context)
     {
-        // Trigger the animation on the display's animator
-        if (display.Animator != null)
-        {
-            display.Animator.SetTrigger(expressionId);
-        }
+        // context.Runtime        - the ConvoCore runner
+        // context.Conversation   - the active conversation data
+        // context.LineIndex      - which line is being shown
+        // context.Representation - the representation the expression belongs to
+        // context.Display        - the character display, when one exists (prefab path)
+        // context.ExpressionId   - the GUID of the expression being applied
 
-        // Wait for the transition to finish before the line continues
-        yield return new WaitForSeconds(_transitionDuration);
+        if (_clip != null)
+            AudioSource.PlayClipAtPoint(_clip, Vector3.zero);
     }
 }
 ```
 
-Attach the `BaseExpressionAction` asset to the expression via the representation's expression mapping entry. When the runner applies the expression, it runs `ExecuteExpression()` as a coroutine before advancing to the dialogue text display.
+A few things to know:
 
-:::tip
-`ExecuteExpression()` runs as a coroutine and the line will not display until it completes. Keep transitions short: 0.2–0.5 seconds is usually enough. If you need an animation to play in parallel with the text, start a separate coroutine and yield nothing, returning immediately from `ExecuteExpression()`.
-:::
-
-:::info[For Advanced Users]
-`BaseExpressionAction` is a ScriptableObject. You can have multiple expression action types (one for animation, one for VFX, one for audio) and mix them per expression mapping entry. The runner processes them in order. You can also access the full `ConvoCore` runner instance and `ConvoCoreConversationData` from within `ExecuteExpression()` if you need conversation-level context, for example to check a variable store value and conditionally apply a different visual.
-:::
-
----
-
-## Expression Resolution Order
-
-When the runner applies an expression for a dialogue line, it follows this order:
-
-1. Read the line's **Selected Expression Id** (a GUID).
-2. Call `GetExpressionMappingByGuid(guid)` on the active `CharacterRepresentationBase` asset.
-3. Check the mapping for a **Representation Override** matching the active representation. If found, use the override sprite.
-4. Otherwise, use the expression's **Default Sprite**.
-5. If a `BaseExpressionAction` is attached, run it as a coroutine.
-6. Pass the resolved sprite (or other visual data) to the `ConvoCoreCharacterDisplayBase` subclass via `ApplyExpression()`.
-
-If the Selected Expression Id is blank, step 2 returns null and the character display retains whatever expression it was showing from the previous line.
+- `ExecuteAction` runs immediately and does not pause the dialogue. If you need something that blocks the line (a camera move, a timed fade), use a [dialogue line action](../dialogue-actions/custom-actions) instead.
+- One entry can hold several actions. They run in list order.
+- The same action asset can be reused on many expressions and many characters.
+- `context.Display` is filled in on the prefab path, where a character display component exists. On the sprite and animated paths it is empty, because those draw straight onto the UI images.
 
 ---
 
@@ -136,6 +126,7 @@ If the Selected Expression Id is blank, step 2 returns null and the character di
 
 | I want to… | Go here |
 |---|---|
-| Understand the representation that holds expression mappings | [Character Representations →](character-representations) |
-| Build the character display component that renders expressions | [UI Foundation →](../ui/ui-foundation) |
+| Understand the representations that hold expression mappings | [Character Representations →](character-representations) |
+| Animate portraits per expression | [Animated Representations →](animated-representations) |
+| Run blocking logic on a specific line | [Custom Actions →](../dialogue-actions/custom-actions) |
 | Assign expressions in YAML instead of the inspector | [YAML Format →](../yaml-reference/yaml-format) |

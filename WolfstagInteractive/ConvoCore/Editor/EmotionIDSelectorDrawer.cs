@@ -27,7 +27,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
             string[] names;
             string[] ids;
 
-            if (rep is PrefabCharacterRepresentationData prefabRep)
+            if (rep is IExpressionCatalogProvider catalogProvider)
+            {
+                var catalog = catalogProvider.GetExpressionCatalog();
+                names = catalog.Select(c => c.name).ToArray();
+                ids   = catalog.Select(c => c.id).ToArray();
+            }
+            else if (rep is PrefabCharacterRepresentationData prefabRep)
             {
                 var catalog = prefabRep.GetExpressionCatalog();
                 names = catalog.Select(c => c.name).ToArray();

@@ -45,7 +45,7 @@ ConvoCore/
 | `ConvoCoreYamlLoader.cs` | Loads and manages YAML file references |
 | `ConvoCoreYamlWatcher.cs` | Watches for YAML file changes in editor |
 | `CharacterRepresentationBase.cs` | Base class for character visual representations |
-| `ConvoCoreCharacterExpression.cs` | Expression/emotion system |
+| `SpriteCharacterRepresentationData.cs` / `PrefabCharacterRepresentationData.cs` / `AnimatedCharacterRepresentationData.cs` | Built-in representations; expressions live as GUID-keyed mapping lists on each asset |
 | `BaseDialogueLineAction.cs` | Base for pre/post-line custom ScriptableObject actions |
 | `ConvoCoreUIFoundation.cs` | Base UI setup |
 | `ConvoCoreDialogueHistoryUI.cs` | Dialogue history display |

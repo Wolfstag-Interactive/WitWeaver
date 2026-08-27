@@ -11,7 +11,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53576b221133c4c4ea3388a18d0e367c, type: 3}
   m_Name: RichRendererProfile
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: ConvoCore::WolfstagInteractive.ConvoCore.ConvoCoreHistoryRendererProfile
   rendererName: Rich
-  defaultSpeakerColor: {r: 1, g: 1, b: 1, a: 1}
-  isDefault: 1

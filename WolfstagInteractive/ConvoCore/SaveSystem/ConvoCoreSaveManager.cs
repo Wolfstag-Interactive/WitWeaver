@@ -270,7 +270,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             var snapshot = new ConvoCoreGameSnapshot
             {
-                SchemaVersion = "1.0",
+                SchemaVersion = ConvoCoreGameSnapshot.CurrentSchemaVersion,
                 SaveTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
             };
 

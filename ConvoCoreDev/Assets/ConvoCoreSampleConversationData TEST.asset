@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConversationTitle: 
   ConversationParticipantProfiles:
-  - {fileID: 11400000, guid: cca04ff07be1b1a478acbfc412045f2e, type: 2}
-  - {fileID: 11400000, guid: 871b502169fa7f74e9d3d3a7b87b6503, type: 2}
-  - {fileID: 11400000, guid: 086dcde826a3fcb4b903e747228d482b, type: 2}
+  - {fileID: 11400000, guid: af00d9a6e77ccd24e8bbaca6a4ef3e61, type: 2}
+  - {fileID: 11400000, guid: d25bd83da2980654e9156896604fe71c, type: 2}
   ParticipantConfigurationDefaults: []
   DialogueLines:
   - ConversationID: LabIntroPart2
@@ -25,8 +24,8 @@ MonoBehaviour:
     characterID: Ava
     CharacterRepresentations:
     - SelectedCharacterID: 
-      SelectedRepresentationName: Sprites
-      SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
+      SelectedRepresentationName: Test Sprite
+      SelectedRepresentation: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
       LineSpecificDisplayOptions:
@@ -51,7 +50,51 @@ MonoBehaviour:
       TargetContainer: {fileID: 0}
       TargetAliasOrName: 
       PushReturnPoint: 0
-      Choices: []
+      Choices:
+      - Labels:
+        - Language: en
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
+      - Labels:
+        - Language: en
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: gggfdd
+        PushReturnPoint: 0
+      - Labels:
+        - Language: en
+          Text: fffg
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: ff
+        PushReturnPoint: 0
+      - Labels:
+        - Language: en
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
+      - Labels: []
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
       AllowGoBack: 0
       TargetLineID: 
   - ConversationID: LabIntroPart2
@@ -60,8 +103,8 @@ MonoBehaviour:
     characterID: Fae
     CharacterRepresentations:
     - SelectedCharacterID: 
-      SelectedRepresentationName: Sprites
-      SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
+      SelectedRepresentationName: Test Sprite
+      SelectedRepresentation: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
       LineSpecificDisplayOptions:
@@ -69,7 +112,7 @@ MonoBehaviour:
         FlipPortraitY: 0
         FlipFullBodyX: 0
         FlipFullBodyY: 0
-        DisplaySlot: Left
+        DisplaySlot: Right
         PortraitScale: {x: 1, y: 1, z: 1}
         FullBodyScale: {x: 1, y: 1, z: 1}
     LocalizedDialogues:
@@ -163,7 +206,42 @@ MonoBehaviour:
   - ConversationID: LabIntroPart2
     LineID: L_08ae1ae0db6b
     ConversationLineIndex: 4
-    characterID: Player
+    characterID: Fae
+    CharacterRepresentations:
+    - SelectedCharacterID: 
+      SelectedRepresentationName: Sprites
+      SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
+      SelectedExpressionId: 
+      SelectedConfigurationEntryName: 
+      LineSpecificDisplayOptions:
+        FlipPortraitX: 0
+        FlipPortraitY: 0
+        FlipFullBodyX: 0
+        FlipFullBodyY: 0
+        DisplaySlot: Left
+        PortraitScale: {x: 1, y: 1, z: 1}
+        FullBodyScale: {x: 1, y: 1, z: 1}
+    LocalizedDialogues:
+    - Language: en
+      Text: '*sigh*... Maybe you find something to activate the motors in the arm
+        to let go.'
+      Clip: {fileID: 0}
+    PresentationMode: 0
+    ActionsBeforeDialogueLine: []
+    ActionsAfterDialogueLine: []
+    UserInputMethod: 0
+    TimeBeforeNextLine: 0
+    LineContinuationSettings:
+      Mode: 0
+      TargetContainer: {fileID: 0}
+      TargetAliasOrName: 
+      PushReturnPoint: 0
+      Choices: []
+      AllowGoBack: 0
+  - ConversationID: LabIntroPart2
+    LineID: L_423f905b9953
+    ConversationLineIndex: 5
+    characterID: Ava
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites

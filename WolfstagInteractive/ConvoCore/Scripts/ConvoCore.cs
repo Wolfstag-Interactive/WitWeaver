@@ -32,6 +32,12 @@ namespace WolfstagInteractive.ConvoCore
 
         private IConvoAudioProvider _audioProvider;
 
+        /// <summary>
+        /// Used when <see cref="ConvoCoreSettings.GoBackLabel"/> resolves to nothing, so the option
+        /// is still readable in a project whose settings asset has not been filled in.
+        /// </summary>
+        private const string k_DefaultGoBackLabel = "← Go Back";
+
         [Header("Debug")]
         [Tooltip("When enabled, each dialogue line is printed to the Console. Click a log entry to highlight this runner in the Hierarchy.")]
         [SerializeField] private bool _debugLogLines;
@@ -330,7 +336,8 @@ namespace WolfstagInteractive.ConvoCore
                     // Append a "Go Back" entry only when there is a previous line to return to.
                     bool goBackAvailable = allowBack && _currentLineIndex > 0;
                     if (goBackAvailable)
-                        labels.Add("← Go Back");
+                        labels.Add(ResolveLocalizedList(
+                            ConvoCoreSettings.Instance?.GoBackLabel, k_DefaultGoBackLabel));
 
                     if (labels.Count == 0)
                     {
@@ -446,22 +453,31 @@ namespace WolfstagInteractive.ConvoCore
         {
             var labels = new List<string>(choices.Count);
             foreach (var choice in choices)
-            {
-                if (choice.Labels == null || choice.Labels.Count == 0)
-                {
-                    labels.Add("[Choice]");
-                    continue;
-                }
-
-                // Reuse the localization handler by constructing a temporary line info
-                var tempLine = new ConvoCoreConversationData.DialogueLineInfo("choice")
-                {
-                    LocalizedDialogues = choice.Labels
-                };
-                var result = LocalizationHandler.GetLocalizedDialogue(tempLine);
-                labels.Add(result.Success ? result.Text : "[Choice]");
-            }
+                labels.Add(ResolveLocalizedList(choice.Labels, "[Choice]"));
             return labels;
+        }
+
+        /// <summary>
+        /// Resolves a standalone list of localized entries (a choice label or the Go Back label)
+        /// through the same fallback chain used for dialogue lines.
+        /// </summary>
+        /// <param name="entries">Localized entries to resolve. May be null or empty.</param>
+        /// <param name="fallback">Returned when nothing resolves to usable text.</param>
+        private string ResolveLocalizedList(List<ConvoCoreConversationData.LocalizedDialogue> entries,
+            string fallback)
+        {
+            // A settings asset that predates this field deserializes the list empty, so this is a
+            // silent fallback rather than a warning.
+            if (entries == null || entries.Count == 0) return fallback;
+            if (LocalizationHandler == null) return fallback;
+
+            // Reuse the localization handler by constructing a temporary line info
+            var tempLine = new ConvoCoreConversationData.DialogueLineInfo("choice")
+            {
+                LocalizedDialogues = entries
+            };
+            var result = LocalizationHandler.GetLocalizedDialogue(tempLine);
+            return result.Success && !string.IsNullOrEmpty(result.Text) ? result.Text : fallback;
         }
 
         private bool HandleChoiceBranch(ConvoCoreConversationData.ChoiceOption choice)
