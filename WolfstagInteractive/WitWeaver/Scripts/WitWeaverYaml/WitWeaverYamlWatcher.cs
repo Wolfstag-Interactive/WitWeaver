@@ -5,18 +5,18 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ConvoCoreEditor")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ConvoCoreGraphEditor")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("WitWeaverEditor")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("WitWeaverGraphEditor")]
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     [HelpURL(
-        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreYamlWatcher.html")]
-    public class ConvoCoreYamlWatcher : AssetPostprocessor
+        "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverYamlWatcher.html")]
+    public class WitWeaverYamlWatcher : AssetPostprocessor
     {
         static void OnPostprocessAllAssets(string[] imported, string[] deleted, string[] moved, string[] movedFrom)
         {
-            var guids = AssetDatabase.FindAssets("t:WolfstagInteractive.ConvoCore.ConvoCoreConversationData");
+            var guids = AssetDatabase.FindAssets("t:WolfstagInteractive.WitWeaver.WitWeaverConversationData");
             if (guids == null || guids.Length == 0) return;
 
             var importedSet = new HashSet<string>(imported);
@@ -37,7 +37,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             foreach (var guid in guids)
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                var data = AssetDatabase.LoadAssetAtPath<ConvoCoreConversationData>(assetPath);
+                var data = AssetDatabase.LoadAssetAtPath<WitWeaverConversationData>(assetPath);
                 if (data == null) continue;
 
                 var so = new SerializedObject(data);
@@ -55,7 +55,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     AssetDatabase.SaveAssets();
 
                     Debug.Log(
-                        $"ConvoCore: Updated SourceYamlAssetPath after move/rename:\n  {linkedPath} -> {newPath}\n  Asset: {assetPath}");
+                        $"WitWeaver: Updated SourceYamlAssetPath after move/rename:\n  {linkedPath} -> {newPath}\n  Asset: {assetPath}");
 
                     if (importedSet.Contains(newPath))
                     {
@@ -66,7 +66,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                             EditorUtility.SetDirty(data);
                             AssetDatabase.SaveAssets();
                             Debug.Log(
-                                $"ConvoCore: Auto-synced embedded YAML after move from '{newPath}' into '{assetPath}'.");
+                                $"WitWeaver: Auto-synced embedded YAML after move from '{newPath}' into '{assetPath}'.");
                         }
                     }
 
@@ -81,13 +81,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
                         so.ApplyModifiedPropertiesWithoutUndo();
                         EditorUtility.SetDirty(data);
                         AssetDatabase.SaveAssets();
-                        Debug.Log($"ConvoCore: Auto-synced embedded YAML from '{linkedPath}' into '{assetPath}'.");
+                        Debug.Log($"WitWeaver: Auto-synced embedded YAML from '{linkedPath}' into '{assetPath}'.");
                     }
                 }
             }
         }
 
-        internal static bool TryEmbedFromPath(ConvoCoreConversationData data, string sourcePath)
+        internal static bool TryEmbedFromPath(WitWeaverConversationData data, string sourcePath)
         {
             if (data == null) return false;
             if (string.IsNullOrEmpty(sourcePath)) return false;
@@ -104,29 +104,29 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 return false;
 
             // Parse
-            if (!ConvoCoreYamlParser.TryParse(srcText, out var dict,
-                    out IReadOnlyList<ConvoCoreYamlDiagnostic> parseDiagnostics))
+            if (!WitWeaverYamlParser.TryParse(srcText, out var dict,
+                    out IReadOnlyList<WitWeaverYamlDiagnostic> parseDiagnostics))
             {
                 // Errors always surface regardless of VerboseLogs.
                 Debug.LogError(
-                    $"ConvoCore: YAML parse failed, cannot embed.\n" +
-                    ConvoCoreYamlDiagnostic.Format(sourcePath, parseDiagnostics),
+                    $"WitWeaver: YAML parse failed, cannot embed.\n" +
+                    WitWeaverYamlDiagnostic.Format(sourcePath, parseDiagnostics),
                     data);
                 return false;
             }
 
             // Surface any warnings (smart quotes, duplicate locales, etc.) only when verbose logging is on.
-            if ((ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false) && parseDiagnostics.Count > 0)
+            if ((WitWeaverYamlLoader.Settings?.VerboseLogs ?? false) && parseDiagnostics.Count > 0)
                 Debug.LogWarning(
-                    $"ConvoCore: YAML parsed with warnings.\n" +
-                    ConvoCoreYamlDiagnostic.Format(sourcePath, parseDiagnostics),
+                    $"WitWeaver: YAML parsed with warnings.\n" +
+                    WitWeaverYamlDiagnostic.Format(sourcePath, parseDiagnostics),
                     data);
 
             // Ensure IDs (and validate uniqueness)
-            bool changed = ConvoCoreLineIDUtility.EnsureLineIds(dict, out var idErr);
+            bool changed = WitWeaverLineIDUtility.EnsureLineIds(dict, out var idErr);
             if (idErr != null)
             {
-                Debug.LogError($"ConvoCore: {idErr}\nSource: {sourcePath}", data);
+                Debug.LogError($"WitWeaver: {idErr}\nSource: {sourcePath}", data);
                 return false;
             }
 
@@ -134,7 +134,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (HasMissingLineIds(dict, out var missingDetails))
             {
                 Debug.LogError(
-                    $"ConvoCore: Embed refused. YAML still contains missing LineID after ensure. {missingDetails}\nSource: {sourcePath}",
+                    $"WitWeaver: Embed refused. YAML still contains missing LineID after ensure. {missingDetails}\nSource: {sourcePath}",
                     data);
                 return false;
             }
@@ -142,7 +142,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Serialize back if we touched anything
             if (changed)
             {
-                srcText = ConvoCoreYamlSerializer.Serialize(dict);
+                srcText = WitWeaverYamlSerializer.Serialize(dict);
 
                 // Persist to the source file only when writable
                 if (sourcePath.StartsWith("Assets/", StringComparison.Ordinal))
@@ -154,7 +154,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogWarning($"ConvoCore: Failed to write back LineIDs to '{sourcePath}'. {ex.Message}",
+                        Debug.LogWarning($"WitWeaver: Failed to write back LineIDs to '{sourcePath}'. {ex.Message}",
                             data);
                     }
                 }
@@ -188,7 +188,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (string.IsNullOrEmpty(data.FilePath))
             {
                 var baseName = Path.GetFileNameWithoutExtension(sourcePath);
-                data.FilePath = $"ConvoCore/Dialogue/{baseName}";
+                data.FilePath = $"WitWeaver/Dialogue/{baseName}";
             }
 
             EditorUtility.SetDirty(data);

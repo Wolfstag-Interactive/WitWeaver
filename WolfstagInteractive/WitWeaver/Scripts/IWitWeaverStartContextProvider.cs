@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    public enum ConvoStartMode
+    public enum WitWeaverStartMode
     {
         /// <summary>Ignore any saved snapshot and start the conversation from the first line.</summary>
         Fresh,
@@ -14,20 +14,20 @@ namespace WolfstagInteractive.ConvoCore
         Restart
     }
 
-    public struct ConvoStartContext
+    public struct WitWeaverStartContext
     {
-        public ConvoStartMode     Mode;
+        public WitWeaverStartMode     Mode;
         public string             StartLineId;
         public List<string>       VisitedLineIds;
     }
 
     /// <summary>
-    /// Implement on a component alongside <see cref="ConvoCore"/> to control how a conversation
-    /// is started. <see cref="ConvoCore.StartConversation"/> queries this interface via
+    /// Implement on a component alongside <see cref="WitWeaver"/> to control how a conversation
+    /// is started. <see cref="WitWeaver.StartConversation"/> queries this interface via
     /// <c>GetComponent</c> before beginning playback.
     /// </summary>
-    public interface IConvoStartContextProvider
+    public interface IWitWeaverStartContextProvider
     {
-        ConvoStartContext GetStartContext();
+        WitWeaverStartContext GetStartContext();
     }
 }

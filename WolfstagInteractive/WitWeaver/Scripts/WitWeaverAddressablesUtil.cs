@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Threading.Tasks;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAddressablesUtil.html")]
-    public static class ConvoCoreAddressablesUtil
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAddressablesUtil.html")]
+    public static class WitWeaverAddressablesUtil
     {
-#if CONVOCORE_ADDRESSABLES
+#if WITWEAVER_ADDRESSABLES
         public static async Task UpdateCatalogsIfNeededAsync()
         {
             await UnityEngine.AddressableAssets.Addressables.InitializeAsync().Task;

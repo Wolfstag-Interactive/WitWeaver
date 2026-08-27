@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLocalizationHandler.html")]
-    public class ConvoCoreDialogueLocalizationHandler
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLocalizationHandler.html")]
+    public class WitWeaverDialogueLocalizationHandler
     {
-        private readonly ConvoCoreLanguageManager _convoCoreLanguageManager;
+        private readonly WitWeaverLanguageManager _witWeaverLanguageManager;
 
         /// <summary>
         /// Constructor requires a LanguageManager instance for dependency injection.
         /// </summary>
-        public ConvoCoreDialogueLocalizationHandler(ConvoCoreLanguageManager convoCoreLanguageManager)
+        public WitWeaverDialogueLocalizationHandler(WitWeaverLanguageManager witWeaverLanguageManager)
         {
-            _convoCoreLanguageManager = convoCoreLanguageManager ?? throw new ArgumentNullException(nameof(convoCoreLanguageManager));
+            _witWeaverLanguageManager = witWeaverLanguageManager ?? throw new ArgumentNullException(nameof(witWeaverLanguageManager));
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace WolfstagInteractive.ConvoCore
         /// Tries: exact -> base (fr-CA -> fr) -> "en" -> base("en") -> first available.
         /// A line succeeds if it resolves either text or a clip (or both).
         /// </summary>
-        public LocalizedDialogueResult GetLocalizedDialogue(ConvoCoreConversationData.DialogueLineInfo lineInfo)
+        public LocalizedDialogueResult GetLocalizedDialogue(WitWeaverConversationData.DialogueLineInfo lineInfo)
         {
             if (lineInfo?.LocalizedDialogues == null || lineInfo.LocalizedDialogues.Count == 0)
             {
@@ -46,7 +46,7 @@ namespace WolfstagInteractive.ConvoCore
                     clipMap[ld.Language] = ld.Clip;
             }
 
-            string requested = _convoCoreLanguageManager?.CurrentLanguage ?? "en";
+            string requested = _witWeaverLanguageManager?.CurrentLanguage ?? "en";
             string fallback = "en";
 
             // Run the 5-step fallback chain and return the first hit

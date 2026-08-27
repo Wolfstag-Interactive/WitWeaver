@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSaveManager.html")]
-[CreateAssetMenu(fileName = "NewSaveManager", menuName = "ConvoCore/Runtime/Save Manager")]
-    public class ConvoCoreSaveManager : ScriptableObject
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSaveManager.html")]
+[CreateAssetMenu(fileName = "NewSaveManager", menuName = "WitWeaver/Runtime/Save Manager")]
+    public class WitWeaverSaveManager : ScriptableObject
     {
-        public ConvoVariableStore VariableStore;
-        public ConvoSettingsState SettingsState;
+        public WitWeaverVariableStore VariableStore;
+        public WitWeaverSettingsState SettingsState;
 
         [Header("Provider")]
         [SerializeField] private bool _useYaml = true;
@@ -17,11 +17,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         [Header("Defaults")]
         [SerializeField] private string _defaultSlot = "default";
 
-        private IConvoSaveProvider _provider;
+        private IWitWeaverSaveProvider _provider;
         private List<ConversationSnapshot> _conversationSnapshots = new List<ConversationSnapshot>();
 
         public bool IsInitialized { get; private set; }
-        public IConvoSaveProvider Provider => _provider;
+        public IWitWeaverSaveProvider Provider => _provider;
 
         // ----- Events -----
 
@@ -30,7 +30,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public Action<string> OnLoadCompleted;
         public Action OnSettingsSaved;
         public Action OnSettingsLoaded;
-        public Action<string, ConvoCoreGameSnapshot> OnSnapshotAssembled;
+        public Action<string, WitWeaverGameSnapshot> OnSnapshotAssembled;
 
         // ----- Initialization -----
 
@@ -39,15 +39,15 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             if (_provider == null)
             {
                 _provider = _useYaml
-                    ? (IConvoSaveProvider)new YamlFileConvoSaveProvider()
-                    : new JsonFileConvoSaveProvider();
+                    ? (IWitWeaverSaveProvider)new YamlFileWitWeaverSaveProvider()
+                    : new JsonFileWitWeaverSaveProvider();
             }
 
             IsInitialized = true;
             OnInitialized?.Invoke();
         }
 
-        public void SetProvider(IConvoSaveProvider provider)
+        public void SetProvider(IWitWeaverSaveProvider provider)
         {
             _provider = provider;
         }
@@ -87,18 +87,18 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (_provider == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Provider is null. Call Initialize() first.");
+                Debug.LogWarning("[WitWeaverSaveManager] Provider is null. Call Initialize() first.");
                 return;
             }
 
             if (SettingsState == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] SettingsState is not assigned.");
+                Debug.LogWarning("[WitWeaverSaveManager] SettingsState is not assigned.");
                 return;
             }
 
             var snapshot = SettingsState.ExportSnapshot();
-            _provider.SaveSettings(ConvoCoreKeys.Settings, snapshot);
+            _provider.SaveSettings(WitWeaverKeys.Settings, snapshot);
             OnSettingsSaved?.Invoke();
         }
 
@@ -106,20 +106,20 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (_provider == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Provider is null. Call Initialize() first.");
+                Debug.LogWarning("[WitWeaverSaveManager] Provider is null. Call Initialize() first.");
                 return;
             }
 
             if (SettingsState == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] SettingsState is not assigned.");
+                Debug.LogWarning("[WitWeaverSaveManager] SettingsState is not assigned.");
                 return;
             }
 
-            var snapshot = _provider.LoadSettings(ConvoCoreKeys.Settings);
+            var snapshot = _provider.LoadSettings(WitWeaverKeys.Settings);
             if (snapshot != null)
             {
-                snapshot = ConvoCoreSnapshotMigrator.Migrate(snapshot);
+                snapshot = WitWeaverSnapshotMigrator.Migrate(snapshot);
                 SettingsState.RestoreFromSnapshot(snapshot);
             }
 
@@ -131,7 +131,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             LoadSettings();
 
             // If no settings were saved, fall back to first supported language
-            var langManager = ConvoCoreLanguageManager.Instance;
+            var langManager = WitWeaverLanguageManager.Instance;
             if (langManager != null)
             {
                 var supported = langManager.GetSupportedLanguages();
@@ -149,19 +149,19 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (_provider == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Provider is null. Call Initialize() first.");
+                Debug.LogWarning("[WitWeaverSaveManager] Provider is null. Call Initialize() first.");
                 return;
             }
 
-            var settingsKey = ConvoCoreKeys.Settings;
-            if (saveSlot == settingsKey || ConvoCoreKeys.GameSlot(saveSlot) == settingsKey)
+            var settingsKey = WitWeaverKeys.Settings;
+            if (saveSlot == settingsKey || WitWeaverKeys.GameSlot(saveSlot) == settingsKey)
             {
-                Debug.LogWarning($"[ConvoCoreSaveManager] Save slot '{saveSlot}' conflicts with the reserved settings key. Aborting save.");
+                Debug.LogWarning($"[WitWeaverSaveManager] Save slot '{saveSlot}' conflicts with the reserved settings key. Aborting save.");
                 return;
             }
 
             var snapshot = AssembleGameSnapshot();
-            var key = ConvoCoreKeys.GameSlot(saveSlot);
+            var key = WitWeaverKeys.GameSlot(saveSlot);
             OnSnapshotAssembled?.Invoke(saveSlot, snapshot);
             _provider.Save(key, snapshot);
             OnSaveCompleted?.Invoke(saveSlot);
@@ -171,19 +171,19 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (_provider == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Provider is null. Call Initialize() first.");
+                Debug.LogWarning("[WitWeaverSaveManager] Provider is null. Call Initialize() first.");
                 return;
             }
 
-            var key = ConvoCoreKeys.GameSlot(saveSlot);
+            var key = WitWeaverKeys.GameSlot(saveSlot);
             var snapshot = _provider.Load(key);
             if (snapshot == null)
             {
-                Debug.LogWarning($"[ConvoCoreSaveManager] No save found for slot '{saveSlot}'.");
+                Debug.LogWarning($"[WitWeaverSaveManager] No save found for slot '{saveSlot}'.");
                 return;
             }
 
-            snapshot = ConvoCoreSnapshotMigrator.Migrate(snapshot);
+            snapshot = WitWeaverSnapshotMigrator.Migrate(snapshot);
             RestoreFromSnapshot(snapshot);
             OnLoadCompleted?.Invoke(saveSlot);
         }
@@ -202,60 +202,60 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (_provider == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Provider is null. Call Initialize() first.");
+                Debug.LogWarning("[WitWeaverSaveManager] Provider is null. Call Initialize() first.");
                 return false;
             }
-            return _provider.HasSave(ConvoCoreKeys.GameSlot(saveSlot));
+            return _provider.HasSave(WitWeaverKeys.GameSlot(saveSlot));
         }
 
         public void DeleteSave(string saveSlot)
         {
             if (_provider == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Provider is null. Call Initialize() first.");
+                Debug.LogWarning("[WitWeaverSaveManager] Provider is null. Call Initialize() first.");
                 return;
             }
-            _provider.Delete(ConvoCoreKeys.GameSlot(saveSlot));
+            _provider.Delete(WitWeaverKeys.GameSlot(saveSlot));
         }
 
         // ----- Raw Access -----
 
-        public ConvoCoreGameSnapshot GetGameSnapshot()
+        public WitWeaverGameSnapshot GetGameSnapshot()
         {
             return AssembleGameSnapshot();
         }
 
-        public void RestoreGameSnapshot(ConvoCoreGameSnapshot snapshot)
+        public void RestoreGameSnapshot(WitWeaverGameSnapshot snapshot)
         {
             if (snapshot == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Cannot restore null snapshot.");
+                Debug.LogWarning("[WitWeaverSaveManager] Cannot restore null snapshot.");
                 return;
             }
             RestoreFromSnapshot(snapshot);
         }
 
-        public ConvoCoreSettingsSnapshot GetSettingsSnapshot()
+        public WitWeaverSettingsSnapshot GetSettingsSnapshot()
         {
             if (SettingsState == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] SettingsState is not assigned.");
+                Debug.LogWarning("[WitWeaverSaveManager] SettingsState is not assigned.");
                 return null;
             }
             return SettingsState.ExportSnapshot();
         }
 
-        public void RestoreSettingsSnapshot(ConvoCoreSettingsSnapshot snapshot)
+        public void RestoreSettingsSnapshot(WitWeaverSettingsSnapshot snapshot)
         {
             if (SettingsState == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] SettingsState is not assigned.");
+                Debug.LogWarning("[WitWeaverSaveManager] SettingsState is not assigned.");
                 return;
             }
 
             if (snapshot == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManager] Cannot restore null settings snapshot.");
+                Debug.LogWarning("[WitWeaverSaveManager] Cannot restore null settings snapshot.");
                 return;
             }
 
@@ -266,27 +266,27 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         public int ConversationSnapshotCount => _conversationSnapshots.Count;
 
-        private ConvoCoreGameSnapshot AssembleGameSnapshot()
+        private WitWeaverGameSnapshot AssembleGameSnapshot()
         {
-            var snapshot = new ConvoCoreGameSnapshot
+            var snapshot = new WitWeaverGameSnapshot
             {
-                SchemaVersion = ConvoCoreGameSnapshot.CurrentSchemaVersion,
+                SchemaVersion = WitWeaverGameSnapshot.CurrentSchemaVersion,
                 SaveTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
             };
 
             if (VariableStore != null)
-                snapshot.GlobalVariables = VariableStore.ExportByScope(ConvoVariableScope.Global);
+                snapshot.GlobalVariables = VariableStore.ExportByScope(WitWeaverVariableScope.Global);
 
             snapshot.Conversations = new List<ConversationSnapshot>(_conversationSnapshots);
 
             return snapshot;
         }
 
-        private void RestoreFromSnapshot(ConvoCoreGameSnapshot snapshot)
+        private void RestoreFromSnapshot(WitWeaverGameSnapshot snapshot)
         {
             if (VariableStore != null)
             {
-                VariableStore.ClearByScope(ConvoVariableScope.Global);
+                VariableStore.ClearByScope(WitWeaverVariableScope.Global);
                 if (snapshot.GlobalVariables != null)
                     VariableStore.RestoreEntries(snapshot.GlobalVariables);
             }

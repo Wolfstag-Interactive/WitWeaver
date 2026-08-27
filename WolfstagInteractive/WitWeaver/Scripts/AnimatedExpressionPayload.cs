@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// UI-agnostic render target for animated portrait playback. Implemented by the

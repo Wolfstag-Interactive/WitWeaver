@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Contract between the ConvoCore runner and a dialogue UI implementation.
-    /// Implement (or extend <see cref="ConvoCoreUIFoundation"/>) to display dialogue lines,
+    /// Contract between the WitWeaver runner and a dialogue UI implementation.
+    /// Implement (or extend <see cref="WitWeaverUIFoundation"/>) to display dialogue lines,
     /// present player choices, and signal advance/reverse input back to the runner.
     /// </summary>
     public interface IUIFoundation
@@ -15,19 +15,19 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>
         /// Initializes the UI builder and sets up required bindings.
         /// </summary>
-        /// <param name="convoCoreInstance">The ConvoCore instance.</param>
-        void InitializeUI(ConvoCore convoCoreInstance);
+        /// <param name="witWeaverInstance">The WitWeaver instance.</param>
+        void InitializeUI(WitWeaver witWeaverInstance);
 
         /// <summary>
-        /// Updates the displayed UI elements based on the ConvoCore instances current state.
+        /// Updates the displayed UI elements based on the WitWeaver instances current state.
         /// </summary>
         /// <param name="dialogueLineInfo">Details of the current dialogue line.</param>
         /// <param name="localizedText">The current localized text to be displayed</param>
         /// <param name="speakingCharacterName">The name of the speaking character</param>
         /// <param name="expressionMappingData">The speaking characters portrait</param>
         /// <param name="primaryProfile">The primary profile data</param>
-        public void UpdateDialogueUI(ConvoCoreConversationData.DialogueLineInfo dialogueLineInfo, string localizedText,
-            string speakingCharacterName, CharacterRepresentationBase expressionMappingData, ConvoCoreCharacterProfileBaseData primaryProfile);
+        public void UpdateDialogueUI(WitWeaverConversationData.DialogueLineInfo dialogueLineInfo, string localizedText,
+            string speakingCharacterName, CharacterRepresentationBase expressionMappingData, WitWeaverCharacterProfileBaseData primaryProfile);
 
         /// <summary>
         /// Updates the UI when language changes, primarily to replace the current dialogue text
@@ -56,7 +56,7 @@ namespace WolfstagInteractive.ConvoCore
         /// <param name="localizedLabels">Pre-resolved display strings, one per option.</param>
         /// <param name="result">Shared result object; set SelectedIndex to signal completion.</param>
         public virtual IEnumerator PresentChoices(
-            List<ConvoCoreConversationData.ChoiceOption> options,
+            List<WitWeaverConversationData.ChoiceOption> options,
             List<string> localizedLabels,
             ChoiceResult result)
         {

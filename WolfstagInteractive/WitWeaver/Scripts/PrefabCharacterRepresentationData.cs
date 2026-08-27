@@ -3,25 +3,25 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Defines how a prefab-based character is displayed in a ConvoCore conversation.
+    /// Defines how a prefab-based character is displayed in a WitWeaver conversation.
     ///
     /// A <b>shared expression pool</b> lives at the asset level. Individual
     /// <see cref="PrefabCharacterConfigurationEntry"/> items can optionally override it
     /// with entry-specific expression mappings.
     ///
     /// Each configuration entry names a prefab to use as a spawn fallback when the character
-    /// is not found in the scene registry, and the <see cref="ConvoCoreCharacterBehaviour"/>
+    /// is not found in the scene registry, and the <see cref="WitWeaverCharacterBehaviour"/>
     /// ScriptableObjects that govern world-space placement.
     ///
-    /// At runtime, ConvoCore always checks the scene registry by character ID first before
+    /// At runtime, WitWeaver always checks the scene registry by character ID first before
     /// spawning from the entry prefab. No explicit source-mode flag is required.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PrefabCharacterRepresentationData.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData.html")]
     [CreateAssetMenu(fileName = "PrefabCharacterRepresentation",
-        menuName = "ConvoCore/Character/Representation/Prefab Character Representation")]
+        menuName = "WitWeaver/Character/Representation/Prefab Character Representation")]
     public class PrefabCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
 #if UNITY_EDITOR
         , IDialogueLineEditorCustomizable
@@ -112,8 +112,8 @@ namespace WolfstagInteractive.ConvoCore
         // CharacterRepresentationBase overrides
         // ------------------------------------------------------------------
 
-        public override void ApplyExpression(string expressionId, ConvoCore runtime,
-            ConvoCoreConversationData conversation, int lineIndex, IConvoCoreCharacterDisplay display)
+        public override void ApplyExpression(string expressionId, WitWeaver runtime,
+            WitWeaverConversationData conversation, int lineIndex, IWitWeaverCharacterDisplay display)
         {
             if (!TryResolveById(expressionId, out var mapping))
             {
@@ -277,11 +277,11 @@ namespace WolfstagInteractive.ConvoCore
         [Tooltip("Marks this as the default entry. Only one entry per asset should have this enabled; if none is marked, the first entry is used as the default.")]
         public bool IsDefault;
 
-        [Tooltip("Prefab spawned when the character is not found in the scene registry. Must have an IConvoCoreCharacterDisplay component on it or a child.")]
+        [Tooltip("Prefab spawned when the character is not found in the scene registry. Must have an IWitWeaverCharacterDisplay component on it or a child.")]
         public GameObject CharacterPrefab;
 
         [Tooltip("Character Behaviour ScriptableObjects that control how and where this character is placed in 3D world-space. Behaviours are applied in list order.")]
-        public List<ConvoCoreCharacterBehaviour> CharacterBehaviours = new();
+        public List<WitWeaverCharacterBehaviour> CharacterBehaviours = new();
 
         [Tooltip("Entry-specific expression mappings. These take priority over SharedExpressionMappings on the representation asset. When empty or no match is found, the shared pool is used.")]
         public List<PrefabExpressionMapping> ExpressionOverrides = new();

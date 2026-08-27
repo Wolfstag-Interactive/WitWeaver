@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Character behaviour type that wraps a list of other behaviour types and selects between them
@@ -18,18 +18,18 @@ namespace WolfstagInteractive.ConvoCore
     /// Use case: the same scene has multiple dialogue modes and requires different character
     /// placement strategies depending on which conversation is active.
     /// </summary>
-    [CreateAssetMenu(fileName = "SequencedBehaviour", menuName = "ConvoCore/Character Behaviour/Sequenced Behaviour")]
-    public class SequencedBehaviour : ConvoCoreCharacterBehaviour
+    [CreateAssetMenu(fileName = "SequencedBehaviour", menuName = "WitWeaver/Character Behaviour/Sequenced Behaviour")]
+    public class SequencedBehaviour : WitWeaverCharacterBehaviour
     {
         [Tooltip("Ordered list of sub-behaviours to cycle through. Wraps around when exhausted.")]
-        [SerializeField] private List<ConvoCoreCharacterBehaviour> _behaviours = new();
+        [SerializeField] private List<WitWeaverCharacterBehaviour> _behaviours = new();
 
         [Tooltip("Optional named key used with ISequencedPresenceCondition for condition-based selection. " +
                  "Leave empty to use index-based (round-robin) selection only.")]
         [SerializeField] private string _conditionKey;
 
         [System.NonSerialized] private int _conversationCounter;
-        [System.NonSerialized] private ConvoCoreCharacterBehaviour _active;
+        [System.NonSerialized] private WitWeaverCharacterBehaviour _active;
 
         public override void OnConversationBegin()
         {
@@ -47,10 +47,10 @@ namespace WolfstagInteractive.ConvoCore
             _active?.OnConversationBegin();
         }
 
-        public override IConvoCoreCharacterDisplay ResolvePresence(
+        public override IWitWeaverCharacterDisplay ResolvePresence(
             PrefabCharacterRepresentationData representation,
             CharacterBehaviourContext context,
-            ConvoCorePrefabRepresentationSpawner spawner)
+            WitWeaverPrefabRepresentationSpawner spawner)
         {
             if (_active == null)
             {

@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Interface for character representations that want to provide a custom editor UI for per-line display options

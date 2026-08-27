@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionEnableDisableGameObject.html")]
-[CreateAssetMenu(fileName = "EnableDisableGameObjectAction", menuName = "ConvoCore/Actions/Enable Or Disable GameObject")]
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionEnableDisableGameObject.html")]
+[CreateAssetMenu(fileName = "EnableDisableGameObjectAction", menuName = "WitWeaver/Actions/Enable Or Disable GameObject")]
     [System.Serializable]
-    public class ConvoCoreDialogueLineActionEnableDisableGameObject : BaseDialogueLineAction
+    public class WitWeaverDialogueLineActionEnableDisableGameObject : BaseDialogueLineAction
     {
         [Header("GameObject Settings")]
         [Tooltip("Reference to the GameObject to enable or disable")]

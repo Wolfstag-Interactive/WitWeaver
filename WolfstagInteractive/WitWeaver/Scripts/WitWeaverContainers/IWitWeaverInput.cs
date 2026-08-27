@@ -1,32 +1,32 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Input strategy interface. Implement to define how and which conversation(s) a
-    /// <see cref="ConvoCore"/> runner should play. The two built-in implementations are
+    /// <see cref="WitWeaver"/> runner should play. The two built-in implementations are
     /// <see cref="SingleConversationInput"/> for a single fixed conversation, and
     /// <see cref="ContainerInput"/> for container-driven selection.
     /// </summary>
-    public interface IConvoInput
+    public interface IWitWeaverInput
     {
-        void Play(MonoBehaviour host, IConvoCoreRunner runner);
+        void Play(MonoBehaviour host, IWitWeaverRunner runner);
     }
 
     /// <summary>
-    /// Plays a single <see cref="ConvoCoreConversationData"/> asset directly.
+    /// Plays a single <see cref="WitWeaverConversationData"/> asset directly.
     /// The simplest input strategy — suitable for NPCs with one fixed conversation.
     /// </summary>
     [System.Serializable]
-    public sealed class SingleConversationInput : IConvoInput
+    public sealed class SingleConversationInput : IWitWeaverInput
     {
-        public ConvoCoreConversationData Conversation;
+        public WitWeaverConversationData Conversation;
 
-        public void Play(MonoBehaviour host, IConvoCoreRunner runner)
+        public void Play(MonoBehaviour host, IWitWeaverRunner runner)
         {
             if (Conversation == null)
             {
-                Debug.LogWarning("[ConvoCore] SingleConversationInput: Conversation is null.");
+                Debug.LogWarning("[WitWeaver] SingleConversationInput: Conversation is null.");
                 return;
             }
             runner.PlayConversation(Conversation);
@@ -40,20 +40,20 @@ namespace WolfstagInteractive.ConvoCore
     /// automatically alongside the conversation. At runtime the baked conversation plays.
     /// </summary>
     [System.Serializable]
-    public sealed class GraphConversationInput : IConvoInput
+    public sealed class GraphConversationInput : IWitWeaverInput
     {
         [Tooltip("A graph-authored conversation. Use 'Open Graph' below (or double-click the asset) to edit it.")]
-        public ConvoCoreConversationData Conversation;
+        public WitWeaverConversationData Conversation;
 
-        public void Play(MonoBehaviour host, IConvoCoreRunner runner)
+        public void Play(MonoBehaviour host, IWitWeaverRunner runner)
         {
             if (Conversation == null)
             {
-                Debug.LogWarning("[ConvoCore] GraphConversationInput: no conversation assigned.");
+                Debug.LogWarning("[WitWeaver] GraphConversationInput: no conversation assigned.");
                 return;
             }
-            if (Conversation.AuthoringMode != ConvoCoreConversationData.ConversationAuthoringMode.Graph)
-                Debug.LogWarning($"[ConvoCore] GraphConversationInput: '{Conversation.name}' is not graph-authored. " +
+            if (Conversation.AuthoringMode != WitWeaverConversationData.ConversationAuthoringMode.Graph)
+                Debug.LogWarning($"[WitWeaver] GraphConversationInput: '{Conversation.name}' is not graph-authored. " +
                                  "It will play, but consider using the Single input mode instead.");
             runner.PlayConversation(Conversation);
         }
@@ -65,17 +65,17 @@ namespace WolfstagInteractive.ConvoCore
     /// or use random or weighted selection.
     /// </summary>
     [System.Serializable]
-    public sealed class ContainerInput : IConvoInput
+    public sealed class ContainerInput : IWitWeaverInput
     {
         public ConversationContainer Container;
         public string StartAlias;
         public bool? LoopOverride; // null = use container’s own Loop
 
-        public void Play(MonoBehaviour host, IConvoCoreRunner runner)
+        public void Play(MonoBehaviour host, IWitWeaverRunner runner)
         {
             if (Container == null)
             {
-                Debug.LogWarning("[ConvoCore] No container assigned."); return;
+                Debug.LogWarning("[WitWeaver] No container assigned."); return;
             }
             host.StartCoroutine(
                 ConversationContainerRuntime.Play(Container, runner, StartAlias, LoopOverride, hubSelector: null));

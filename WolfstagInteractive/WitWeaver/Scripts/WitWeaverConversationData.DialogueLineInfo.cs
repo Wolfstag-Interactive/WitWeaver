@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Controls when a character's prefab is resolved and placed during a conversation.
     /// </summary>
-    public enum ConvoCoreSpawnTiming
+    public enum WitWeaverSpawnTiming
     {
         /// <summary>Resolve and place the character as soon as the conversation begins.</summary>
         OnConversationBegin,
@@ -18,7 +18,7 @@ namespace WolfstagInteractive.ConvoCore
     /// Associates a conversation participant (by CharacterID) with a default configuration entry
     /// name on their <see cref="PrefabCharacterRepresentationData"/> asset.
     ///
-    /// Resolution chain for an entry name: per-line <see cref="ConvoCoreConversationData.CharacterRepresentationData.SelectedConfigurationEntryName"/>
+    /// Resolution chain for an entry name: per-line <see cref="WitWeaverConversationData.CharacterRepresentationData.SelectedConfigurationEntryName"/>
     /// → this participant default → representation asset's default entry.
     /// </summary>
     [Serializable]
@@ -31,10 +31,10 @@ namespace WolfstagInteractive.ConvoCore
         public string DefaultConfigurationEntryName;
 
         [Tooltip("When to resolve and place this character's prefab representation.")]
-        public ConvoCoreSpawnTiming SpawnTiming = ConvoCoreSpawnTiming.OnConversationBegin;
+        public WitWeaverSpawnTiming SpawnTiming = WitWeaverSpawnTiming.OnConversationBegin;
     }
 
-public partial class ConvoCoreConversationData
+public partial class WitWeaverConversationData
     {
         [Serializable]
         public struct CharacterRepresentationData
@@ -59,7 +59,7 @@ public partial class ConvoCoreConversationData
         }
     }
 
-    public partial class ConvoCoreConversationData
+    public partial class WitWeaverConversationData
     {
         [Serializable]
         public enum DialogueLineProgressionMethod
@@ -75,7 +75,7 @@ public partial class ConvoCoreConversationData
         }
     }
 
-    public partial class ConvoCoreConversationData
+    public partial class WitWeaverConversationData
     {
         [Serializable]
         public struct LocalizedDialogue
@@ -88,7 +88,7 @@ public partial class ConvoCoreConversationData
             public AudioClip Clip; // Built-in Unity audio path. Middleware users leave this null.
         }
     }
-    public partial class ConvoCoreConversationData
+    public partial class WitWeaverConversationData
     {
         [Serializable]
         public enum LineContinuationMode
@@ -152,7 +152,7 @@ public partial class ConvoCoreConversationData
         }
 
     }
-    public partial class ConvoCoreConversationData
+    public partial class WitWeaverConversationData
     {
         [Serializable]
         public class DialogueLineInfo
@@ -167,7 +167,7 @@ public partial class ConvoCoreConversationData
             public List<LocalizedDialogue> LocalizedDialogues; // Localized dialogues per language
 
             // Audio is now either in LocalizedDialogue.Clip (Unity path)
-            // or resolved via ConvoCoreAudioManifest (middleware path).
+            // or resolved via WitWeaverAudioManifest (middleware path).
 
             [Tooltip("Controls whether this line displays text, plays audio, or both. Inherits from the conversation default on creation.")]
             public ConversationPresentationMode PresentationMode = ConversationPresentationMode.AudioAndText;

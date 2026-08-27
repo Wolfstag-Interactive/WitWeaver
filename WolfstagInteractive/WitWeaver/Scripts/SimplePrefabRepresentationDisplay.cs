@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SimplePrefabRepresentationDisplay.html")]
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SimplePrefabRepresentationDisplay.html")]
     [System.Obsolete("SimplePrefabRepresentationDisplay is deprecated. " +
-                     "Use ConvoCoreActionOnlyDisplay instead, which provides the same " +
+                     "Use WitWeaverActionOnlyDisplay instead, which provides the same " +
                      "functionality with a corrected BindRepresentation signature.")]
-    public class SimplePrefabRepresentationDisplay : ConvoCoreCharacterDisplayBase
+    public class SimplePrefabRepresentationDisplay : WitWeaverCharacterDisplayBase
     {
         private CharacterRepresentationBase _representation;
         private PrefabCharacterRepresentationData _prefabRep;
@@ -44,7 +44,7 @@ namespace WolfstagInteractive.ConvoCore
             // Add more payload effects as needed (SFX, particle, blend shapes...)
         }
         // Intentionally standalone -- does not call base.ApplyDisplayOptions.
-        // Positioning is handled by the parent transform assigned in ConvoCorePrefabRepresentationSpawner.
+        // Positioning is handled by the parent transform assigned in WitWeaverPrefabRepresentationSpawner.
         // Scale and flip are applied directly to this transform.
         public override void ApplyDisplayOptions(DialogueLineDisplayOptions options)
         {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Context container passed to renderers on initialization.

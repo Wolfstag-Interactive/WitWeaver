@@ -2,34 +2,34 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreLanguageManager.html")]
-    public class ConvoCoreLanguageManager
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLanguageManager.html")]
+    public class WitWeaverLanguageManager
     {
-        private static ConvoCoreLanguageManager _instance;
+        private static WitWeaverLanguageManager _instance;
 
-        public static ConvoCoreLanguageManager Instance
+        public static WitWeaverLanguageManager Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new ConvoCoreLanguageManager();
+                    _instance = new WitWeaverLanguageManager();
                     _instance.Initialize();
                 }
                 return _instance;
             }
         }
 
-        private ConvoCoreSettings _convoCoreSettings;
+        private WitWeaverSettings _witWeaverSettings;
 
         public string CurrentLanguage
         {
             get
             {
-                if (_convoCoreSettings != null)
-                    return _convoCoreSettings.CurrentLanguage;
+                if (_witWeaverSettings != null)
+                    return _witWeaverSettings.CurrentLanguage;
                 
                 return "EN"; // fallback
             }
@@ -37,73 +37,73 @@ namespace WolfstagInteractive.ConvoCore
 
         public static Action<string> OnLanguageChanged { get; set; }
 
-        private ConvoCoreLanguageManager() { }
+        private WitWeaverLanguageManager() { }
 
         private void Initialize()
         {
             // Load settings - try Resources first, then look in project
-            _convoCoreSettings = ConvoCoreYamlLoader.Settings;
+            _witWeaverSettings = WitWeaverYamlLoader.Settings;
             
-            if (_convoCoreSettings == null)
+            if (_witWeaverSettings == null)
             {
                 // Try to load from Resources as fallback
-                _convoCoreSettings = Resources.Load<ConvoCoreSettings>("ConvoCoreSettings");
+                _witWeaverSettings = Resources.Load<WitWeaverSettings>("WitWeaverSettings");
             }
 
-            if (_convoCoreSettings == null)
+            if (_witWeaverSettings == null)
             {
 #if UNITY_EDITOR
                 // In editor, try to find it in the project
-                var guids = UnityEditor.AssetDatabase.FindAssets("t:ConvoCoreSettings");
+                var guids = UnityEditor.AssetDatabase.FindAssets("t:WitWeaverSettings");
                 if (guids.Length > 0)
                 {
                     var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
-                    _convoCoreSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<ConvoCoreSettings>(path);
+                    _witWeaverSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<WitWeaverSettings>(path);
                     
                     // Auto-assign to the loader for next time
-                    if (_convoCoreSettings != null)
+                    if (_witWeaverSettings != null)
                     {
-                        ConvoCoreYamlLoader.Settings = _convoCoreSettings;
+                        WitWeaverYamlLoader.Settings = _witWeaverSettings;
                     }
                 }
 #endif
             }
 
-            if (_convoCoreSettings == null)
+            if (_witWeaverSettings == null)
             {
-                Debug.LogError("ConvoCoreSettings not found! Please create one via Tools > ConvoCore > Open Settings (or Create if Missing)");
+                Debug.LogError("WitWeaverSettings not found! Please create one via Tools > WitWeaver > Open Settings (or Create if Missing)");
                 return;
             }
 
-            if (_convoCoreSettings.SupportedLanguages == null || _convoCoreSettings.SupportedLanguages.Count == 0)
+            if (_witWeaverSettings.SupportedLanguages == null || _witWeaverSettings.SupportedLanguages.Count == 0)
             {
-                Debug.LogWarning("ConvoCoreSettings has no supported languages. Adding default 'EN'.");
-                _convoCoreSettings.SupportedLanguages = new List<string> { "EN" };
+                Debug.LogWarning("WitWeaverSettings has no supported languages. Adding default 'EN'.");
+                _witWeaverSettings.SupportedLanguages = new List<string> { "EN" };
 #if UNITY_EDITOR
-                UnityEditor.EditorUtility.SetDirty(_convoCoreSettings);
+                UnityEditor.EditorUtility.SetDirty(_witWeaverSettings);
 #endif
             }
 
-            if (string.IsNullOrEmpty(_convoCoreSettings.CurrentLanguage))
+            if (string.IsNullOrEmpty(_witWeaverSettings.CurrentLanguage))
             {
-                _convoCoreSettings.CurrentLanguage = _convoCoreSettings.SupportedLanguages[0];
+                _witWeaverSettings.CurrentLanguage = _witWeaverSettings.SupportedLanguages[0];
 #if UNITY_EDITOR
-                UnityEditor.EditorUtility.SetDirty(_convoCoreSettings);
+                UnityEditor.EditorUtility.SetDirty(_witWeaverSettings);
 #endif
             }
 
-            bool verboseLogs = _convoCoreSettings.VerboseLogs;
+            bool verboseLogs = _witWeaverSettings.VerboseLogs;
             if (verboseLogs)
-                Debug.Log($"LanguageManager initialized with language: {_convoCoreSettings.CurrentLanguage}");
+                Debug.Log($"LanguageManager initialized with language: {_witWeaverSettings.CurrentLanguage}");
         }
 
         public List<string> GetSupportedLanguages()
         {
-            if (_convoCoreSettings != null &&
-                _convoCoreSettings.SupportedLanguages != null &&
-                _convoCoreSettings.SupportedLanguages.Count > 0)
+            if (_witWeaverSettings != null &&
+                _witWeaverSettings.SupportedLanguages != null &&
+                _witWeaverSettings.SupportedLanguages.Count > 0)
             {
-                return _convoCoreSettings.SupportedLanguages;
+                return _witWeaverSettings.SupportedLanguages;
             }
 
             return new List<string> { "EN" };
@@ -125,15 +125,15 @@ namespace WolfstagInteractive.ConvoCore
 
             if (!string.IsNullOrEmpty(match))
             {
-                if (_convoCoreSettings != null)
+                if (_witWeaverSettings != null)
                 {
-                    _convoCoreSettings.CurrentLanguage = match;
+                    _witWeaverSettings.CurrentLanguage = match;
 #if UNITY_EDITOR
-                    UnityEditor.EditorUtility.SetDirty(_convoCoreSettings);
+                    UnityEditor.EditorUtility.SetDirty(_witWeaverSettings);
 #endif
                 }
 
-                bool verboseLogs = _convoCoreSettings?.VerboseLogs ?? false;
+                bool verboseLogs = _witWeaverSettings?.VerboseLogs ?? false;
                 if (verboseLogs)
                     Debug.Log($"Language set to: {match}");
 

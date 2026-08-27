@@ -9,27 +9,27 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// World-space dialogue UI for 3D character conversations. No sprite support; no slot system.
-    /// Character placement is entirely behaviour-driven via <see cref="ConvoCoreCharacterBehaviour"/>.
+    /// Character placement is entirely behaviour-driven via <see cref="WitWeaverCharacterBehaviour"/>.
     ///
     /// Characters are persistent across lines. Expression application is the only per-line
     /// operation; characters are not despawned and re-spawned between lines.
     ///
-    /// <see cref="ConvoCoreCharacterBehaviour.OnConversationBegin"/> is called when
-    /// <see cref="ConvoCore.StartedConversation"/> fires.
-    /// <see cref="ConvoCoreCharacterBehaviour.OnConversationEnd"/> is called when
-    /// <see cref="ConvoCore.EndedConversation"/> fires. The spawner is never called directly
+    /// <see cref="WitWeaverCharacterBehaviour.OnConversationBegin"/> is called when
+    /// <see cref="WitWeaver.StartedConversation"/> fires.
+    /// <see cref="WitWeaverCharacterBehaviour.OnConversationEnd"/> is called when
+    /// <see cref="WitWeaver.EndedConversation"/> fires. The spawner is never called directly
     /// by this UI for release; that responsibility belongs to the behaviour.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSampleUI3D.html")]
-    public class ConvoCoreSampleUI3D : ConvoCoreUIFoundation
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html")]
+    public class WitWeaverSampleUI3D : WitWeaverUIFoundation
     {
         [Header("Spawner")]
         [Tooltip("Spawner passed to the behaviour for prefab lifecycle management.")]
-        [SerializeField] private ConvoCorePrefabRepresentationSpawner prefabRepresentationSpawner;
+        [SerializeField] private WitWeaverPrefabRepresentationSpawner prefabRepresentationSpawner;
 
         [Header("Choice UI")]
         [SerializeField] private GameObject ChoicePanel;
@@ -62,7 +62,7 @@ namespace WolfstagInteractive.ConvoCore
         [SerializeField] private InputAction PreviousDialogueAction;
 
         // Per-character behaviour tracking: keyed by CharacterID.
-        private readonly Dictionary<string, List<ConvoCoreCharacterBehaviour>> _activeBehavioursByCharacter = new();
+        private readonly Dictionary<string, List<WitWeaverCharacterBehaviour>> _activeBehavioursByCharacter = new();
 
         private Coroutine _typewriterCoroutine;
         private bool _isTyping;
@@ -89,27 +89,27 @@ namespace WolfstagInteractive.ConvoCore
                 HideDialogue();
         }
 
-        public override void InitializeUI(ConvoCore convoCoreInstance)
+        public override void InitializeUI(WitWeaver witWeaverInstance)
         {
-            base.InitializeUI(convoCoreInstance);
+            base.InitializeUI(witWeaverInstance);
 
             if (prefabRepresentationSpawner == null)
             {
-                prefabRepresentationSpawner = GetComponent<ConvoCorePrefabRepresentationSpawner>();
+                prefabRepresentationSpawner = GetComponent<WitWeaverPrefabRepresentationSpawner>();
                 if (prefabRepresentationSpawner == null)
-                    Debug.LogWarning($"[ConvoCoreSampleUI3D] No ConvoCorePrefabRepresentationSpawner assigned on '{gameObject.name}'.");
+                    Debug.LogWarning($"[WitWeaverSampleUI3D] No WitWeaverPrefabRepresentationSpawner assigned on '{gameObject.name}'.");
             }
 
             // Subscribe to conversation lifecycle events so behaviours can be notified.
-            ConvoCoreInstance.StartedConversation += OnConversationStarted;
-            ConvoCoreInstance.EndedConversation   += OnConversationEnded;
+            WitWeaverInstance.StartedConversation += OnConversationStarted;
+            WitWeaverInstance.EndedConversation   += OnConversationEnded;
 
             var historyOutput = new TMPDialogueHistoryOutput(DialogueHistoryText, DialogueHistoryScrollRect);
             var ctx = new DialogueHistoryRendererContext
             {
                 OutputHandler = historyOutput,
                 DefaultSpeakerColor = Color.white,
-                MaxEntries = ConvoCoreDialogueHistoryUI.maxEntries
+                MaxEntries = WitWeaverDialogueHistoryUI.maxEntries
             };
 
             HideDialogue();
@@ -119,20 +119,20 @@ namespace WolfstagInteractive.ConvoCore
             AdvanceDialogueAction?.Enable();
             PreviousDialogueAction?.Enable();
             DontDestroyOnLoad(gameObject);
-            ConvoCoreDialogueHistoryUI.InitializeRenderer(ctx);
+            WitWeaverDialogueHistoryUI.InitializeRenderer(ctx);
         }
 
         private void OnConversationStarted()
         {
             if (prefabRepresentationSpawner == null) return;
-            var convoData = ConvoCoreInstance.GetCurrentConversationData();
+            var convoData = WitWeaverInstance.GetCurrentConversationData();
             if (convoData?.ParticipantConfigurationDefaults == null) return;
 
             int total = convoData.ParticipantConfigurationDefaults.Count;
             for (int idx = 0; idx < total; idx++)
             {
                 var slot = convoData.ParticipantConfigurationDefaults[idx];
-                if (slot.SpawnTiming != ConvoCoreSpawnTiming.OnConversationBegin) continue;
+                if (slot.SpawnTiming != WitWeaverSpawnTiming.OnConversationBegin) continue;
 
                 var profile = convoData.ConversationParticipantProfiles
                     .FirstOrDefault(p => p.CharacterID == slot.CharacterID);
@@ -190,9 +190,9 @@ namespace WolfstagInteractive.ConvoCore
         // Dialogue UI overrides
         // ------------------------------------------------------------------
 
-        public override void UpdateDialogueUI(ConvoCoreConversationData.DialogueLineInfo lineInfo, string localizedText,
+        public override void UpdateDialogueUI(WitWeaverConversationData.DialogueLineInfo lineInfo, string localizedText,
             string speakerName, CharacterRepresentationBase primaryRepresentation,
-            ConvoCoreCharacterProfileBaseData primaryProfile)
+            WitWeaverCharacterProfileBaseData primaryProfile)
         {
             DisplayDialogue(localizedText);
             SpeakerName.text = speakerName;
@@ -207,7 +207,7 @@ namespace WolfstagInteractive.ConvoCore
 
             if (prefabRepresentationSpawner != null)
             {
-                var convoData = ConvoCoreInstance.GetCurrentConversationData();
+                var convoData = WitWeaverInstance.GetCurrentConversationData();
                 int count = lineInfo.CharacterRepresentations.Count;
                 for (int i = 0; i < count; i++)
                 {
@@ -227,7 +227,7 @@ namespace WolfstagInteractive.ConvoCore
                     var entry = prefabRep.GetEntry(entryName);
                     if (entry?.CharacterBehaviours == null || entry.CharacterBehaviours.Count == 0)
                     {
-                        Debug.LogWarning($"[ConvoCoreSampleUI3D] Configuration entry '{entryName}' for '{rep.name}' has no Character Behaviours assigned. Skipping character {i}.");
+                        Debug.LogWarning($"[WitWeaverSampleUI3D] Configuration entry '{entryName}' for '{rep.name}' has no Character Behaviours assigned. Skipping character {i}.");
                         continue;
                     }
 
@@ -244,7 +244,7 @@ namespace WolfstagInteractive.ConvoCore
                     };
 
                     // Fan out across all behaviours; use the first non-null display.
-                    IConvoCoreCharacterDisplay display = null;
+                    IWitWeaverCharacterDisplay display = null;
                     foreach (var behaviour in behaviours)
                     {
                         var d = behaviour?.ResolvePresence(prefabRep, ctx, prefabRepresentationSpawner);
@@ -254,7 +254,7 @@ namespace WolfstagInteractive.ConvoCore
 
                     if (display == null)
                     {
-                        Debug.LogWarning($"[ConvoCoreSampleUI3D] All behaviours returned null for character {i} ('{rep.name}'). Expression will not be applied.");
+                        Debug.LogWarning($"[WitWeaverSampleUI3D] All behaviours returned null for character {i} ('{rep.name}'). Expression will not be applied.");
                         continue;
                     }
 
@@ -330,13 +330,13 @@ namespace WolfstagInteractive.ConvoCore
         }
 
         public override IEnumerator PresentChoices(
-            List<ConvoCoreConversationData.ChoiceOption> options,
+            List<WitWeaverConversationData.ChoiceOption> options,
             List<string> localizedLabels,
             ChoiceResult result)
         {
             if (ChoicePanel == null || ChoiceButtonContainer == null || ChoiceButtonPrefab == null)
             {
-                Debug.LogWarning("[ConvoCoreSampleUI3D] ChoicePanel, ChoiceButtonContainer, or ChoiceButtonPrefab not assigned. Auto-selecting first choice.");
+                Debug.LogWarning("[WitWeaverSampleUI3D] ChoicePanel, ChoiceButtonContainer, or ChoiceButtonPrefab not assigned. Auto-selecting first choice.");
                 result.SelectedIndex = 0;
                 yield break;
             }
@@ -384,7 +384,7 @@ namespace WolfstagInteractive.ConvoCore
             {
                 if (!string.IsNullOrEmpty(_lastSpeakerName) && !string.IsNullOrEmpty(_lastLineText))
                 {
-                    ConvoCoreDialogueHistoryUI.AddLine(_lastSpeakerName, _lastLineText, _lastSpeakerColor);
+                    WitWeaverDialogueHistoryUI.AddLine(_lastSpeakerName, _lastLineText, _lastSpeakerColor);
                     _committedLineIndices.Add(_lastLineIndex);
                 }
             }
@@ -424,7 +424,7 @@ namespace WolfstagInteractive.ConvoCore
 
         private void RefreshNavButtons()
         {
-            bool canReverse = ConvoCoreInstance != null && ConvoCoreInstance.CanReverseOneLine && !_historyVisible;
+            bool canReverse = WitWeaverInstance != null && WitWeaverInstance.CanReverseOneLine && !_historyVisible;
             if (PreviousLineButton != null) PreviousLineButton.interactable = canReverse;
         }
 
@@ -507,8 +507,8 @@ namespace WolfstagInteractive.ConvoCore
         /// Returns null to signal "use the asset default entry".
         /// </summary>
         private static string ResolveEntryName(
-            ConvoCoreConversationData convoData,
-            ConvoCoreConversationData.CharacterRepresentationData charData,
+            WitWeaverConversationData convoData,
+            WitWeaverConversationData.CharacterRepresentationData charData,
             string characterId)
         {
             if (!string.IsNullOrEmpty(charData.SelectedConfigurationEntryName))
@@ -526,8 +526,8 @@ namespace WolfstagInteractive.ConvoCore
         /// If the behaviours changed since the last line, the old ones are ended and the new ones begun.
         /// On first appearance the behaviours are begun immediately.
         /// </summary>
-        private List<ConvoCoreCharacterBehaviour> GetOrTransitionBehaviours(
-            string characterId, List<ConvoCoreCharacterBehaviour> newBehaviours)
+        private List<WitWeaverCharacterBehaviour> GetOrTransitionBehaviours(
+            string characterId, List<WitWeaverCharacterBehaviour> newBehaviours)
         {
             if (_activeBehavioursByCharacter.TryGetValue(characterId, out var current))
             {
@@ -542,8 +542,8 @@ namespace WolfstagInteractive.ConvoCore
             return newBehaviours;
         }
 
-        private CharacterRepresentationBase GetRepresentationFromData(ConvoCoreConversationData convoData,
-            ConvoCoreConversationData.CharacterRepresentationData data)
+        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData convoData,
+            WitWeaverConversationData.CharacterRepresentationData data)
         {
             if (!string.IsNullOrEmpty(data.SelectedCharacterID))
             {
@@ -582,10 +582,10 @@ namespace WolfstagInteractive.ConvoCore
 
         private void OnDestroy()
         {
-            if (ConvoCoreInstance != null)
+            if (WitWeaverInstance != null)
             {
-                ConvoCoreInstance.StartedConversation -= OnConversationStarted;
-                ConvoCoreInstance.EndedConversation   -= OnConversationEnded;
+                WitWeaverInstance.StartedConversation -= OnConversationStarted;
+                WitWeaverInstance.EndedConversation   -= OnConversationEnded;
             }
 
             AdvanceDialogueAction?.Disable();

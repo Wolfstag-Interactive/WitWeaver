@@ -1,23 +1,23 @@
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Interface for audio playback backends. Implement to support FMOD, Wwise,
     /// or any custom audio middleware. The built-in implementation is
-    /// <see cref="ConvoCoreUnityAudioProvider"/>. Assign via the ConvoCore inspector or
-    /// call <see cref="ConvoCore.SetAudioProvider"/> at runtime.
+    /// <see cref="WitWeaverUnityAudioProvider"/>. Assign via the WitWeaver inspector or
+    /// call <see cref="WitWeaver.SetAudioProvider"/> at runtime.
     /// </summary>
-    public interface IConvoAudioProvider
+    public interface IWitWeaverAudioProvider
     {
         /// <summary>
         /// Play a voice line for the given dialogue line.
-        /// The full <see cref="ConvoCoreConversationData.DialogueLineInfo"/> is passed so middleware
+        /// The full <see cref="WitWeaverConversationData.DialogueLineInfo"/> is passed so middleware
         /// providers can use <c>LineID</c>, <c>characterID</c>, or expression data to route to the
         /// correct event or bank. Providers that use Unity AudioClips should cast
-        /// <paramref name="reference"/> to <see cref="ConvoCoreUnityAudioReference"/>.
+        /// <paramref name="reference"/> to <see cref="WitWeaverUnityAudioReference"/>.
         /// Providers using middleware should ignore <paramref name="reference"/> and use
         /// <c>line.LineID</c> as the event key.
         /// </summary>
-        void PlayVoiceLine(ConvoCoreConversationData.DialogueLineInfo line, ConvoAudioReference reference);
+        void PlayVoiceLine(WitWeaverConversationData.DialogueLineInfo line, WitWeaverAudioReference reference);
 
         /// <summary>
         /// Stop any currently playing voice clip immediately.
@@ -27,19 +27,19 @@ namespace WolfstagInteractive.ConvoCore
 
         /// <summary>
         /// Pause the current voice clip. Paired with <see cref="ResumeVoiceLine"/>.
-        /// Called when <see cref="ConvoCore.PauseConversation"/> is invoked.
+        /// Called when <see cref="WitWeaver.PauseConversation"/> is invoked.
         /// </summary>
         void PauseVoiceLine();
 
         /// <summary>
         /// Resume a paused voice clip.
-        /// Called when <see cref="ConvoCore.ResumeConversation"/> is invoked.
+        /// Called when <see cref="WitWeaver.ResumeConversation"/> is invoked.
         /// </summary>
         void ResumeVoiceLine();
 
         /// <summary>
         /// True while a voice clip is actively playing.
-        /// Used by <see cref="ConvoCoreConversationData.DialogueLineProgressionMethod.AudioComplete"/>
+        /// Used by <see cref="WitWeaverConversationData.DialogueLineProgressionMethod.AudioComplete"/>
         /// progression to poll for clip completion.
         /// </summary>
         bool IsPlaying { get; }

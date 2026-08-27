@@ -1,12 +1,12 @@
 using UnityEngine;
 using System;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
     /// <summary>
-    /// Serialized sub-entry of a <see cref="ConvoVariableType.CollectionInt"/> variable.
+    /// Serialized sub-entry of a <see cref="WitWeaverVariableType.CollectionInt"/> variable.
     /// Serialization DTO only — public so Unity serialization and the YAML provider can
-    /// round-trip it. Mutate Collections only through <see cref="ConvoVariableStore"/>.
+    /// round-trip it. Mutate Collections only through <see cref="WitWeaverVariableStore"/>.
     /// </summary>
 [Serializable]
     public struct CollectionIntPair
@@ -16,9 +16,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
     }
 
     /// <summary>
-    /// Serialized sub-entry of a <see cref="ConvoVariableType.CollectionString"/> variable.
+    /// Serialized sub-entry of a <see cref="WitWeaverVariableType.CollectionString"/> variable.
     /// Serialization DTO only — public so Unity serialization and the YAML provider can
-    /// round-trip it. Mutate Collections only through <see cref="ConvoVariableStore"/>.
+    /// round-trip it. Mutate Collections only through <see cref="WitWeaverVariableStore"/>.
     /// </summary>
     [Serializable]
     public struct CollectionStringPair

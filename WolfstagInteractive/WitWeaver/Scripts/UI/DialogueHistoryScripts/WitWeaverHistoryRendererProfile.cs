@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreHistoryRendererProfile.html")]
-[CreateAssetMenu(fileName = "HistoryRendererProfile", menuName = "ConvoCore/UI/History Renderer Profile", order = 50)]
-    public class ConvoCoreHistoryRendererProfile : ScriptableObject
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverHistoryRendererProfile.html")]
+[CreateAssetMenu(fileName = "HistoryRendererProfile", menuName = "WitWeaver/UI/History Renderer Profile", order = 50)]
+    public class WitWeaverHistoryRendererProfile : ScriptableObject
     {
         [SerializeField] private string rendererName = "Rich";
 

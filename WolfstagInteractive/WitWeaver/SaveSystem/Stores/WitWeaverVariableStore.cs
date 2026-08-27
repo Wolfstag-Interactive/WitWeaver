@@ -2,45 +2,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    [CreateAssetMenu(fileName = "NewVariableStore", menuName = "ConvoCore/Runtime/Variable Store")]
-    public class ConvoVariableStore : ScriptableObject
+    [CreateAssetMenu(fileName = "NewVariableStore", menuName = "WitWeaver/Runtime/Variable Store")]
+    public class WitWeaverVariableStore : ScriptableObject
     {
         // Authored, serialized, editor-visible. Holds Global and Conversation scoped variables.
         // Designers pre-declare these with defaults, descriptions, and tags before the game runs.
-        [SerializeField] private List<ConvoVariableEntry> _persistentEntries = new List<ConvoVariableEntry>();
+        [SerializeField] private List<WitWeaverVariableEntry> _persistentEntries = new List<WitWeaverVariableEntry>();
 
         // Runtime only — never serialized, never editable in inspector.
         // Holds Session scoped variables exclusively. They only exist after runtime code sets them.
-        [NonSerialized] private List<ConvoVariableEntry> _sessionEntries;
+        [NonSerialized] private List<WitWeaverVariableEntry> _sessionEntries;
 
         // Key-based change listeners — runtime only, not serialized.
-        [NonSerialized] private Dictionary<string, Action<ConvoCoreVariable>> _keyListeners;
+        [NonSerialized] private Dictionary<string, Action<WitWeaverVariable>> _keyListeners;
 
-        private List<ConvoVariableEntry> SessionEntries
+        private List<WitWeaverVariableEntry> SessionEntries
         {
             get
             {
                 if (_sessionEntries == null)
-                    _sessionEntries = new List<ConvoVariableEntry>();
+                    _sessionEntries = new List<WitWeaverVariableEntry>();
                 return _sessionEntries;
             }
         }
 
-        private Dictionary<string, Action<ConvoCoreVariable>> KeyListeners
+        private Dictionary<string, Action<WitWeaverVariable>> KeyListeners
         {
             get
             {
                 if (_keyListeners == null)
-                    _keyListeners = new Dictionary<string, Action<ConvoCoreVariable>>();
+                    _keyListeners = new Dictionary<string, Action<WitWeaverVariable>>();
                 return _keyListeners;
             }
         }
 
         /// <summary>
         /// Fired on every variable change as (key, oldValue, newValue).
-        /// For scalar variables both values are the scalar rendered via <see cref="ConvoCoreVariable.AsString"/>.
+        /// For scalar variables both values are the scalar rendered via <see cref="WitWeaverVariable.AsString"/>.
         /// For Collection variables the payload is the affected sub-entry value (ints rendered
         /// as strings), not the whole Collection: a Set carries the old and new sub-entry values
         /// (old is null when the sub-key is new), RemoveCollectionEntry carries (oldValue, null),
@@ -50,12 +50,12 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ----- List Routing -----
 
-        private List<ConvoVariableEntry> ListForScope(ConvoVariableScope scope)
+        private List<WitWeaverVariableEntry> ListForScope(WitWeaverVariableScope scope)
         {
-            return scope == ConvoVariableScope.Session ? SessionEntries : _persistentEntries;
+            return scope == WitWeaverVariableScope.Session ? SessionEntries : _persistentEntries;
         }
 
-        private static ConvoVariableEntry FindInList(List<ConvoVariableEntry> list, string key)
+        private static WitWeaverVariableEntry FindInList(List<WitWeaverVariableEntry> list, string key)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -67,38 +67,38 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // Session layer wins: Collections copied-on-write into the session layer (and any
         // session-scoped entry) shadow the authored persistent entry with the same key.
-        private ConvoVariableEntry GetEntry(string key)
+        private WitWeaverVariableEntry GetEntry(string key)
         {
             if (string.IsNullOrEmpty(key)) return null;
             return FindInList(SessionEntries, key) ?? FindInList(_persistentEntries, key);
         }
 
-        private static bool IsCollectionType(ConvoVariableType type)
+        private static bool IsCollectionType(WitWeaverVariableType type)
         {
-            return type == ConvoVariableType.CollectionInt || type == ConvoVariableType.CollectionString;
+            return type == WitWeaverVariableType.CollectionInt || type == WitWeaverVariableType.CollectionString;
         }
 
         // ----- SetInternal -----
 
-        private bool SetInternal(string key, Action<ConvoVariableEntry> apply,
-            ConvoVariableType type, ConvoVariableScope scope)
+        private bool SetInternal(string key, Action<WitWeaverVariableEntry> apply,
+            WitWeaverVariableType type, WitWeaverVariableScope scope)
         {
             // Never silently replace a Collection with a scalar.
             var existing = GetEntry(key);
             if (existing != null && IsCollectionType(existing.CoreVariable.Type))
             {
-                Debug.LogWarning($"[ConvoVariableStore] Variable '{key}' is a {existing.CoreVariable.Type} Collection; scalar {type} write ignored.");
+                Debug.LogWarning($"[WitWeaverVariableStore] Variable '{key}' is a {existing.CoreVariable.Type} Collection; scalar {type} write ignored.");
                 return false;
             }
 
             var list = ListForScope(scope);
-            ConvoVariableEntry entry = FindInList(list, key);
+            WitWeaverVariableEntry entry = FindInList(list, key);
 
             if (entry == null)
             {
-                entry = new ConvoVariableEntry
+                entry = new WitWeaverVariableEntry
                 {
-                    CoreVariable = new ConvoCoreVariable { Key = key, Type = type },
+                    CoreVariable = new WitWeaverVariable { Key = key, Type = type },
                     Scope = scope,
                     IsReadOnly = false
                 };
@@ -107,7 +107,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
             if (entry.IsReadOnly)
             {
-                Debug.LogWarning($"[ConvoVariableStore] Variable '{key}' is marked read-only.");
+                Debug.LogWarning($"[WitWeaverVariableStore] Variable '{key}' is marked read-only.");
                 return false;
             }
 
@@ -127,24 +127,24 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ----- Write Methods -----
 
-        public bool SetString(string key, string value, ConvoVariableScope scope = ConvoVariableScope.Global)
-            => SetInternal(key, e => e.CoreVariable.SetString(value), ConvoVariableType.String, scope);
+        public bool SetString(string key, string value, WitWeaverVariableScope scope = WitWeaverVariableScope.Global)
+            => SetInternal(key, e => e.CoreVariable.SetString(value), WitWeaverVariableType.String, scope);
 
-        public bool SetInt(string key, int value, ConvoVariableScope scope = ConvoVariableScope.Global)
-            => SetInternal(key, e => e.CoreVariable.SetInt(value), ConvoVariableType.Int, scope);
+        public bool SetInt(string key, int value, WitWeaverVariableScope scope = WitWeaverVariableScope.Global)
+            => SetInternal(key, e => e.CoreVariable.SetInt(value), WitWeaverVariableType.Int, scope);
 
-        public bool SetFloat(string key, float value, ConvoVariableScope scope = ConvoVariableScope.Global)
-            => SetInternal(key, e => e.CoreVariable.SetFloat(value), ConvoVariableType.Float, scope);
+        public bool SetFloat(string key, float value, WitWeaverVariableScope scope = WitWeaverVariableScope.Global)
+            => SetInternal(key, e => e.CoreVariable.SetFloat(value), WitWeaverVariableType.Float, scope);
 
-        public bool SetBool(string key, bool value, ConvoVariableScope scope = ConvoVariableScope.Global)
-            => SetInternal(key, e => e.CoreVariable.SetBool(value), ConvoVariableType.Bool, scope);
+        public bool SetBool(string key, bool value, WitWeaverVariableScope scope = WitWeaverVariableScope.Global)
+            => SetInternal(key, e => e.CoreVariable.SetBool(value), WitWeaverVariableType.Bool, scope);
 
         // ----- Read Methods -----
 
         public bool TryGetString(string key, out string value)
         {
             var entry = GetEntry(key);
-            if (entry != null && entry.CoreVariable.Type == ConvoVariableType.String)
+            if (entry != null && entry.CoreVariable.Type == WitWeaverVariableType.String)
             {
                 value = entry.CoreVariable.GetString();
                 return true;
@@ -156,7 +156,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public bool TryGetInt(string key, out int value)
         {
             var entry = GetEntry(key);
-            if (entry != null && entry.CoreVariable.Type == ConvoVariableType.Int)
+            if (entry != null && entry.CoreVariable.Type == WitWeaverVariableType.Int)
             {
                 value = entry.CoreVariable.GetInt();
                 return true;
@@ -168,7 +168,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public bool TryGetFloat(string key, out float value)
         {
             var entry = GetEntry(key);
-            if (entry != null && entry.CoreVariable.Type == ConvoVariableType.Float)
+            if (entry != null && entry.CoreVariable.Type == WitWeaverVariableType.Float)
             {
                 value = entry.CoreVariable.GetFloat();
                 return true;
@@ -180,7 +180,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public bool TryGetBool(string key, out bool value)
         {
             var entry = GetEntry(key);
-            if (entry != null && entry.CoreVariable.Type == ConvoVariableType.Bool)
+            if (entry != null && entry.CoreVariable.Type == WitWeaverVariableType.Bool)
             {
                 value = entry.CoreVariable.GetBool();
                 return true;
@@ -189,7 +189,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return false;
         }
 
-        public ConvoCoreVariable GetVariable(string key)
+        public WitWeaverVariable GetVariable(string key)
         {
             return GetEntry(key)?.CoreVariable;
         }
@@ -214,11 +214,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         /// session layer) if the top-level key does not exist. No-op with a warning if the
         /// key exists but is not an int Collection, or if the entry is read-only.
         /// </summary>
-        public void SetCollectionInt(string key, string subKey, int value, ConvoVariableScope scope)
+        public void SetCollectionInt(string key, string subKey, int value, WitWeaverVariableScope scope)
         {
             if (string.IsNullOrEmpty(key) || subKey == null) return;
 
-            var entry = GetOrCreateCollectionEntryForWrite(key, ConvoVariableType.CollectionInt, scope);
+            var entry = GetOrCreateCollectionEntryForWrite(key, WitWeaverVariableType.CollectionInt, scope);
             if (entry == null) return;
 
             string oldValue = entry.CoreVariable.TryGetCollectionIntValue(subKey, out var old) ? old.ToString() : null;
@@ -232,11 +232,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         /// session layer) if the top-level key does not exist. No-op with a warning if the
         /// key exists but is not a string Collection, or if the entry is read-only.
         /// </summary>
-        public void SetCollectionString(string key, string subKey, string value, ConvoVariableScope scope)
+        public void SetCollectionString(string key, string subKey, string value, WitWeaverVariableScope scope)
         {
             if (string.IsNullOrEmpty(key) || subKey == null) return;
 
-            var entry = GetOrCreateCollectionEntryForWrite(key, ConvoVariableType.CollectionString, scope);
+            var entry = GetOrCreateCollectionEntryForWrite(key, WitWeaverVariableType.CollectionString, scope);
             if (entry == null) return;
 
             string oldValue = entry.CoreVariable.TryGetCollectionStringValue(subKey, out var old) ? old : null;
@@ -252,7 +252,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public bool TryGetCollectionInt(string key, string subKey, out int value)
         {
             var entry = GetEntry(key);
-            if (entry != null && entry.CoreVariable.Type == ConvoVariableType.CollectionInt)
+            if (entry != null && entry.CoreVariable.Type == WitWeaverVariableType.CollectionInt)
                 return entry.CoreVariable.TryGetCollectionIntValue(subKey, out value);
             value = default;
             return false;
@@ -265,7 +265,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public bool TryGetCollectionString(string key, string subKey, out string value)
         {
             var entry = GetEntry(key);
-            if (entry != null && entry.CoreVariable.Type == ConvoVariableType.CollectionString)
+            if (entry != null && entry.CoreVariable.Type == WitWeaverVariableType.CollectionString)
                 return entry.CoreVariable.TryGetCollectionStringValue(subKey, out value);
             value = default;
             return false;
@@ -300,7 +300,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             var entry = GetOrCreateCollectionEntryForWrite(key, existing.CoreVariable.Type, existing.Scope);
             if (entry == null) return false;
 
-            string oldValue = entry.CoreVariable.Type == ConvoVariableType.CollectionInt
+            string oldValue = entry.CoreVariable.Type == WitWeaverVariableType.CollectionInt
                 ? (entry.CoreVariable.TryGetCollectionIntValue(subKey, out var oi) ? oi.ToString() : null)
                 : (entry.CoreVariable.TryGetCollectionStringValue(subKey, out var os) ? os : null);
 
@@ -378,7 +378,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
             if (!IsCollectionType(any.CoreVariable.Type))
             {
-                Debug.LogWarning($"[ConvoVariableStore] ResetVariable currently supports Collection variables only; '{key}' is a {any.CoreVariable.Type}.");
+                Debug.LogWarning($"[WitWeaverVariableStore] ResetVariable currently supports Collection variables only; '{key}' is a {any.CoreVariable.Type}.");
                 return;
             }
 
@@ -411,20 +411,20 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         // 3. Otherwise a new empty Collection is created in the session layer with the
         //    caller-supplied scope.
         // Returns null (with a warning) on type mismatch or read-only entries.
-        private ConvoVariableEntry GetOrCreateCollectionEntryForWrite(string key,
-            ConvoVariableType type, ConvoVariableScope scope)
+        private WitWeaverVariableEntry GetOrCreateCollectionEntryForWrite(string key,
+            WitWeaverVariableType type, WitWeaverVariableScope scope)
         {
             var session = FindInList(SessionEntries, key);
             if (session != null)
             {
                 if (session.CoreVariable.Type != type)
                 {
-                    Debug.LogWarning($"[ConvoVariableStore] Variable '{key}' is a {session.CoreVariable.Type}; {type} Collection write ignored.");
+                    Debug.LogWarning($"[WitWeaverVariableStore] Variable '{key}' is a {session.CoreVariable.Type}; {type} Collection write ignored.");
                     return null;
                 }
                 if (session.IsReadOnly)
                 {
-                    Debug.LogWarning($"[ConvoVariableStore] Variable '{key}' is marked read-only.");
+                    Debug.LogWarning($"[WitWeaverVariableStore] Variable '{key}' is marked read-only.");
                     return null;
                 }
                 return session;
@@ -435,16 +435,16 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             {
                 if (persistent.CoreVariable.Type != type)
                 {
-                    Debug.LogWarning($"[ConvoVariableStore] Variable '{key}' is a {persistent.CoreVariable.Type}; {type} Collection write ignored.");
+                    Debug.LogWarning($"[WitWeaverVariableStore] Variable '{key}' is a {persistent.CoreVariable.Type}; {type} Collection write ignored.");
                     return null;
                 }
                 if (persistent.IsReadOnly)
                 {
-                    Debug.LogWarning($"[ConvoVariableStore] Variable '{key}' is marked read-only.");
+                    Debug.LogWarning($"[WitWeaverVariableStore] Variable '{key}' is marked read-only.");
                     return null;
                 }
 
-                var copy = new ConvoVariableEntry
+                var copy = new WitWeaverVariableEntry
                 {
                     CoreVariable = persistent.CoreVariable.Clone(),
                     Scope = persistent.Scope,
@@ -454,9 +454,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 return copy;
             }
 
-            var created = new ConvoVariableEntry
+            var created = new WitWeaverVariableEntry
             {
-                CoreVariable = new ConvoCoreVariable { Key = key, Type = type },
+                CoreVariable = new WitWeaverVariable { Key = key, Type = type },
                 Scope = scope,
                 IsReadOnly = false
             };
@@ -464,7 +464,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return created;
         }
 
-        private void MarkCollectionDirty(string key, ConvoVariableEntry mutated)
+        private void MarkCollectionDirty(string key, WitWeaverVariableEntry mutated)
         {
             mutated.MarkCollectionDirty();
             // Mirror onto the authored entry (its data is untouched by copy-on-write) so the
@@ -472,7 +472,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             FindInList(_persistentEntries, key)?.MarkCollectionDirty();
         }
 
-        private void NotifyCollectionChanged(string key, ConvoVariableEntry entry,
+        private void NotifyCollectionChanged(string key, WitWeaverVariableEntry entry,
             string oldValue, string newValue)
         {
             OnVariableChanged?.Invoke(key, oldValue, newValue);
@@ -482,10 +482,10 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ----- Query Methods -----
 
-        public IReadOnlyList<ConvoVariableEntry> GetByScope(ConvoVariableScope scope)
+        public IReadOnlyList<WitWeaverVariableEntry> GetByScope(WitWeaverVariableScope scope)
         {
             var list = ListForScope(scope);
-            var result = new List<ConvoVariableEntry>();
+            var result = new List<WitWeaverVariableEntry>();
             for (int i = 0; i < list.Count; i++)
             {
                 if (list[i].Scope == scope)
@@ -494,9 +494,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return result;
         }
 
-        public IReadOnlyList<ConvoVariableEntry> GetByTag(string tag)
+        public IReadOnlyList<WitWeaverVariableEntry> GetByTag(string tag)
         {
-            var result = new List<ConvoVariableEntry>();
+            var result = new List<WitWeaverVariableEntry>();
             if (string.IsNullOrEmpty(tag)) return result;
 
             CollectByTag(_persistentEntries, tag, result);
@@ -504,8 +504,8 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return result;
         }
 
-        private static void CollectByTag(List<ConvoVariableEntry> list, string tag,
-            List<ConvoVariableEntry> result)
+        private static void CollectByTag(List<WitWeaverVariableEntry> list, string tag,
+            List<WitWeaverVariableEntry> result)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -524,7 +524,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ----- Subscription Methods -----
 
-        public void Subscribe(string key, Action<ConvoCoreVariable> callback)
+        public void Subscribe(string key, Action<WitWeaverVariable> callback)
         {
             if (string.IsNullOrEmpty(key) || callback == null) return;
 
@@ -534,7 +534,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 KeyListeners[key] = callback;
         }
 
-        public void Unsubscribe(string key, Action<ConvoCoreVariable> callback)
+        public void Unsubscribe(string key, Action<WitWeaverVariable> callback)
         {
             if (string.IsNullOrEmpty(key) || callback == null) return;
 
@@ -548,13 +548,13 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ----- Snapshot Methods -----
 
-        public List<ConvoVariableEntry> ExportByScope(ConvoVariableScope scope)
+        public List<WitWeaverVariableEntry> ExportByScope(WitWeaverVariableScope scope)
         {
             // Session variables are runtime-only — never written to a save file.
-            if (scope == ConvoVariableScope.Session)
-                return new List<ConvoVariableEntry>();
+            if (scope == WitWeaverVariableScope.Session)
+                return new List<WitWeaverVariableEntry>();
 
-            var result = new List<ConvoVariableEntry>();
+            var result = new List<WitWeaverVariableEntry>();
             for (int i = 0; i < _persistentEntries.Count; i++)
             {
                 var entry = _persistentEntries[i];
@@ -570,7 +570,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                         source = overlay;
                 }
 
-                result.Add(new ConvoVariableEntry
+                result.Add(new WitWeaverVariableEntry
                 {
                     CoreVariable = source.CoreVariable.Clone(),
                     Scope = entry.Scope,
@@ -587,7 +587,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 if (!IsCollectionType(entry.CoreVariable.Type)) continue;
                 if (FindInList(_persistentEntries, entry.CoreVariable.Key) != null) continue;
 
-                result.Add(new ConvoVariableEntry
+                result.Add(new WitWeaverVariableEntry
                 {
                     CoreVariable = entry.CoreVariable.Clone(),
                     Scope = entry.Scope,
@@ -597,7 +597,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return result;
         }
 
-        public void RestoreEntries(List<ConvoVariableEntry> entries)
+        public void RestoreEntries(List<WitWeaverVariableEntry> entries)
         {
             if (entries == null) return;
 
@@ -607,7 +607,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 if (incoming.CoreVariable == null) continue;
 
                 // Session scope is never saved, so it is never restored.
-                if (incoming.Scope == ConvoVariableScope.Session)
+                if (incoming.Scope == WitWeaverVariableScope.Session)
                     continue;
 
                 // Collections restore into the session layer so authored defaults in
@@ -617,7 +617,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                     var authored = FindInList(_persistentEntries, incoming.CoreVariable.Key);
                     if (authored != null && authored.CoreVariable.Type != incoming.CoreVariable.Type)
                     {
-                        Debug.LogWarning($"[ConvoVariableStore] Saved Collection '{incoming.CoreVariable.Key}' conflicts with authored {authored.CoreVariable.Type} entry; skipping restore.");
+                        Debug.LogWarning($"[WitWeaverVariableStore] Saved Collection '{incoming.CoreVariable.Key}' conflicts with authored {authored.CoreVariable.Type} entry; skipping restore.");
                         continue;
                     }
 
@@ -625,7 +625,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                     if (overlay != null)
                         SessionEntries.Remove(overlay);
 
-                    var restored = new ConvoVariableEntry
+                    var restored = new WitWeaverVariableEntry
                     {
                         CoreVariable = incoming.CoreVariable.Clone(),
                         Scope = incoming.Scope,
@@ -652,7 +652,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
                 if (!found)
                 {
-                    _persistentEntries.Add(new ConvoVariableEntry
+                    _persistentEntries.Add(new WitWeaverVariableEntry
                     {
                         CoreVariable = incoming.CoreVariable.Clone(),
                         Scope = incoming.Scope,
@@ -662,13 +662,13 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             }
         }
 
-        public void ClearByScope(ConvoVariableScope scope)
+        public void ClearByScope(WitWeaverVariableScope scope)
         {
-            if (scope == ConvoVariableScope.Session)
+            if (scope == WitWeaverVariableScope.Session)
             {
                 // The session layer also carries Collection copy-on-write overlays with
                 // persistent scopes — clearing the Session scope must not revert those.
-                SessionEntries.RemoveAll(e => e.Scope == ConvoVariableScope.Session);
+                SessionEntries.RemoveAll(e => e.Scope == WitWeaverVariableScope.Session);
             }
             else
             {
@@ -682,7 +682,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ----- Internal Access -----
 
-        public List<ConvoVariableEntry> GetRawEntries()
+        public List<WitWeaverVariableEntry> GetRawEntries()
         {
             return _persistentEntries;
         }
@@ -690,7 +690,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         // ----- Editor-Only Access -----
 
 #if UNITY_EDITOR
-        public IReadOnlyList<ConvoVariableEntry> GetSessionEntries()
+        public IReadOnlyList<WitWeaverVariableEntry> GetSessionEntries()
         {
             return SessionEntries;
         }

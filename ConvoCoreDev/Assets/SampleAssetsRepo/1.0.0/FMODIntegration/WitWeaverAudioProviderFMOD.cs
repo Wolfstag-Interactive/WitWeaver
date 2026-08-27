@@ -1,39 +1,39 @@
-#if CONVOCORE_FMOD
+#if WITWEAVER_FMOD
 // ─────────────────────────────────────────────────────────────────────────────
-// ConvoCoreAudioProviderFMOD — FMOD Studio integration for ConvoCore
+// WitWeaverAudioProviderFMOD — FMOD Studio integration for WitWeaver
 //
 // REQUIREMENTS: FMOD Studio Unity Integration package must be installed.
 //   https://www.fmod.com/docs/2.02/unity/
 //
 // SETUP:
-//   1. Add this component to the same GameObject as your ConvoCore runner.
+//   1. Add this component to the same GameObject as your WitWeaver runner.
 //   2. Set the AudioManifest's Backend field to AudioBackend.FMOD.
 //   3. In the manifest inspector, enter the FMOD event path per line
 //      (e.g. "event:/VO/CharacterA/Line001").
 //   4. Ensure the FMOD Bank containing your events is loaded before playback
 //      (typically via the FMOD Studio Settings window or an FMODUnity.StudioBankLoader).
-//   5. Add CONVOCORE_FMOD to Project Settings > Player > Scripting Define Symbols.
+//   5. Add WITWEAVER_FMOD to Project Settings > Player > Scripting Define Symbols.
 // ─────────────────────────────────────────────────────────────────────────────
 
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
 /// <summary>
-/// FMOD Studio audio provider for ConvoCore. Uses <c>RuntimeManager.CreateInstance</c>
-/// so that <see cref="IConvoAudioProvider.IsPlaying"/> works correctly with the
+/// FMOD Studio audio provider for WitWeaver. Uses <c>RuntimeManager.CreateInstance</c>
+/// so that <see cref="IWitWeaverAudioProvider.IsPlaying"/> works correctly with the
 /// <c>AudioComplete</c> dialogue progression mode.
 /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAudioProviderFMOD.html")]
-[AddComponentMenu("ConvoCore/Audio/ConvoCoreAudioProviderFMOD")]
-public class ConvoCoreAudioProviderFMOD : MonoBehaviour, IConvoAudioProvider
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioProviderFMOD.html")]
+[AddComponentMenu("WitWeaver/Audio/WitWeaverAudioProviderFMOD")]
+public class WitWeaverAudioProviderFMOD : MonoBehaviour, IWitWeaverAudioProvider
 {
     private EventInstance _instance;
 
     /// <summary>
     /// True while the current FMOD event is in a non-stopped playback state.
-    /// Polled by ConvoCore's WaitForAudioComplete coroutine.
+    /// Polled by WitWeaver's WaitForAudioComplete coroutine.
     /// </summary>
     public bool IsPlaying
     {
@@ -46,16 +46,16 @@ public class ConvoCoreAudioProviderFMOD : MonoBehaviour, IConvoAudioProvider
     }
 
     /// <summary>
-    /// Plays the FMOD event specified by the <see cref="ConvoCoreAudioEventKeyReference.EventKey"/>
+    /// Plays the FMOD event specified by the <see cref="WitWeaverAudioEventKeyReference.EventKey"/>
     /// (full event path, e.g. <c>"event:/VO/CharA/Line001"</c>).
     /// </summary>
-    public void PlayVoiceLine(ConvoCoreConversationData.DialogueLineInfo line, ConvoAudioReference reference)
+    public void PlayVoiceLine(WitWeaverConversationData.DialogueLineInfo line, WitWeaverAudioReference reference)
     {
         StopVoiceLine();
 
-        if (reference is not ConvoCoreAudioEventKeyReference keyRef || string.IsNullOrEmpty(keyRef.EventKey))
+        if (reference is not WitWeaverAudioEventKeyReference keyRef || string.IsNullOrEmpty(keyRef.EventKey))
         {
-            Debug.LogWarning("[ConvoCoreAudioProviderFMOD] No event key found on reference. Check that EventKey is filled in the Audio Manifest.");
+            Debug.LogWarning("[WitWeaverAudioProviderFMOD] No event key found on reference. Check that EventKey is filled in the Audio Manifest.");
             return;
         }
 

@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueHistoryUI.html")]
-[AddComponentMenu("ConvoCore/UI/ConvoCore Dialogue History UI")]
-    public class ConvoCoreDialogueHistoryUI : MonoBehaviour
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueHistoryUI.html")]
+[AddComponentMenu("WitWeaver/UI/WitWeaver Dialogue History UI")]
+    public class WitWeaverDialogueHistoryUI : MonoBehaviour
     {
         [Header("Renderer Configuration")]
-        [SerializeField] private ConvoCoreSettings convoCoreSettings;
+        [SerializeField] private WitWeaverSettings witWeaverSettings;
         [SerializeField] private string selectedProfileName;
 
         [Header("General Settings")]
@@ -16,8 +16,8 @@ namespace WolfstagInteractive.ConvoCore
 
         // Internal state
         private readonly List<DialogueHistoryEntry> _entries = new();
-        private IConvoCoreHistoryRenderer _renderer;
-        private ConvoCoreHistoryRendererProfile _activeProfile;
+        private IWitWeaverHistoryRenderer _renderer;
+        private WitWeaverHistoryRendererProfile _activeProfile;
         private bool _isInitialized;
 
         /// <summary>
@@ -28,23 +28,23 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (_isInitialized)
             {
-                Debug.LogWarning("[ConvoCore] DialogueHistoryUI already initialized — ignoring.");
+                Debug.LogWarning("[WitWeaver] DialogueHistoryUI already initialized — ignoring.");
                 return;
             }
 
-            if (convoCoreSettings == null)
+            if (witWeaverSettings == null)
             {
-                Debug.LogWarning("[ConvoCore] Missing settings reference.");
+                Debug.LogWarning("[WitWeaver] Missing settings reference.");
                 return;
             }
-            _activeProfile = convoCoreSettings.GetRendererProfile(selectedProfileName);
+            _activeProfile = witWeaverSettings.GetRendererProfile(selectedProfileName);
             if (_activeProfile == null)
             {
-                Debug.LogWarning("[ConvoCore] No renderer profile found.");
+                Debug.LogWarning("[WitWeaver] No renderer profile found.");
                 return;
             }
 
-            _renderer = ConvoCoreHistoryRendererRegistry.CreateInstance(_activeProfile.RendererName);
+            _renderer = WitWeaverHistoryRendererRegistry.CreateInstance(_activeProfile.RendererName);
 
             if (_renderer != null)
             {
@@ -57,7 +57,7 @@ namespace WolfstagInteractive.ConvoCore
             }
             else
             {
-                Debug.LogWarning($"[ConvoCore] Could not instantiate renderer '{_activeProfile.RendererName}'.");
+                Debug.LogWarning($"[WitWeaver] Could not instantiate renderer '{_activeProfile.RendererName}'.");
             }
         }
 
@@ -68,7 +68,7 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (!_isInitialized)
             {
-                Debug.LogWarning("[ConvoCore] DialogueHistoryUI not initialized — call InitializeRenderer first.");
+                Debug.LogWarning("[WitWeaver] DialogueHistoryUI not initialized — call InitializeRenderer first.");
                 return;
             }
 

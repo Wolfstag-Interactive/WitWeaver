@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionPlayAudioClip.html")]
-[CreateAssetMenu(menuName = "ConvoCore/Actions/PlayAudioClip")] [System.Serializable]
-    public class ConvoCoreDialogueLineActionPlayAudioClip : BaseDialogueLineAction
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionPlayAudioClip.html")]
+[CreateAssetMenu(menuName = "WitWeaver/Actions/PlayAudioClip")] [System.Serializable]
+    public class WitWeaverDialogueLineActionPlayAudioClip : BaseDialogueLineAction
     {
         public AudioClip AudioClip;
         public Vector3 Position;

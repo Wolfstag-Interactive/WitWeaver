@@ -4,36 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Main conversation runner MonoBehaviour. Attach to a GameObject, assign a
-    /// <see cref="ConvoCoreUIFoundation"/> subclass to <c>ConversationUI</c>, then call
+    /// <see cref="WitWeaverUIFoundation"/> subclass to <c>ConversationUI</c>, then call
     /// <see cref="StartConversation"/> to begin playback. Subscribe to
     /// <see cref="CompletedConversation"/>, <see cref="StartedConversation"/>,
     /// <see cref="EndedConversation"/>, and <see cref="PausedConversation"/> to respond to
     /// conversation lifecycle events.
     /// </summary>
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html")]
-    public class ConvoCore : MonoBehaviour,IConvoCoreRunner
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html")]
+    public class WitWeaver : MonoBehaviour,IWitWeaverRunner
     {
 
-         private ConvoCoreConversationData ConversationData;
-        public ConvoCoreConversationData GetCurrentConversationData() => ConversationData;
+         private WitWeaverConversationData ConversationData;
+        public WitWeaverConversationData GetCurrentConversationData() => ConversationData;
         [Header("Conversation Settings")]
-        [SerializeReference] public IConvoInput Input = new SingleConversationInput();
+        [SerializeReference] public IWitWeaverInput Input = new SingleConversationInput();
 
         [Header("Conversation UI")]
-        public ConvoCoreUIFoundation ConversationUI;
+        public WitWeaverUIFoundation ConversationUI;
 
         [Header("Audio")]
-        [Tooltip("Optional. Assign a ConvoCoreUnityAudioProvider or any MonoBehaviour implementing IConvoAudioProvider. If unassigned, audio playback is skipped.")]
+        [Tooltip("Optional. Assign a WitWeaverUnityAudioProvider or any MonoBehaviour implementing IWitWeaverAudioProvider. If unassigned, audio playback is skipped.")]
         [SerializeField] private MonoBehaviour _audioProviderObject;
 
-        private IConvoAudioProvider _audioProvider;
+        private IWitWeaverAudioProvider _audioProvider;
 
         /// <summary>
-        /// Used when <see cref="ConvoCoreSettings.GoBackLabel"/> resolves to nothing, so the option
+        /// Used when <see cref="WitWeaverSettings.GoBackLabel"/> resolves to nothing, so the option
         /// is still readable in a project whose settings asset has not been filled in.
         /// </summary>
         private const string k_DefaultGoBackLabel = "← Go Back";
@@ -45,7 +45,7 @@ namespace WolfstagInteractive.ConvoCore
         public ConversationState CurrentDialogueState { get; private set; } = ConversationState.Inactive;
         
         private int _currentLineIndex = 0;
-        private ConvoCoreDialogueLocalizationHandler LocalizationHandler;
+        private WitWeaverDialogueLocalizationHandler LocalizationHandler;
         public event Action StartedConversation;
         public event Action PausedConversation;
         public event Action EndedConversation;
@@ -71,8 +71,8 @@ namespace WolfstagInteractive.ConvoCore
             Paused,
             Completed
         }
-        private readonly Stack<(ConvoCoreConversationData convo, int index)> _returnStack =
-            new Stack<(ConvoCoreConversationData, int)>();
+        private readonly Stack<(WitWeaverConversationData convo, int index)> _returnStack =
+            new Stack<(WitWeaverConversationData, int)>();
 
         private readonly IConversationContext _context = DefaultConversationContext.Instance;
 
@@ -105,7 +105,7 @@ namespace WolfstagInteractive.ConvoCore
                 _currentLineIndex = index;
                 return;
             }
-            Debug.LogWarning($"[ConvoCore] BeginFromLine: LineID '{lineId}' not found. Starting from beginning.");
+            Debug.LogWarning($"[WitWeaver] BeginFromLine: LineID '{lineId}' not found. Starting from beginning.");
         }
         /// <summary>
         /// Represents a frame of dialogue within a conversation sequence.
@@ -113,7 +113,7 @@ namespace WolfstagInteractive.ConvoCore
         /// <remarks>
         /// The LineFrame class is utilized to track the current state and actions
         /// associated with a specific line during dialogue execution. It is used internally
-        /// within the ConvoCore class to manage the transition of dialogue lines and their
+        /// within the WitWeaver class to manage the transition of dialogue lines and their
         /// corresponding actions in the event that actions must be reversed
         /// </remarks>
         private sealed class LineFrame
@@ -129,19 +129,19 @@ namespace WolfstagInteractive.ConvoCore
         private readonly List<LineFrame> _history = new();
         private void Awake()
         {
-            LocalizationHandler = new ConvoCoreDialogueLocalizationHandler(ConvoCoreLanguageManager.Instance);
+            LocalizationHandler = new WitWeaverDialogueLocalizationHandler(WitWeaverLanguageManager.Instance);
 
-            if (_audioProviderObject is IConvoAudioProvider provider)
+            if (_audioProviderObject is IWitWeaverAudioProvider provider)
                 _audioProvider = provider;
             else if (_audioProviderObject != null)
-                Debug.LogWarning($"[ConvoCore] Audio Provider Object assigned on '{name}' does not implement IConvoAudioProvider. Audio will be skipped.", this);
+                Debug.LogWarning($"[WitWeaver] Audio Provider Object assigned on '{name}' does not implement IWitWeaverAudioProvider. Audio will be skipped.", this);
         }
 
         /// <summary>
         /// Inject a custom audio provider at runtime. Use this for middleware integrations
         /// that instantiate their provider via code rather than the inspector.
         /// </summary>
-        public void SetAudioProvider(IConvoAudioProvider provider) => _audioProvider = provider;
+        public void SetAudioProvider(IWitWeaverAudioProvider provider) => _audioProvider = provider;
 
         /// <summary>
         /// Main coroutine that handles the conversation flow
@@ -223,14 +223,14 @@ namespace WolfstagInteractive.ConvoCore
                 bool playAudio = ConversationData.ShouldPlayAudio(line);
 
                 // Resolve audio reference
-                ConvoAudioReference audioRef = null;
-                ConvoAudioReference inlineRef = null; // transient SO destroyed after progression
+                WitWeaverAudioReference audioRef = null;
+                WitWeaverAudioReference inlineRef = null; // transient SO destroyed after progression
                 if (playAudio && ConversationData.AudioManifest != null)
                 {
                     var backend = ConversationData.AudioManifest.Backend;
                     if (backend == AudioBackend.UnityAudioSource)
                     {
-                        // Try shared ConvoAudioReference first (e.g. one asset shared across lines)
+                        // Try shared WitWeaverAudioReference first (e.g. one asset shared across lines)
                         audioRef = ConversationData.AudioManifest.Resolve(line.LineID, localizedResult.UsedLanguage);
 
                         // Then try direct AudioClip on the manifest entry
@@ -240,7 +240,7 @@ namespace WolfstagInteractive.ConvoCore
                                        ?? localizedResult.ResolvedClip;
                             if (clip != null)
                             {
-                                var unityRef = ScriptableObject.CreateInstance<ConvoCoreUnityAudioReference>();
+                                var unityRef = ScriptableObject.CreateInstance<WitWeaverUnityAudioReference>();
                                 unityRef.Clip = clip;
                                 inlineRef = unityRef;
                                 audioRef  = unityRef;
@@ -249,7 +249,7 @@ namespace WolfstagInteractive.ConvoCore
                     }
                     else
                     {
-                        // FMOD / Wwise / Custom: try a ConvoAudioReference SO first (user may have assigned one)
+                        // FMOD / Wwise / Custom: try a WitWeaverAudioReference SO first (user may have assigned one)
                         audioRef = ConversationData.AudioManifest.Resolve(line.LineID, localizedResult.UsedLanguage);
 
                         // Fall back to EventKey string wrapped in a transient reference
@@ -258,7 +258,7 @@ namespace WolfstagInteractive.ConvoCore
                             var key = ConversationData.AudioManifest.ResolveEventKey(line.LineID, localizedResult.UsedLanguage);
                             if (!string.IsNullOrEmpty(key))
                             {
-                                var keyRef = ScriptableObject.CreateInstance<ConvoCoreAudioEventKeyReference>();
+                                var keyRef = ScriptableObject.CreateInstance<WitWeaverAudioEventKeyReference>();
                                 keyRef.EventKey = key;
                                 inlineRef = keyRef;
                                 audioRef  = keyRef;
@@ -266,13 +266,13 @@ namespace WolfstagInteractive.ConvoCore
                         }
 
                         if (_audioProvider == null)
-                            Debug.LogWarning($"[ConvoCore] AudioManifest backend is '{backend}' but no Audio Provider is assigned on '{name}'. Assign an IConvoAudioProvider component.", this);
+                            Debug.LogWarning($"[WitWeaver] AudioManifest backend is '{backend}' but no Audio Provider is assigned on '{name}'. Assign an IWitWeaverAudioProvider component.", this);
                     }
                 }
                 else if (playAudio && localizedResult.ResolvedClip != null)
                 {
                     // No manifest — fall back to clip embedded in LocalizedDialogue (Unity-only path)
-                    var unityRef = ScriptableObject.CreateInstance<ConvoCoreUnityAudioReference>();
+                    var unityRef = ScriptableObject.CreateInstance<WitWeaverUnityAudioReference>();
                     unityRef.Clip = localizedResult.ResolvedClip;
                     inlineRef = unityRef;
                     audioRef  = unityRef;
@@ -288,7 +288,7 @@ namespace WolfstagInteractive.ConvoCore
                     string finalOutputString = ReplacePlayerNameInDialogueLine(localizedResult.Text);
 
                     if (_debugLogLines)
-                        Debug.Log($"[ConvoCore] Line {_currentLineIndex} — {primaryProfile.CharacterName}: \"{finalOutputString}\"", this);
+                        Debug.Log($"[WitWeaver] Line {_currentLineIndex} — {primaryProfile.CharacterName}: \"{finalOutputString}\"", this);
 
                     yield return StartCoroutine(
                         PlayDialogueLine(
@@ -303,7 +303,7 @@ namespace WolfstagInteractive.ConvoCore
                 else
                 {
                     if (_debugLogLines)
-                        Debug.Log($"[ConvoCore] Line {_currentLineIndex} — {primaryProfile.CharacterName}: [AudioOnly]", this);
+                        Debug.Log($"[WitWeaver] Line {_currentLineIndex} — {primaryProfile.CharacterName}: [AudioOnly]", this);
 
                     ConversationUI?.HideDialogue();
                 }
@@ -316,7 +316,7 @@ namespace WolfstagInteractive.ConvoCore
                     _history[frame.LineIndex] = frame;
 
                 // PlayerChoice mode: present options, branch on selection, skip normal input/continuation.
-                if (line.LineContinuationSettings.Mode == ConvoCoreConversationData.LineContinuationMode.PlayerChoice)
+                if (line.LineContinuationSettings.Mode == WitWeaverConversationData.LineContinuationMode.PlayerChoice)
                 {
                     var choices    = line.LineContinuationSettings.Choices;
                     bool allowBack = line.LineContinuationSettings.AllowGoBack;
@@ -324,7 +324,7 @@ namespace WolfstagInteractive.ConvoCore
 
                     if (choiceCount == 0 && !allowBack)
                     {
-                        Debug.LogWarning($"[ConvoCore] Line {_currentLineIndex} has PlayerChoice mode but no choices defined. Advancing.");
+                        Debug.LogWarning($"[WitWeaver] Line {_currentLineIndex} has PlayerChoice mode but no choices defined. Advancing.");
                         _currentLineIndex++;
                         continue;
                     }
@@ -337,7 +337,7 @@ namespace WolfstagInteractive.ConvoCore
                     bool goBackAvailable = allowBack && _currentLineIndex > 0;
                     if (goBackAvailable)
                         labels.Add(ResolveLocalizedList(
-                            ConvoCoreSettings.Instance?.GoBackLabel, k_DefaultGoBackLabel));
+                            WitWeaverSettings.Instance?.GoBackLabel, k_DefaultGoBackLabel));
 
                     if (labels.Count == 0)
                     {
@@ -347,7 +347,7 @@ namespace WolfstagInteractive.ConvoCore
 
                     var choiceResult = new ChoiceResult();
                     yield return StartCoroutine(ConversationUI.PresentChoices(
-                        choices ?? new System.Collections.Generic.List<ConvoCoreConversationData.ChoiceOption>(),
+                        choices ?? new System.Collections.Generic.List<WitWeaverConversationData.ChoiceOption>(),
                         labels,
                         choiceResult));
 
@@ -385,26 +385,26 @@ namespace WolfstagInteractive.ConvoCore
 
                 // Auto-coerce UserInput to AudioComplete on AudioOnly lines —
                 // a stalled conversation with no UI and no automatic advance is a silent failure mode
-                if (!showText && effectiveProgression == ConvoCoreConversationData.DialogueLineProgressionMethod.UserInput)
+                if (!showText && effectiveProgression == WitWeaverConversationData.DialogueLineProgressionMethod.UserInput)
                 {
                     effectiveProgression = (playAudio && _audioProvider != null)
-                        ? ConvoCoreConversationData.DialogueLineProgressionMethod.AudioComplete
-                        : ConvoCoreConversationData.DialogueLineProgressionMethod.Timed; // advances immediately (TimeBeforeNextLine = 0)
+                        ? WitWeaverConversationData.DialogueLineProgressionMethod.AudioComplete
+                        : WitWeaverConversationData.DialogueLineProgressionMethod.Timed; // advances immediately (TimeBeforeNextLine = 0)
                 }
 
                 // Handle progression
                 switch (effectiveProgression)
                 {
-                    case ConvoCoreConversationData.DialogueLineProgressionMethod.AudioComplete:
+                    case WitWeaverConversationData.DialogueLineProgressionMethod.AudioComplete:
                         yield return StartCoroutine(WaitForAudioComplete());
                         break;
 
-                    case ConvoCoreConversationData.DialogueLineProgressionMethod.Timed:
+                    case WitWeaverConversationData.DialogueLineProgressionMethod.Timed:
                         if (line.TimeBeforeNextLine > 0f)
                             yield return new WaitForSeconds(line.TimeBeforeNextLine);
                         break;
 
-                    case ConvoCoreConversationData.DialogueLineProgressionMethod.UserInput:
+                    case WitWeaverConversationData.DialogueLineProgressionMethod.UserInput:
                     default:
                         _advanceRequested = false;
                         _reverseRequested = false;
@@ -449,7 +449,7 @@ namespace WolfstagInteractive.ConvoCore
             }
             Debug.Log("Conversation completed!");
         }
-        private List<string> ResolveChoiceLabels(List<ConvoCoreConversationData.ChoiceOption> choices)
+        private List<string> ResolveChoiceLabels(List<WitWeaverConversationData.ChoiceOption> choices)
         {
             var labels = new List<string>(choices.Count);
             foreach (var choice in choices)
@@ -463,7 +463,7 @@ namespace WolfstagInteractive.ConvoCore
         /// </summary>
         /// <param name="entries">Localized entries to resolve. May be null or empty.</param>
         /// <param name="fallback">Returned when nothing resolves to usable text.</param>
-        private string ResolveLocalizedList(List<ConvoCoreConversationData.LocalizedDialogue> entries,
+        private string ResolveLocalizedList(List<WitWeaverConversationData.LocalizedDialogue> entries,
             string fallback)
         {
             // A settings asset that predates this field deserializes the list empty, so this is a
@@ -472,7 +472,7 @@ namespace WolfstagInteractive.ConvoCore
             if (LocalizationHandler == null) return fallback;
 
             // Reuse the localization handler by constructing a temporary line info
-            var tempLine = new ConvoCoreConversationData.DialogueLineInfo("choice")
+            var tempLine = new WitWeaverConversationData.DialogueLineInfo("choice")
             {
                 LocalizedDialogues = entries
             };
@@ -480,7 +480,7 @@ namespace WolfstagInteractive.ConvoCore
             return result.Success && !string.IsNullOrEmpty(result.Text) ? result.Text : fallback;
         }
 
-        private bool HandleChoiceBranch(ConvoCoreConversationData.ChoiceOption choice)
+        private bool HandleChoiceBranch(WitWeaverConversationData.ChoiceOption choice)
         {
             // Intra-conversation jump takes priority over container branching.
             if (!string.IsNullOrEmpty(choice.TargetLineID))
@@ -488,15 +488,15 @@ namespace WolfstagInteractive.ConvoCore
 
             if (choice.TargetContainer == null)
             {
-                Debug.LogWarning("[ConvoCore] Selected choice has no TargetContainer. Ending conversation.");
+                Debug.LogWarning("[WitWeaver] Selected choice has no TargetContainer. Ending conversation.");
                 CurrentDialogueState = ConversationState.Completed;
                 return false;
             }
 
             // Reuse the existing container branch logic
-            var continuation = new ConvoCoreConversationData.LineContinuation
+            var continuation = new WitWeaverConversationData.LineContinuation
             {
-                Mode = ConvoCoreConversationData.LineContinuationMode.ContainerBranch,
+                Mode = WitWeaverConversationData.LineContinuationMode.ContainerBranch,
                 TargetContainer = choice.TargetContainer,
                 TargetAliasOrName = choice.TargetAliasOrName,
                 PushReturnPoint = choice.PushReturnPoint
@@ -505,24 +505,24 @@ namespace WolfstagInteractive.ConvoCore
             return HandleContainerBranch(continuation);
         }
 
-        private bool HandleLineContinuation(ConvoCoreConversationData.DialogueLineInfo line)
+        private bool HandleLineContinuation(WitWeaverConversationData.DialogueLineInfo line)
         {
             var cont = line.LineContinuationSettings;
 
             switch (cont.Mode)
             {
-                case ConvoCoreConversationData.LineContinuationMode.Continue:
+                case WitWeaverConversationData.LineContinuationMode.Continue:
                     _currentLineIndex++;
                     return _currentLineIndex < ConversationData.DialogueLines.Count;
 
-                case ConvoCoreConversationData.LineContinuationMode.EndConversation:
+                case WitWeaverConversationData.LineContinuationMode.EndConversation:
                     CurrentDialogueState = ConversationState.Completed;
                     return false;
 
-                case ConvoCoreConversationData.LineContinuationMode.ContainerBranch:
+                case WitWeaverConversationData.LineContinuationMode.ContainerBranch:
                     return HandleContainerBranch(cont);
 
-                case ConvoCoreConversationData.LineContinuationMode.GoToLine:
+                case WitWeaverConversationData.LineContinuationMode.GoToLine:
                     return JumpToLineId(cont.TargetLineID, cont.PushReturnPoint);
 
                 default:
@@ -544,7 +544,7 @@ namespace WolfstagInteractive.ConvoCore
             if (index < 0)
             {
                 Debug.LogWarning(
-                    $"[ConvoCore] GoToLine target '{targetLineId}' not found in '{ConversationData?.name}'.");
+                    $"[WitWeaver] GoToLine target '{targetLineId}' not found in '{ConversationData?.name}'.");
                 return TryReturnOrEnd();
             }
 
@@ -568,7 +568,7 @@ namespace WolfstagInteractive.ConvoCore
             return true;
         }
 
-        private bool HandleContainerBranch(ConvoCoreConversationData.LineContinuation cont)
+        private bool HandleContainerBranch(WitWeaverConversationData.LineContinuation cont)
         {
             if (ConversationData == null)
                 return false;
@@ -576,7 +576,7 @@ namespace WolfstagInteractive.ConvoCore
             var container = cont.TargetContainer;
             if (container == null)
             {
-                Debug.LogWarning("[ConvoCore] ContainerBranch used but TargetContainer is null.");
+                Debug.LogWarning("[WitWeaver] ContainerBranch used but TargetContainer is null.");
                 return TryReturnOrEnd();
             }
 
@@ -586,7 +586,7 @@ namespace WolfstagInteractive.ConvoCore
             var result = container.ResolveForBranch(_context, cont.TargetAliasOrName);
             if (result.Conversation == null)
             {
-                Debug.LogWarning($"[ConvoCore] Container '{container.name}' returned no conversation for branch.");
+                Debug.LogWarning($"[WitWeaver] Container '{container.name}' returned no conversation for branch.");
                 return TryReturnOrEnd();
             }
 
@@ -610,7 +610,7 @@ namespace WolfstagInteractive.ConvoCore
         }
 
 
-        private void SwitchConversation(ConvoCoreConversationData newConversation, int startIndex)
+        private void SwitchConversation(WitWeaverConversationData newConversation, int startIndex)
         {
             if (newConversation == null)
             {
@@ -629,7 +629,7 @@ namespace WolfstagInteractive.ConvoCore
         }
 
 
-        // internal so ConvoCoreConversationData can call it
+        // internal so WitWeaverConversationData can call it
         internal bool ShouldExecuteAction(BaseDialogueLineAction action, int lineIndex)
         {
             if (action == null)
@@ -711,7 +711,7 @@ namespace WolfstagInteractive.ConvoCore
         /// </summary>
         /// <param name="primaryProfile">The character profile of the speaker</param>
         /// <param name="representationData">The representation data from the dialogue line</param>
-        private CharacterRepresentationBase GetPrimaryCharacterRepresentation(ConvoCoreCharacterProfileBaseData primaryProfile, ConvoCoreConversationData.CharacterRepresentationData representationData)
+        private CharacterRepresentationBase GetPrimaryCharacterRepresentation(WitWeaverCharacterProfileBaseData primaryProfile, WitWeaverConversationData.CharacterRepresentationData representationData)
         {
             // For primary characters, if no specific representation is set, try to get the first available one
             if (string.IsNullOrEmpty(representationData.SelectedRepresentationName) && 
@@ -744,7 +744,7 @@ namespace WolfstagInteractive.ConvoCore
         /// <param name="profile">The character profile to get representation from</param>
         /// <param name="representationData">The representation data</param>
         /// <param name="isPrimaryCharacter">Whether this is for a primary character (primary characters cannot be "None")</param>
-        private CharacterRepresentationBase GetCharacterRepresentationFromData(ConvoCoreCharacterProfileBaseData profile, ConvoCoreConversationData.CharacterRepresentationData representationData, bool isPrimaryCharacter = false)
+        private CharacterRepresentationBase GetCharacterRepresentationFromData(WitWeaverCharacterProfileBaseData profile, WitWeaverConversationData.CharacterRepresentationData representationData, bool isPrimaryCharacter = false)
         {
             CharacterRepresentationBase result;
             
@@ -874,10 +874,10 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>
         /// Plays a dialogue line with the UI foundation
         /// </summary>
-        private IEnumerator PlayDialogueLine(ConvoCoreUIFoundation uiFoundation,
-            ConvoCoreConversationData.DialogueLineInfo dialogueLineInfo, string localizedText,
+        private IEnumerator PlayDialogueLine(WitWeaverUIFoundation uiFoundation,
+            WitWeaverConversationData.DialogueLineInfo dialogueLineInfo, string localizedText,
             string speakingCharacterName, CharacterRepresentationBase characterRepresentation,
-            ConvoCoreCharacterProfileBaseData primaryProfile)
+            WitWeaverCharacterProfileBaseData primaryProfile)
         {
             // Update the UI with dialogue information
             uiFoundation.UpdateDialogueUI(dialogueLineInfo, localizedText, speakingCharacterName, characterRepresentation,primaryProfile);
@@ -932,7 +932,7 @@ namespace WolfstagInteractive.ConvoCore
             // Update the localization handler if it exists
             if (LocalizationHandler != null)
             {
-                LocalizationHandler = new ConvoCoreDialogueLocalizationHandler(ConvoCoreLanguageManager.Instance);
+                LocalizationHandler = new WitWeaverDialogueLocalizationHandler(WitWeaverLanguageManager.Instance);
             }
             
             // If we're currently in an active conversation, refresh the current dialogue line
@@ -1029,11 +1029,11 @@ namespace WolfstagInteractive.ConvoCore
         /// Initializes and starts the specified conversation, setting up the necessary UI and internal states.
         /// </summary>
         /// <param name="conversation">The conversation data to be played. Includes dialogue lines and relevant metadata.</param>
-        public void PlayConversation(ConvoCoreConversationData conversation)
+        public void PlayConversation(WitWeaverConversationData conversation)
         {
             if (conversation == null)
             {
-                Debug.LogError("[ConvoCore] Play called with null conversation.");
+                Debug.LogError("[WitWeaver] Play called with null conversation.");
                 return;
             }
             ConversationData = conversation;
@@ -1069,17 +1069,17 @@ namespace WolfstagInteractive.ConvoCore
                 var src = gameObject.GetComponent<AudioSource>()
                           ?? gameObject.AddComponent<AudioSource>();
                 src.playOnAwake = false;
-                var prov = gameObject.GetComponent<ConvoCoreUnityAudioProvider>()
-                           ?? gameObject.AddComponent<ConvoCoreUnityAudioProvider>();
+                var prov = gameObject.GetComponent<WitWeaverUnityAudioProvider>()
+                           ?? gameObject.AddComponent<WitWeaverUnityAudioProvider>();
                 _audioProvider = prov;
             }
 
-            // Let a co-located IConvoStartContextProvider control how playback begins
-            var provider = GetComponent<IConvoStartContextProvider>();
+            // Let a co-located IWitWeaverStartContextProvider control how playback begins
+            var provider = GetComponent<IWitWeaverStartContextProvider>();
             if (provider != null)
             {
                 var ctx = provider.GetStartContext();
-                if (ctx.Mode == ConvoStartMode.Resume)
+                if (ctx.Mode == WitWeaverStartMode.Resume)
                 {
                     if (ctx.VisitedLineIds != null) SetVisitedLines(ctx.VisitedLineIds);
                     if (!string.IsNullOrEmpty(ctx.StartLineId)) BeginFromLine(ctx.StartLineId);
@@ -1122,7 +1122,7 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (Input == null)
             {
-                Debug.LogWarning("[ConvoCore] Input is null.");
+                Debug.LogWarning("[WitWeaver] Input is null.");
                 return;
             }
 
@@ -1140,13 +1140,13 @@ namespace WolfstagInteractive.ConvoCore
     }
 
     /// <summary>
-    /// Minimal interface implemented by <see cref="ConvoCore"/>. Allows external systems
+    /// Minimal interface implemented by <see cref="WitWeaver"/>. Allows external systems
     /// (container runners, save managers) to start a conversation without a direct
     /// MonoBehaviour reference.
     /// </summary>
-    public interface IConvoCoreRunner
+    public interface IWitWeaverRunner
     {
-        void PlayConversation(ConvoCoreConversationData conversation);
+        void PlayConversation(WitWeaverConversationData conversation);
         public event Action CompletedConversation;
 
     }

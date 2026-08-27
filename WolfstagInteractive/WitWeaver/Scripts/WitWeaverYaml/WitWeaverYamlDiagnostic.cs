@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>Severity level of a YAML diagnostic.</summary>
     public enum DiagnosticSeverity
@@ -18,7 +18,7 @@ namespace WolfstagInteractive.ConvoCore
     /// post-process validation. Carries the source line, a machine-readable code,
     /// a plain-English problem description, and numbered fix steps.
     /// </summary>
-    public readonly struct ConvoCoreYamlDiagnostic
+    public readonly struct WitWeaverYamlDiagnostic
     {
         /// <summary>Whether this diagnostic blocks import.</summary>
         public readonly DiagnosticSeverity Severity;
@@ -41,7 +41,7 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>Ordered fix instructions presented to the author.</summary>
         public readonly string[] FixSteps;
 
-        public ConvoCoreYamlDiagnostic(
+        public WitWeaverYamlDiagnostic(
             DiagnosticSeverity severity,
             int    line,
             int    column,
@@ -69,16 +69,16 @@ namespace WolfstagInteractive.ConvoCore
         ///   Optional filename shown in the header (e.g. "MyConversation.yaml").
         ///   Pass <c>null</c> to omit.
         /// </param>
-        public static string Format(string filename, IEnumerable<ConvoCoreYamlDiagnostic> diagnostics)
+        public static string Format(string filename, IEnumerable<WitWeaverYamlDiagnostic> diagnostics)
         {
-            var list     = new List<ConvoCoreYamlDiagnostic>(diagnostics);
+            var list     = new List<WitWeaverYamlDiagnostic>(diagnostics);
             bool hasError = list.Exists(d => d.Severity == DiagnosticSeverity.Error);
             string outcome = hasError ? "import failed" : "imported with warnings";
 
             var sb = new StringBuilder();
             sb.AppendLine(!string.IsNullOrEmpty(filename)
-                ? $"[ConvoCore] YAML {outcome} — {filename}"
-                : $"[ConvoCore] YAML {outcome}");
+                ? $"[WitWeaver] YAML {outcome} — {filename}"
+                : $"[WitWeaver] YAML {outcome}");
 
             foreach (var d in list)
             {

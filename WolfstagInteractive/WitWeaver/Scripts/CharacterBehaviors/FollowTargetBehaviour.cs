@@ -1,27 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Character behaviour type that spawns characters and keeps them following a scene Transform
     /// during the conversation.
     ///
-    /// The follow target is resolved via <see cref="ConvoCoreSceneCharacterRegistry"/> by ID.
-    /// A <see cref="ConvoCoreFollowTarget"/> MonoBehaviour is attached to each spawned
+    /// The follow target is resolved via <see cref="WitWeaverSceneCharacterRegistry"/> by ID.
+    /// A <see cref="WitWeaverFollowTarget"/> MonoBehaviour is attached to each spawned
     /// character instance to drive the per-frame follow logic.
     ///
     /// On <see cref="OnConversationEnd"/>: releases all spawned instances via the spawner.
     ///
     /// Use case: companion NPC that walks beside the player during a conversation.
     /// </summary>
-    [CreateAssetMenu(fileName = "FollowTargetBehaviour", menuName = "ConvoCore/Character Behaviour/Follow Target Behaviour")]
-    public class FollowTargetBehaviour : ConvoCoreCharacterBehaviour
+    [CreateAssetMenu(fileName = "FollowTargetBehaviour", menuName = "WitWeaver/Character Behaviour/Follow Target Behaviour")]
+    public class FollowTargetBehaviour : WitWeaverCharacterBehaviour
     {
         [System.Serializable]
         public class FollowSlotEntry
         {
-            [Tooltip("Scene character ID (registered via ConvoCoreSceneCharacterRegistrant) of the target to follow.")]
+            [Tooltip("Scene character ID (registered via WitWeaverSceneCharacterRegistrant) of the target to follow.")]
             public string TargetSceneId;
 
             [Tooltip("World-space offset applied relative to the target's position.")]
@@ -49,14 +49,14 @@ namespace WolfstagInteractive.ConvoCore
 
         [SerializeField] private List<FollowSlotEntry> _slots = new();
 
-        [System.NonSerialized] private Dictionary<string, IConvoCoreCharacterDisplay> _cachedDisplays = new();
+        [System.NonSerialized] private Dictionary<string, IWitWeaverCharacterDisplay> _cachedDisplays = new();
         [System.NonSerialized] private List<(GameObject go, string triggerName)> _animatorResets = new();
-        [System.NonSerialized] private ConvoCorePrefabRepresentationSpawner _spawner;
+        [System.NonSerialized] private WitWeaverPrefabRepresentationSpawner _spawner;
 
-        public override IConvoCoreCharacterDisplay ResolvePresence(
+        public override IWitWeaverCharacterDisplay ResolvePresence(
             PrefabCharacterRepresentationData representation,
             CharacterBehaviourContext context,
-            ConvoCorePrefabRepresentationSpawner spawner)
+            WitWeaverPrefabRepresentationSpawner spawner)
         {
             _spawner = spawner;
 
@@ -94,7 +94,7 @@ namespace WolfstagInteractive.ConvoCore
             var displayMono = display as MonoBehaviour;
             if (displayMono != null)
             {
-                var follow = displayMono.gameObject.AddComponent<ConvoCoreFollowTarget>();
+                var follow = displayMono.gameObject.AddComponent<WitWeaverFollowTarget>();
                 follow.Initialize(targetMono.transform, slot.Offset);
 
                 // Apply optional animator parameter at the start of following.
@@ -142,7 +142,7 @@ namespace WolfstagInteractive.ConvoCore
     /// Added at runtime to spawned characters by <see cref="FollowTargetBehaviour"/>.
     /// Follows a target Transform with a fixed world-space offset each frame.
     /// </summary>
-    public class ConvoCoreFollowTarget : MonoBehaviour
+    public class WitWeaverFollowTarget : MonoBehaviour
     {
         private Transform _target;
         private Vector3 _offset;

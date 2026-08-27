@@ -1,6 +1,6 @@
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    public enum ConvoVariableScope
+    public enum WitWeaverVariableScope
     {
         Global,
         Session,

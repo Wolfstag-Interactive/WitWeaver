@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Base contract for any dialogue history renderer.
     /// Renderers may target UGUI, UI Toolkit, worldspace text, etc.
     /// </summary>
-    public interface IConvoCoreHistoryRenderer
+    public interface IWitWeaverHistoryRenderer
     {
         string RendererName { get; }
         void Initialize(object context = null);

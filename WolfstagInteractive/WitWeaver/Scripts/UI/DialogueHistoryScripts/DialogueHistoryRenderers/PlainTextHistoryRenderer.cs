@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Simple dialogue history renderer that appends plain text lines
     /// to a TMP_Text component with no markup or color formatting.
     /// </summary>
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PlainTextHistoryRenderer.html")]
-    public class PlainTextHistoryRenderer : IConvoCoreHistoryRenderer
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PlainTextHistoryRenderer.html")]
+    public class PlainTextHistoryRenderer : IWitWeaverHistoryRenderer
     {
         public string RendererName => "Plain";
 

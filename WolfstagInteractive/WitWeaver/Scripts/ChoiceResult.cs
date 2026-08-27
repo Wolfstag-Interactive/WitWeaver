@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Shared mutable reference used to pass a player's choice selection back from the UI
-    /// to the ConvoCore runner after PresentChoices completes.
+    /// to the WitWeaver runner after PresentChoices completes.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ChoiceResult.html")]
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ChoiceResult.html")]
     public class ChoiceResult
     {
         /// <summary>The index into the ChoiceOption list that the player selected. -1 means unresolved.</summary>

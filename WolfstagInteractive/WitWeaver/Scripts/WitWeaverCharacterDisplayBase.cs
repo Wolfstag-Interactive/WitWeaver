@@ -1,13 +1,13 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Generic base class for all prefab-based character displays.
-    /// Applies scale, flip, and side offsets using ConvoCore's side-based layout model.
+    /// Applies scale, flip, and side offsets using WitWeaver's side-based layout model.
     /// </summary>
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase.html")]
-    public abstract class ConvoCoreCharacterDisplayBase : MonoBehaviour, IConvoCoreCharacterDisplay
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterDisplayBase.html")]
+    public abstract class WitWeaverCharacterDisplayBase : MonoBehaviour, IWitWeaverCharacterDisplay
     {
         [Header("Display Root Settings")]
         [Tooltip("The root object to scale/flip. Defaults to this GameObject.")]
@@ -40,7 +40,7 @@ namespace WolfstagInteractive.ConvoCore
             visualRoot.localScale = scale;
 
             // Positioning is intentionally not handled here.
-            // Characters are positioned by the parent transform assigned in ConvoCorePrefabRepresentationSpawner.
+            // Characters are positioned by the parent transform assigned in WitWeaverPrefabRepresentationSpawner.
             // Override ApplyDisplayOptions in a subclass if the character needs to reposition itself
             // relative to its parent based on display options.
         }

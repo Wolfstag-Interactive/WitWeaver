@@ -1,25 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Character behaviour type that places characters at scene-authored positions.
     ///
     /// On <see cref="OnConversationBegin"/>: resolves each entry's <see cref="WorldPointEntry.SpawnPointId"/>
-    /// against <see cref="ConvoCoreSpawnPointRegistry"/> and creates a marker Transform at the
-    /// matching <see cref="ConvoCoreSpawnPoint"/>'s world position and rotation.
+    /// against <see cref="WitWeaverSpawnPointRegistry"/> and creates a marker Transform at the
+    /// matching <see cref="WitWeaverSpawnPoint"/>'s world position and rotation.
     /// On <see cref="ResolvePresence"/>: spawns the prefab via the spawner and parents it to the
     /// marker for the character's slot index. Characters that appear on multiple lines are cached
     /// and not re-spawned.
     /// On <see cref="OnConversationEnd"/>: releases all spawned instances via the spawner and
     /// destroys the marker Transforms.
     ///
-    /// Place <see cref="ConvoCoreSpawnPoint"/> components on scene GameObjects and position them
+    /// Place <see cref="WitWeaverSpawnPoint"/> components on scene GameObjects and position them
     /// visually; this asset references them by ID.
     /// </summary>
-    [CreateAssetMenu(fileName = "WorldPointBehaviour", menuName = "ConvoCore/Character Behaviour/World Point Behaviour")]
-    public class WorldPointBehaviour : ConvoCoreCharacterBehaviour
+    [CreateAssetMenu(fileName = "WorldPointBehaviour", menuName = "WitWeaver/Character Behaviour/World Point Behaviour")]
+    public class WorldPointBehaviour : WitWeaverCharacterBehaviour
     {
         [Tooltip("One entry per character slot. Index 0 is the first character to appear on any line, etc.")]
         [SerializeField] private List<WorldPointEntry> _worldPoints = new();
@@ -27,42 +27,42 @@ namespace WolfstagInteractive.ConvoCore
         [System.Serializable]
         public class WorldPointEntry
         {
-            [Tooltip("ID of a ConvoCoreSpawnPoint placed in the scene. The behaviour resolves the spawn point's transform at conversation begin.")]
+            [Tooltip("ID of a WitWeaverSpawnPoint placed in the scene. The behaviour resolves the spawn point's transform at conversation begin.")]
             public string SpawnPointId;
         }
 
         // Runtime state -- not serialized.
         [System.NonSerialized] private List<Transform> _markers = new();
-        [System.NonSerialized] private Dictionary<string, IConvoCoreCharacterDisplay> _cachedDisplays = new();
-        [System.NonSerialized] private ConvoCorePrefabRepresentationSpawner _spawner;
+        [System.NonSerialized] private Dictionary<string, IWitWeaverCharacterDisplay> _cachedDisplays = new();
+        [System.NonSerialized] private WitWeaverPrefabRepresentationSpawner _spawner;
 
         public override void OnConversationBegin()
         {
             CleanupMarkers();
             _cachedDisplays.Clear();
 
-            var registry = ConvoCoreSpawnPointRegistry.Instance;
+            var registry = WitWeaverSpawnPointRegistry.Instance;
 
             foreach (var entry in _worldPoints)
             {
                 if (!registry.TryGet(entry.SpawnPointId, out var spawnTransform))
                 {
                     Debug.LogWarning($"[WorldPointBehaviour] Spawn point ID '{entry.SpawnPointId}' not found in registry. " +
-                                     $"Ensure a ConvoCoreSpawnPoint with this ID exists and is active in the scene.");
+                                     $"Ensure a WitWeaverSpawnPoint with this ID exists and is active in the scene.");
                     _markers.Add(null);
                     continue;
                 }
 
-                var go = new GameObject($"_ConvoCore_WorldPoint_{entry.SpawnPointId}");
+                var go = new GameObject($"_WitWeaver_WorldPoint_{entry.SpawnPointId}");
                 go.transform.SetPositionAndRotation(spawnTransform.position, spawnTransform.rotation);
                 _markers.Add(go.transform);
             }
         }
 
-        public override IConvoCoreCharacterDisplay ResolvePresence(
+        public override IWitWeaverCharacterDisplay ResolvePresence(
             PrefabCharacterRepresentationData representation,
             CharacterBehaviourContext context,
-            ConvoCorePrefabRepresentationSpawner spawner)
+            WitWeaverPrefabRepresentationSpawner spawner)
         {
             _spawner = spawner;
 

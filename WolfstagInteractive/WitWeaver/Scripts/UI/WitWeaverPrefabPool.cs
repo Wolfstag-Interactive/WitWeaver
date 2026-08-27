@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCorePrefabPool.html")]
-    public class ConvoCorePrefabPool : MonoBehaviour
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverPrefabPool.html")]
+    public class WitWeaverPrefabPool : MonoBehaviour
     {
-        public static ConvoCorePrefabPool Instance { get; private set; }
+        public static WitWeaverPrefabPool Instance { get; private set; }
 
         private readonly Dictionary<GameObject, Stack<GameObject>> _pool = new();
 

@@ -3,14 +3,14 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConversationContainerRuntime.html")]
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainerRuntime.html")]
     public static class ConversationContainerRuntime
 {
     public static IEnumerator Play(
         ConversationContainer c,
-        IConvoCoreRunner runner,
+        IWitWeaverRunner runner,
         string startAliasOrName = null,
         bool? loopOverride = null,
         Func<ConversationContainer.Entry> hubSelector = null)
@@ -19,7 +19,7 @@ namespace WolfstagInteractive.ConvoCore
     }
 
     public static IEnumerator PlayLinear(
-        ConversationContainer c, IConvoCoreRunner runner,
+        ConversationContainer c, IWitWeaverRunner runner,
         string startAliasOrName = null, bool? loopOverride = null)
     {
         if (c == null || c.Conversations == null || c.Conversations.Count == 0)
@@ -35,7 +35,7 @@ namespace WolfstagInteractive.ConvoCore
 
             if (beforeCount != c.Conversations.Count)
             {
-                Debug.LogWarning($"[ConvoCore] Removed {beforeCount - c.Conversations.Count} null entries from container '{c.name}'." +
+                Debug.LogWarning($"[WitWeaver] Removed {beforeCount - c.Conversations.Count} null entries from container '{c.name}'." +
                                  $"This is done to prevent errors during runtime. Ensure that the container does not contain null entries during edit time.");
             }
         }
@@ -60,7 +60,7 @@ namespace WolfstagInteractive.ConvoCore
         }
     }
 
-    private static IEnumerator PlayOne(ConversationContainer.Entry e, IConvoCoreRunner runner)
+    private static IEnumerator PlayOne(ConversationContainer.Entry e, IWitWeaverRunner runner)
     {
         bool done = false;
         void OnEnd() => done = true;

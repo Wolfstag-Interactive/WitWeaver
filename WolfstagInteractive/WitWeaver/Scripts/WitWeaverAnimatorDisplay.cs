@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Prefab display component that maps expression display names to Animator parameters.
@@ -11,8 +11,8 @@ namespace WolfstagInteractive.ConvoCore
     ///
     /// Supports Bool, Int, Float, and Trigger parameter types.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatorDisplay.html")]
-    public class ConvoCoreAnimatorDisplay : ConvoCoreCharacterDisplayBase
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorDisplay.html")]
+    public class WitWeaverAnimatorDisplay : WitWeaverCharacterDisplayBase
     {
         [Header("Animator")]
         [Tooltip("Animator to drive. Auto-resolved from this GameObject or its children if left empty.")]
@@ -44,7 +44,7 @@ namespace WolfstagInteractive.ConvoCore
 
             if (_lastBoundRep == null)
             {
-                Debug.LogWarning($"[ConvoCoreAnimatorDisplay] Expected PrefabCharacterRepresentationData " +
+                Debug.LogWarning($"[WitWeaverAnimatorDisplay] Expected PrefabCharacterRepresentationData " +
                                  $"but received '{representationAsset?.GetType().Name}'.");
                 return;
             }
@@ -56,7 +56,7 @@ namespace WolfstagInteractive.ConvoCore
                 if (animMapping != null)
                     _runtimeLookup[exprMapping.ExpressionID] = animMapping;
                 else
-                    Debug.LogWarning($"[ConvoCoreAnimatorDisplay] No animator mapping found for expression " +
+                    Debug.LogWarning($"[WitWeaverAnimatorDisplay] No animator mapping found for expression " +
                                      $"'{exprMapping.DisplayName}' on '{gameObject.name}'. Add an entry to the Expression Mappings list.");
             }
         }
@@ -65,13 +65,13 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (_animator == null)
             {
-                Debug.LogWarning("[ConvoCoreAnimatorDisplay] No Animator found.");
+                Debug.LogWarning("[WitWeaverAnimatorDisplay] No Animator found.");
                 return;
             }
 
             if (!_runtimeLookup.TryGetValue(expressionId, out var mapping))
             {
-                Debug.LogWarning($"[ConvoCoreAnimatorDisplay] Expression GUID '{expressionId}' not found in runtime lookup. " +
+                Debug.LogWarning($"[WitWeaverAnimatorDisplay] Expression GUID '{expressionId}' not found in runtime lookup. " +
                                  $"Was BindRepresentation called?");
                 return;
             }

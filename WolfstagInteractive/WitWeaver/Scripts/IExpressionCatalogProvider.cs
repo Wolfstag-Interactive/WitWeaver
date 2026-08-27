@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Implemented by character representations that expose a list of expressions

@@ -1,4 +1,4 @@
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     public interface IDialogueHistoryOutput
     {

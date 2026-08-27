@@ -2,12 +2,12 @@ using System.Collections;
 using UnityEngine;
 
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionFadeInOutSpriteRenderer.html")]
-[CreateAssetMenu(fileName = "FadeInOutSpriteRendererAction", menuName = "ConvoCore/Actions/Fade In Or Out SpriteRenderer")]
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionFadeInOutSpriteRenderer.html")]
+[CreateAssetMenu(fileName = "FadeInOutSpriteRendererAction", menuName = "WitWeaver/Actions/Fade In Or Out SpriteRenderer")]
     [System.Serializable]
-    public class ConvoCoreDialogueLineActionFadeInOutSpriteRenderer : BaseDialogueLineAction
+    public class WitWeaverDialogueLineActionFadeInOutSpriteRenderer : BaseDialogueLineAction
     {
         [Header("Target Settings")]
         [Tooltip("Reference to the GameObject containing the SpriteRenderer to fade")]

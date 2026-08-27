@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Result returned by <see cref="ConvoCoreYamlPreprocessor.Run"/>.
+    /// Result returned by <see cref="WitWeaverYamlPreprocessor.Run"/>.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PreprocessorResult.html")]
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PreprocessorResult.html")]
     public sealed class PreprocessorResult
     {
         /// <summary>
@@ -25,8 +25,8 @@ namespace WolfstagInteractive.ConvoCore
         public string ProcessedYaml { get; internal set; }
 
         /// <summary>All diagnostics collected during pre-flight and the state machine pass.</summary>
-        public IReadOnlyList<ConvoCoreYamlDiagnostic> Diagnostics => _diagnostics;
-        internal readonly List<ConvoCoreYamlDiagnostic> _diagnostics = new List<ConvoCoreYamlDiagnostic>();
+        public IReadOnlyList<WitWeaverYamlDiagnostic> Diagnostics => _diagnostics;
+        internal readonly List<WitWeaverYamlDiagnostic> _diagnostics = new List<WitWeaverYamlDiagnostic>();
 
         /// <summary>
         /// Maps 0-indexed line numbers to the number of characters added to that line
@@ -37,7 +37,7 @@ namespace WolfstagInteractive.ConvoCore
         internal readonly Dictionary<int, int> _columnOffsets = new Dictionary<int, int>();
 
         internal bool HasErrors => _diagnostics.Exists(d => d.Severity == DiagnosticSeverity.Error);
-        internal void Add(ConvoCoreYamlDiagnostic d) => _diagnostics.Add(d);
+        internal void Add(WitWeaverYamlDiagnostic d) => _diagnostics.Add(d);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ namespace WolfstagInteractive.ConvoCore
     ///   </description></item>
     /// </list>
     /// </summary>
-    public static class ConvoCoreYamlPreprocessor
+    public static class WitWeaverYamlPreprocessor
     {
         // BCP 47 locale code: 2-3 alpha, optional subtag(s) (e.g. zh-CN, pt-BR, en).
         private static readonly Regex LocaleCodeRegex = new Regex(
@@ -130,7 +130,7 @@ namespace WolfstagInteractive.ConvoCore
             // BOM at the very start of the file.
             if (lines.Length > 0 && lines[0].Length > 0 && lines[0][0] == '﻿')
             {
-                result.Add(new ConvoCoreYamlDiagnostic(
+                result.Add(new WitWeaverYamlDiagnostic(
                     DiagnosticSeverity.Error, 1, 1, lines[0],
                     "BOM",
                     "File starts with a UTF-8 BOM (byte-order mark), which is not valid in YAML.",
@@ -149,7 +149,7 @@ namespace WolfstagInteractive.ConvoCore
                 // ── Tab indentation ────────────────────────────────────────────────
                 if (line.Length > 0 && line[0] == '\t')
                 {
-                    result.Add(new ConvoCoreYamlDiagnostic(
+                    result.Add(new WitWeaverYamlDiagnostic(
                         DiagnosticSeverity.Error, lineNum, 1, line,
                         "TAB_INDENT",
                         "YAML requires spaces for indentation; tab characters are not allowed.",
@@ -161,7 +161,7 @@ namespace WolfstagInteractive.ConvoCore
                 if (trimmed.StartsWith("<<<<<<<") || trimmed.StartsWith(">>>>>>>") ||
                     trimmed == "=======")
                 {
-                    result.Add(new ConvoCoreYamlDiagnostic(
+                    result.Add(new WitWeaverYamlDiagnostic(
                         DiagnosticSeverity.Error, lineNum, 0, line,
                         "CONFLICT",
                         "Unresolved git merge conflict marker found. The file cannot be parsed until the conflict is resolved.",
@@ -178,7 +178,7 @@ namespace WolfstagInteractive.ConvoCore
                     }
                     else
                     {
-                        result.Add(new ConvoCoreYamlDiagnostic(
+                        result.Add(new WitWeaverYamlDiagnostic(
                             DiagnosticSeverity.Error, lineNum, 0, line,
                             "MULTI_DOC",
                             "A second '---' document separator was found. The parser only reads the first YAML document; all conversations after this line will be silently ignored.",
@@ -194,7 +194,7 @@ namespace WolfstagInteractive.ConvoCore
                     if (idx >= 0)
                     {
                         char replacement = (c == '‘' || c == '’') ? '\'' : '"';
-                        result.Add(new ConvoCoreYamlDiagnostic(
+                        result.Add(new WitWeaverYamlDiagnostic(
                             DiagnosticSeverity.Warning, lineNum, idx + 1, line,
                             "SMART_QUOTE",
                             $"Curly/smart quote character (U+{(int)c:X4} '{c}') found. " +
@@ -210,7 +210,7 @@ namespace WolfstagInteractive.ConvoCore
                     int idx = line.IndexOf(c);
                     if (idx >= 0)
                     {
-                        result.Add(new ConvoCoreYamlDiagnostic(
+                        result.Add(new WitWeaverYamlDiagnostic(
                             DiagnosticSeverity.Warning, lineNum, idx + 1, line,
                             "ZERO_WIDTH",
                             $"Invisible zero-width character (U+{(int)c:X4}) found at column {idx + 1}. " +
@@ -306,7 +306,7 @@ namespace WolfstagInteractive.ConvoCore
                     string lowerKey = localeKey.ToLowerInvariant();
                     if (!seenLocales.Add(lowerKey))
                     {
-                        result.Add(new ConvoCoreYamlDiagnostic(
+                        result.Add(new WitWeaverYamlDiagnostic(
                             DiagnosticSeverity.Warning, lineNum, 0, line,
                             "DUPLICATE_LOCALE",
                             $"Locale key '{localeKey}' appears more than once in this LocalizedDialogue block. " +
@@ -330,7 +330,7 @@ namespace WolfstagInteractive.ConvoCore
                     // Block scalar indicators — warn and pass through.
                     if (BlockScalars.Contains(rawValue.Trim()))
                     {
-                        result.Add(new ConvoCoreYamlDiagnostic(
+                        result.Add(new WitWeaverYamlDiagnostic(
                             DiagnosticSeverity.Warning, lineNum, 0, line,
                             "BLOCK_SCALAR",
                             $"The locale value for '{localeKey}' uses a YAML block scalar indicator ('{rawValue.Trim()}'). " +

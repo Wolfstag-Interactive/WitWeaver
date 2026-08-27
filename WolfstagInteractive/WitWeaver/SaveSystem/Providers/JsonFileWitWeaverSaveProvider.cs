@@ -1,21 +1,21 @@
 using System.IO;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1JsonFileConvoSaveProvider.html")]
-    public class JsonFileConvoSaveProvider : IConvoSaveProvider
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1JsonFileWitWeaverSaveProvider.html")]
+    public class JsonFileWitWeaverSaveProvider : IWitWeaverSaveProvider
     {
         private readonly string _basePath;
 
-        public JsonFileConvoSaveProvider(string subdirectory = "ConvoCoreSaves")
+        public JsonFileWitWeaverSaveProvider(string subdirectory = "WitWeaverSaves")
         {
             _basePath = Path.Combine(Application.persistentDataPath, subdirectory);
         }
 
         private string GetFilePath(string key)
         {
-            return Path.Combine(_basePath, key + ".convo.json");
+            return Path.Combine(_basePath, key + ".witweaver.json");
         }
 
         private void EnsureDirectory()
@@ -24,11 +24,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 Directory.CreateDirectory(_basePath);
         }
 
-        public void Save(string saveSlot, ConvoCoreGameSnapshot snapshot)
+        public void Save(string saveSlot, WitWeaverGameSnapshot snapshot)
         {
             if (snapshot == null)
             {
-                Debug.LogWarning("[ConvoCoreSave] Cannot save null snapshot.");
+                Debug.LogWarning("[WitWeaverSave] Cannot save null snapshot.");
                 return;
             }
 
@@ -37,14 +37,14 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             File.WriteAllText(GetFilePath(saveSlot), json);
         }
 
-        public ConvoCoreGameSnapshot Load(string saveSlot)
+        public WitWeaverGameSnapshot Load(string saveSlot)
         {
             var path = GetFilePath(saveSlot);
             if (!File.Exists(path))
                 return null;
 
             var json = File.ReadAllText(path);
-            return JsonUtility.FromJson<ConvoCoreGameSnapshot>(json);
+            return JsonUtility.FromJson<WitWeaverGameSnapshot>(json);
         }
 
         public bool HasSave(string saveSlot)
@@ -59,11 +59,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 File.Delete(path);
         }
 
-        public void SaveSettings(string key, ConvoCoreSettingsSnapshot snapshot)
+        public void SaveSettings(string key, WitWeaverSettingsSnapshot snapshot)
         {
             if (snapshot == null)
             {
-                Debug.LogWarning("[ConvoCoreSave] Cannot save null settings snapshot.");
+                Debug.LogWarning("[WitWeaverSave] Cannot save null settings snapshot.");
                 return;
             }
 
@@ -72,14 +72,14 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             File.WriteAllText(GetFilePath(key), json);
         }
 
-        public ConvoCoreSettingsSnapshot LoadSettings(string key)
+        public WitWeaverSettingsSnapshot LoadSettings(string key)
         {
             var path = GetFilePath(key);
             if (!File.Exists(path))
                 return null;
 
             var json = File.ReadAllText(path);
-            return JsonUtility.FromJson<ConvoCoreSettingsSnapshot>(json);
+            return JsonUtility.FromJson<WitWeaverSettingsSnapshot>(json);
         }
     }
 }

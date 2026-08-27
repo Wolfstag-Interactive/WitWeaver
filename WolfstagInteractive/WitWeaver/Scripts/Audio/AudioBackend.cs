@@ -1,7 +1,7 @@
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Selects the audio playback backend for a <see cref="ConvoCoreAudioManifest"/>.
+    /// Selects the audio playback backend for a <see cref="WitWeaverAudioManifest"/>.
     /// Controls which fields are shown in the manifest inspector and how the runner
     /// resolves and plays audio at runtime.
     /// </summary>
@@ -17,26 +17,26 @@ namespace WolfstagInteractive.ConvoCore
 
         /// <summary>
         /// Audio is driven by FMOD Studio.
-        /// The runner triggers events using <see cref="ConvoCoreConversationData.DialogueLineInfo.LineID"/>
+        /// The runner triggers events using <see cref="WitWeaverConversationData.DialogueLineInfo.LineID"/>
         /// as the event key. Assign an FMOD adapter that implements
-        /// <see cref="IConvoAudioProvider"/> to the ConvoCore runner.
+        /// <see cref="IWitWeaverAudioProvider"/> to the WitWeaver runner.
         /// AudioClip slots are not shown in the manifest inspector.
         /// </summary>
         FMOD,
 
         /// <summary>
         /// Audio is driven by Wwise.
-        /// The runner posts events using <see cref="ConvoCoreConversationData.DialogueLineInfo.LineID"/>
+        /// The runner posts events using <see cref="WitWeaverConversationData.DialogueLineInfo.LineID"/>
         /// as the event key. Assign a Wwise adapter that implements
-        /// <see cref="IConvoAudioProvider"/> to the ConvoCore runner.
+        /// <see cref="IWitWeaverAudioProvider"/> to the WitWeaver runner.
         /// AudioClip slots are not shown in the manifest inspector.
         /// </summary>
         Wwise,
 
         /// <summary>
-        /// A custom <see cref="IConvoAudioProvider"/> drives playback.
-        /// Assign the provider component to the ConvoCore runner.
-        /// Both AudioClip and ConvoAudioReference slots are shown in the manifest inspector.
+        /// A custom <see cref="IWitWeaverAudioProvider"/> drives playback.
+        /// Assign the provider component to the WitWeaver runner.
+        /// Both AudioClip and WitWeaverAudioReference slots are shown in the manifest inspector.
         /// </summary>
         Custom
     }

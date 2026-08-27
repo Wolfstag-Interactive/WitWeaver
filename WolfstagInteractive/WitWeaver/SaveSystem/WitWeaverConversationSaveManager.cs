@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
     /// <summary>
-    /// Attach alongside a <see cref="ConvoCore"/> component to persist and restore
+    /// Attach alongside a <see cref="WitWeaver"/> component to persist and restore
     /// conversation state (active line, visited lines, conversation-scoped variables).
     ///
-    /// Implements <see cref="IConvoStartContextProvider"/> so that
-    /// <see cref="ConvoCore.StartConversation"/> automatically picks up the restore
+    /// Implements <see cref="IWitWeaverStartContextProvider"/> so that
+    /// <see cref="WitWeaver.StartConversation"/> automatically picks up the restore
     /// context from this component.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreConversationSaveManager.html")]
-    public class ConvoCoreConversationSaveManager : MonoBehaviour, IConvoStartContextProvider
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverConversationSaveManager.html")]
+    public class WitWeaverConversationSaveManager : MonoBehaviour, IWitWeaverStartContextProvider
     {
         // ── Conversation identity ─────────────────────────────────────────────
 
-        [Tooltip("Assign a single ConvoCoreConversationData for direct-conversation mode.")]
-        public ConvoCoreConversationData DirectConversation;
+        [Tooltip("Assign a single WitWeaverConversationData for direct-conversation mode.")]
+        public WitWeaverConversationData DirectConversation;
 
         [Tooltip("Assign a ConversationContainer to pick a conversation by index.")]
         public ConversationContainer ConversationContainer;
@@ -28,8 +28,8 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ── References ───────────────────────────────────────────────────────
 
-        public ConvoCoreSaveManager SaveManager;
-        public ConvoVariableStore    VariableStore;
+        public WitWeaverSaveManager SaveManager;
+        public WitWeaverVariableStore    VariableStore;
 
         // ── Start behaviour ──────────────────────────────────────────────────
 
@@ -37,11 +37,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                  "Fresh: ignore the snapshot.\n" +
                  "Resume: restore active line + visited history.\n" +
                  "Restart: restore variables but start from the first line.")]
-        [SerializeField] private ConvoStartMode _defaultStartMode = ConvoStartMode.Fresh;
+        [SerializeField] private WitWeaverStartMode _defaultStartMode = WitWeaverStartMode.Fresh;
 
         [Tooltip("Controls what happens when RestoreConversationSnapshot is called manually " +
                  "and the snapshot has not already been auto-applied.")]
-        [SerializeField] private ConvoRestoreBehavior _restoreBehavior = ConvoRestoreBehavior.ResumeFromActiveLine;
+        [SerializeField] private WitWeaverRestoreBehavior _restoreBehavior = WitWeaverRestoreBehavior.ResumeFromActiveLine;
 
         // ── Auto-commit ──────────────────────────────────────────────────────
 
@@ -67,14 +67,14 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ── Runtime state ────────────────────────────────────────────────────
 
-        private ConvoCore              _runner;
+        private WitWeaver              _runner;
         private string                 _activeLineId;
         private bool                   _isComplete;
         private readonly HashSet<string> _visitedLineIds = new HashSet<string>();
 
         // Context prepared by TryAutoRestore, consumed by GetStartContext
         private bool             _contextReady;
-        private ConvoStartContext _pendingContext;
+        private WitWeaverStartContext _pendingContext;
 
         public bool     IsDirty        { get; private set; }
         public DateTime LastCommitTime { get; private set; }
@@ -82,7 +82,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         // ── Events ───────────────────────────────────────────────────────────
 
         /// <summary>Fired when <see cref="_restoreBehavior"/> is
-        /// <see cref="ConvoRestoreBehavior.AskViaEvent"/>. Subscribe to decide
+        /// <see cref="WitWeaverRestoreBehavior.AskViaEvent"/>. Subscribe to decide
         /// whether to resume or restart, then call <see cref="ResumeFromSnapshot"/>
         /// or <see cref="RestartWithRestoredVariables"/>.</summary>
         public event Action<ConversationSnapshot> OnRestoreDecisionRequired;
@@ -93,23 +93,23 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public bool   IsComplete              => _isComplete;
         public int    VisitedLinesCount       => _visitedLineIds.Count;
         public int    ConversationVariablesCount =>
-            VariableStore != null ? VariableStore.GetByScope(ConvoVariableScope.Conversation).Count : 0;
+            VariableStore != null ? VariableStore.GetByScope(WitWeaverVariableScope.Conversation).Count : 0;
 
-        // ── IConvoStartContextProvider ────────────────────────────────────────
+        // ── IWitWeaverStartContextProvider ────────────────────────────────────────
 
-        /// <summary>Called by <see cref="ConvoCore.StartConversation"/> via GetComponent.</summary>
-        public ConvoStartContext GetStartContext()
+        /// <summary>Called by <see cref="WitWeaver.StartConversation"/> via GetComponent.</summary>
+        public WitWeaverStartContext GetStartContext()
         {
             return _contextReady
                 ? _pendingContext
-                : new ConvoStartContext { Mode = ConvoStartMode.Fresh };
+                : new WitWeaverStartContext { Mode = WitWeaverStartMode.Fresh };
         }
 
         // ── Lifecycle ────────────────────────────────────────────────────────
 
         private void Awake()
         {
-            _runner = GetComponent<ConvoCore>();
+            _runner = GetComponent<WitWeaver>();
             if (_autoRestoreOnAwake) TryAutoRestore();
         }
 
@@ -120,7 +120,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         private void OnEnable()
         {
-            if (_runner == null) _runner = GetComponent<ConvoCore>();
+            if (_runner == null) _runner = GetComponent<WitWeaver>();
             if (_runner == null) return;
 
             _runner.OnConversationStarted += HandleConversationStarted;
@@ -144,35 +144,35 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         // ── Restore ──────────────────────────────────────────────────────────
 
         /// <summary>Loads the saved snapshot and prepares a start context for the next
-        /// <see cref="ConvoCore.StartConversation"/> call. Safe to call multiple times;
+        /// <see cref="WitWeaver.StartConversation"/> call. Safe to call multiple times;
         /// does nothing when <see cref="SaveManager"/> is not initialized.</summary>
         public void TryAutoRestore()
         {
             if (SaveManager == null)
             {
-                Debug.LogWarning("[ConvoCoreConversationSaveManager] SaveManager not assigned. Skipping restore.");
+                Debug.LogWarning("[WitWeaverConversationSaveManager] SaveManager not assigned. Skipping restore.");
                 return;
             }
 
             if (!SaveManager.IsInitialized)
             {
-                Debug.LogWarning("[ConvoCoreConversationSaveManager] SaveManager is not yet initialized. Skipping restore.");
+                Debug.LogWarning("[WitWeaverConversationSaveManager] SaveManager is not yet initialized. Skipping restore.");
                 return;
             }
 
             var data = GetActiveConversation();
             if (data == null)
             {
-                Debug.LogWarning("[ConvoCoreConversationSaveManager] No active conversation to restore.");
+                Debug.LogWarning("[WitWeaverConversationSaveManager] No active conversation to restore.");
                 return;
             }
 
             var snapshot = SaveManager.GetConversationSnapshot(data.ConversationGuid);
             if (snapshot == null) return; // no saved state, start fresh
 
-            if (_defaultStartMode == ConvoStartMode.Fresh) return; // user wants to ignore the snapshot
+            if (_defaultStartMode == WitWeaverStartMode.Fresh) return; // user wants to ignore the snapshot
 
-            if (_restoreBehavior == ConvoRestoreBehavior.AskViaEvent)
+            if (_restoreBehavior == WitWeaverRestoreBehavior.AskViaEvent)
             {
                 OnRestoreDecisionRequired?.Invoke(snapshot);
                 return;
@@ -186,7 +186,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public void ResumeFromSnapshot(ConversationSnapshot snapshot)
         {
             if (snapshot == null) return;
-            ApplySnapshot(snapshot, ConvoStartMode.Resume);
+            ApplySnapshot(snapshot, WitWeaverStartMode.Resume);
         }
 
         /// <summary>Call from an <see cref="OnRestoreDecisionRequired"/> handler to
@@ -194,10 +194,10 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public void RestartWithRestoredVariables(ConversationSnapshot snapshot)
         {
             if (snapshot == null) return;
-            ApplySnapshot(snapshot, ConvoStartMode.Restart);
+            ApplySnapshot(snapshot, WitWeaverStartMode.Restart);
         }
 
-        private void ApplySnapshot(ConversationSnapshot snapshot, ConvoStartMode mode)
+        private void ApplySnapshot(ConversationSnapshot snapshot, WitWeaverStartMode mode)
         {
             // Restore conversation-scoped variables to the store
             if (VariableStore != null && snapshot.Variables != null)
@@ -214,18 +214,18 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             // Prepare the context that GetStartContext() will return
             switch (mode)
             {
-                case ConvoStartMode.Resume:
-                    _pendingContext = new ConvoStartContext
+                case WitWeaverStartMode.Resume:
+                    _pendingContext = new WitWeaverStartContext
                     {
-                        Mode          = ConvoStartMode.Resume,
+                        Mode          = WitWeaverStartMode.Resume,
                         StartLineId   = snapshot.ActiveLineId,
                         VisitedLineIds = snapshot.VisitedLineIds
                     };
                     _contextReady = true;
                     break;
 
-                case ConvoStartMode.Restart:
-                    _pendingContext = new ConvoStartContext { Mode = ConvoStartMode.Restart };
+                case WitWeaverStartMode.Restart:
+                    _pendingContext = new WitWeaverStartContext { Mode = WitWeaverStartMode.Restart };
                     _contextReady = true;
                     break;
             }
@@ -241,14 +241,14 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (SaveManager == null)
             {
-                Debug.LogWarning("[ConvoCoreConversationSaveManager] SaveManager not assigned. Skipping commit.");
+                Debug.LogWarning("[WitWeaverConversationSaveManager] SaveManager not assigned. Skipping commit.");
                 return;
             }
 
             var data = GetActiveConversation();
             if (data == null)
             {
-                Debug.LogWarning("[ConvoCoreConversationSaveManager] No active conversation. Skipping commit.");
+                Debug.LogWarning("[WitWeaverConversationSaveManager] No active conversation. Skipping commit.");
                 return;
             }
 
@@ -268,7 +268,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // ── Private helpers ──────────────────────────────────────────────────
 
-        private ConvoCoreConversationData GetActiveConversation()
+        private WitWeaverConversationData GetActiveConversation()
         {
             if (DirectConversation != null) return DirectConversation;
 
@@ -282,7 +282,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return null;
         }
 
-        private ConversationSnapshot BuildSnapshot(ConvoCoreConversationData data)
+        private ConversationSnapshot BuildSnapshot(WitWeaverConversationData data)
         {
             return new ConversationSnapshot
             {
@@ -291,12 +291,12 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 IsComplete     = _isComplete,
                 SaveTimestamp  = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 VisitedLineIds = new List<string>(_visitedLineIds),
-                Variables      = VariableStore?.ExportByScope(ConvoVariableScope.Conversation)
-                                 ?? new List<ConvoVariableEntry>()
+                Variables      = VariableStore?.ExportByScope(WitWeaverVariableScope.Conversation)
+                                 ?? new List<WitWeaverVariableEntry>()
             };
         }
 
-        // ── ConvoCore event handlers ─────────────────────────────────────────
+        // ── WitWeaver event handlers ─────────────────────────────────────────
 
         private void HandleConversationStarted()
         {

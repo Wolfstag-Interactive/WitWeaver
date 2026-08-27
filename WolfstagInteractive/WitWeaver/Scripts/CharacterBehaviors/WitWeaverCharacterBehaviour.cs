@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Context passed to <see cref="ConvoCoreCharacterBehaviour.ResolvePresence"/> each time
+    /// Context passed to <see cref="WitWeaverCharacterBehaviour.ResolvePresence"/> each time
     /// a character needs to be resolved for a dialogue line. Contains no slot concepts;
     /// character placement is entirely the behaviour's responsibility.
     /// </summary>
@@ -36,18 +36,18 @@ namespace WolfstagInteractive.ConvoCore
     /// Abstract ScriptableObject base for all character behaviour types.
     ///
     /// A character behaviour determines how characters are placed and managed in 3D world-space
-    /// conversations. It is responsible for resolving a live <see cref="IConvoCoreCharacterDisplay"/>
+    /// conversations. It is responsible for resolving a live <see cref="IWitWeaverCharacterDisplay"/>
     /// for each character that appears on a line, and for cleaning up at conversation end.
     ///
     /// The spawner is passed into <see cref="ResolvePresence"/> at call time. The behaviour
     /// is a ScriptableObject and must not hold serialized references to scene objects.
     /// Runtime-only scene references may be cached in <c>[System.NonSerialized]</c> fields.
     /// </summary>
-    public abstract class ConvoCoreCharacterBehaviour : ScriptableObject
+    public abstract class WitWeaverCharacterBehaviour : ScriptableObject
     {
         /// <summary>
-        /// Resolve the live <see cref="IConvoCoreCharacterDisplay"/> for the given representation.
-        /// Called once per character per dialogue line by <see cref="ConvoCoreSampleUI3D"/>.
+        /// Resolve the live <see cref="IWitWeaverCharacterDisplay"/> for the given representation.
+        /// Called once per character per dialogue line by <see cref="WitWeaverSampleUI3D"/>.
         ///
         /// Implementations that cache displays across lines (e.g. <see cref="WorldPointBehaviour"/>)
         /// should return the cached instance on subsequent calls for the same character rather than
@@ -56,16 +56,16 @@ namespace WolfstagInteractive.ConvoCore
         /// Return null if the character cannot or should not be resolved (e.g. ExternalBehaviour for
         /// a spawn-from-prefab character). The 3D UI will skip expression application when null is returned.
         /// </summary>
-        public abstract IConvoCoreCharacterDisplay ResolvePresence(
+        public abstract IWitWeaverCharacterDisplay ResolvePresence(
             PrefabCharacterRepresentationData representation,
             CharacterBehaviourContext context,
-            ConvoCorePrefabRepresentationSpawner spawner);
+            WitWeaverPrefabRepresentationSpawner spawner);
 
-        /// <summary>Called by <see cref="ConvoCoreSampleUI3D"/> when a conversation begins.</summary>
+        /// <summary>Called by <see cref="WitWeaverSampleUI3D"/> when a conversation begins.</summary>
         public virtual void OnConversationBegin() { }
 
         /// <summary>
-        /// Called by <see cref="ConvoCoreSampleUI3D"/> when a conversation ends.
+        /// Called by <see cref="WitWeaverSampleUI3D"/> when a conversation ends.
         /// Implementations must release any spawned instances and clean up scene state here.
         /// The spawner is NOT called by the 3D UI after this point.
         /// </summary>

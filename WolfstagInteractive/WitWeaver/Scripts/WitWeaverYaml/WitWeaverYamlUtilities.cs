@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     [HelpURL(
-        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlUtilities.html")]
-    public class ConvoCoreYamlUtilities
+        "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlUtilities.html")]
+    public class WitWeaverYamlUtilities
     {
-        private readonly ConvoCoreConversationData _convoCoreConversationData;
+        private readonly WitWeaverConversationData _witWeaverConversationData;
 
-        public ConvoCoreYamlUtilities(ConvoCoreConversationData convoCoreConversationData)
+        public WitWeaverYamlUtilities(WitWeaverConversationData witWeaverConversationData)
         {
-            _convoCoreConversationData = convoCoreConversationData;
+            _witWeaverConversationData = witWeaverConversationData;
         }
 
         /// <summary>
@@ -25,55 +25,55 @@ namespace WolfstagInteractive.ConvoCore
         /// </summary>
         public void ImportFromYamlForKey(string conversationKey)
         {
-            if (string.IsNullOrEmpty(_convoCoreConversationData.FilePath) &&
-                _convoCoreConversationData.ConversationYaml == null)
+            if (string.IsNullOrEmpty(_witWeaverConversationData.FilePath) &&
+                _witWeaverConversationData.ConversationYaml == null)
             {
                 Debug.LogError("filePath not set for the conversation and no ConversationYaml assigned!");
                 return;
             }
 
-            string yamlData = _convoCoreConversationData.ConversationYaml != null
-                ? _convoCoreConversationData.ConversationYaml.text
-                : ConvoCoreYamlLoader.Load(_convoCoreConversationData);
+            string yamlData = _witWeaverConversationData.ConversationYaml != null
+                ? _witWeaverConversationData.ConversationYaml.text
+                : WitWeaverYamlLoader.Load(_witWeaverConversationData);
             if (string.IsNullOrEmpty(yamlData))
             {
                 string sourcesMsg =
-                    $"Checked direct TextAsset, persistent override, Addressables (if enabled), and Resources using FilePath='{_convoCoreConversationData.FilePath}'.";
+                    $"Checked direct TextAsset, persistent override, Addressables (if enabled), and Resources using FilePath='{_witWeaverConversationData.FilePath}'.";
                 Debug.LogError($"YAML file not found. {sourcesMsg}");
                 return;
             }
             
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
-            var source = _convoCoreConversationData.ConversationYaml != null
-                ? $"embedded TextAsset '{_convoCoreConversationData.ConversationYaml.name}'"
-                : $"file at FilePath '{_convoCoreConversationData.FilePath}'";
+            var source = _witWeaverConversationData.ConversationYaml != null
+                ? $"embedded TextAsset '{_witWeaverConversationData.ConversationYaml.name}'"
+                : $"file at FilePath '{_witWeaverConversationData.FilePath}'";
 
             Dictionary<string, List<DialogueYamlConfig>> dialoguesBySection;
-            if (!ConvoCoreYamlParser.TryParse(yamlData, out dialoguesBySection,
-                    out IReadOnlyList<ConvoCoreYamlDiagnostic> parseDiagnostics))
+            if (!WitWeaverYamlParser.TryParse(yamlData, out dialoguesBySection,
+                    out IReadOnlyList<WitWeaverYamlDiagnostic> parseDiagnostics))
             {
                 // Errors always surface regardless of VerboseLogs.
                 Debug.LogError(
-                    $"ConvoCore: Failed to parse YAML for conversation key '{conversationKey}' " +
-                    $"on asset '{_convoCoreConversationData.name}' (source: {source}).\n" +
-                    ConvoCoreYamlDiagnostic.Format(null, parseDiagnostics));
+                    $"WitWeaver: Failed to parse YAML for conversation key '{conversationKey}' " +
+                    $"on asset '{_witWeaverConversationData.name}' (source: {source}).\n" +
+                    WitWeaverYamlDiagnostic.Format(null, parseDiagnostics));
                 return;
             }
 
             // Surface any warnings only when verbose logging is on.
             if (verboseLogs && parseDiagnostics.Count > 0)
                 Debug.LogWarning(
-                    $"ConvoCore: YAML for '{conversationKey}' on '{_convoCoreConversationData.name}' " +
+                    $"WitWeaver: YAML for '{conversationKey}' on '{_witWeaverConversationData.name}' " +
                     $"(source: {source}) parsed with warnings.\n" +
-                    ConvoCoreYamlDiagnostic.Format(null, parseDiagnostics));
+                    WitWeaverYamlDiagnostic.Format(null, parseDiagnostics));
 
             if (!dialoguesBySection.TryGetValue(conversationKey, out var yamlConfigs) || yamlConfigs == null)
             {
                 var availableKeys = string.Join(", ", dialoguesBySection.Keys);
                 Debug.LogError(
-                    $"ConvoCore: Conversation key '{conversationKey}' not found in YAML " +
-                    $"for asset '{_convoCoreConversationData.name}'. " +
+                    $"WitWeaver: Conversation key '{conversationKey}' not found in YAML " +
+                    $"for asset '{_witWeaverConversationData.name}'. " +
                     $"Available keys in the YAML: [{availableKeys}]. " +
                     $"Ensure the sheet tab name (for Excel) or top-level YAML key exactly matches the ConversationKey.");
                 return;
@@ -89,7 +89,7 @@ namespace WolfstagInteractive.ConvoCore
 
                 if (string.IsNullOrWhiteSpace(cfg.LineID))
                 {
-                    cfg.LineID = ConvoCoreLineID.NewLineID();
+                    cfg.LineID = WitWeaverLineID.NewLineID();
                     idsAdded = true;
                 }
 
@@ -107,15 +107,15 @@ namespace WolfstagInteractive.ConvoCore
             {
                 try
                 {
-                    string updatedYaml = ConvoCoreYamlSerializer.Serialize(dialoguesBySection);
+                    string updatedYaml = WitWeaverYamlSerializer.Serialize(dialoguesBySection);
 
                     bool wrote = false;
                     string assetPath = null;
 
-                    if (!string.IsNullOrEmpty(_convoCoreConversationData.SourceYamlAssetPath))
-                        assetPath = _convoCoreConversationData.SourceYamlAssetPath;
-                    else if (_convoCoreConversationData.ConversationYaml != null)
-                        assetPath = UnityEditor.AssetDatabase.GetAssetPath(_convoCoreConversationData.ConversationYaml);
+                    if (!string.IsNullOrEmpty(_witWeaverConversationData.SourceYamlAssetPath))
+                        assetPath = _witWeaverConversationData.SourceYamlAssetPath;
+                    else if (_witWeaverConversationData.ConversationYaml != null)
+                        assetPath = UnityEditor.AssetDatabase.GetAssetPath(_witWeaverConversationData.ConversationYaml);
 
                     // Writeback only for Assets paths. Never Packages.
                     if (!string.IsNullOrEmpty(assetPath) && assetPath.StartsWith("Assets/"))
@@ -129,13 +129,13 @@ namespace WolfstagInteractive.ConvoCore
                     if (!wrote)
                     {
                         Debug.LogWarning(
-                            "ConvoCore: LineId values were generated but could not be written back because the YAML source is not a writable Assets/ project file. " +
+                            "WitWeaver: LineId values were generated but could not be written back because the YAML source is not a writable Assets/ project file. " +
                             "To lock IDs (and enable safe CSV import), link a YAML asset under Assets/ or embed YAML into the Conversation asset.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogWarning($"ConvoCore: Failed to write back generated LineIds to YAML source. {ex.Message}");
+                    Debug.LogWarning($"WitWeaver: Failed to write back generated LineIds to YAML source. {ex.Message}");
                 }
             }
 #endif
@@ -143,10 +143,10 @@ namespace WolfstagInteractive.ConvoCore
             if (verboseLogs)
                 Debug.Log($"Importing {yamlConfigs.Count} lines for conversation key '{conversationKey}'.");
 
-            if (_convoCoreConversationData.DialogueLines == null)
-                _convoCoreConversationData.DialogueLines = new List<ConvoCoreConversationData.DialogueLineInfo>();
+            if (_witWeaverConversationData.DialogueLines == null)
+                _witWeaverConversationData.DialogueLines = new List<WitWeaverConversationData.DialogueLineInfo>();
 
-            var updatedDialogueLines = new List<ConvoCoreConversationData.DialogueLineInfo>(yamlConfigs.Count);
+            var updatedDialogueLines = new List<WitWeaverConversationData.DialogueLineInfo>(yamlConfigs.Count);
 
             for (int i = 0; i < yamlConfigs.Count; i++)
             {
@@ -156,17 +156,17 @@ namespace WolfstagInteractive.ConvoCore
                 // Guard here so those entries (and any other edge case) don't produce a
                 // DialogueLineInfo with an empty LineID that triggers a false-positive error.
                 if (string.IsNullOrWhiteSpace(yamlConfig.LineID))
-                    yamlConfig.LineID = ConvoCoreLineID.NewLineID();
+                    yamlConfig.LineID = WitWeaverLineID.NewLineID();
 
                 // Preserve existing Unity-authored data by ConversationID+LineId (fallback: same index)
-                var existing = FindExistingLine(_convoCoreConversationData, conversationKey, yamlConfig.LineID, i);
+                var existing = FindExistingLine(_witWeaverConversationData, conversationKey, yamlConfig.LineID, i);
 
-                var localizedDialogueList = new List<ConvoCoreConversationData.LocalizedDialogue>();
+                var localizedDialogueList = new List<WitWeaverConversationData.LocalizedDialogue>();
                 if (yamlConfig.LocalizedDialogue != null)
                 {
                     foreach (var kvp in yamlConfig.LocalizedDialogue)
                     {
-                        localizedDialogueList.Add(new ConvoCoreConversationData.LocalizedDialogue
+                        localizedDialogueList.Add(new WitWeaverConversationData.LocalizedDialogue
                         {
                             Language = kvp.Key,
                             Text = kvp.Value,
@@ -177,7 +177,7 @@ namespace WolfstagInteractive.ConvoCore
                     }
                 }
 
-                var newLineInfo = new ConvoCoreConversationData.DialogueLineInfo(conversationKey)
+                var newLineInfo = new WitWeaverConversationData.DialogueLineInfo(conversationKey)
                 {
                     ConversationID = conversationKey,
                     ConversationLineIndex = i,
@@ -187,9 +187,9 @@ namespace WolfstagInteractive.ConvoCore
 
                     // Preserve authored state
                     CharacterRepresentations = existing?.CharacterRepresentations != null
-                        ? new List<ConvoCoreConversationData.CharacterRepresentationData>(existing
+                        ? new List<WitWeaverConversationData.CharacterRepresentationData>(existing
                             .CharacterRepresentations)
-                        : new List<ConvoCoreConversationData.CharacterRepresentationData>(),
+                        : new List<WitWeaverConversationData.CharacterRepresentationData>(),
 
                     ActionsBeforeDialogueLine = existing?.ActionsBeforeDialogueLine != null
                         ? new List<BaseDialogueLineAction>(existing.ActionsBeforeDialogueLine)
@@ -199,17 +199,17 @@ namespace WolfstagInteractive.ConvoCore
                         ? new List<BaseDialogueLineAction>(existing.ActionsAfterDialogueLine)
                         : new List<BaseDialogueLineAction>(),
 
-                    PresentationMode = existing?.PresentationMode ?? _convoCoreConversationData.DefaultPresentationMode,
+                    PresentationMode = existing?.PresentationMode ?? _witWeaverConversationData.DefaultPresentationMode,
 
                     UserInputMethod = existing != null
                         ? existing.UserInputMethod
-                        : ConvoCoreConversationData.DialogueLineProgressionMethod.UserInput,
+                        : WitWeaverConversationData.DialogueLineProgressionMethod.UserInput,
                     TimeBeforeNextLine = existing != null ? existing.TimeBeforeNextLine : 0f,
                     LineContinuationSettings = existing != null
                         ? existing.LineContinuationSettings
-                        : new ConvoCoreConversationData.LineContinuation
+                        : new WitWeaverConversationData.LineContinuation
                         {
-                            Mode = ConvoCoreConversationData.LineContinuationMode.Continue,
+                            Mode = WitWeaverConversationData.LineContinuationMode.Continue,
                             TargetAliasOrName = null,
                             TargetContainer = null,
                             PushReturnPoint = false
@@ -220,7 +220,7 @@ namespace WolfstagInteractive.ConvoCore
                 updatedDialogueLines.Add(newLineInfo);
             }
 
-            _convoCoreConversationData.DialogueLines = updatedDialogueLines;
+            _witWeaverConversationData.DialogueLines = updatedDialogueLines;
         }
 
         /// <summary>
@@ -234,8 +234,8 @@ namespace WolfstagInteractive.ConvoCore
         /// <returns>
         /// The matching <c>DialogueLineInfo</c> instance if found, or <c>null</c> if no match is found.
         /// </returns>
-        private static ConvoCoreConversationData.DialogueLineInfo FindExistingLine(
-            ConvoCoreConversationData data, string key, string lineId, int indexFallback)
+        private static WitWeaverConversationData.DialogueLineInfo FindExistingLine(
+            WitWeaverConversationData data, string key, string lineId, int indexFallback)
         {
             if (data?.DialogueLines == null) return null;
 
@@ -263,7 +263,7 @@ namespace WolfstagInteractive.ConvoCore
         /// localized entries, or <c>null</c> when there is no existing line or no clip for that language.
         /// </summary>
         private static AudioClip FindExistingClip(
-            ConvoCoreConversationData.DialogueLineInfo existing, string language)
+            WitWeaverConversationData.DialogueLineInfo existing, string language)
         {
             if (existing?.LocalizedDialogues == null || string.IsNullOrEmpty(language))
                 return null;

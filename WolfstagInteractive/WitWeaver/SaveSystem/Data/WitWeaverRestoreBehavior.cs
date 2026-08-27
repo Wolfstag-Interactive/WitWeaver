@@ -1,6 +1,6 @@
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    public enum ConvoRestoreBehavior
+    public enum WitWeaverRestoreBehavior
     {
         ResumeFromActiveLine,
         RestartFromBeginning,

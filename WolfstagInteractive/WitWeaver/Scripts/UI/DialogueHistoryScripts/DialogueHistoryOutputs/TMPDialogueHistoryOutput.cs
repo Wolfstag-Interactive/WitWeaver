@@ -2,9 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1TMPDialogueHistoryOutput.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1TMPDialogueHistoryOutput.html")]
     public class TMPDialogueHistoryOutput : IDialogueHistoryOutput
     {
         private readonly TMP_Text _text;

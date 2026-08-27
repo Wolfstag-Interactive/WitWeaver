@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Default Unity AudioSource-based audio provider.
@@ -8,10 +8,10 @@ namespace WolfstagInteractive.ConvoCore
     /// automatically if not already present (via <see cref="RequireComponent"/>).
     /// For FMOD or Wwise, replace this with the corresponding middleware adapter.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUnityAudioProvider.html")]
-    [AddComponentMenu("ConvoCore/Audio/ConvoCoreUnityAudioProvider")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUnityAudioProvider.html")]
+    [AddComponentMenu("WitWeaver/Audio/WitWeaverUnityAudioProvider")]
     [RequireComponent(typeof(AudioSource))]
-    public class ConvoCoreUnityAudioProvider : MonoBehaviour, IConvoAudioProvider
+    public class WitWeaverUnityAudioProvider : MonoBehaviour, IWitWeaverAudioProvider
     {
         private AudioSource _voiceSource;
 
@@ -23,10 +23,10 @@ namespace WolfstagInteractive.ConvoCore
 
         public bool IsPlaying => _voiceSource != null && _voiceSource.isPlaying;
 
-        public void PlayVoiceLine(ConvoCoreConversationData.DialogueLineInfo line, ConvoAudioReference reference)
+        public void PlayVoiceLine(WitWeaverConversationData.DialogueLineInfo line, WitWeaverAudioReference reference)
         {
             if (_voiceSource == null) return;
-            if (reference is not ConvoCoreUnityAudioReference unityRef) return;
+            if (reference is not WitWeaverUnityAudioReference unityRef) return;
             if (unityRef.Clip == null) return;
 
             _voiceSource.Stop();

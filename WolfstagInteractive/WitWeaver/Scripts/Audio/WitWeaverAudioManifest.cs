@@ -2,22 +2,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Controls how a <see cref="ConvoCoreAudioManifest"/> is authored and populated.
+    /// Controls how a <see cref="WitWeaverAudioManifest"/> is authored and populated.
     /// </summary>
     public enum AudioManifestMode
     {
         /// <summary>
-        /// Rows are populated by syncing from a <see cref="ConvoCoreConversationData"/> asset.
+        /// Rows are populated by syncing from a <see cref="WitWeaverConversationData"/> asset.
         /// Used for text+audio conversations where YAML defines the structure.
         /// </summary>
         ConversationDriven,
 
         /// <summary>
         /// Lines are authored directly in this manifest.
-        /// A <see cref="ConvoCoreConversationData"/> asset is generated from it.
+        /// A <see cref="WitWeaverConversationData"/> asset is generated from it.
         /// Used for audio-only conversations where no YAML is needed.
         /// </summary>
         Standalone
@@ -26,11 +26,11 @@ namespace WolfstagInteractive.ConvoCore
     /// <summary>
     /// Maps dialogue line IDs to audio clips or middleware references, supporting
     /// Unity AudioSource, FMOD, Wwise, and custom provider backends.
-    /// Assign to <see cref="ConvoCoreConversationData.AudioManifest"/> to enable voice playback.
+    /// Assign to <see cref="WitWeaverConversationData.AudioManifest"/> to enable voice playback.
     /// </summary>
-    [CreateAssetMenu(menuName = "ConvoCore/Audio Manifest")]
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/")]
-    public class ConvoCoreAudioManifest : ScriptableObject
+    [CreateAssetMenu(menuName = "WitWeaver/Audio Manifest")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/")]
+    public class WitWeaverAudioManifest : ScriptableObject
     {
         [Serializable]
         public class AudioEntry
@@ -55,7 +55,7 @@ namespace WolfstagInteractive.ConvoCore
 
             /// <summary>
             /// AudioClip for Unity AudioSource playback. Used when the manifest
-            /// <see cref="ConvoCoreAudioManifest.Backend"/> is <see cref="AudioBackend.UnityAudioSource"/>.
+            /// <see cref="WitWeaverAudioManifest.Backend"/> is <see cref="AudioBackend.UnityAudioSource"/>.
             /// Drag an AudioClip directly here — no wrapper ScriptableObject needed.
             /// </summary>
             public AudioClip Clip;
@@ -69,13 +69,13 @@ namespace WolfstagInteractive.ConvoCore
             public string EventKey;
 
             /// <summary>
-            /// Optional. Assign a <see cref="ConvoAudioReference"/> subtype for custom middleware
+            /// Optional. Assign a <see cref="WitWeaverAudioReference"/> subtype for custom middleware
             /// integrations, or to share a single reference asset across multiple lines.
             /// When assigned, takes priority over <see cref="Clip"/> at runtime.
             /// Not shown in the inspector for <see cref="AudioBackend.UnityAudioSource"/> mode
             /// unless explicitly expanded.
             /// </summary>
-            public ConvoAudioReference Reference;
+            public WitWeaverAudioReference Reference;
         }
 
         [Tooltip("Selects the audio playback backend. Controls which fields are shown in the inspector and how audio is resolved at runtime.")]
@@ -84,17 +84,17 @@ namespace WolfstagInteractive.ConvoCore
         public AudioManifestMode Mode = AudioManifestMode.ConversationDriven;
 
         [Tooltip("In ConversationDriven mode, the conversation this manifest is derived from.")]
-        public ConvoCoreConversationData SourceConversation;
+        public WitWeaverConversationData SourceConversation;
 
         public List<AudioEntry> Entries = new List<AudioEntry>();
 
         /// <summary>
-        /// Resolve a <see cref="ConvoAudioReference"/> for a given line ID and language.
+        /// Resolve a <see cref="WitWeaverAudioReference"/> for a given line ID and language.
         /// Only returns a value when an entry has a non-null <see cref="AudioEntry.Reference"/> assigned.
         /// Tries exact locale match first, then language-agnostic fallback.
         /// For the common Unity AudioSource path, use <see cref="ResolveClip"/> instead.
         /// </summary>
-        public ConvoAudioReference Resolve(string lineID, string language)
+        public WitWeaverAudioReference Resolve(string lineID, string language)
         {
             if (Entries == null) return null;
 

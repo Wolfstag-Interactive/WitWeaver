@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PagedListAttribute.html")]
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PagedListAttribute.html")]
     [System.AttributeUsage(System.AttributeTargets.Field)]
     public sealed class PagedListAttribute : PropertyAttribute
     {

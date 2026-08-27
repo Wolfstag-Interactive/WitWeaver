@@ -1,13 +1,13 @@
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    public static class ConvoCoreCharacterProfileExtensions
+    public static class WitWeaverCharacterProfileExtensions
     {
-        private static string RuntimeNameKey(ConvoCoreCharacterProfileBaseData profile)
+        private static string RuntimeNameKey(WitWeaverCharacterProfileBaseData profile)
         {
-            return ConvoCoreKeys.CharacterName(profile.CharacterID);
+            return WitWeaverKeys.CharacterName(profile.CharacterID);
         }
 
-        public static string GetDisplayName(this ConvoCoreCharacterProfileBaseData profile, ConvoVariableStore store)
+        public static string GetDisplayName(this WitWeaverCharacterProfileBaseData profile, WitWeaverVariableStore store)
         {
             if (profile == null) return string.Empty;
 
@@ -21,20 +21,20 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return profile.CharacterName;
         }
 
-        public static void SetDisplayName(this ConvoCoreCharacterProfileBaseData profile, string name, ConvoVariableStore store)
+        public static void SetDisplayName(this WitWeaverCharacterProfileBaseData profile, string name, WitWeaverVariableStore store)
         {
             if (profile == null || store == null) return;
 
             var key = RuntimeNameKey(profile);
-            store.SetString(key, name, ConvoVariableScope.Global);
+            store.SetString(key, name, WitWeaverVariableScope.Global);
         }
 
-        public static void ClearDisplayName(this ConvoCoreCharacterProfileBaseData profile, ConvoVariableStore store)
+        public static void ClearDisplayName(this WitWeaverCharacterProfileBaseData profile, WitWeaverVariableStore store)
         {
             if (profile == null || store == null) return;
 
             var key = RuntimeNameKey(profile);
-            store.SetString(key, string.Empty, ConvoVariableScope.Global);
+            store.SetString(key, string.Empty, WitWeaverVariableScope.Global);
         }
     }
 }

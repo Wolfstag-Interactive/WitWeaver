@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionInstantiatePrefab.html")]
-[CreateAssetMenu(menuName = "ConvoCore/Actions/InstantiatePrefab")][ System.Serializable]
-    public class ConvoCoreDialogueLineActionInstantiatePrefab : BaseDialogueLineAction
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionInstantiatePrefab.html")]
+[CreateAssetMenu(menuName = "WitWeaver/Actions/InstantiatePrefab")][ System.Serializable]
+    public class WitWeaverDialogueLineActionInstantiatePrefab : BaseDialogueLineAction
     {
         public GameObject Prefab;
         public Vector3 Position;

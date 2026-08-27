@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionModifyTransform.html")]
-[CreateAssetMenu(menuName = "ConvoCore/Actions/ModifyTransform")] [System.Serializable]
-    public class ConvoCoreDialogueLineActionModifyTransform : BaseDialogueLineAction
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionModifyTransform.html")]
+[CreateAssetMenu(menuName = "WitWeaver/Actions/ModifyTransform")] [System.Serializable]
+    public class WitWeaverDialogueLineActionModifyTransform : BaseDialogueLineAction
     {
         public string TransformName;
         public Vector3 NewPosition;

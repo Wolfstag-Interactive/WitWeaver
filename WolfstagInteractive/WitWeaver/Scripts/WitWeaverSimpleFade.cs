@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Drop-on component that implements both <see cref="IConvoCoreFadeIn"/> and
-    /// <see cref="IConvoCoreFadeOut"/> by fading a <see cref="CanvasGroup"/> or a
+    /// Drop-on component that implements both <see cref="IWitWeaverFadeIn"/> and
+    /// <see cref="IWitWeaverFadeOut"/> by fading a <see cref="CanvasGroup"/> or a
     /// <see cref="Renderer"/> material's alpha over a configurable duration.
     ///
     /// Resolution order:
@@ -17,7 +17,7 @@ namespace WolfstagInteractive.ConvoCore
     /// For Renderer fading the material must expose a <c>_BaseColor</c> (URP) or <c>_Color</c>
     /// (Built-In) property and use a blending mode that supports transparency.
     /// </summary>
-    public class ConvoCoreSimpleFade : MonoBehaviour, IConvoCoreFadeIn, IConvoCoreFadeOut
+    public class WitWeaverSimpleFade : MonoBehaviour, IWitWeaverFadeIn, IWitWeaverFadeOut
     {
         [Tooltip("Duration of the fade in seconds.")]
         [SerializeField] private float duration = 0.3f;

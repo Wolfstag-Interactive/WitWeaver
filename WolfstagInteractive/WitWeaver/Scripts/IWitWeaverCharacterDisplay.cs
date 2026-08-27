@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    public interface IConvoCoreCharacterDisplay
+    public interface IWitWeaverCharacterDisplay
     {
         /// <summary> Inject the representation asset (expression catalog, single source of truth). </summary>
         void BindRepresentation(CharacterRepresentationBase representationAsset);

@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// History renderer that outputs formatted text (e.g., color and bold speaker names)
     /// using a generic IDialogueHistoryOutput. No direct Unity UI references are held.
     /// </summary>
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1RichTextHistoryRenderer.html")]
-    public class RichTextHistoryRenderer : IConvoCoreHistoryRenderer
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1RichTextHistoryRenderer.html")]
+    public class RichTextHistoryRenderer : IWitWeaverHistoryRenderer
     {
         public string RendererName => "Rich";
 

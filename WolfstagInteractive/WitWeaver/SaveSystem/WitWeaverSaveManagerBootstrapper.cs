@@ -1,13 +1,13 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSaveManagerBootstrapper.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSaveManagerBootstrapper.html")]
 [DefaultExecutionOrder(-100)]
-    public class ConvoCoreSaveManagerBootstrapper : MonoBehaviour
+    public class WitWeaverSaveManagerBootstrapper : MonoBehaviour
     {
         [Header("References")]
-        public ConvoCoreSaveManager SaveManager;
+        public WitWeaverSaveManager SaveManager;
 
         [Header("Initialization")]
         public bool InitializeOnAwake = true;
@@ -18,7 +18,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             DontDestroyOnLoad(gameObject);
             if (SaveManager == null)
             {
-                Debug.LogWarning("[ConvoCoreSaveManagerBootstrapper] SaveManager is not assigned.");
+                Debug.LogWarning("[WitWeaverSaveManagerBootstrapper] SaveManager is not assigned.");
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             if (LoadSettingsOnAwake)
             {
                 if (!SaveManager.IsInitialized)
-                    Debug.LogWarning("[ConvoCoreSaveManagerBootstrapper] LoadSettingsOnAwake is true but SaveManager is not initialized. Settings will not load.");
+                    Debug.LogWarning("[WitWeaverSaveManagerBootstrapper] LoadSettingsOnAwake is true but SaveManager is not initialized. Settings will not load.");
                 else
                     SaveManager.LoadSettings();
             }

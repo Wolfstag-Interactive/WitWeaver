@@ -1,13 +1,13 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Abstract base ScriptableObject for custom expression actions. Extend this class to run
     /// game logic whenever a character expression is applied to a line — for example, triggering
     /// an animation, particle effect, or audio cue when a specific emotion is displayed.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseExpressionAction.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html")]
     public abstract class BaseExpressionAction : ScriptableObject
     {
         /// <summary>
@@ -22,13 +22,13 @@ namespace WolfstagInteractive.ConvoCore
     public struct ExpressionActionContext
     {
         // Dialogue side
-        public ConvoCore Runtime;
-        public ConvoCoreConversationData Conversation;
+        public WitWeaver Runtime;
+        public WitWeaverConversationData Conversation;
         public int LineIndex;
 
         // Representation side
         public CharacterRepresentationBase Representation;
-        public IConvoCoreCharacterDisplay Display;
+        public IWitWeaverCharacterDisplay Display;
 
         // Expression info
         public string ExpressionId;

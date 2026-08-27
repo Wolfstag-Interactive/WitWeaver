@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Used as a basis of any UI that can be assigned in the inspector that includes all the base functions needed
     /// to interoperate with the dialogue state machine.
     /// Representation-agnostic: subclasses are responsible for obtaining and using any
-    /// <see cref="ConvoCorePrefabRepresentationSpawner"/> they need.
+    /// <see cref="WitWeaverPrefabRepresentationSpawner"/> they need.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUIFoundation.html")]
-    public class ConvoCoreUIFoundation : MonoBehaviour, IUIFoundation
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html")]
+    public class WitWeaverUIFoundation : MonoBehaviour, IUIFoundation
     {
         /// <summary>
         /// A named slot entry that maps a display name to a scene object reference.
@@ -32,8 +32,8 @@ namespace WolfstagInteractive.ConvoCore
         [SerializeField] private List<DisplaySlotDefinition> _displaySlots = new();
         public IReadOnlyList<DisplaySlotDefinition> DisplaySlots => _displaySlots;
 
-        protected ConvoCore ConvoCoreInstance;
-        protected ConvoCoreDialogueHistoryUI ConvoCoreDialogueHistoryUI;
+        protected WitWeaver WitWeaverInstance;
+        protected WitWeaverDialogueHistoryUI WitWeaverDialogueHistoryUI;
 
         public event Action RequestAdvance;
         public event Action RequestReverse;
@@ -41,18 +41,18 @@ namespace WolfstagInteractive.ConvoCore
         protected void RaiseAdvance() => RequestAdvance?.Invoke();
         protected void RaiseReverse() => RequestReverse?.Invoke();
 
-        public virtual void InitializeUI(ConvoCore convoCoreInstance)
+        public virtual void InitializeUI(WitWeaver witWeaverInstance)
         {
-            ConvoCoreInstance = convoCoreInstance;
+            WitWeaverInstance = witWeaverInstance;
 
-            ConvoCoreDialogueHistoryUI = !TryGetComponent(out ConvoCoreDialogueHistoryUI historyUI)
-                ? gameObject.AddComponent<ConvoCoreDialogueHistoryUI>()
+            WitWeaverDialogueHistoryUI = !TryGetComponent(out WitWeaverDialogueHistoryUI historyUI)
+                ? gameObject.AddComponent<WitWeaverDialogueHistoryUI>()
                 : historyUI;
         }
 
-        public virtual void UpdateDialogueUI(ConvoCoreConversationData.DialogueLineInfo dialogueLineInfo,
+        public virtual void UpdateDialogueUI(WitWeaverConversationData.DialogueLineInfo dialogueLineInfo,
             string localizedText, string speakingCharacterName,
-            CharacterRepresentationBase expressionMappingData, ConvoCoreCharacterProfileBaseData primaryProfile)
+            CharacterRepresentationBase expressionMappingData, WitWeaverCharacterProfileBaseData primaryProfile)
         {
         }
 
@@ -68,7 +68,7 @@ namespace WolfstagInteractive.ConvoCore
         /// expression on the representation. Call this from <see cref="UpdateDialogueUI"/> once a
         /// character's display has been resolved, after applying the built-in visual expression.
         ///
-        /// The display side (<see cref="IConvoCoreCharacterDisplay.ApplyExpression"/>) only handles
+        /// The display side (<see cref="IWitWeaverCharacterDisplay.ApplyExpression"/>) only handles
         /// built-in visuals; the representation owns the action list, so custom UI subclasses must
         /// call this to give those actions a chance to run. Safe to call with a null
         /// <paramref name="display"/> (e.g. sprite representations) or a null/empty
@@ -82,15 +82,15 @@ namespace WolfstagInteractive.ConvoCore
             CharacterRepresentationBase representation,
             string expressionId,
             int lineIndex,
-            IConvoCoreCharacterDisplay display)
+            IWitWeaverCharacterDisplay display)
         {
             if (representation == null || string.IsNullOrEmpty(expressionId))
                 return;
 
             representation.ApplyExpression(
                 expressionId,
-                ConvoCoreInstance,
-                ConvoCoreInstance != null ? ConvoCoreInstance.GetCurrentConversationData() : null,
+                WitWeaverInstance,
+                WitWeaverInstance != null ? WitWeaverInstance.GetCurrentConversationData() : null,
                 lineIndex,
                 display);
         }
@@ -106,7 +106,7 @@ namespace WolfstagInteractive.ConvoCore
         /// if no choice UI has been implemented.
         /// </summary>
         public virtual IEnumerator PresentChoices(
-            List<ConvoCoreConversationData.ChoiceOption> options,
+            List<WitWeaverConversationData.ChoiceOption> options,
             List<string> localizedLabels,
             ChoiceResult result)
         {

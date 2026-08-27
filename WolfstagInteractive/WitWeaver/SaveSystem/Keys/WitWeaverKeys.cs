@@ -1,14 +1,14 @@
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    internal static class ConvoCoreKeys
+    internal static class WitWeaverKeys
     {
-        public const string DefaultPrefix = "convocore.";
+        public const string DefaultPrefix = "witweaver.";
 
         private static string Prefix
         {
             get
             {
-                var settings = ConvoCoreSettings.Instance;
+                var settings = WitWeaverSettings.Instance;
                 if (settings != null && !string.IsNullOrEmpty(settings.SaveKeyPrefix))
                     return settings.SaveKeyPrefix;
                 return DefaultPrefix;

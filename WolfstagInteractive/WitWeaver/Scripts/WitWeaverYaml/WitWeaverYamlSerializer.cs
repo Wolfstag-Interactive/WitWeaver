@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlSerializer.html")]
-    public static class ConvoCoreYamlSerializer
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlSerializer.html")]
+    public static class WitWeaverYamlSerializer
     {
         private static readonly ISerializer _serializer = new SerializerBuilder().Build();
 

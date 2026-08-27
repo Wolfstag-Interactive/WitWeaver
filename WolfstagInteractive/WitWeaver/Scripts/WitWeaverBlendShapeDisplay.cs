@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Prefab display component that maps expression display names to SkinnedMeshRenderer
@@ -13,8 +13,8 @@ namespace WolfstagInteractive.ConvoCore
     /// on the bound <see cref="PrefabCharacterRepresentationData"/> asset at bind time, building
     /// a runtime GUID-to-blend-shape lookup.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreBlendShapeDisplay.html")]
-    public class ConvoCoreBlendShapeDisplay : ConvoCoreCharacterDisplayBase
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverBlendShapeDisplay.html")]
+    public class WitWeaverBlendShapeDisplay : WitWeaverCharacterDisplayBase
     {
         [Header("Renderer")]
         [Tooltip("SkinnedMeshRenderer whose blend shapes are driven by expressions. Auto-resolved if left empty.")]
@@ -55,7 +55,7 @@ namespace WolfstagInteractive.ConvoCore
 
             if (_lastBoundRep == null)
             {
-                Debug.LogWarning($"[ConvoCoreBlendShapeDisplay] Expected PrefabCharacterRepresentationData " +
+                Debug.LogWarning($"[WitWeaverBlendShapeDisplay] Expected PrefabCharacterRepresentationData " +
                                  $"but received '{representationAsset?.GetType().Name}'.");
                 return;
             }
@@ -66,7 +66,7 @@ namespace WolfstagInteractive.ConvoCore
                 if (bsMapping != null)
                     _runtimeLookup[exprMapping.ExpressionID] = bsMapping;
                 else
-                    Debug.LogWarning($"[ConvoCoreBlendShapeDisplay] No blend shape mapping found for expression " +
+                    Debug.LogWarning($"[WitWeaverBlendShapeDisplay] No blend shape mapping found for expression " +
                                      $"'{exprMapping.DisplayName}' on '{gameObject.name}'.");
             }
         }
@@ -75,13 +75,13 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (_renderer == null)
             {
-                Debug.LogWarning("[ConvoCoreBlendShapeDisplay] No SkinnedMeshRenderer found.");
+                Debug.LogWarning("[WitWeaverBlendShapeDisplay] No SkinnedMeshRenderer found.");
                 return;
             }
 
             if (!_runtimeLookup.TryGetValue(expressionId, out var mapping))
             {
-                Debug.LogWarning($"[ConvoCoreBlendShapeDisplay] Expression GUID '{expressionId}' not found in runtime lookup.");
+                Debug.LogWarning($"[WitWeaverBlendShapeDisplay] Expression GUID '{expressionId}' not found in runtime lookup.");
                 return;
             }
 
@@ -169,7 +169,7 @@ namespace WolfstagInteractive.ConvoCore
             UnityEditor.EditorUtility.SetDirty(this);
 #endif
 
-            Debug.Log($"[ConvoCoreBlendShapeDisplay] Neutral Reset Indices populated with " +
+            Debug.Log($"[WitWeaverBlendShapeDisplay] Neutral Reset Indices populated with " +
                       $"{_neutralResetIndices.Count} entries: " +
                       $"{string.Join(", ", _neutralResetIndices)}");
         }

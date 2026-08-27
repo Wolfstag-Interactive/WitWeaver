@@ -1,9 +1,9 @@
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Controls whether a dialogue line displays text, plays audio, or both.
-    /// Set per-line via <see cref="ConvoCoreConversationData.DialogueLineInfo.PresentationMode"/>
-    /// or as a conversation-level default via <see cref="ConvoCoreConversationData.DefaultPresentationMode"/>.
+    /// Set per-line via <see cref="WitWeaverConversationData.DialogueLineInfo.PresentationMode"/>
+    /// or as a conversation-level default via <see cref="WitWeaverConversationData.DefaultPresentationMode"/>.
     /// </summary>
     public enum ConversationPresentationMode
     {

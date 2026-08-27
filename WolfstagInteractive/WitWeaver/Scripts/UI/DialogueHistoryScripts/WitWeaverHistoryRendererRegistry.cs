@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
-    /// Discovers all IConvoCoreHistoryRenderer implementations.
+    /// Discovers all IWitWeaverHistoryRenderer implementations.
     /// Usually used only in the editor to auto-generate profiles.
     /// </summary>
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreHistoryRendererRegistry.html")]
-    public static class ConvoCoreHistoryRendererRegistry
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverHistoryRendererRegistry.html")]
+    public static class WitWeaverHistoryRendererRegistry
     {
         private static readonly List<Type> _rendererTypes = new();
 
         public static void DiscoverRenderers()
         {
             _rendererTypes.Clear();
-            var iface = typeof(IConvoCoreHistoryRenderer);
+            var iface = typeof(IWitWeaverHistoryRenderer);
 
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -41,15 +41,15 @@ namespace WolfstagInteractive.ConvoCore
         public static string[] GetRendererNames()
         {
             return GetRendererTypes()
-                .Select(t => ((IConvoCoreHistoryRenderer)Activator.CreateInstance(t)).RendererName)
+                .Select(t => ((IWitWeaverHistoryRenderer)Activator.CreateInstance(t)).RendererName)
                 .ToArray();
         }
 
-        public static IConvoCoreHistoryRenderer CreateInstance(string name)
+        public static IWitWeaverHistoryRenderer CreateInstance(string name)
         {
             foreach (var t in GetRendererTypes())
             {
-                var inst = (IConvoCoreHistoryRenderer)Activator.CreateInstance(t);
+                var inst = (IWitWeaverHistoryRenderer)Activator.CreateInstance(t);
                 if (string.Equals(inst.RendererName, name, StringComparison.OrdinalIgnoreCase))
                     return inst;
             }

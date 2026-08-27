@@ -3,15 +3,15 @@ using System.Collections;
 
 
 
-// [CreateAssetMenu(fileName = "CustomActionTransform", menuName = "ConvoCore/CustomAction")] //creates button in unity to make copy of object make sure to change menu and file name to match new action or else it wont show up in editor
+// [CreateAssetMenu(fileName = "CustomActionTransform", menuName = "WitWeaver/CustomAction")] //creates button in unity to make copy of object make sure to change menu and file name to match new action or else it wont show up in editor
 //[System.Serializable] // required to make sure values in the inspector are saved
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseDialogueLineAction.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseDialogueLineAction.html")]
     [System.Serializable]
     /// <summary>
-    /// Base ScriptableObject class for all ConvoCore dialogue line actions.
+    /// Base ScriptableObject class for all WitWeaver dialogue line actions.
     /// Extend this class to run custom game logic before or after any dialogue line.
     /// Override <see cref="ExecuteLineAction"/> for forward playback and
     /// <see cref="ExecuteOnReversedLineAction"/> to undo side effects when the player steps back.

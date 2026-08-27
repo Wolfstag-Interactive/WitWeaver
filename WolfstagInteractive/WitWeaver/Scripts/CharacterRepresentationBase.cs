@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Abstract ScriptableObject base class for all character visual representations.
     /// Extend this class to map expression IDs to sprites, prefabs, or any other display asset.
-    /// Attach a concrete implementation to a <see cref="ConvoCoreCharacterProfileBaseData"/> asset
+    /// Attach a concrete implementation to a <see cref="WitWeaverCharacterProfileBaseData"/> asset
     /// so the runner can resolve visuals and trigger expression actions on each line.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html")]
 
     public abstract class CharacterRepresentationBase : ScriptableObject 
         #if UNITY_EDITOR
@@ -29,10 +29,10 @@ namespace WolfstagInteractive.ConvoCore
         /// </summary>
         public abstract void ApplyExpression(
             string expressionId,
-            ConvoCore runtime,
-            ConvoCoreConversationData conversation,
+            WitWeaver runtime,
+            WitWeaverConversationData conversation,
             int lineIndex,
-            IConvoCoreCharacterDisplay display);
+            IWitWeaverCharacterDisplay display);
         /// <summary>
         /// Retrieves the expression mapping object by its GUID.
         /// Used by the editor to display the correct expression in previews.
@@ -47,7 +47,7 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>
         /// Returns the named configuration entry options exposed by this representation.
         /// Override to opt in to the <c>Participant Configuration Defaults</c> system on
-        /// <see cref="ConvoCoreConversationData"/>. The inspector will show one dropdown slot
+        /// <see cref="WitWeaverConversationData"/>. The inspector will show one dropdown slot
         /// per participant whose profile contains a representation that returns non-null here.
         ///
         /// Return <c>null</c> (default) to opt out entirely — no slot will be generated for
@@ -59,7 +59,7 @@ namespace WolfstagInteractive.ConvoCore
     /// <summary>
     /// Optional interface for character representations that require manual initialization.
     /// </summary>
-    public interface IConvoCoreRepresentationInitializable
+    public interface IWitWeaverRepresentationInitializable
     {
         void Initialize();
     }

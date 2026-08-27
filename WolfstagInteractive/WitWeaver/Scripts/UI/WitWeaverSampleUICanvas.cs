@@ -10,26 +10,26 @@ using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Canvas-space dialogue UI supporting both sprite and prefab-in-canvas character representations.
     ///
-    /// Slot configuration is driven entirely by <see cref="ConvoCoreUIFoundation.DisplaySlots"/>:
-    /// each entry's <see cref="ConvoCoreUIFoundation.DisplaySlotDefinition.SlotObject"/> serves as
+    /// Slot configuration is driven entirely by <see cref="WitWeaverUIFoundation.DisplaySlots"/>:
+    /// each entry's <see cref="WitWeaverUIFoundation.DisplaySlotDefinition.SlotObject"/> serves as
     /// the anchor for prefab characters and the Image source for sprite full-body characters.
     /// Slot assignment uses <see cref="DialogueLineDisplayOptions.DisplaySlot"/> (named addressing)
     /// first, then index-based fallback.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSampleUICanvas.html")]
-    public class ConvoCoreSampleUICanvas : ConvoCoreUIFoundation
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUICanvas.html")]
+    public class WitWeaverSampleUICanvas : WitWeaverUIFoundation
     {
         [Header("Prefab Representation")]
         [Tooltip("Spawner used to place prefab characters into canvas slot anchors.")]
-        [SerializeField] private ConvoCorePrefabRepresentationSpawner prefabRepresentationSpawner;
+        [SerializeField] private WitWeaverPrefabRepresentationSpawner prefabRepresentationSpawner;
 
         /// <summary>
-        /// Slot count mirrors <see cref="ConvoCoreUIFoundation.DisplaySlots"/>; falls back to 1 if
+        /// Slot count mirrors <see cref="WitWeaverUIFoundation.DisplaySlots"/>; falls back to 1 if
         /// no slots have been configured on the foundation.
         /// </summary>
         public virtual int MaxVisibleCharacterSlots => Mathf.Max(1, DisplaySlots.Count);
@@ -89,15 +89,15 @@ namespace WolfstagInteractive.ConvoCore
                 HideDialogue();
         }
 
-        public override void InitializeUI(ConvoCore convoCoreInstance)
+        public override void InitializeUI(WitWeaver witWeaverInstance)
         {
-            base.InitializeUI(convoCoreInstance);
+            base.InitializeUI(witWeaverInstance);
 
             if (prefabRepresentationSpawner == null)
             {
-                prefabRepresentationSpawner = GetComponent<ConvoCorePrefabRepresentationSpawner>();
+                prefabRepresentationSpawner = GetComponent<WitWeaverPrefabRepresentationSpawner>();
                 if (prefabRepresentationSpawner == null)
-                    Debug.LogWarning($"[ConvoCoreSampleUICanvas] No ConvoCorePrefabRepresentationSpawner assigned on '{gameObject.name}'.");
+                    Debug.LogWarning($"[WitWeaverSampleUICanvas] No WitWeaverPrefabRepresentationSpawner assigned on '{gameObject.name}'.");
             }
 
             var historyOutput = new TMPDialogueHistoryOutput(DialogueHistoryText, DialogueHistoryScrollRect);
@@ -105,7 +105,7 @@ namespace WolfstagInteractive.ConvoCore
             {
                 OutputHandler = historyOutput,
                 DefaultSpeakerColor = Color.white,
-                MaxEntries = ConvoCoreDialogueHistoryUI.maxEntries
+                MaxEntries = WitWeaverDialogueHistoryUI.maxEntries
             };
 
             HideDialogue();
@@ -115,7 +115,7 @@ namespace WolfstagInteractive.ConvoCore
             AdvanceDialogueAction?.Enable();
             PreviousDialogueAction?.Enable();
             DontDestroyOnLoad(gameObject);
-            ConvoCoreDialogueHistoryUI.InitializeRenderer(ctx);
+            WitWeaverDialogueHistoryUI.InitializeRenderer(ctx);
         }
 
         private void OnEnable()
@@ -138,9 +138,9 @@ namespace WolfstagInteractive.ConvoCore
         // Dialogue UI overrides
         // ------------------------------------------------------------------
 
-        public override void UpdateDialogueUI(ConvoCoreConversationData.DialogueLineInfo lineInfo, string localizedText,
+        public override void UpdateDialogueUI(WitWeaverConversationData.DialogueLineInfo lineInfo, string localizedText,
             string speakerName, CharacterRepresentationBase primaryRepresentation,
-            ConvoCoreCharacterProfileBaseData primaryProfile)
+            WitWeaverCharacterProfileBaseData primaryProfile)
         {
             DisplayDialogue(localizedText);
             SpeakerName.text = speakerName;
@@ -219,13 +219,13 @@ namespace WolfstagInteractive.ConvoCore
         }
 
         public override IEnumerator PresentChoices(
-            List<ConvoCoreConversationData.ChoiceOption> options,
+            List<WitWeaverConversationData.ChoiceOption> options,
             List<string> localizedLabels,
             ChoiceResult result)
         {
             if (ChoicePanel == null || ChoiceButtonContainer == null || ChoiceButtonPrefab == null)
             {
-                Debug.LogWarning("[ConvoCoreSampleUICanvas] ChoicePanel, ChoiceButtonContainer, or ChoiceButtonPrefab not assigned. Auto-selecting first choice.");
+                Debug.LogWarning("[WitWeaverSampleUICanvas] ChoicePanel, ChoiceButtonContainer, or ChoiceButtonPrefab not assigned. Auto-selecting first choice.");
                 result.SelectedIndex = 0;
                 yield break;
             }
@@ -259,9 +259,9 @@ namespace WolfstagInteractive.ConvoCore
         // Representation rendering
         // ------------------------------------------------------------------
 
-        protected virtual void RenderRepresentation(ConvoCoreConversationData.CharacterRepresentationData data, int index)
+        protected virtual void RenderRepresentation(WitWeaverConversationData.CharacterRepresentationData data, int index)
         {
-            var conversationData = ConvoCoreInstance?.GetCurrentConversationData();
+            var conversationData = WitWeaverInstance?.GetCurrentConversationData();
             if (conversationData == null) return;
 
             var representation = GetRepresentationFromData(conversationData, data);
@@ -302,14 +302,14 @@ namespace WolfstagInteractive.ConvoCore
                 return;
             }
 
-            Debug.LogWarning($"[ConvoCoreSampleUICanvas] Unhandled representation type '{representation.GetType().Name}'. " +
+            Debug.LogWarning($"[WitWeaverSampleUICanvas] Unhandled representation type '{representation.GetType().Name}'. " +
                              "Override RenderRepresentation in a subclass to handle custom types.");
         }
 
         /// <summary>
         /// Returns the slot anchor (RectTransform) for a representation.
         /// Named addressing via <see cref="DialogueLineDisplayOptions.DisplaySlot"/> takes precedence;
-        /// falls back to index-based lookup into <see cref="ConvoCoreUIFoundation.DisplaySlots"/>.
+        /// falls back to index-based lookup into <see cref="WitWeaverUIFoundation.DisplaySlots"/>.
         /// </summary>
         private RectTransform GetSlotAnchor(DialogueLineDisplayOptions options, int index)
         {
@@ -386,7 +386,7 @@ namespace WolfstagInteractive.ConvoCore
         /// Renders an animated expression mapping onto the speaker portrait (index 0)
         /// and the character's full-body slot Image, mirroring
         /// <see cref="RenderSpriteRepresentation"/> but driving the images through a
-        /// <see cref="ConvoCoreAnimatedPortraitPlayer"/> instead of a static sprite.
+        /// <see cref="WitWeaverAnimatedPortraitPlayer"/> instead of a static sprite.
         /// </summary>
         protected virtual void RenderAnimatedRepresentation(AnimatedExpressionMapping mapping,
             AnimatedCharacterRepresentationData representationData, DialogueLineDisplayOptions lineOptions, int index)
@@ -402,7 +402,7 @@ namespace WolfstagInteractive.ConvoCore
                     displayOptions.FlipPortraitY ? -displayOptions.PortraitScale.y : displayOptions.PortraitScale.y,
                     displayOptions.PortraitScale.z);
                 SpeakerPortraitImage.gameObject.SetActive(true);
-                ConvoCoreAnimatedPortraitPlayer.GetOrAdd(SpeakerPortraitImage)
+                WitWeaverAnimatedPortraitPlayer.GetOrAdd(SpeakerPortraitImage)
                     .Play(mapping.PortraitAnimation, useUnscaledTime);
                 TryFadeIn(SpeakerPortraitImage);
             }
@@ -415,7 +415,7 @@ namespace WolfstagInteractive.ConvoCore
                     displayOptions.FlipFullBodyY ? -displayOptions.FullBodyScale.y : displayOptions.FullBodyScale.y,
                     displayOptions.FullBodyScale.z);
                 fullBodyImage.gameObject.SetActive(true);
-                ConvoCoreAnimatedPortraitPlayer.GetOrAdd(fullBodyImage)
+                WitWeaverAnimatedPortraitPlayer.GetOrAdd(fullBodyImage)
                     .Play(mapping.FullBodyAnimation, useUnscaledTime);
                 TryFadeIn(fullBodyImage);
             }
@@ -423,8 +423,8 @@ namespace WolfstagInteractive.ConvoCore
 
         /// <summary>
         /// Returns the full-body sprite Image for a slot. Looks up by slot name in
-        /// <see cref="ConvoCoreUIFoundation.DisplaySlots"/> (via <see cref="Image"/> on the
-        /// <see cref="ConvoCoreUIFoundation.DisplaySlotDefinition.SlotObject"/>), then falls back
+        /// <see cref="WitWeaverUIFoundation.DisplaySlots"/> (via <see cref="Image"/> on the
+        /// <see cref="WitWeaverUIFoundation.DisplaySlotDefinition.SlotObject"/>), then falls back
         /// to index.
         /// </summary>
         private Image GetSpriteSlotImage(string displaySlot, int index)
@@ -442,7 +442,7 @@ namespace WolfstagInteractive.ConvoCore
             return null;
         }
 
-        private void TryFadeIn(Graphic graphic) => graphic.GetComponent<IConvoCoreFadeIn>()?.FadeIn();
+        private void TryFadeIn(Graphic graphic) => graphic.GetComponent<IWitWeaverFadeIn>()?.FadeIn();
 
         private void HideAllSpriteImages()
         {
@@ -450,7 +450,7 @@ namespace WolfstagInteractive.ConvoCore
             {
                 // Stop any animated playback so Image.enabled is restored and hosted
                 // animator children deactivate before the next line renders.
-                ConvoCoreAnimatedPortraitPlayer.StopOn(SpeakerPortraitImage.gameObject);
+                WitWeaverAnimatedPortraitPlayer.StopOn(SpeakerPortraitImage.gameObject);
                 SpeakerPortraitImage.gameObject.SetActive(false);
             }
 
@@ -458,13 +458,13 @@ namespace WolfstagInteractive.ConvoCore
             {
                 var slotImage = slot?.SlotObject?.GetComponent<Image>();
                 if (slotImage == null) continue;
-                ConvoCoreAnimatedPortraitPlayer.StopOn(slotImage.gameObject);
+                WitWeaverAnimatedPortraitPlayer.StopOn(slotImage.gameObject);
                 slotImage.gameObject.SetActive(false);
             }
         }
 
-        private CharacterRepresentationBase GetRepresentationFromData(ConvoCoreConversationData convoData,
-            ConvoCoreConversationData.CharacterRepresentationData data)
+        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData convoData,
+            WitWeaverConversationData.CharacterRepresentationData data)
         {
             if (!string.IsNullOrEmpty(data.SelectedCharacterID))
             {
@@ -493,7 +493,7 @@ namespace WolfstagInteractive.ConvoCore
             {
                 if (!string.IsNullOrEmpty(_lastSpeakerName) && !string.IsNullOrEmpty(_lastLineText))
                 {
-                    ConvoCoreDialogueHistoryUI.AddLine(_lastSpeakerName, _lastLineText, _lastSpeakerColor);
+                    WitWeaverDialogueHistoryUI.AddLine(_lastSpeakerName, _lastLineText, _lastSpeakerColor);
                     _committedLineIndices.Add(_lastLineIndex);
                 }
             }
@@ -533,7 +533,7 @@ namespace WolfstagInteractive.ConvoCore
 
         private void RefreshNavButtons()
         {
-            bool canReverse = ConvoCoreInstance != null && ConvoCoreInstance.CanReverseOneLine && !_historyVisible;
+            bool canReverse = WitWeaverInstance != null && WitWeaverInstance.CanReverseOneLine && !_historyVisible;
             if (PreviousLineButton != null) PreviousLineButton.interactable = canReverse;
         }
 

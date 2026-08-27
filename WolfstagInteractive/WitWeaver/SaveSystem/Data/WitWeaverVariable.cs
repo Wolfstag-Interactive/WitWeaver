@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
     /// <summary>
     /// A strongly-typed named variable that can hold a <c>string</c>, <c>int</c>, <c>float</c>,
-    /// or <c>bool</c> value. Variables are stored in a <see cref="ConvoVariableStore"/> and
-    /// persisted to save data by <see cref="ConvoCoreSaveManager"/>.
+    /// or <c>bool</c> value. Variables are stored in a <see cref="WitWeaverVariableStore"/> and
+    /// persisted to save data by <see cref="WitWeaverSaveManager"/>.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoVariable.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverVariable.html")]
 [Serializable]
-    public class ConvoCoreVariable : ISerializationCallbackReceiver
+    public class WitWeaverVariable : ISerializationCallbackReceiver
     {
         public string Key;
-        public ConvoVariableType Type;
+        public WitWeaverVariableType Type;
         public string Description;
         public string[] Tags;
 
@@ -25,7 +25,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
 
         // Serialized Collection storage. Public so Unity serialization, JsonUtility and the
         // YAML provider (which only sees public members) can all round-trip it. Treat as
-        // serialization data only — mutations must go through ConvoVariableStore so change
+        // serialization data only — mutations must go through WitWeaverVariableStore so change
         // events fire and copy-on-write stays intact.
         public List<CollectionIntPair> CollectionIntPairs = new List<CollectionIntPair>();
         public List<CollectionStringPair> CollectionStringPairs = new List<CollectionStringPair>();
@@ -39,25 +39,25 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         public float GetFloat() => _floatValue;
         public bool GetBool() => _boolValue;
 
-        public ConvoCoreVariable SetString(string value)
+        public WitWeaverVariable SetString(string value)
         {
             _stringValue = value;
             return this;
         }
 
-        public ConvoCoreVariable SetInt(int value)
+        public WitWeaverVariable SetInt(int value)
         {
             _intValue = value;
             return this;
         }
 
-        public ConvoCoreVariable SetFloat(float value)
+        public WitWeaverVariable SetFloat(float value)
         {
             _floatValue = value;
             return this;
         }
 
-        public ConvoCoreVariable SetBool(bool value)
+        public WitWeaverVariable SetBool(bool value)
         {
             _boolValue = value;
             return this;
@@ -67,16 +67,16 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             switch (Type)
             {
-                case ConvoVariableType.String when typeof(T) == typeof(string):
+                case WitWeaverVariableType.String when typeof(T) == typeof(string):
                     result = (T)(object)_stringValue;
                     return true;
-                case ConvoVariableType.Int when typeof(T) == typeof(int):
+                case WitWeaverVariableType.Int when typeof(T) == typeof(int):
                     result = (T)(object)_intValue;
                     return true;
-                case ConvoVariableType.Float when typeof(T) == typeof(float):
+                case WitWeaverVariableType.Float when typeof(T) == typeof(float):
                     result = (T)(object)_floatValue;
                     return true;
-                case ConvoVariableType.Bool when typeof(T) == typeof(bool):
+                case WitWeaverVariableType.Bool when typeof(T) == typeof(bool):
                     result = (T)(object)_boolValue;
                     return true;
                 default:
@@ -89,25 +89,25 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             switch (Type)
             {
-                case ConvoVariableType.String:
+                case WitWeaverVariableType.String:
                     return _stringValue ?? string.Empty;
-                case ConvoVariableType.Int:
+                case WitWeaverVariableType.Int:
                     return _intValue.ToString();
-                case ConvoVariableType.Float:
+                case WitWeaverVariableType.Float:
                     return _floatValue.ToString();
-                case ConvoVariableType.Bool:
+                case WitWeaverVariableType.Bool:
                     return _boolValue.ToString();
-                case ConvoVariableType.CollectionInt:
-                case ConvoVariableType.CollectionString:
+                case WitWeaverVariableType.CollectionInt:
+                case WitWeaverVariableType.CollectionString:
                     return $"Collection({CollectionCount})";
                 default:
                     return string.Empty;
             }
         }
 
-        public ConvoCoreVariable Clone()
+        public WitWeaverVariable Clone()
         {
-            return new ConvoCoreVariable
+            return new WitWeaverVariable
             {
                 Key = Key,
                 Type = Type,
@@ -124,7 +124,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         }
 
         // ----- Collection Access (store-mediated) -----
-        // Internal on purpose: ConvoVariableStore is the only entry point for Collection
+        // Internal on purpose: WitWeaverVariableStore is the only entry point for Collection
         // reads and writes so change events and copy-on-write cannot be bypassed.
 
         internal int CollectionCount
@@ -132,9 +132,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             get
             {
                 EnsureCollectionRuntime();
-                return Type == ConvoVariableType.CollectionInt
+                return Type == WitWeaverVariableType.CollectionInt
                     ? _collectionIntRuntime.Count
-                    : Type == ConvoVariableType.CollectionString
+                    : Type == WitWeaverVariableType.CollectionString
                         ? _collectionStringRuntime.Count
                         : 0;
             }
@@ -162,18 +162,18 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (subKey == null) return false;
             EnsureCollectionRuntime();
-            return Type == ConvoVariableType.CollectionInt
+            return Type == WitWeaverVariableType.CollectionInt
                 ? _collectionIntRuntime.ContainsKey(subKey)
-                : Type == ConvoVariableType.CollectionString && _collectionStringRuntime.ContainsKey(subKey);
+                : Type == WitWeaverVariableType.CollectionString && _collectionStringRuntime.ContainsKey(subKey);
         }
 
         internal List<string> GetCollectionKeysCopy()
         {
             EnsureCollectionRuntime();
             var result = new List<string>();
-            if (Type == ConvoVariableType.CollectionInt)
+            if (Type == WitWeaverVariableType.CollectionInt)
                 result.AddRange(_collectionIntRuntime.Keys);
-            else if (Type == ConvoVariableType.CollectionString)
+            else if (Type == WitWeaverVariableType.CollectionString)
                 result.AddRange(_collectionStringRuntime.Keys);
             return result;
         }
@@ -216,9 +216,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
         {
             if (subKey == null) return false;
             EnsureCollectionRuntime();
-            bool removed = Type == ConvoVariableType.CollectionInt
+            bool removed = Type == WitWeaverVariableType.CollectionInt
                 ? _collectionIntRuntime.Remove(subKey)
-                : Type == ConvoVariableType.CollectionString && _collectionStringRuntime.Remove(subKey);
+                : Type == WitWeaverVariableType.CollectionString && _collectionStringRuntime.Remove(subKey);
 
             if (removed)
             {
@@ -254,7 +254,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 if (p.SubKey == null) continue;
                 if (_collectionIntRuntime.ContainsKey(p.SubKey))
                 {
-                    Debug.LogWarning($"[ConvoVariableStore] Collection '{Key}' contains duplicate sub-key '{p.SubKey}'. Keeping the first occurrence.");
+                    Debug.LogWarning($"[WitWeaverVariableStore] Collection '{Key}' contains duplicate sub-key '{p.SubKey}'. Keeping the first occurrence.");
                     continue;
                 }
                 _collectionIntRuntime.Add(p.SubKey, p.Value);
@@ -266,7 +266,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 if (p.SubKey == null) continue;
                 if (_collectionStringRuntime.ContainsKey(p.SubKey))
                 {
-                    Debug.LogWarning($"[ConvoVariableStore] Collection '{Key}' contains duplicate sub-key '{p.SubKey}'. Keeping the first occurrence.");
+                    Debug.LogWarning($"[WitWeaverVariableStore] Collection '{Key}' contains duplicate sub-key '{p.SubKey}'. Keeping the first occurrence.");
                     continue;
                 }
                 _collectionStringRuntime.Add(p.SubKey, p.Value);

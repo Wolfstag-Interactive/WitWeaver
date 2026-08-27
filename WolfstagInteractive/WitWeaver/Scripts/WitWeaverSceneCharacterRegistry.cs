@@ -1,36 +1,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Scene-level registry that maps developer-assigned string IDs to
-    /// <see cref="IConvoCoreCharacterDisplay"/> instances that already exist in the scene.
+    /// <see cref="IWitWeaverCharacterDisplay"/> instances that already exist in the scene.
     ///
     /// Place one instance anywhere in the scene. Characters register themselves automatically
-    /// via <see cref="ConvoCoreSceneCharacterRegistrant"/>.
+    /// via <see cref="WitWeaverSceneCharacterRegistrant"/>.
     ///
     /// The first instance to awake is accessible via <see cref="Instance"/>. Multiple registries
     /// can coexist; only the first-awake one is reachable through the static property.
-    /// Assign the registry directly on <see cref="ConvoCorePrefabRepresentationSpawner"/> when
+    /// Assign the registry directly on <see cref="WitWeaverPrefabRepresentationSpawner"/> when
     /// you need a specific instance.
     /// </summary>
-    public class ConvoCoreSceneCharacterRegistry : MonoBehaviour
+    public class WitWeaverSceneCharacterRegistry : MonoBehaviour
     {
         /// <summary>
         /// The first registry to awake in the scene. Used as a fallback by
-        /// <see cref="ConvoCorePrefabRepresentationSpawner"/> when no registry is explicitly assigned.
+        /// <see cref="WitWeaverPrefabRepresentationSpawner"/> when no registry is explicitly assigned.
         /// </summary>
-        public static ConvoCoreSceneCharacterRegistry Instance { get; private set; }
+        public static WitWeaverSceneCharacterRegistry Instance { get; private set; }
 
-        private readonly Dictionary<string, IConvoCoreCharacterDisplay> _registered = new();
+        private readonly Dictionary<string, IWitWeaverCharacterDisplay> _registered = new();
 
         private void Awake()
         {
             if (Instance == null)
                 Instance = this;
             else
-                Debug.LogWarning("[ConvoCoreSceneCharacterRegistry] Multiple instances detected. Only the first will be used as the static Instance.");
+                Debug.LogWarning("[WitWeaverSceneCharacterRegistry] Multiple instances detected. Only the first will be used as the static Instance.");
         }
 
         private void OnDestroy()
@@ -41,31 +41,31 @@ namespace WolfstagInteractive.ConvoCore
 
         /// <summary>
         /// Registers a display under the given ID. Overwrites any existing entry with the same ID.
-        /// Called automatically by <see cref="ConvoCoreSceneCharacterRegistrant"/> on OnEnable.
+        /// Called automatically by <see cref="WitWeaverSceneCharacterRegistrant"/> on OnEnable.
         /// </summary>
-        public void Register(string id, IConvoCoreCharacterDisplay display)
+        public void Register(string id, IWitWeaverCharacterDisplay display)
         {
             if (string.IsNullOrEmpty(id))
             {
-                Debug.LogWarning("[ConvoCoreSceneCharacterRegistry] Attempted to register a character with a null or empty ID. Skipping.");
+                Debug.LogWarning("[WitWeaverSceneCharacterRegistry] Attempted to register a character with a null or empty ID. Skipping.");
                 return;
             }
 
             if (display == null)
             {
-                Debug.LogWarning($"[ConvoCoreSceneCharacterRegistry] Attempted to register null display for ID '{id}'. Skipping.");
+                Debug.LogWarning($"[WitWeaverSceneCharacterRegistry] Attempted to register null display for ID '{id}'. Skipping.");
                 return;
             }
 
             if (_registered.ContainsKey(id))
-                Debug.LogWarning($"[ConvoCoreSceneCharacterRegistry] ID '{id}' is already registered. Overwriting. Check for duplicate registrants in the scene.");
+                Debug.LogWarning($"[WitWeaverSceneCharacterRegistry] ID '{id}' is already registered. Overwriting. Check for duplicate registrants in the scene.");
 
             _registered[id] = display;
         }
 
         /// <summary>
         /// Removes the registration for the given ID.
-        /// Called automatically by <see cref="ConvoCoreSceneCharacterRegistrant"/> on OnDisable.
+        /// Called automatically by <see cref="WitWeaverSceneCharacterRegistrant"/> on OnDisable.
         /// </summary>
         public void Unregister(string id)
         {
@@ -77,7 +77,7 @@ namespace WolfstagInteractive.ConvoCore
         /// Attempts to retrieve a registered display by ID.
         /// </summary>
         /// <returns>True if a display was found for the given ID.</returns>
-        public bool TryGet(string id, out IConvoCoreCharacterDisplay display)
+        public bool TryGet(string id, out IWitWeaverCharacterDisplay display)
         {
             display = null;
             if (string.IsNullOrEmpty(id)) return false;
@@ -94,7 +94,7 @@ namespace WolfstagInteractive.ConvoCore
         private void OnDrawGizmosSelected()
         {
             foreach (var kvp in _registered)
-                Debug.Log($"[ConvoCoreSceneCharacterRegistry] Registered: '{kvp.Key}' -> {kvp.Value}");
+                Debug.Log($"[WitWeaverSceneCharacterRegistry] Registered: '{kvp.Key}' -> {kvp.Value}");
         }
 #endif
     }

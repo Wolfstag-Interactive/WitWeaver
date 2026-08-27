@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1DialogueLineDisplayOptions.html")]
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1DialogueLineDisplayOptions.html")]
     [System.Serializable]
     public class DialogueLineDisplayOptions : ISerializationCallbackReceiver
     {
@@ -18,7 +18,7 @@ namespace WolfstagInteractive.ConvoCore
         [Tooltip("Flip the display of the full-body sprite vertically.")]
         public bool FlipFullBodyY = false;
 
-        [Tooltip("The name of the display slot this character should occupy, as configured on the ConvoCoreUIFoundation.")]
+        [Tooltip("The name of the display slot this character should occupy, as configured on the WitWeaverUIFoundation.")]
         public string DisplaySlot;
 
         [Tooltip("Additional scale applied to the portrait sprite.")]

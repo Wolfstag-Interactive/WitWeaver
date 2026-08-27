@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     public enum ConversationContainerMode
     {
@@ -21,10 +21,10 @@ namespace WolfstagInteractive.ConvoCore
 
     public readonly struct ConversationBranchResult
     {
-        public readonly ConvoCoreConversationData Conversation;
+        public readonly WitWeaverConversationData Conversation;
         public readonly int StartLineIndex;
 
-        public ConversationBranchResult(ConvoCoreConversationData conversation, int startLineIndex)
+        public ConversationBranchResult(WitWeaverConversationData conversation, int startLineIndex)
         {
             Conversation = conversation;
             StartLineIndex = startLineIndex;
@@ -32,20 +32,20 @@ namespace WolfstagInteractive.ConvoCore
     }
 
     /// <summary>
-    /// ScriptableObject that groups one or more <see cref="ConvoCoreConversationData"/> assets
+    /// ScriptableObject that groups one or more <see cref="WitWeaverConversationData"/> assets
     /// into a single addressable unit for branching and playback. Supports two modes:
     /// <b>Playlist</b> (play entries in sequence with optional looping) and
     /// <b>Selector</b> (pick one entry by alias, first match, random, sequential, or weighted random).
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/classWolfstagInteractive_1_1ConvoCore_1_1ConversationContainer.html")]
-    [CreateAssetMenu(menuName = "ConvoCore/Conversation Container")]
+    [HelpURL("https://docs.wolfstaginteractive.com/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html")]
+    [CreateAssetMenu(menuName = "WitWeaver/Conversation Container")]
     public sealed class ConversationContainer : ScriptableObject
     {
         [Serializable]
         public sealed class Entry
         {
             public string Alias;
-            public ConvoCoreConversationData ConversationData;
+            public WitWeaverConversationData ConversationData;
             public bool Enabled = true;
 
             [Tooltip("Only used when this container is played as a Playlist.")]
@@ -113,7 +113,7 @@ namespace WolfstagInteractive.ConvoCore
             var mode = SelectionMode;
             if (ContainerMode == ConversationContainerMode.Playlist)
             {
-                Debug.LogWarning($"[ConvoCore] ConversationContainer '{name}' used as branch target but is in Playlist mode. Treating as 'First' selector.");
+                Debug.LogWarning($"[WitWeaver] ConversationContainer '{name}' used as branch target but is in Playlist mode. Treating as 'First' selector.");
                 mode = ConversationSelectionMode.First;
             }
 
@@ -152,7 +152,7 @@ namespace WolfstagInteractive.ConvoCore
                 if (startIndex < 0)
                 {
                     Debug.LogWarning(
-                        $"[ConvoCore] Container '{name}': StartLineID '{chosen.StartLineID}' not found in " +
+                        $"[WitWeaver] Container '{name}': StartLineID '{chosen.StartLineID}' not found in " +
                         $"'{chosen.ConversationData.name}'. Starting from the beginning.");
                     startIndex = 0;
                 }
@@ -174,9 +174,9 @@ namespace WolfstagInteractive.ConvoCore
 
         // ----- GUID-based lookups -----
 
-        /// <summary>Returns the <see cref="ConvoCoreConversationData"/> whose ConversationGuid matches,
+        /// <summary>Returns the <see cref="WitWeaverConversationData"/> whose ConversationGuid matches,
         /// or null if not found.</summary>
-        public ConvoCoreConversationData GetByGuid(string guid)
+        public WitWeaverConversationData GetByGuid(string guid)
         {
             if (string.IsNullOrEmpty(guid) || Conversations == null) return null;
             for (int i = 0; i < Conversations.Count; i++)
@@ -190,7 +190,7 @@ namespace WolfstagInteractive.ConvoCore
 
         /// <summary>Returns the index of the entry whose ConversationData reference equals
         /// <paramref name="data"/>, or -1.</summary>
-        public int IndexOf(ConvoCoreConversationData data)
+        public int IndexOf(WitWeaverConversationData data)
         {
             if (data == null || Conversations == null) return -1;
             for (int i = 0; i < Conversations.Count; i++)

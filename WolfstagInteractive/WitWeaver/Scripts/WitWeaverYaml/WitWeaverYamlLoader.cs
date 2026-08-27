@@ -4,36 +4,36 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlLoader.html")]
-    public static class ConvoCoreYamlLoader
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlLoader.html")]
+    public static class WitWeaverYamlLoader
     {
-        public static ConvoCoreSettings Settings; // assign once at boot (or Resources.Load in code)
+        public static WitWeaverSettings Settings; // assign once at boot (or Resources.Load in code)
 
         // ------------------- Public entry points -------------------
 
         // Simple synchronous path (what your current import/init uses)
-        public static string Load(ConvoCoreConversationData data)
+        public static string Load(WitWeaverConversationData data)
         {
             return LoadInternalSync(data);
         }
 
         // Async via Task (good for menu/boot flows; await it)
-        public static async Task<string> LoadAsync(ConvoCoreConversationData data)
+        public static async Task<string> LoadAsync(WitWeaverConversationData data)
         {
             return await LoadInternalTaskAsync(data);
         }
 
         // Async via Coroutine
-        public static IEnumerator LoadCoroutine(ConvoCoreConversationData data, Action<string> onDone)
+        public static IEnumerator LoadCoroutine(WitWeaverConversationData data, Action<string> onDone)
         {
             return LoadInternalCoroutine(data, onDone);
         }
 
         // ------------------- Core (Sync) -------------------
 
-        static string LoadInternalSync(ConvoCoreConversationData data)
+        static string LoadInternalSync(WitWeaverConversationData data)
         {
             var order = Settings?.SourceOrder ?? new[]
             {
@@ -77,13 +77,13 @@ namespace WolfstagInteractive.ConvoCore
             }
 
             if (Settings?.VerboseLogs == true)
-                Debug.LogWarning($"ConvoCore: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
+                Debug.LogWarning($"WitWeaver: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
             return null;
         }
 
         // ------------------- Core (Task) -------------------
 
-        static async Task<string> LoadInternalTaskAsync(ConvoCoreConversationData data)
+        static async Task<string> LoadInternalTaskAsync(WitWeaverConversationData data)
         {
             var order = Settings?.SourceOrder ?? new[]
             {
@@ -127,13 +127,13 @@ namespace WolfstagInteractive.ConvoCore
             }
 
             if (Settings?.VerboseLogs == true)
-                Debug.LogWarning($"ConvoCore: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
+                Debug.LogWarning($"WitWeaver: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
             return null;
         }
 
         // ------------------- Core (Coroutine) -------------------
 
-        static IEnumerator LoadInternalCoroutine(ConvoCoreConversationData data, Action<string> onDone)
+        static IEnumerator LoadInternalCoroutine(WitWeaverConversationData data, Action<string> onDone)
         {
             string result = null;
 
@@ -182,7 +182,7 @@ namespace WolfstagInteractive.ConvoCore
             }
 
             if (result == null && Settings?.VerboseLogs == true)
-                Debug.LogWarning($"ConvoCore: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
+                Debug.LogWarning($"WitWeaver: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
 
             onDone?.Invoke(result);
         }
@@ -192,10 +192,10 @@ namespace WolfstagInteractive.ConvoCore
         static string KeyFromFilePath(string filePathNoExt)
             => (Settings?.AddressablesKeyTemplate ?? "{filePath}.yml").Replace("{filePath}", filePathNoExt);
 
-        static bool TryReadPersistent(ConvoCoreConversationData data, out string text)
+        static bool TryReadPersistent(WitWeaverConversationData data, out string text)
         {
             string rel = (data.FilePath ?? "").Replace('/', Path.DirectorySeparatorChar);
-            var baseDir = Path.Combine(Application.persistentDataPath, "ConvoCore", "Dialogue");
+            var baseDir = Path.Combine(Application.persistentDataPath, "WitWeaver", "Dialogue");
             var p1 = Path.Combine(baseDir, rel + ".yml");
             var p2 = Path.Combine(baseDir, rel + ".yaml");
             if (File.Exists(p1)) { text = File.ReadAllText(p1); return true; }
@@ -204,7 +204,7 @@ namespace WolfstagInteractive.ConvoCore
         }
 
         // ------------------- Addressables shims -------------------
-#if CONVOCORE_ADDRESSABLES
+#if WITWEAVER_ADDRESSABLES
         static string TryLoadFromAddressablesSync(string key)
         {
             try

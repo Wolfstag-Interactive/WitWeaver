@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    public static class ConvoCoreSnapshotMigrator
+    public static class WitWeaverSnapshotMigrator
     {
-        public static ConvoCoreGameSnapshot Migrate(ConvoCoreGameSnapshot snapshot)
+        public static WitWeaverGameSnapshot Migrate(WitWeaverGameSnapshot snapshot)
         {
             if (snapshot == null) return null;
 
@@ -12,15 +12,15 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             {
                 case "1.0":
                     return MigrateGame_1_0_to_1_1(snapshot);
-                case ConvoCoreGameSnapshot.CurrentSchemaVersion:
+                case WitWeaverGameSnapshot.CurrentSchemaVersion:
                     return snapshot;
                 default:
-                    Debug.LogWarning($"[ConvoCoreSnapshotMigrator] Unknown game snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
+                    Debug.LogWarning($"[WitWeaverSnapshotMigrator] Unknown game snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
                     return snapshot;
             }
         }
 
-        public static ConvoCoreSettingsSnapshot Migrate(ConvoCoreSettingsSnapshot snapshot)
+        public static WitWeaverSettingsSnapshot Migrate(WitWeaverSettingsSnapshot snapshot)
         {
             if (snapshot == null) return null;
 
@@ -29,12 +29,12 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
                 case "1.0":
                     return MigrateSettings_1_0(snapshot);
                 default:
-                    Debug.LogWarning($"[ConvoCoreSnapshotMigrator] Unknown settings snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
+                    Debug.LogWarning($"[WitWeaverSnapshotMigrator] Unknown settings snapshot schema version '{snapshot.SchemaVersion}'. Returning unmodified.");
                     return snapshot;
             }
         }
 
-        private static ConvoCoreGameSnapshot MigrateGame_1_0_to_1_1(ConvoCoreGameSnapshot snapshot)
+        private static WitWeaverGameSnapshot MigrateGame_1_0_to_1_1(WitWeaverGameSnapshot snapshot)
         {
             // 1.1 added Collection variables. No Collections existed in 1.0 snapshots, so the
             // data passes through unchanged and only the version string is updated.
@@ -42,7 +42,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem
             return snapshot;
         }
 
-        private static ConvoCoreSettingsSnapshot MigrateSettings_1_0(ConvoCoreSettingsSnapshot snapshot)
+        private static WitWeaverSettingsSnapshot MigrateSettings_1_0(WitWeaverSettingsSnapshot snapshot)
         {
             // Version 1.0 is the current version, no migration needed.
             return snapshot;

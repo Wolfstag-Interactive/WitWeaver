@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Character behaviour type for scene-resident characters that move to an authored offset position
     /// when a conversation begins and return to their original position when it ends.
     ///
-    /// Characters are resolved via <see cref="ConvoCoreSceneCharacterRegistry"/>.
+    /// Characters are resolved via <see cref="WitWeaverSceneCharacterRegistry"/>.
     /// Each slot entry specifies a world-space target position and optionally a duration.
-    /// When duration is zero the move is instant; otherwise a <see cref="ConvoCoreTransformLerp"/>
+    /// When duration is zero the move is instant; otherwise a <see cref="WitWeaverTransformLerp"/>
     /// MonoBehaviour is added to the character's GameObject to run a coroutine.
     ///
     /// Use case: NPC turns to face the player, walks to a conversation spot, etc.
     /// </summary>
-    [CreateAssetMenu(fileName = "TransformLerpBehaviour", menuName = "ConvoCore/Character Behaviour/Transform Lerp Behaviour")]
-    public class TransformLerpBehaviour : ConvoCoreCharacterBehaviour
+    [CreateAssetMenu(fileName = "TransformLerpBehaviour", menuName = "WitWeaver/Character Behaviour/Transform Lerp Behaviour")]
+    public class TransformLerpBehaviour : WitWeaverCharacterBehaviour
     {
         [System.Serializable]
         public class LerpSlotEntry
         {
-            [Tooltip("Scene character ID to move (registered via ConvoCoreSceneCharacterRegistrant).")]
+            [Tooltip("Scene character ID to move (registered via WitWeaverSceneCharacterRegistrant).")]
             public string SceneCharacterId;
 
             [Tooltip("Target world position for conversation start.")]
@@ -57,7 +57,7 @@ namespace WolfstagInteractive.ConvoCore
 
         // Runtime state
         [System.NonSerialized] private List<(Transform t, Vector3 origPos, Quaternion origRot)> _originals = new();
-        [System.NonSerialized] private Dictionary<string, IConvoCoreCharacterDisplay> _cachedDisplays = new();
+        [System.NonSerialized] private Dictionary<string, IWitWeaverCharacterDisplay> _cachedDisplays = new();
 
         public override void OnConversationBegin()
         {
@@ -65,10 +65,10 @@ namespace WolfstagInteractive.ConvoCore
             _cachedDisplays.Clear();
         }
 
-        public override IConvoCoreCharacterDisplay ResolvePresence(
+        public override IWitWeaverCharacterDisplay ResolvePresence(
             PrefabCharacterRepresentationData representation,
             CharacterBehaviourContext context,
-            ConvoCorePrefabRepresentationSpawner spawner)
+            WitWeaverPrefabRepresentationSpawner spawner)
         {
             // Use CharacterId as cache key when available; fall back to representation name.
             var cacheKey = !string.IsNullOrEmpty(context.CharacterId) ? context.CharacterId : representation.name;
@@ -117,7 +117,7 @@ namespace WolfstagInteractive.ConvoCore
             }
             else
             {
-                var lerp = mono.gameObject.AddComponent<ConvoCoreTransformLerp>();
+                var lerp = mono.gameObject.AddComponent<WitWeaverTransformLerp>();
                 lerp.MoveTo(slot.TargetPosition, Quaternion.Euler(slot.TargetEulerRotation), slot.Duration,
                     mono.gameObject, slot.CompletionTriggerName);
             }
@@ -132,7 +132,7 @@ namespace WolfstagInteractive.ConvoCore
             {
                 if (t == null) continue;
 
-                var lerp = t.GetComponent<ConvoCoreTransformLerp>();
+                var lerp = t.GetComponent<WitWeaverTransformLerp>();
                 if (lerp != null)
                 {
                     lerp.MoveTo(origPos, origRot, lerp.Duration, null, null);
@@ -175,7 +175,7 @@ namespace WolfstagInteractive.ConvoCore
     /// Transform to a target position and rotation over a given duration.
     /// Self-destructs when the move completes.
     /// </summary>
-    public class ConvoCoreTransformLerp : MonoBehaviour
+    public class WitWeaverTransformLerp : MonoBehaviour
     {
         public float Duration { get; private set; }
 

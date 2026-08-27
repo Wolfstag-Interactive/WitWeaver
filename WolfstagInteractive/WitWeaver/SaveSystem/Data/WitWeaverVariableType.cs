@@ -1,6 +1,6 @@
-namespace WolfstagInteractive.ConvoCore.SaveSystem
+namespace WolfstagInteractive.WitWeaver.SaveSystem
 {
-    public enum ConvoVariableType
+    public enum WitWeaverVariableType
     {
         String,
         Int,

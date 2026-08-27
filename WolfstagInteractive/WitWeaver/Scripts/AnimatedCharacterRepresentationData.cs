@@ -5,10 +5,10 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1AnimatedCharacterRepresentationData.html")]
-[CreateAssetMenu(fileName = "AnimatedRepresentation", menuName = "ConvoCore/Character/Representation/Animated Character Representation")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1AnimatedCharacterRepresentationData.html")]
+[CreateAssetMenu(fileName = "AnimatedRepresentation", menuName = "WitWeaver/Character/Representation/Animated Character Representation")]
     // Maps expressions to animated portrait/full-body payloads (flipbook frames,
     // animator prefabs, or custom AnimatedExpressionPayload subclasses).
     public class AnimatedCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
@@ -30,8 +30,8 @@ namespace WolfstagInteractive.ConvoCore
             return mapping != null;
         }
 
-        public override void ApplyExpression(string expressionId, ConvoCore runtime, ConvoCoreConversationData conversation, int lineIndex,
-            IConvoCoreCharacterDisplay display)
+        public override void ApplyExpression(string expressionId, WitWeaver runtime, WitWeaverConversationData conversation, int lineIndex,
+            IWitWeaverCharacterDisplay display)
         {
             if (!TryResolveById(expressionId, out var mapping))
             {
@@ -84,9 +84,9 @@ namespace WolfstagInteractive.ConvoCore
         }
 
 #if UNITY_EDITOR
-        private static IReadOnlyList<ConvoCoreUIFoundation.DisplaySlotDefinition> GetFoundationSlots()
+        private static IReadOnlyList<WitWeaverUIFoundation.DisplaySlotDefinition> GetFoundationSlots()
         {
-            var runner = Object.FindAnyObjectByType<ConvoCore>();
+            var runner = Object.FindAnyObjectByType<WitWeaver>();
             var foundation = runner != null ? runner.ConversationUI : null;
             return foundation != null ? foundation.DisplaySlots : null;
         }

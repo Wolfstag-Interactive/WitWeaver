@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Resolves, tracks, and releases prefab-based character displays for a single UI instance.
@@ -9,9 +9,9 @@ namespace WolfstagInteractive.ConvoCore
     /// Resolution order for each character:
     /// <list type="number">
     ///   <item>Scene registry lookup by <c>characterId</c> — if a registrant is found the scene
-    ///       instance is used. ConvoCore never spawns, pools, or destroys scene-resident characters.</item>
+    ///       instance is used. WitWeaver never spawns, pools, or destroys scene-resident characters.</item>
     ///   <item>Prefab spawn — the configuration entry's <c>CharacterPrefab</c> is drawn from
-    ///       <see cref="ConvoCorePrefabPool"/> and returned to it on release.</item>
+    ///       <see cref="WitWeaverPrefabPool"/> and returned to it on release.</item>
     /// </list>
     ///
     /// A console message is emitted for whichever path is taken so behavior is transparent without
@@ -21,11 +21,11 @@ namespace WolfstagInteractive.ConvoCore
     /// Passing the same Transform again releases the previous occupant before placing a new one.
     /// Scene-resident characters are not tracked by slot and are never pooled or destroyed here.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCorePrefabRepresentationSpawner.html")]
-    public class ConvoCorePrefabRepresentationSpawner : MonoBehaviour
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverPrefabRepresentationSpawner.html")]
+    public class WitWeaverPrefabRepresentationSpawner : MonoBehaviour
     {
-        [Tooltip("Optional. When assigned this registry is preferred over the static ConvoCoreSceneCharacterRegistry.Instance.")]
-        [SerializeField] private ConvoCoreSceneCharacterRegistry sceneCharacterRegistry;
+        [Tooltip("Optional. When assigned this registry is preferred over the static WitWeaverSceneCharacterRegistry.Instance.")]
+        [SerializeField] private WitWeaverSceneCharacterRegistry sceneCharacterRegistry;
 
         // Active spawned entries keyed by the slot anchor Transform.
         private readonly Dictionary<Transform, ActiveCharacterEntry> _activeEntries = new();
@@ -37,11 +37,11 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>
         /// Full-service canvas UI path. Resolves the character display (registry-first, then prefab
         /// spawn), binds the representation, applies expression and display options, and triggers
-        /// a fade-in if the instance implements <see cref="IConvoCoreFadeIn"/>.
+        /// a fade-in if the instance implements <see cref="IWitWeaverFadeIn"/>.
         /// Passing the same <paramref name="slotTransform"/> releases the previous occupant first.
         /// Returns null if resolution fails.
         /// </summary>
-        public IConvoCoreCharacterDisplay ResolveCharacter(
+        public IWitWeaverCharacterDisplay ResolveCharacter(
             PrefabCharacterRepresentationData representation,
             string expressionID,
             DialogueLineDisplayOptions displayOptions,
@@ -65,7 +65,7 @@ namespace WolfstagInteractive.ConvoCore
         /// without applying expression or display options. The caller applies those after receiving
         /// the display. Returns null if resolution fails.
         /// </summary>
-        public IConvoCoreCharacterDisplay SpawnAndBind(
+        public IWitWeaverCharacterDisplay SpawnAndBind(
             PrefabCharacterRepresentationData representation,
             Transform slotTransform)
         {
@@ -78,7 +78,7 @@ namespace WolfstagInteractive.ConvoCore
         /// from <paramref name="entryName"/> on the representation.
         /// Returns null if resolution fails.
         /// </summary>
-        public IConvoCoreCharacterDisplay SpawnAndBind(
+        public IWitWeaverCharacterDisplay SpawnAndBind(
             PrefabCharacterRepresentationData representation,
             string entryName,
             string characterId,
@@ -89,19 +89,19 @@ namespace WolfstagInteractive.ConvoCore
 
         /// <summary>
         /// Looks up a scene-resident display by ID without tracking it in the active-entry
-        /// dictionary. Falls back to <see cref="ConvoCoreSceneCharacterRegistry.Instance"/> if no
+        /// dictionary. Falls back to <see cref="WitWeaverSceneCharacterRegistry.Instance"/> if no
         /// registry is assigned to this spawner.
-        /// The caller owns the display; ConvoCore will not pool or destroy it.
+        /// The caller owns the display; WitWeaver will not pool or destroy it.
         /// </summary>
-        public bool TryGetSceneResident(string sceneCharacterId, out IConvoCoreCharacterDisplay display)
+        public bool TryGetSceneResident(string sceneCharacterId, out IWitWeaverCharacterDisplay display)
         {
             display = null;
             if (string.IsNullOrEmpty(sceneCharacterId)) return false;
 
-            var registry = sceneCharacterRegistry ?? ConvoCoreSceneCharacterRegistry.Instance;
+            var registry = sceneCharacterRegistry ?? WitWeaverSceneCharacterRegistry.Instance;
             if (registry == null)
             {
-                Debug.LogWarning($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] No ConvoCoreSceneCharacterRegistry available. " +
+                Debug.LogWarning($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] No WitWeaverSceneCharacterRegistry available. " +
                                  $"Cannot look up scene-resident character '{sceneCharacterId}'.");
                 return false;
             }
@@ -124,7 +124,7 @@ namespace WolfstagInteractive.ConvoCore
         // Core resolution
         // ------------------------------------------------------------------
 
-        private IConvoCoreCharacterDisplay ResolveDisplayCore(
+        private IWitWeaverCharacterDisplay ResolveDisplayCore(
             PrefabCharacterRepresentationData representation,
             string entryName,
             string characterId,
@@ -136,10 +136,10 @@ namespace WolfstagInteractive.ConvoCore
             // 1. Scene-registry path ─ check by characterId first.
             if (!string.IsNullOrEmpty(characterId))
             {
-                var registry = sceneCharacterRegistry ?? ConvoCoreSceneCharacterRegistry.Instance;
+                var registry = sceneCharacterRegistry ?? WitWeaverSceneCharacterRegistry.Instance;
                 if (registry != null && registry.TryGet(characterId, out var sceneDisplay))
                 {
-                    Debug.Log($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] '{characterId}': using scene-resident instance.");
+                    Debug.Log($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] '{characterId}': using scene-resident instance.");
                     sceneDisplay.BindRepresentation(representation);
                     var sceneEntry = new ActiveCharacterEntry(sceneDisplay, isSceneResident: true, sourcePrefab: null);
                     if (slotTransform != null)
@@ -152,23 +152,23 @@ namespace WolfstagInteractive.ConvoCore
             var configEntry = representation.GetEntry(entryName);
             if (configEntry == null)
             {
-                Debug.LogWarning($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] No configuration entry found on '{representation.name}' " +
+                Debug.LogWarning($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] No configuration entry found on '{representation.name}' " +
                                  $"(entryName='{entryName}').");
                 return null;
             }
 
-            Debug.Log($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] '{(!string.IsNullOrEmpty(characterId) ? characterId : representation.name)}': " +
+            Debug.Log($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] '{(!string.IsNullOrEmpty(characterId) ? characterId : representation.name)}': " +
                       $"spawning from prefab '{configEntry.CharacterPrefab?.name}'.");
 
             var instance = SpawnFromPool(configEntry, slotTransform);
             if (instance == null) return null;
 
-            var display = instance.GetComponentInChildren<IConvoCoreCharacterDisplay>();
+            var display = instance.GetComponentInChildren<IWitWeaverCharacterDisplay>();
             if (display == null)
             {
-                Debug.LogWarning($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] Prefab '{configEntry.CharacterPrefab.name}' " +
-                                 $"has no IConvoCoreCharacterDisplay component.");
-                ConvoCorePrefabPool.Instance.Release(configEntry.CharacterPrefab, instance);
+                Debug.LogWarning($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] Prefab '{configEntry.CharacterPrefab.name}' " +
+                                 $"has no IWitWeaverCharacterDisplay component.");
+                WitWeaverPrefabPool.Instance.Release(configEntry.CharacterPrefab, instance);
                 return null;
             }
 
@@ -190,17 +190,17 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (configEntry.CharacterPrefab == null)
             {
-                Debug.LogWarning($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] Configuration entry '{configEntry.EntryName}' has no CharacterPrefab assigned.");
+                Debug.LogWarning($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] Configuration entry '{configEntry.EntryName}' has no CharacterPrefab assigned.");
                 return null;
             }
 
-            if (ConvoCorePrefabPool.Instance == null)
+            if (WitWeaverPrefabPool.Instance == null)
             {
-                Debug.LogWarning($"[{nameof(ConvoCorePrefabRepresentationSpawner)}] No ConvoCorePrefabPool found in the scene. Cannot spawn prefab character.");
+                Debug.LogWarning($"[{nameof(WitWeaverPrefabRepresentationSpawner)}] No WitWeaverPrefabPool found in the scene. Cannot spawn prefab character.");
                 return null;
             }
 
-            var instance = ConvoCorePrefabPool.Instance.Spawn(configEntry.CharacterPrefab, parent);
+            var instance = WitWeaverPrefabPool.Instance.Spawn(configEntry.CharacterPrefab, parent);
             instance.name = $"{configEntry.CharacterPrefab.name}_{System.Guid.NewGuid().ToString("N").Substring(0, 6)}";
             return instance;
         }
@@ -212,7 +212,7 @@ namespace WolfstagInteractive.ConvoCore
 
             _activeEntries.Remove(anchor);
 
-            // Scene-resident characters are never pooled or destroyed by ConvoCore.
+            // Scene-resident characters are never pooled or destroyed by WitWeaver.
             if (entry.IsSceneResident)
                 return;
 
@@ -222,20 +222,20 @@ namespace WolfstagInteractive.ConvoCore
             var instance = entry.SourceInstance;
             var prefab   = entry.SourcePrefab;
 
-            if (instance.TryGetComponent<IConvoCoreFadeOut>(out var fadeOut))
+            if (instance.TryGetComponent<IWitWeaverFadeOut>(out var fadeOut))
             {
                 fadeOut.FadeOutAndRelease(() =>
                 {
-                    if (ConvoCorePrefabPool.Instance != null)
-                        ConvoCorePrefabPool.Instance.Release(prefab, instance);
+                    if (WitWeaverPrefabPool.Instance != null)
+                        WitWeaverPrefabPool.Instance.Release(prefab, instance);
                     else
                         Destroy(instance);
                 });
             }
             else
             {
-                if (ConvoCorePrefabPool.Instance != null)
-                    ConvoCorePrefabPool.Instance.Release(prefab, instance);
+                if (WitWeaverPrefabPool.Instance != null)
+                    WitWeaverPrefabPool.Instance.Release(prefab, instance);
                 else
                     Destroy(instance);
             }
@@ -246,7 +246,7 @@ namespace WolfstagInteractive.ConvoCore
             if (slotTransform != null &&
                 _activeEntries.TryGetValue(slotTransform, out var entry) &&
                 entry.SourceInstance != null &&
-                entry.SourceInstance.TryGetComponent<IConvoCoreFadeIn>(out var fadeIn))
+                entry.SourceInstance.TryGetComponent<IWitWeaverFadeIn>(out var fadeIn))
                 fadeIn.FadeIn();
         }
 
@@ -256,13 +256,13 @@ namespace WolfstagInteractive.ConvoCore
 
         private readonly struct ActiveCharacterEntry
         {
-            public readonly IConvoCoreCharacterDisplay Display;
+            public readonly IWitWeaverCharacterDisplay Display;
             public readonly bool IsSceneResident;
             public readonly GameObject SourcePrefab;
             public readonly GameObject SourceInstance;
 
             public ActiveCharacterEntry(
-                IConvoCoreCharacterDisplay display,
+                IWitWeaverCharacterDisplay display,
                 bool isSceneResident,
                 GameObject sourcePrefab,
                 GameObject sourceInstance = null)
@@ -275,7 +275,7 @@ namespace WolfstagInteractive.ConvoCore
         }
     }
 
-    public interface IConvoCoreFadeOut
+    public interface IWitWeaverFadeOut
     {
         /// <summary>
         /// Called when a spawned character is being released from a slot.
@@ -285,7 +285,7 @@ namespace WolfstagInteractive.ConvoCore
         void FadeOutAndRelease(System.Action onComplete);
     }
 
-    public interface IConvoCoreFadeIn
+    public interface IWitWeaverFadeIn
     {
         /// <summary>
         /// Called immediately after a spawned character appears in a slot.

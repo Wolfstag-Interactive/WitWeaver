@@ -5,11 +5,11 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SpriteCharacterRepresentationData.html")]
-[CreateAssetMenu(fileName = "SpriteRepresentation", menuName = "ConvoCore/Character/Representation/Sprite Character Representation")]
-    //This class dictates how a sprite should be represented by telling ConvoCore how to get and apply expressions and expression actions 
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SpriteCharacterRepresentationData.html")]
+[CreateAssetMenu(fileName = "SpriteRepresentation", menuName = "WitWeaver/Character/Representation/Sprite Character Representation")]
+    //This class dictates how a sprite should be represented by telling WitWeaver how to get and apply expressions and expression actions 
     public class SpriteCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
 #if UNITY_EDITOR
         , IDialogueLineEditorCustomizable
@@ -25,8 +25,8 @@ namespace WolfstagInteractive.ConvoCore
             mapping = ExpressionMappings.FirstOrDefault(m => m.ExpressionID == id);
             return mapping != null;
         }
-        public override void ApplyExpression(string expressionId, ConvoCore runtime, ConvoCoreConversationData conversation, int lineIndex,
-            IConvoCoreCharacterDisplay display)
+        public override void ApplyExpression(string expressionId, WitWeaver runtime, WitWeaverConversationData conversation, int lineIndex,
+            IWitWeaverCharacterDisplay display)
         {
             if (!TryResolveById(expressionId, out var mapping))
             {
@@ -80,9 +80,9 @@ namespace WolfstagInteractive.ConvoCore
         }
 
 #if UNITY_EDITOR
-        private static IReadOnlyList<ConvoCoreUIFoundation.DisplaySlotDefinition> GetFoundationSlots()
+        private static IReadOnlyList<WitWeaverUIFoundation.DisplaySlotDefinition> GetFoundationSlots()
         {
-            var runner = Object.FindAnyObjectByType<ConvoCore>();
+            var runner = Object.FindAnyObjectByType<WitWeaver>();
             var foundation = runner != null ? runner.ConversationUI : null;
             return foundation != null ? foundation.DisplaySlots : null;
         }

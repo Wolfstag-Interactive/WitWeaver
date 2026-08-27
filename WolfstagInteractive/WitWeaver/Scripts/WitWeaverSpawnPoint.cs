@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Lightweight scene marker used by <see cref="WorldPointBehaviour"/> to define named spawn positions.
@@ -9,10 +9,10 @@ namespace WolfstagInteractive.ConvoCore
     /// reference that ID in a <see cref="WorldPointBehaviour"/> entry instead of authoring raw
     /// Vector3/Quaternion values.
     ///
-    /// The component self-registers with <see cref="ConvoCoreSpawnPointRegistry"/> on enable.
+    /// The component self-registers with <see cref="WitWeaverSpawnPointRegistry"/> on enable.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api")]
-    public class ConvoCoreSpawnPoint : MonoBehaviour
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api")]
+    public class WitWeaverSpawnPoint : MonoBehaviour
     {
         [Tooltip("Unique identifier for this spawn point. Referenced by WorldPointBehaviour entries.")]
         [SerializeField] public string SpawnPointId;
@@ -24,12 +24,12 @@ namespace WolfstagInteractive.ConvoCore
 
         private void OnEnable()
         {
-            ConvoCoreSpawnPointRegistry.Instance?.Register(SpawnPointId, this);
+            WitWeaverSpawnPointRegistry.Instance?.Register(SpawnPointId, this);
         }
 
         private void OnDisable()
         {
-            ConvoCoreSpawnPointRegistry.Instance?.Unregister(SpawnPointId);
+            WitWeaverSpawnPointRegistry.Instance?.Unregister(SpawnPointId);
         }
 
 #if UNITY_EDITOR

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// uGUI reference implementation of <see cref="IAnimatedPortraitSurface"/>: hosts
@@ -10,15 +10,15 @@ namespace WolfstagInteractive.ConvoCore
     /// the UI foundation via <see cref="GetOrAdd"/>. Other UI solutions implement
     /// <see cref="IAnimatedPortraitSurface"/> and tick playback their own way.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAnimatedPortraitPlayer.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatedPortraitPlayer.html")]
 [RequireComponent(typeof(Image))]
-    public sealed class ConvoCoreAnimatedPortraitPlayer : MonoBehaviour, IAnimatedPortraitSurface
+    public sealed class WitWeaverAnimatedPortraitPlayer : MonoBehaviour, IAnimatedPortraitSurface
     {
         private Image _image;
         private IAnimatedExpressionPlayback _active;
         private bool _useUnscaledTime;
         // Animator prefab instances are cached per prefab and reused; they never leave
-        // their parent Image, so the scene-wide ConvoCorePrefabPool is not needed here.
+        // their parent Image, so the scene-wide WitWeaverPrefabPool is not needed here.
         private readonly Dictionary<GameObject, GameObject> _prefabInstances = new();
 
         public bool IsPlaying => _active != null;
@@ -100,11 +100,11 @@ namespace WolfstagInteractive.ConvoCore
         // Static helpers for UI foundations
         // ------------------------------------------------------------------
 
-        public static ConvoCoreAnimatedPortraitPlayer GetOrAdd(Image image)
+        public static WitWeaverAnimatedPortraitPlayer GetOrAdd(Image image)
         {
             if (image == null) return null;
-            var player = image.GetComponent<ConvoCoreAnimatedPortraitPlayer>();
-            return player != null ? player : image.gameObject.AddComponent<ConvoCoreAnimatedPortraitPlayer>();
+            var player = image.GetComponent<WitWeaverAnimatedPortraitPlayer>();
+            return player != null ? player : image.gameObject.AddComponent<WitWeaverAnimatedPortraitPlayer>();
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace WolfstagInteractive.ConvoCore
         public static void StopOn(GameObject go)
         {
             if (go == null) return;
-            var player = go.GetComponent<ConvoCoreAnimatedPortraitPlayer>();
+            var player = go.GetComponent<WitWeaverAnimatedPortraitPlayer>();
             if (player != null) player.Stop();
         }
     }

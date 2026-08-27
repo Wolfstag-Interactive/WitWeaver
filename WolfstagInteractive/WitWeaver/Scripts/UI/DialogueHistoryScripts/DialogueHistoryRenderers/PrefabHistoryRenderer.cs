@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Renderer that requests prefab-based dialogue entry creation via IDialogueHistoryOutputPrefab.
     /// Does not directly instantiate or manipulate Unity UI elements.
     /// </summary>
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1PrefabHistoryRenderer.html")]
-    public class PrefabHistoryRenderer : IConvoCoreHistoryRenderer
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PrefabHistoryRenderer.html")]
+    public class PrefabHistoryRenderer : IWitWeaverHistoryRenderer
     {
         public string RendererName => "Prefab";
 

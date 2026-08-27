@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GameObjectHelper.html")]
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GameObjectHelper.html")]
     public static class GameObjectHelper
     {
         private static Transform searchRoot;

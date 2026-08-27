@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreLineID.html")]
-    public static class ConvoCoreLineID
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLineID.html")]
+    public static class WitWeaverLineID
     {
         public static string NewLineID()
         {
@@ -13,7 +13,7 @@ namespace WolfstagInteractive.ConvoCore
             return "L_" + hex.Substring(0, 12);
         }
     }
-    public static class ConvoCoreLineIDUtility
+    public static class WitWeaverLineIDUtility
     {
         // Returns true if it mutated any cfg.LineID
         public static bool EnsureLineIds(
@@ -40,7 +40,7 @@ namespace WolfstagInteractive.ConvoCore
 
                     if (string.IsNullOrWhiteSpace(cfg.LineID))
                     {
-                        cfg.LineID = ConvoCoreLineID.NewLineID();
+                        cfg.LineID = WitWeaverLineID.NewLineID();
                         changed = true;
                     }
 

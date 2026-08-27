@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     public enum TextSourceKind
     {
@@ -12,7 +12,7 @@ namespace WolfstagInteractive.ConvoCore
     }
 
     /// <summary>
-    /// Controls how ConvoCore handles formula cells encountered during Excel spreadsheet import.
+    /// Controls how WitWeaver handles formula cells encountered during Excel spreadsheet import.
     /// </summary>
     public enum ExcelFormulaCellBehavior
     {
@@ -34,11 +34,11 @@ namespace WolfstagInteractive.ConvoCore
     }
 
     /// <summary>
-    /// Global runtime settings ScriptableObject for ConvoCore. Defines the list of supported
+    /// Global runtime settings ScriptableObject for WitWeaver. Defines the list of supported
     /// language codes, the active language, and the YAML text source load order.
-    /// Create one per project via Assets > Create > ConvoCore > Settings.
+    /// Create one per project via Assets > Create > WitWeaver > Settings.
     /// </summary>
-    public sealed class ConvoCoreSettings : ScriptableObject
+    public sealed class WitWeaverSettings : ScriptableObject
     {
         [Header("Order the sources to try (first hit wins)")]
         public TextSourceKind[] SourceOrder = new[]
@@ -49,7 +49,7 @@ namespace WolfstagInteractive.ConvoCore
             TextSourceKind.Resources
         };
 
-        public string resourcesRoot = "ConvoCore/Dialogue"; // only used if FilePath given
+        public string resourcesRoot = "WitWeaver/Dialogue"; // only used if FilePath given
         [Header("Language Settings")]
         [Tooltip("List of supported language codes (e.g., 'en', 'fr', 'es')")]
         public List<string> SupportedLanguages = new List<string> { "EN" };
@@ -58,10 +58,10 @@ namespace WolfstagInteractive.ConvoCore
 
         [Tooltip("Localized label for the Go Back option appended to player choices when a line " +
                  "has Allow Go Back enabled. One entry per supported language.")]
-        public List<ConvoCoreConversationData.LocalizedDialogue> GoBackLabel =
-            new List<ConvoCoreConversationData.LocalizedDialogue>
+        public List<WitWeaverConversationData.LocalizedDialogue> GoBackLabel =
+            new List<WitWeaverConversationData.LocalizedDialogue>
             {
-                new ConvoCoreConversationData.LocalizedDialogue { Language = "EN", Text = "← Go Back" }
+                new WitWeaverConversationData.LocalizedDialogue { Language = "EN", Text = "← Go Back" }
             };
         public bool AddressablesEnabled = false; // flip on when project uses it
         public string AddressablesKeyTemplate = "{filePath}.yml"; // maps FilePath -> key
@@ -69,7 +69,7 @@ namespace WolfstagInteractive.ConvoCore
 
         [Header("Save System")]
         [Tooltip("Prefix for all save system keys. Must not be empty.")]
-        public string SaveKeyPrefix = "convocore.";
+        public string SaveKeyPrefix = "witweaver.";
         [Tooltip("Enable the save system for persisting game state.")]
         public bool EnableSaveSystem = true;
         [Tooltip("Enable the variable store for tracking runtime variables.")]
@@ -77,9 +77,9 @@ namespace WolfstagInteractive.ConvoCore
         [Tooltip("Enable the language/localization system.")]
         public bool EnableLanguageSystem = true;
 
-        private static ConvoCoreSettings _instance;
+        private static WitWeaverSettings _instance;
 
-        public static ConvoCoreSettings Instance
+        public static WitWeaverSettings Instance
         {
             get
             {
@@ -97,14 +97,14 @@ namespace WolfstagInteractive.ConvoCore
             _instance = LoadInstance();
         }
 #endif
-        private static ConvoCoreSettings LoadInstance()
+        private static WitWeaverSettings LoadInstance()
         {
             // 1. Try already loaded asset
             if (_instance != null)
                 return _instance;
 
             // 2. Try from Resources folder (recommended for builds)
-            var loaded = Resources.Load<ConvoCoreSettings>("ConvoCoreSettings");
+            var loaded = Resources.Load<WitWeaverSettings>("WitWeaverSettings");
             if (loaded != null)
             {
                 _instance = loaded;
@@ -113,11 +113,11 @@ namespace WolfstagInteractive.ConvoCore
 
 #if UNITY_EDITOR
             // 3. Try find it anywhere in the project (Editor only)
-            string[] guids = UnityEditor.AssetDatabase.FindAssets("t:ConvoCoreSettings");
+            string[] guids = UnityEditor.AssetDatabase.FindAssets("t:WitWeaverSettings");
             if (guids.Length > 0)
             {
                 string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
-                loaded = UnityEditor.AssetDatabase.LoadAssetAtPath<ConvoCoreSettings>(path);
+                loaded = UnityEditor.AssetDatabase.LoadAssetAtPath<WitWeaverSettings>(path);
                 if (loaded != null)
                 {
                     _instance = loaded;
@@ -126,18 +126,18 @@ namespace WolfstagInteractive.ConvoCore
             }
 
             // 4. Create one automatically if none exists
-            _instance = CreateInstance<ConvoCoreSettings>();
-            string assetPath = "Assets/Resources/ConvoCoreSettings.asset";
+            _instance = CreateInstance<WitWeaverSettings>();
+            string assetPath = "Assets/Resources/WitWeaverSettings.asset";
             if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
                 UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
             UnityEditor.AssetDatabase.CreateAsset(_instance, assetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
-            Debug.LogWarning($"Created default ConvoCoreSettings at {assetPath}");
+            Debug.LogWarning($"Created default WitWeaverSettings at {assetPath}");
             return _instance;
 #else
-        Debug.LogError("ConvoCoreSettings not found in Resources! Please create one in the Editor.");
-        return ScriptableObject.CreateInstance<ConvoCoreSettings>();
+        Debug.LogError("WitWeaverSettings not found in Resources! Please create one in the Editor.");
+        return ScriptableObject.CreateInstance<WitWeaverSettings>();
 #endif
         }
         /// <summary>
@@ -160,8 +160,8 @@ namespace WolfstagInteractive.ConvoCore
             // Validate SaveKeyPrefix
             if (string.IsNullOrEmpty(SaveKeyPrefix))
             {
-                Debug.LogWarning("[ConvoCoreSettings] SaveKeyPrefix is empty. Defaulting to 'convocore.'.");
-                SaveKeyPrefix = "convocore.";
+                Debug.LogWarning("[WitWeaverSettings] SaveKeyPrefix is empty. Defaulting to 'witweaver.'.");
+                SaveKeyPrefix = "witweaver.";
             }
             else
             {
@@ -170,7 +170,7 @@ namespace WolfstagInteractive.ConvoCore
                     char c = SaveKeyPrefix[i];
                     if (!char.IsLetterOrDigit(c) && c != '.' && c != '_' && c != '-')
                     {
-                        Debug.LogWarning($"[ConvoCoreSettings] SaveKeyPrefix contains invalid character '{c}'. Only letters, digits, '.', '_', and '-' are allowed.");
+                        Debug.LogWarning($"[WitWeaverSettings] SaveKeyPrefix contains invalid character '{c}'. Only letters, digits, '.', '_', and '-' are allowed.");
                         break;
                     }
                 }
@@ -194,7 +194,7 @@ namespace WolfstagInteractive.ConvoCore
         [Tooltip("The column header used to identify the character ID column in an Excel spreadsheet. Case-insensitive.")]
         public string ExcelCharacterIDHeader = "CharacterID";
 
-        [Tooltip("The column header used to identify the line ID column. This column is auto-populated by ConvoCore on import. Case-insensitive.")]
+        [Tooltip("The column header used to identify the line ID column. This column is auto-populated by WitWeaver on import. Case-insensitive.")]
         public string ExcelLineIDHeader = "LineID";
 
         [Tooltip("Sheet tabs whose names begin with this prefix are skipped during import. Use this for note sheets or scratch tabs.")]
@@ -216,14 +216,14 @@ namespace WolfstagInteractive.ConvoCore
         // Dialogue History Renderers
         // ------------------------------
         [Tooltip("List of available renderer profiles for dialogue history UI.")]
-        [SerializeField] private List<ConvoCoreHistoryRendererProfile> historyRendererProfiles = new();
+        [SerializeField] private List<WitWeaverHistoryRendererProfile> historyRendererProfiles = new();
 
-        public IReadOnlyList<ConvoCoreHistoryRendererProfile> HistoryRendererProfiles => historyRendererProfiles;
+        public IReadOnlyList<WitWeaverHistoryRendererProfile> HistoryRendererProfiles => historyRendererProfiles;
 
         /// <summary>
         /// Returns a renderer profile by its display name.
         /// </summary>
-        public ConvoCoreHistoryRendererProfile GetRendererProfile(string rendererName)
+        public WitWeaverHistoryRendererProfile GetRendererProfile(string rendererName)
         {
             foreach (var p in historyRendererProfiles)
                 if (p != null && p.RendererName == rendererName)
@@ -234,7 +234,7 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>
         /// Adds a new profile if it doesn't already exist in the list.
         /// </summary>
-        public void AddRendererProfile(ConvoCoreHistoryRendererProfile profile)
+        public void AddRendererProfile(WitWeaverHistoryRendererProfile profile)
         {
             if (profile != null && !historyRendererProfiles.Contains(profile))
                 historyRendererProfiles.Add(profile);

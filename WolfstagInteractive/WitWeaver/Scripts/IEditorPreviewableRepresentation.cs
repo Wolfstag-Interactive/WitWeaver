@@ -1,6 +1,6 @@
 #if UNITY_EDITOR
 using UnityEngine;
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     public interface IEditorPreviewableRepresentation
     {

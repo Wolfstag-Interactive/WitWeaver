@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 #if UNITY_EDITOR
-using WolfstagInteractive.ConvoCore.Editor;
+using WolfstagInteractive.WitWeaver.Editor;
 #endif
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     [HelpURL(
-        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData.html")]
-    [CreateAssetMenu(fileName = "New ConvoCore Conversation",
-        menuName = "ConvoCore/Conversation Dialogue Object")]
-    public partial class ConvoCoreConversationData : ScriptableObject
+        "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html")]
+    [CreateAssetMenu(fileName = "New WitWeaver Conversation",
+        menuName = "WitWeaver/Conversation Dialogue Object")]
+    public partial class WitWeaverConversationData : ScriptableObject
     {
         /// <summary>Human-readable title, separate from the asset file name.</summary>
         public string ConversationTitle;
 
-        public List<ConvoCoreCharacterProfileBaseData> ConversationParticipantProfiles =
-            new List<ConvoCoreCharacterProfileBaseData>();
+        public List<WitWeaverCharacterProfileBaseData> ConversationParticipantProfiles =
+            new List<WitWeaverCharacterProfileBaseData>();
 
         [Tooltip("Per-participant default configuration entry names for prefab representations. " +
                  "These override the representation asset's default entry when no per-line entry name is set.")]
@@ -64,12 +64,12 @@ namespace WolfstagInteractive.ConvoCore
 
         [Header("Audio")]
         [Tooltip("Optional. Assign an audio manifest to enable voice clip playback for this conversation.")]
-        public ConvoCoreAudioManifest AudioManifest;
+        public WitWeaverAudioManifest AudioManifest;
 
         [Header("YAML Source")]
         public TextAsset ConversationYaml;
         public bool AllowPersistentOverrides = true; // enable device-side hotfixes
-        [Tooltip("Resources path without extension, e.g. ConvoCore/Dialogue/ForestIntro")]
+        [Tooltip("Resources path without extension, e.g. WitWeaver/Dialogue/ForestIntro")]
         public string FilePath;
 #if UNITY_EDITOR
         [HideInInspector] public UnityEngine.Object SourceYaml; // .yaml or TextAsset
@@ -147,12 +147,12 @@ namespace WolfstagInteractive.ConvoCore
 
         private Dictionary<string, List<DialogueYamlConfig>> _dialogueDataByKey; // Stored YAML data at runtime
 
-        public ConvoCoreConversationData()
+        public WitWeaverConversationData()
         {
-            ConvoCoreYamlUtilities = new ConvoCoreYamlUtilities(this);
+            WitWeaverYamlUtilities = new WitWeaverYamlUtilities(this);
         }
 
-        public ConvoCoreYamlUtilities ConvoCoreYamlUtilities { get; }
+        public WitWeaverYamlUtilities WitWeaverYamlUtilities { get; }
 
         // OnValidate is called whenever the object is loaded or a value is changed in the inspector
         private void OnValidate()
@@ -171,7 +171,7 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (DialogueLines == null) return;
 
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
             if (verboseLogs)
                 Debug.Log($"=== Starting Dialogue Validation for {name} ===");
@@ -229,7 +229,7 @@ namespace WolfstagInteractive.ConvoCore
 
         private bool ValidatePrimaryCharacterRepresentation(DialogueLineInfo line, int lineIndex)
         {
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
             if (verboseLogs)
                 Debug.Log($"Validating line {lineIndex}: CharacterID='{line.characterID}'");
@@ -342,7 +342,7 @@ namespace WolfstagInteractive.ConvoCore
         [ContextMenu("Sync All Representation Object References")]
         public void SyncAllRepresentationObjectReferences()
         {
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
             if (verboseLogs)
                 Debug.Log("=== Syncing All Representation Object References ===");
@@ -411,7 +411,7 @@ namespace WolfstagInteractive.ConvoCore
                 return false;
             }
 
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
             var profile = ResolveCharacterProfile(ConversationParticipantProfiles, characterID);
             if (profile == null)
@@ -443,7 +443,7 @@ namespace WolfstagInteractive.ConvoCore
 
         private void ValidateNonSpeakerRepresentation(DialogueLineInfo line, int repIndex, int lineIndex)
         {
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
             if (line.CharacterRepresentations == null) return;
             if (repIndex < 0 || repIndex >= line.CharacterRepresentations.Count) return;
@@ -483,7 +483,7 @@ namespace WolfstagInteractive.ConvoCore
         [ContextMenu("Force Validate Dialogue Lines")]
         public void ForceValidateDialogueLines()
         {
-            bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
 
             if (verboseLogs)
                 Debug.Log("Manually triggering dialogue line validation...");
@@ -499,7 +499,7 @@ namespace WolfstagInteractive.ConvoCore
 #if UNITY_EDITOR
         /// <summary>
         /// Editor-only authoring check for player choice labels. Reports labels that are missing
-        /// for a language listed in ConvoCore settings, choices with no labels at all, and label
+        /// for a language listed in WitWeaver settings, choices with no labels at all, and label
         /// entries whose language is no longer listed there.
         ///
         /// Nothing is modified: orphaned entries are only reported, never removed.
@@ -508,7 +508,7 @@ namespace WolfstagInteractive.ConvoCore
         {
             if (DialogueLines == null) return;
 
-            var supportedLanguages = ConvoCoreSettings.Instance?.SupportedLanguages;
+            var supportedLanguages = WitWeaverSettings.Instance?.SupportedLanguages;
 
             foreach (var line in DialogueLines)
             {
@@ -527,7 +527,7 @@ namespace WolfstagInteractive.ConvoCore
                     if (labels == null || labels.Count == 0)
                     {
                         Debug.LogWarning(
-                            $"[ConvoCore] Conversation '{ConversationKey}' line '{line.LineID}' " +
+                            $"[WitWeaver] Conversation '{ConversationKey}' line '{line.LineID}' " +
                             $"choice {choiceIndex}: no labels defined. Runtime will show '[Choice]'.",
                             this);
                         continue;
@@ -551,7 +551,7 @@ namespace WolfstagInteractive.ConvoCore
                             if (!hasText)
                             {
                                 Debug.LogWarning(
-                                    $"[ConvoCore] Conversation '{ConversationKey}' line '{line.LineID}' " +
+                                    $"[WitWeaver] Conversation '{ConversationKey}' line '{line.LineID}' " +
                                     $"choice {choiceIndex}: missing '{lang}' label. Runtime will fall back.",
                                     this);
                             }
@@ -579,9 +579,9 @@ namespace WolfstagInteractive.ConvoCore
                         if (!supported)
                         {
                             Debug.Log(
-                                $"[ConvoCore] Conversation '{ConversationKey}' line '{line.LineID}' " +
+                                $"[WitWeaver] Conversation '{ConversationKey}' line '{line.LineID}' " +
                                 $"choice {choiceIndex}: orphaned '{label.Language}' label " +
-                                "(language not listed in ConvoCore settings).",
+                                "(language not listed in WitWeaver settings).",
                                 this);
                         }
                     }
@@ -622,12 +622,12 @@ namespace WolfstagInteractive.ConvoCore
             }
         }
 
-        public ConvoCoreCharacterProfileBaseData ResolveCharacterProfile(
-            List<ConvoCoreCharacterProfileBaseData> profiles, string characterID)
+        public WitWeaverCharacterProfileBaseData ResolveCharacterProfile(
+            List<WitWeaverCharacterProfileBaseData> profiles, string characterID)
         {
             if (profiles == null || string.IsNullOrEmpty(characterID))
             {
-                bool verboseLogs = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+                bool verboseLogs = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
                 if (verboseLogs)
                     Debug.LogWarning("CharacterID is missing or no profiles are available.");
                 return null;
@@ -646,7 +646,7 @@ namespace WolfstagInteractive.ConvoCore
                 }
             }
 
-            bool verboseLogsEnabled = ConvoCoreYamlLoader.Settings?.VerboseLogs ?? false;
+            bool verboseLogsEnabled = WitWeaverYamlLoader.Settings?.VerboseLogs ?? false;
             if (verboseLogsEnabled)
                 Debug.LogWarning($"Profile not found for CharacterID: {characterID}");
             return null; // Profile not found
@@ -658,7 +658,7 @@ namespace WolfstagInteractive.ConvoCore
         /// </summary>
         public void InitializeDialogueData()
         {
-            string yamlData = ConvoCoreYamlLoader.Load(this);
+            string yamlData = WitWeaverYamlLoader.Load(this);
             if (string.IsNullOrEmpty(yamlData))
             {
                 Debug.LogError(
@@ -668,9 +668,9 @@ namespace WolfstagInteractive.ConvoCore
 
             try
             {
-                _dialogueDataByKey = ConvoCoreYamlParser.Parse(yamlData);
+                _dialogueDataByKey = WitWeaverYamlParser.Parse(yamlData);
 
-                if (ConvoCoreYamlLoader.Settings?.VerboseLogs == true)
+                if (WitWeaverYamlLoader.Settings?.VerboseLogs == true)
                     Debug.Log(
                         $"Successfully loaded YAML data. Found {_dialogueDataByKey.Count} conversation sections.");
 
@@ -713,7 +713,7 @@ namespace WolfstagInteractive.ConvoCore
 
                     if (matchingConfig?.LocalizedDialogue == null)
                     {
-                        if (ConvoCoreYamlLoader.Settings?.VerboseLogs == true)
+                        if (WitWeaverYamlLoader.Settings?.VerboseLogs == true)
                         {
                             Debug.LogWarning(
                                 $"No matching config found for LineID='{currentLine.LineID}' (fallback index {currentLine.ConversationLineIndex}) " +
@@ -736,7 +736,7 @@ namespace WolfstagInteractive.ConvoCore
                     // DialogueLineInfo is a class, so just assign directly
                     currentLine.LocalizedDialogues = localizedDialogueList;
 
-                    if (ConvoCoreYamlLoader.Settings?.VerboseLogs == true)
+                    if (WitWeaverYamlLoader.Settings?.VerboseLogs == true)
                         Debug.Log($"Updated line {i} with {localizedDialogueList.Count} translations");
                 }
             }
@@ -764,7 +764,7 @@ namespace WolfstagInteractive.ConvoCore
                         continue;
                     }
 
-                    if (representationPair.CharacterRepresentationType is IConvoCoreRepresentationInitializable
+                    if (representationPair.CharacterRepresentationType is IWitWeaverRepresentationInitializable
                         initializable)
                         initializable.Initialize();
                 }
@@ -772,12 +772,12 @@ namespace WolfstagInteractive.ConvoCore
         }
 
         // Finds the player's profile from the list based on the IsPlayer flag.
-        public ConvoCoreCharacterProfileBaseData GetPlayerProfile()
+        public WitWeaverCharacterProfileBaseData GetPlayerProfile()
         {
             return ConversationParticipantProfiles.FirstOrDefault(profile => profile.IsPlayerCharacter);
         }
 
-        public IEnumerator ActionsBeforeDialogueLine(ConvoCore core, DialogueLineInfo lineInfo,
+        public IEnumerator ActionsBeforeDialogueLine(WitWeaver core, DialogueLineInfo lineInfo,
             List<BaseDialogueLineAction> capture)
         {
             foreach (var action in lineInfo.ActionsBeforeDialogueLine)
@@ -802,7 +802,7 @@ namespace WolfstagInteractive.ConvoCore
             }
         }
 
-        public IEnumerator DoActionsAfterDialogueLine(ConvoCore core, DialogueLineInfo lineInfo,
+        public IEnumerator DoActionsAfterDialogueLine(WitWeaver core, DialogueLineInfo lineInfo,
             List<BaseDialogueLineAction> capture)
         {
             foreach (var action in lineInfo.ActionsAfterDialogueLine)

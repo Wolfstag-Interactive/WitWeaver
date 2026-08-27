@@ -1,31 +1,31 @@
-#if CONVOCORE_WWISE
+#if WITWEAVER_WWISE
 // ─────────────────────────────────────────────────────────────────────────────
-// ConvoCoreAudioProviderWwise — Wwise integration for ConvoCore
+// WitWeaverAudioProviderWwise — Wwise integration for WitWeaver
 //
 // REQUIREMENTS: Audiokinetic Wwise Unity Integration package must be installed.
 //   https://www.audiokinetic.com/en/library/edge/?source=Unity
 //
 // SETUP:
-//   1. Add this component to the same GameObject as your ConvoCore runner.
+//   1. Add this component to the same GameObject as your WitWeaver runner.
 //   2. Set the AudioManifest's Backend field to AudioBackend.Wwise.
 //   3. In the manifest inspector, enter the Wwise event name per line
 //      (e.g. "VO_CharA_Intro_01").
 //   4. Ensure the SoundBank containing your events is loaded before playback.
 //      Add an AkBank component to your scene for each required bank.
-//   5. Add CONVOCORE_WWISE to Project Settings > Player > Scripting Define Symbols.
+//   5. Add WITWEAVER_WWISE to Project Settings > Player > Scripting Define Symbols.
 // ─────────────────────────────────────────────────────────────────────────────
 
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
 /// <summary>
-/// Wwise audio provider for ConvoCore. Uses <c>AkSoundEngine.PostEvent</c> with an
-/// <c>AK_EndOfEvent</c> callback so that <see cref="IConvoAudioProvider.IsPlaying"/>
+/// Wwise audio provider for WitWeaver. Uses <c>AkSoundEngine.PostEvent</c> with an
+/// <c>AK_EndOfEvent</c> callback so that <see cref="IWitWeaverAudioProvider.IsPlaying"/>
 /// works correctly with the <c>AudioComplete</c> dialogue progression mode.
 /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAudioProviderWwise.html")]
-[AddComponentMenu("ConvoCore/Audio/ConvoCoreAudioProviderWwise")]
-public class ConvoCoreAudioProviderWwise : MonoBehaviour, IConvoAudioProvider
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioProviderWwise.html")]
+[AddComponentMenu("WitWeaver/Audio/WitWeaverAudioProviderWwise")]
+public class WitWeaverAudioProviderWwise : MonoBehaviour, IWitWeaverAudioProvider
 {
     private uint _playingID = AkSoundEngine.AK_INVALID_PLAYING_ID;
     private bool _isPlaying;
@@ -37,17 +37,17 @@ public class ConvoCoreAudioProviderWwise : MonoBehaviour, IConvoAudioProvider
     public bool IsPlaying => _isPlaying;
 
     /// <summary>
-    /// Posts the Wwise event specified by the <see cref="ConvoCoreAudioEventKeyReference.EventKey"/>
+    /// Posts the Wwise event specified by the <see cref="WitWeaverAudioEventKeyReference.EventKey"/>
     /// (event name, e.g. <c>"VO_CharA_Intro_01"</c>) and registers an end-of-event callback
     /// so that IsPlaying transitions to false when playback completes naturally.
     /// </summary>
-    public void PlayVoiceLine(ConvoCoreConversationData.DialogueLineInfo line, ConvoAudioReference reference)
+    public void PlayVoiceLine(WitWeaverConversationData.DialogueLineInfo line, WitWeaverAudioReference reference)
     {
         StopVoiceLine();
 
-        if (reference is not ConvoCoreAudioEventKeyReference keyRef || string.IsNullOrEmpty(keyRef.EventKey))
+        if (reference is not WitWeaverAudioEventKeyReference keyRef || string.IsNullOrEmpty(keyRef.EventKey))
         {
-            Debug.LogWarning("[ConvoCoreAudioProviderWwise] No event key found on reference. Check that EventKey is filled in the Audio Manifest.");
+            Debug.LogWarning("[WitWeaverAudioProviderWwise] No event key found on reference. Check that EventKey is filled in the Audio Manifest.");
             return;
         }
 
@@ -61,7 +61,7 @@ public class ConvoCoreAudioProviderWwise : MonoBehaviour, IConvoAudioProvider
 
         if (_playingID == AkSoundEngine.AK_INVALID_PLAYING_ID)
         {
-            Debug.LogWarning($"[ConvoCoreAudioProviderWwise] PostEvent failed for '{keyRef.EventKey}'. Ensure the SoundBank is loaded and the event name is correct.");
+            Debug.LogWarning($"[WitWeaverAudioProviderWwise] PostEvent failed for '{keyRef.EventKey}'. Ensure the SoundBank is loaded and the event name is correct.");
             _isPlaying = false;
         }
     }

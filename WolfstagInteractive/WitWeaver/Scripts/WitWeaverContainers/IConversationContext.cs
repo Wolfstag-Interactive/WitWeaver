@@ -1,4 +1,4 @@
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Provides optional runtime context for branch evaluation.

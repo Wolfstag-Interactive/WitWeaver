@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Provides methods to parse YAML text into a conversation data structure and manage
@@ -13,12 +13,12 @@ namespace WolfstagInteractive.ConvoCore
     /// Parsing runs as a three-phase pipeline:
     /// <list type="number">
     ///   <item><description>
-    ///     <b>Pre-flight</b> — <see cref="ConvoCoreYamlPreprocessor"/> scans the raw text
+    ///     <b>Pre-flight</b> — <see cref="WitWeaverYamlPreprocessor"/> scans the raw text
     ///     for file-level problems (BOM, merge conflicts, multiple documents, tab
     ///     indentation, smart quotes, zero-width characters).
     ///   </description></item>
     ///   <item><description>
-    ///     <b>State machine transform</b> — <see cref="ConvoCoreYamlPreprocessor"/> walks
+    ///     <b>State machine transform</b> — <see cref="WitWeaverYamlPreprocessor"/> walks
     ///     the file and applies the escape pipeline only to locale value lines inside
     ///     <c>LocalizedDialogue</c> blocks; everything else passes through unchanged.
     ///   </description></item>
@@ -31,8 +31,8 @@ namespace WolfstagInteractive.ConvoCore
     /// </para>
     /// </summary>
     [UnityEngine.HelpURL(
-        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlParser.html")]
-    public static class ConvoCoreYamlParser
+        "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlParser.html")]
+    public static class WitWeaverYamlParser
     {
         // Build the YamlDotNet deserializer once and reuse across calls.
         private static readonly IDeserializer Deserializer =
@@ -61,10 +61,10 @@ namespace WolfstagInteractive.ConvoCore
                 return new Dictionary<string, List<DialogueYamlConfig>>();
 
             // Phase 1 + 2: pre-flight checks and state-machine transform.
-            var pre = ConvoCoreYamlPreprocessor.Run(yamlText);
+            var pre = WitWeaverYamlPreprocessor.Run(yamlText);
             if (!pre.Success)
                 throw new InvalidOperationException(
-                    ConvoCoreYamlDiagnostic.Format(null, pre.Diagnostics));
+                    WitWeaverYamlDiagnostic.Format(null, pre.Diagnostics));
 
             // Phase 3a: YamlDotNet deserialisation (may throw YamlException naturally).
             var dict = Deserializer
@@ -75,7 +75,7 @@ namespace WolfstagInteractive.ConvoCore
             var corruption = ValidateRoundTrip(dict);
             if (corruption.Count > 0)
                 throw new InvalidOperationException(
-                    ConvoCoreYamlDiagnostic.Format(null, corruption));
+                    WitWeaverYamlDiagnostic.Format(null, corruption));
 
             foreach (var kv in dict)
                 NormalizeLocales(kv.Value);
@@ -95,8 +95,8 @@ namespace WolfstagInteractive.ConvoCore
             out string error)
         {
             bool success = TryParse(yamlText, out result,
-                                    out IReadOnlyList<ConvoCoreYamlDiagnostic> diagnostics);
-            error = success ? null : ConvoCoreYamlDiagnostic.Format(null, diagnostics);
+                                    out IReadOnlyList<WitWeaverYamlDiagnostic> diagnostics);
+            error = success ? null : WitWeaverYamlDiagnostic.Format(null, diagnostics);
             return success;
         }
 
@@ -108,14 +108,14 @@ namespace WolfstagInteractive.ConvoCore
         public static bool TryParse(
             string yamlText,
             out Dictionary<string, List<DialogueYamlConfig>> result,
-            out IReadOnlyList<ConvoCoreYamlDiagnostic> diagnostics)
+            out IReadOnlyList<WitWeaverYamlDiagnostic> diagnostics)
         {
             result = null;
 
             if (string.IsNullOrWhiteSpace(yamlText))
             {
                 result      = new Dictionary<string, List<DialogueYamlConfig>>();
-                diagnostics = Array.Empty<ConvoCoreYamlDiagnostic>();
+                diagnostics = Array.Empty<WitWeaverYamlDiagnostic>();
                 return true;
             }
 
@@ -123,13 +123,13 @@ namespace WolfstagInteractive.ConvoCore
             PreprocessorResult pre;
             try
             {
-                pre = ConvoCoreYamlPreprocessor.Run(yamlText);
+                pre = WitWeaverYamlPreprocessor.Run(yamlText);
             }
             catch (Exception ex)
             {
                 diagnostics = new[]
                 {
-                    new ConvoCoreYamlDiagnostic(DiagnosticSeverity.Error, 0, 0, null,
+                    new WitWeaverYamlDiagnostic(DiagnosticSeverity.Error, 0, 0, null,
                         "INTERNAL", $"Preprocessor threw an unexpected exception: {ex.Message}")
                 };
                 return false;
@@ -152,15 +152,15 @@ namespace WolfstagInteractive.ConvoCore
             catch (YamlException ex)
             {
                 var d       = BuildYamlExceptionDiagnostic(yamlText, ex, pre.ColumnOffsets);
-                var combined = new List<ConvoCoreYamlDiagnostic>(pre.Diagnostics) { d };
+                var combined = new List<WitWeaverYamlDiagnostic>(pre.Diagnostics) { d };
                 diagnostics  = combined;
                 return false;
             }
             catch (Exception ex)
             {
-                var d       = new ConvoCoreYamlDiagnostic(DiagnosticSeverity.Error, 0, 0, null,
+                var d       = new WitWeaverYamlDiagnostic(DiagnosticSeverity.Error, 0, 0, null,
                                   "PARSE_ERROR", ex.Message);
-                var combined = new List<ConvoCoreYamlDiagnostic>(pre.Diagnostics) { d };
+                var combined = new List<WitWeaverYamlDiagnostic>(pre.Diagnostics) { d };
                 diagnostics  = combined;
                 return false;
             }
@@ -169,7 +169,7 @@ namespace WolfstagInteractive.ConvoCore
             var corruption = ValidateRoundTrip(dict);
             if (corruption.Count > 0)
             {
-                var combined = new List<ConvoCoreYamlDiagnostic>(pre.Diagnostics);
+                var combined = new List<WitWeaverYamlDiagnostic>(pre.Diagnostics);
                 combined.AddRange(corruption);
                 diagnostics = combined;
                 return false;
@@ -193,11 +193,11 @@ namespace WolfstagInteractive.ConvoCore
         // ───────────────────────────────────────────────────────────────────────────
 
         /// <summary>
-        /// Builds a <see cref="ConvoCoreYamlDiagnostic"/> from a YamlDotNet exception,
+        /// Builds a <see cref="WitWeaverYamlDiagnostic"/> from a YamlDotNet exception,
         /// correcting the reported column number via the preprocessor's offset map so
         /// the caret points at the right place in the <em>original</em> source line.
         /// </summary>
-        private static ConvoCoreYamlDiagnostic BuildYamlExceptionDiagnostic(
+        private static WitWeaverYamlDiagnostic BuildYamlExceptionDiagnostic(
             string originalYaml,
             YamlException ex,
             IReadOnlyDictionary<int, int> columnOffsets)
@@ -256,7 +256,7 @@ namespace WolfstagInteractive.ConvoCore
                 fixSteps = new[] { "Check the YAML syntax at this location." };
             }
 
-            return new ConvoCoreYamlDiagnostic(
+            return new WitWeaverYamlDiagnostic(
                 DiagnosticSeverity.Error, line, col, sourceLine,
                 "YAML_ERROR", problem, fixSteps);
         }
@@ -266,10 +266,10 @@ namespace WolfstagInteractive.ConvoCore
         /// characters (actual newline, carriage return, null byte) that indicate a
         /// backslash escape sequence was incorrectly interpreted during preprocessing.
         /// </summary>
-        private static List<ConvoCoreYamlDiagnostic> ValidateRoundTrip(
+        private static List<WitWeaverYamlDiagnostic> ValidateRoundTrip(
             Dictionary<string, List<DialogueYamlConfig>> dict)
         {
-            var errors = new List<ConvoCoreYamlDiagnostic>();
+            var errors = new List<WitWeaverYamlDiagnostic>();
 
             foreach (var conv in dict)
             {
@@ -286,7 +286,7 @@ namespace WolfstagInteractive.ConvoCore
                             val.IndexOf('\r') >= 0 ||
                             val.IndexOf('\0') >= 0)
                         {
-                            errors.Add(new ConvoCoreYamlDiagnostic(
+                            errors.Add(new WitWeaverYamlDiagnostic(
                                 DiagnosticSeverity.Error, 0, 0, null,
                                 "CORRUPTION",
                                 $"Locale value for '{kv.Key}' in conversation '{conv.Key}' contains " +

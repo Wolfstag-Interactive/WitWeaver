@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore
+namespace WolfstagInteractive.WitWeaver
 {
     /// <summary>
     /// Character behaviour type that places characters at authored offsets relative to the active camera.
@@ -9,15 +9,15 @@ namespace WolfstagInteractive.ConvoCore
     /// Two positioning modes:
     /// <list type="bullet">
     ///   <item><b>Once</b> — position is calculated once on <see cref="ResolvePresence"/> and not updated.</item>
-    ///   <item><b>Continuous</b> — a <see cref="ConvoCoreCameraRelativePosition"/> component is attached to the
+    ///   <item><b>Continuous</b> — a <see cref="WitWeaverCameraRelativePosition"/> component is attached to the
     ///       spawned character and updates its world position every frame.</item>
     /// </list>
     ///
     /// Use case: first-person games, VR, or any setup where character position should be
     /// relative to the player's view.
     /// </summary>
-    [CreateAssetMenu(fileName = "CameraRelativeBehaviour", menuName = "ConvoCore/Character Behaviour/Camera Relative Behaviour")]
-    public class CameraRelativeBehaviour : ConvoCoreCharacterBehaviour
+    [CreateAssetMenu(fileName = "CameraRelativeBehaviour", menuName = "WitWeaver/Character Behaviour/Camera Relative Behaviour")]
+    public class CameraRelativeBehaviour : WitWeaverCharacterBehaviour
     {
         public enum PositioningMode { Once, Continuous }
 
@@ -39,13 +39,13 @@ namespace WolfstagInteractive.ConvoCore
         [Tooltip("Once: position set at spawn only. Continuous: updated every frame via a MonoBehaviour.")]
         [SerializeField] private PositioningMode _mode = PositioningMode.Once;
 
-        [System.NonSerialized] private Dictionary<string, IConvoCoreCharacterDisplay> _cachedDisplays = new();
-        [System.NonSerialized] private ConvoCorePrefabRepresentationSpawner _spawner;
+        [System.NonSerialized] private Dictionary<string, IWitWeaverCharacterDisplay> _cachedDisplays = new();
+        [System.NonSerialized] private WitWeaverPrefabRepresentationSpawner _spawner;
 
-        public override IConvoCoreCharacterDisplay ResolvePresence(
+        public override IWitWeaverCharacterDisplay ResolvePresence(
             PrefabCharacterRepresentationData representation,
             CharacterBehaviourContext context,
-            ConvoCorePrefabRepresentationSpawner spawner)
+            WitWeaverPrefabRepresentationSpawner spawner)
         {
             _spawner = spawner;
 
@@ -75,7 +75,7 @@ namespace WolfstagInteractive.ConvoCore
 
             if (_mode == PositioningMode.Continuous)
             {
-                var follow = displayMono.gameObject.AddComponent<ConvoCoreCameraRelativePosition>();
+                var follow = displayMono.gameObject.AddComponent<WitWeaverCameraRelativePosition>();
                 follow.Initialize(slot.ForwardDistance, slot.LateralOffset, slot.Height);
             }
             else
@@ -108,7 +108,7 @@ namespace WolfstagInteractive.ConvoCore
     /// when using <see cref="CameraRelativeBehaviour.PositioningMode.Continuous"/> mode.
     /// Repositions the character relative to Camera.main every frame.
     /// </summary>
-    public class ConvoCoreCameraRelativePosition : MonoBehaviour
+    public class WitWeaverCameraRelativePosition : MonoBehaviour
     {
         private float _forward;
         private float _lateral;
