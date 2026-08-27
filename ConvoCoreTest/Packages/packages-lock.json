@@ -204,8 +204,8 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.wolfstaginteractive.convocore": {
-      "version": "https://github.com/Wolfstag-Interactive/ConvoCore.git?path=WolfstagInteractive/ConvoCore",
+    "com.wolfstaginteractive.witweaver": {
+      "version": "https://github.com/Wolfstag-Interactive/WitWeaver.git?path=WolfstagInteractive/WitWeaver",
       "depth": 0,
       "source": "git",
       "dependencies": {},
