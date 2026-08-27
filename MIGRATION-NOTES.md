@@ -27,6 +27,8 @@ Per the migration brief, the rename is behavior-neutral. Everything below was ob
 - `ConvoCoreDev` / `ConvoCoreTest` project folder names, `productName: ConvoCoreDev`, `.idea` project files, and the `ConvoCoreDevHelpers` menu root (dev-project tooling named after the dev project folder).
 - Checkout root folder `D:\UnityProjects\WolfstagInteractive\ConvoCore` (and that segment of the `file:` path in `ConvoCoreDev/Packages/manifest.json`).
 - Generated output left stale pending regeneration: `Docs/`, `html/`, `latex/`, `website_docusaurus/build/`, Doxygen API HTML under `website_docusaurus/static/witweaver/api/`.
+- Root `.idea/.gitignore` line `/.idea.ConvoCore.iml` (Rider project named after the retained checkout-root folder).
+- Colloquial local variables/parameters named `convo`, `convoData`, `convoKey`, `convoAssetPath`, `convoObject` — shorthand for "conversation", not product branding; left as-is (the Convo-stem TYPE rename decision covered type names and save-file extensions only).
 
 ## External follow-ups required
 

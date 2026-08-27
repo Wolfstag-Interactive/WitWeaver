@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Renamed product from ConvoCore to WitWeaver.** Full API rename — namespaces, class prefixes (including bare `Convo`-stem types), assembly definitions, package id (`com.wolfstaginteractive.witweaver`), menu paths, settings asset, save keys/directory/file extensions, scripting defines (`WITWEAVER_*`), and docs URLs; no behavior changes. Pre-release, no migration required.
+
 ### Added
 
 - **Collection variables** (`CollectionInt`, `CollectionString`) in `WitWeaverVariableStore`: named groups of sub-entries (string sub-key → int or string) for inventory-style state such as item counts, relationship maps, discovered locations, etc.

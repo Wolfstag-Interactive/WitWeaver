@@ -95,9 +95,16 @@ Also: 6 stale-able `m_EditorClassIdentifier` strings (`ConvoCore::WolfstagIntera
 - Generated output: `Docs/`, `html/`, `latex/`, `website_docusaurus/build/`, Doxygen API HTML under `website_docusaurus/static/*/api` (regenerates), `*.csproj`/`*.sln`, `Library/`.
 - `ThirdParty/YamlDotNet` (no branded content; GUID-referenced).
 
-## Verification section (filled at Gate B)
+## Verification section (Gate B results, 2026-08-26)
 
-- Final zero-hit grep output: _pending_
-- Gate A / Gate B Unity batchmode results: _pending_ (baseline compile: clean, exit 0)
-- EditMode test results: _pending_
-- Smoke test results: _pending_
+- **Final zero-hit grep** (case-insensitive `convocore`, hand-maintained scope; excludes generated output, ThirdParty, `*.csproj`/`*.sln`, the two MIGRATION-*.md deliverables, and the documented retentions `ConvoCoreDev`/`ConvoCoreTest`/checkout-root):
+  - Content grep: **zero hits** apart from the retained `.idea/.gitignore` line `/.idea.ConvoCore.iml` (Rider project named after the retained checkout-root folder).
+  - Tracked-path audit: **zero branded paths** outside retained project folders and generated output.
+  - Residual bare-stem audit: **zero** non-shorthand `convo` identifiers (colloquial locals `convo`/`convoData`/`convoKey` retained — short for "conversation", see MIGRATION-NOTES; `cubemapConvolution`/"conversation" untouched).
+- **Gate A** (after folder rename only): Unity 6000.5.6f1 batchmode exit 0, zero error patterns; package resolved at the new folder path.
+- **Gate B** (after all rename commits): batchmode exit 0, zero error patterns (`error CS`, missing script, `Unknown managed type referenced`, GUID conflict, package resolution); all six renamed assemblies built (`WitWeaver`, `WitWeaverEditor`, `WitWeaverGraphEditor`, `WolfstagInteractive.WitWeaver.SaveSystem`(+`.Editor`, +`.Tests.Editor`)); stale `ConvoCore` assemblies removed from `Library/ScriptAssemblies`.
+- **EditMode tests**: 13/13 passed, 0 failed (save-system collection tests exercise the renamed save keys/dir/extensions).
+- **GUID integrity**: 564-entry GUID multiset identical before/after; every renamed `.cs` kept its `.meta`; all 1,388 file renames staged as 100%-similarity renames.
+- **Serialized managed references**: all 17 `type: {class:, ns:, asm:}` lines verified in WitWeaver form (7× SingleConversationInput, 2× FlipbookAnimationPayload, 8× graph node/graph classes).
+- **Mirror integrity**: dev `SampleAssetsRepo` ↔ package `Samples~` diff shows only the 2 known missing `Samples~` metas and pre-existing per-copy `SourceYamlAssetPath` values.
+- **Manual in-editor smoke test**: _pending user run_ (checklist in the migration plan: Testing scene Input intact, sample scenes Play mode, YAML import watcher, Excel round-trip, save/load to `WitWeaverSaves`, settings from Resources, graph asset opens without stale-hash prompt, menus/About).
