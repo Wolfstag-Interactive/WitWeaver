@@ -1,5 +1,814 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!49 &-4870748962520551295
+TextAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EmbeddedYaml
+  m_Script: "Part3Starter:\r\n- CharacterID: Narrator\r\n  LineID: L_be177b77f2bc\r\n 
+    LocalizedDialogue:\r\n    en: By the time I get to Fae's lab, everyone else is
+    already there. Fae's pretty much done patching up Elsie, too, from the looks
+    of it.\r\n- CharacterID: Narrator\r\n  LineID: L_c506df446775\r\n  LocalizedDialogue:\r\n   
+    en: I open my mouth to greet Elsie, then think better of it.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_3b5748cd57f0\r\n  LocalizedDialogue:\r\n    en: She looks...murderous.
+    Hmm. Better not.\r\n- CharacterID: Narrator\r\n  LineID: L_49d8c70e063e\r\n 
+    LocalizedDialogue:\r\n    en: Everie catches my gaze accidentally, and immediately
+    looks away, blushing.\r\n- CharacterID: Narrator\r\n  LineID: L_e33fe65ac6af\r\n 
+    LocalizedDialogue:\r\n    en: I see she probably still remembers what happened
+    earlier.\r\n- CharacterID: Player\r\n  LineID: L_79c5b2050309\r\n  LocalizedDialogue:\r\n   
+    en: (Wait, can robots even blush?)\r\n- CharacterID: Player\r\n  LineID: L_18acad50168b\r\n 
+    LocalizedDialogue:\r\n    en: Hey, is Everie ready to move?\r\n- CharacterID:
+    Narrator\r\n  LineID: L_5577edfa41d7\r\n  LocalizedDialogue:\r\n    en: I turn
+    towards Fae, waiting for her expert...expertise.\r\n- CharacterID: Fae\r\n  LineID:
+    L_2d344d0cb905\r\n  LocalizedDialogue:\r\n    en: If you're asking if she has
+    her mobility back, then yes. If you're asking if she's ready to go back out there?
+    Absolutely not.\r\n- CharacterID: Everie\r\n  LineID: L_9d473dfd1fea\r\n  LocalizedDialogue:\r\n   
+    en: Yeah, that's... I don't think I'm going to be of much use out there.\r\n-
+    CharacterID: Player\r\n  LineID: L_37398892bd47\r\n  LocalizedDialogue:\r\n   
+    en: No no, Everie. It's fine. I'm glad you're okay.\r\n- CharacterID: Player\r\n 
+    LineID: L_f0666696f9f9\r\n  LocalizedDialogue:\r\n    en: Thanks for saving her,
+    Fae. What would we do without you?\r\n- CharacterID: Fae\r\n  LineID: L_4f5f74f88a15\r\n 
+    LocalizedDialogue:\r\n    en: No idea. You might crashland into the nearest asteroid,
+    I suppose? You'd probably fit in with a tribe of moon-creatures, now that I think
+    about it. Either way, knowing you, you'd end up alive but miserable. A talent
+    of yours. Nothing ever kills you.\r\n- CharacterID: Player\r\n  LineID: L_a1b4c281bc44\r\n 
+    LocalizedDialogue:\r\n    en: Alright, I get it.\r\n- CharacterID: Fae\r\n  LineID:
+    L_0861d3741a6e\r\n  LocalizedDialogue:\r\n    en: Hey, you asked.\r\n- CharacterID:
+    Fae\r\n  LineID: L_03ddb06b57aa\r\n  LocalizedDialogue:\r\n    en: Meanwhile,
+    I had to deal with a robo-popsicle, and NOW I have a wounded bounty hunter on
+    the same ship as me. Lovely.\r\n- CharacterID: Everie\r\n  LineID: L_4ad1d2fb812a\r\n 
+    LocalizedDialogue:\r\n    en: You have me too!\r\n- CharacterID: Fae\r\n  LineID:
+    L_5815993ab8f1\r\n  LocalizedDialogue:\r\n    en: \"...Yes. I suppose that's
+    true.\"\r\n- CharacterID: Narrator\r\n  LineID: L_b7f64446b5da\r\n  LocalizedDialogue:\r\n   
+    en: She sighs in resignation and finishes patching Everie up.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_29837f5dc39a\r\n  LocalizedDialogue:\r\n    en: From
+    the other bed, Elsie stares intently at Fae, whose eyebrow is starting to twitch
+    under the scrutiny.\r\n- CharacterID: Fae\r\n  LineID: L_9685450a8ee7\r\n  LocalizedDialogue:\r\n   
+    en: Could you not do that?\r\n- CharacterID: Elsie\r\n  LineID: L_37b52e9ce344\r\n 
+    LocalizedDialogue:\r\n    en: Not doing anything. Just sitting pretty here. Exactly
+    like you told me to.\r\n- CharacterID: Fae\r\n  LineID: L_f22ce12f403f\r\n  LocalizedDialogue:\r\n   
+    en: Oh, you know exactly what you're doing.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_e5ebac957373\r\n  LocalizedDialogue:\r\n    en: Wanna try me?\r\n- CharacterID:
+    Fae\r\n  LineID: L_28a55f9e6458\r\n  LocalizedDialogue:\r\n    en: Oh, here we
+    go again.\r\n- CharacterID: Narrator\r\n  LineID: L_81692ecc6617\r\n  LocalizedDialogue:\r\n   
+    en: At a glance, Elsie looks calm and collected, but she can't hide the contemptuous
+    look in her eyes.\r\n- CharacterID: Narrator\r\n  LineID: L_b6a084c57584\r\n 
+    LocalizedDialogue:\r\n    en: And Fae? She's holding a scalpel.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_6d8842d405be\r\n  LocalizedDialogue:\r\n    en: '...Maybe
+    I should try to defuse the situation before she actually tries to use said scalpel.'\r\n-
+    CharacterID: Player\r\n  LineID: L_28d8a0e74046\r\n  LocalizedDialogue:\r\n   
+    en: (Uh-oh. These two are gonna blow another fuse...)\r\n- CharacterID: Player\r\n 
+    LineID: L_f0fdbb5eae44\r\n  LocalizedDialogue:\r\n    en: (Everie probably doesn't
+    need to see this.)\r\n- CharacterID: Narrator\r\n  LineID: L_722576e7c11d\r\n 
+    LocalizedDialogue:\r\n    en: While the two of them are glaring daggers at each
+    other, I quietly move towards Everie.\r\n- CharacterID: Player\r\n  LineID: L_4c96df65ff4e\r\n 
+    LocalizedDialogue:\r\n    en: Hey, uh... Everie, why don't you go hang with DD
+    for a bit? I bet he misses you.\r\n- CharacterID: Everie\r\n  LineID: L_50c8e7676ff6\r\n 
+    LocalizedDialogue:\r\n    en: Ooh! Yeah! I should go say hi to the little guy!\r\n-
+    CharacterID: Narrator\r\n  LineID: L_0fc089d9bbd7\r\n  LocalizedDialogue:\r\n   
+    en: Everie hops up and dashes out of Fae's lab, calling for DD.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_863fe7470bc0\r\n  LocalizedDialogue:\r\n    en: With
+    her gone, I turn back to Fae and Elsie. They look ready to tear each other to
+    pieces.\r\n- CharacterID: Player\r\n  LineID: L_a680de04bb9b\r\n  LocalizedDialogue:\r\n   
+    en: All right. No more. Stop that.\r\n- CharacterID: Fae\r\n  LineID: L_592622ab7899\r\n 
+    LocalizedDialogue:\r\n    en: She started it.\r\n- CharacterID: Player\r\n  LineID:
+    L_46631d67cce8\r\n  LocalizedDialogue:\r\n    en: Annnnnnnnd I'm finishing it.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_997869e5bd82\r\n  LocalizedDialogue:\r\n   
+    en: Heh. Guess you are just-\r\n- CharacterID: Player\r\n  LineID: L_007d54599304\r\n 
+    LocalizedDialogue:\r\n    en: STOP! No, nope. Don't antagonize Fae. Please?\r\n-
+    CharacterID: Player\r\n  LineID: L_5f47db3631d2\r\n  LocalizedDialogue:\r\n   
+    en: Elsie, I am actually begging you. I have not psychologically recovered from
+    the last time Fae got pissed off.\r\n- CharacterID: Elsie\r\n  LineID: L_0deb8cbbe292\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Elsie\r\n  LineID: L_e5f241e08606\r\n 
+    LocalizedDialogue:\r\n    en: Okay?\r\n- CharacterID: Player\r\n  LineID: L_6a459ee1731c\r\n 
+    LocalizedDialogue:\r\n    en: Just trust me. You do not want to deal with Fae
+    when she really gets pissed off.\r\n- CharacterID: Elsie\r\n  LineID: L_7cd9781d580b\r\n 
+    LocalizedDialogue:\r\n    en: I could take her-\r\n- CharacterID: Player\r\n 
+    LineID: L_27bf7952454e\r\n  LocalizedDialogue:\r\n    en: Maybe in a fight. But
+    psychologically?\r\n- CharacterID: Fae\r\n  LineID: L_361beb3680eb\r\n  LocalizedDialogue:\r\n   
+    en: I can feel the folds of your brain against my wiggly little fingers.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_8e95b71c98f4\r\n  LocalizedDialogue:\r\n   
+    en: '...Ew, gross?'\r\n- CharacterID: Player\r\n  LineID: L_2aec79fda35b\r\n 
+    LocalizedDialogue:\r\n    en: Fae, what the fuck?\r\n- CharacterID: Fae\r\n 
+    LineID: L_eb1bbd4994e8\r\n  LocalizedDialogue:\r\n    en: I'm just saying. You
+    can beat me up, and I can make you regret your own existence.\r\n- CharacterID:
+    Player\r\n  LineID: L_031836fdc26b\r\n  LocalizedDialogue:\r\n    en: Aaaaaaaaand
+    on that note, we are moving on.\r\n- CharacterID: Narrator\r\n  LineID: L_5331074f27f9\r\n 
+    LocalizedDialogue:\r\n    en: I sit down in a chair across from Elsie, sighing.\r\n-
+    CharacterID: Narrator\r\n  LineID: L_be63b73472cd\r\n  LocalizedDialogue:\r\n   
+    en: My eyes rove over her injury, and that sense of panic starts rising up in
+    me again.\r\n- CharacterID: Player\r\n  LineID: L_c4cb1e844721\r\n  LocalizedDialogue:\r\n   
+    en: Now that you're feeling a little better...can you tell me what the FUCK happened
+    there?\r\n- CharacterID: Elsie\r\n  LineID: L_29705e63cfb9\r\n  LocalizedDialogue:\r\n   
+    en: What do you mean?\r\n- CharacterID: Narrator\r\n  LineID: L_3754049c94b3\r\n 
+    LocalizedDialogue:\r\n    en: I gesture to her stomach wildly.\r\n- CharacterID:
+    Player\r\n  LineID: L_f7376b7ead42\r\n  LocalizedDialogue:\r\n    en: You just--you
+    had a hole in your side! You killed a man! Holy shit! What the fuuuuuuuuck.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_b6a3b22033b9\r\n  LocalizedDialogue:\r\n   
+    en: Hey. I've had worse on the job. Guts, limbs...the whole nine yards.\r\n-
+    CharacterID: Player\r\n  LineID: L_8370c562f25a\r\n  LocalizedDialogue:\r\n   
+    en: That is soooo not the point. I get that jobs for Odin's Flock are super dangerous,
+    but holy shit!\r\n- CharacterID: Elsie\r\n  LineID: L_78cfae52c7ec\r\n  LocalizedDialogue:\r\n   
+    en: If this turns your stomach, I should totally let you in on this one job I
+    had on Exodan-9...\r\n- CharacterID: Player\r\n  LineID: L_079b2ce1848a\r\n 
+    LocalizedDialogue:\r\n    en: EXODAN? Oh my God. I'm going to faint.\r\n- CharacterID:
+    Fae\r\n  LineID: L_86ad1b36b354\r\n  LocalizedDialogue:\r\n    en: Shut up, <Player>.
+    The real question is-who was your target? You're not cheap. Odin's Flock never
+    are.\r\n- CharacterID: Elsie\r\n  LineID: L_24016ac528ca\r\n  LocalizedDialogue:\r\n   
+    en: Syndicate. Obviously. Like you.\r\n- CharacterID: Narrator\r\n  LineID: L_5655babe3d98\r\n 
+    LocalizedDialogue:\r\n    en: Elsie sneers at Fae, who scowls.\r\n- CharacterID:
+    Fae\r\n  LineID: L_b0f2269fef62\r\n  LocalizedDialogue:\r\n    en: Ex-Syndicate.
+    Not anymore. Never again.\r\n- CharacterID: Elsie\r\n  LineID: L_182bd81851e6\r\n 
+    LocalizedDialogue:\r\n    en: Whatever.\r\n- CharacterID: Player\r\n  LineID:
+    L_d3cfe0607cb1\r\n  LocalizedDialogue:\r\n    en: Fae's got a point, though.
+    Who was your target? Why were they so important?\r\n- CharacterID: Elsie\r\n 
+    LineID: L_83e6df07bcf3\r\n  LocalizedDialogue:\r\n    en: How should I know?\r\n-
+    CharacterID: Elsie\r\n  LineID: L_4465ba821d87\r\n  LocalizedDialogue:\r\n   
+    en: All I know is that my mark is--was--a Syndicate admin. I don't ask questions.
+    They don't pay me for that.\r\n- CharacterID: Player\r\n  LineID: L_3528b2a17519\r\n 
+    LocalizedDialogue:\r\n    en: You take jobs where you don't know what you're
+    getting into?\r\n- CharacterID: Elsie\r\n  LineID: L_a0610413257f\r\n  LocalizedDialogue:\r\n   
+    en: At least I have a job.\r\n- CharacterID: Player\r\n  LineID: L_36f21c8509a5\r\n 
+    LocalizedDialogue:\r\n    en: Hey! Hurtful.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_cfe553526ad4\r\n  LocalizedDialogue:\r\n    en: You know how much money you
+    can get for a good piece of Syndicate tech?\r\n- CharacterID: Player\r\n  LineID:
+    L_24bde4ddd151\r\n  LocalizedDialogue:\r\n    en: Was it really worth the hole
+    in your stomach?\r\n- CharacterID: Elsie\r\n  LineID: L_a79dbf9c37f5\r\n  LocalizedDialogue:\r\n   
+    en: How about you ask this little card right here? Worth at least 100 million
+    on Fortuna, I'd wager.\r\n- CharacterID: Player\r\n  LineID: L_498b5c80283b\r\n 
+    LocalizedDialogue:\r\n    en: YOU STOLE TECH WORTH THAT MUCH?\r\n- CharacterID:
+    Player\r\n  LineID: L_63300cd1471c\r\n  LocalizedDialogue:\r\n    en: Great!
+    Grand larceny! Now we can add that to our list, Fae.\r\n- CharacterID: Elsie\r\n 
+    LineID: L_0fc51cddb2cc\r\n  LocalizedDialogue:\r\n    en: Yes, I-wait. What do
+    you mean by \u201Clist\u201D?\r\n- CharacterID: Player\r\n  LineID: L_da1c6faf27bb\r\n 
+    LocalizedDialogue:\r\n    en: '...Oops.'\r\n- CharacterID: Fae\r\n  LineID: L_69ec7f49b158\r\n 
+    LocalizedDialogue:\r\n    en: Please. Please, just for one second, <Player>.
+    Think about what comes out of your mouth.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_8de7e640ee05\r\n  LocalizedDialogue:\r\n    en: You guys gonna explain or am
+    I going to have to make you?\r\n- CharacterID: Player\r\n  LineID: L_fe7c30764655\r\n 
+    LocalizedDialogue:\r\n    en: Oh my God you're so scary please step on me-\r\n-
+    CharacterID: Fae\r\n  LineID: L_1566ab722cb2\r\n  LocalizedDialogue:\r\n    en:
+    I hate you so much.\r\n- CharacterID: Elsie\r\n  LineID: L_611726ef90a9\r\n 
+    LocalizedDialogue:\r\n    en: So? What's going on?\r\n- CharacterID: Player\r\n 
+    LineID: L_1f5c511879c7\r\n  LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID:
+    Fae\r\n  LineID: L_b20bf1b589be\r\n  LocalizedDialogue:\r\n    en: '...'\r\n-
+    CharacterID: Player\r\n  LineID: L_5d7c2016e23d\r\n  LocalizedDialogue:\r\n   
+    en: Uh...\r\n- CharacterID: Fae\r\n  LineID: L_a8d98bce52c0\r\n  LocalizedDialogue:\r\n   
+    en: Oh, fuck it.\r\n- CharacterID: Fae\r\n  LineID: L_014066c19251\r\n  LocalizedDialogue:\r\n   
+    en: The Syndicate's already after us. What does it matter if Odin's Flock is
+    too?\r\n- CharacterID: Elsie\r\n  LineID: L_251afb1ec080\r\n  LocalizedDialogue:\r\n   
+    en: Personally, I wouldn't want the entirety of Odin's Flock after me, but hey.
+    What good is a merc's word?\r\n- CharacterID: Fae\r\n  LineID: L_c11d330be77e\r\n 
+    LocalizedDialogue:\r\n    en: You want the story or not?\r\n- CharacterID: Elsie\r\n 
+    LineID: L_e76f5abe87f4\r\n  LocalizedDialogue:\r\n    en: You know what? It's
+    totally, definitely, one hundred percent fine if you have the most dangerous
+    group of criminals in the galaxy after you. Totally.\r\n- CharacterID: Fae\r\n 
+    LineID: L_232e7cfcde76\r\n  LocalizedDialogue:\r\n    en: That's what I thought.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_71b6e9ef3c67\r\n  LocalizedDialogue:\r\n   
+    en: So...what happened?\r\n- CharacterID: Player\r\n  LineID: L_a2084af97d8b\r\n 
+    LocalizedDialogue:\r\n    en: You know, it's a very long and tragic backstory,
+    but the short version is that they fucked us over and we stole a ship.\r\n- CharacterID:
+    Player\r\n  LineID: L_392d1b24cc2c\r\n  LocalizedDialogue:\r\n    en: '...This
+    ship, actually.'\r\n- CharacterID: Fae\r\n  LineID: L_516194842e2c\r\n  LocalizedDialogue:\r\n   
+    en: And we corrupted the last century's worth of Syndicate scientific research
+    data.\r\n- CharacterID: Elsie\r\n  LineID: L_d2d1d7bfc96f\r\n  LocalizedDialogue:\r\n   
+    en: You...what?\r\n- CharacterID: Elsie\r\n  LineID: L_5f14890a0eb7\r\n  LocalizedDialogue:\r\n   
+    en: Like...not important research right? Random research? Research into space
+    dust and stuffed animals?\r\n- CharacterID: Fae\r\n  LineID: L_12377dc12e28\r\n 
+    LocalizedDialogue:\r\n    en: Research into cybernetics and biomechanics. The
+    next generation of cyborgs, androids, and cutting-edge, universe-changing technology.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_0080de4c931d\r\n  LocalizedDialogue:\r\n   
+    en: '...'\r\n- CharacterID: Elsie\r\n  LineID: L_b69d19487b1d\r\n  LocalizedDialogue:\r\n   
+    en: Are you fucking insane? You know doing something like that gets you headhunted
+    by the Syndicate, right?\r\n- CharacterID: Fae\r\n  LineID: L_e3efae2f92ab\r\n 
+    LocalizedDialogue:\r\n    en: Well, yes. I was a Syndicate member too, as you're
+    so fond of reminding me.\r\n- CharacterID: Player\r\n  LineID: L_df150c9d71fc\r\n 
+    LocalizedDialogue:\r\n    en: Yeah...turns out you need a Syndicate member in
+    order to steal a Syndicate ship.\r\n- CharacterID: Elsie\r\n  LineID: L_5a1de76622ef\r\n 
+    LocalizedDialogue:\r\n    en: Holy fuck.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_ebc6acd63f51\r\n  LocalizedDialogue:\r\n    en: I'm trapped in the Silence
+    at the End of the Galaxy with the most-the most-deranged lunatics I've ever come
+    across.\r\n- CharacterID: Player\r\n  LineID: L_c175d3ee5e0b\r\n  LocalizedDialogue:\r\n   
+    en: Rude.\r\n- CharacterID: Elsie\r\n  LineID: L_4ec016597f11\r\n  LocalizedDialogue:\r\n   
+    en: You're insane, actually! This is a surefire way to get a permanent bounty
+    on your head!\r\n- CharacterID: Elsie\r\n  LineID: L_9d5ef5a16a44\r\n  LocalizedDialogue:\r\n   
+    en: Why couldn't literally any other ship have dropped out of the sky for me
+    to be a stowaway on?\r\n- CharacterID: Player\r\n  LineID: L_50e1aa39363f\r\n 
+    LocalizedDialogue:\r\n    en: Look, we didn't exactly plan it this way.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_d0d5d35a0a7f\r\n  LocalizedDialogue:\r\n   
+    en: Oh, you didn't plan for it, did you?\r\n- CharacterID: Elsie\r\n  LineID:
+    L_8f410eb86844\r\n  LocalizedDialogue:\r\n    en: Because a century's worth of
+    the most heavily protected research in the universe just goes and gets corrupted
+    and unusable one day, does it?\r\n- CharacterID: Player\r\n  LineID: L_7f8b7c1d0a40\r\n 
+    LocalizedDialogue:\r\n    en: '...Yeah. Yep. Exactly. Tooootally an accident
+    and nothing more.'\r\n- CharacterID: Elsie\r\n  LineID: L_7abde33a395f\r\n  LocalizedDialogue:\r\n   
+    en: Wow. My options are literally to be stranded and killed by the Syndicate...or
+    team up with you psychopaths.\r\n- CharacterID: Fae\r\n  LineID: L_ab6bcaefa0eb\r\n 
+    LocalizedDialogue:\r\n    en: Look, if you two wanna keep up your chatter, by
+    all means keep going. But I'd rather we focus on the issue at hand right now.\r\n-
+    CharacterID: Fae\r\n  LineID: L_ce6f70fd4424\r\n  LocalizedDialogue:\r\n    en:
+    We still have to check those coordinates out.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_29aed445c7b8\r\n  LocalizedDialogue:\r\n    en: The ones that <Player> was
+    following? The ones to the lab that I just killed-I mean took care of-a man in?\r\n-
+    CharacterID: Player\r\n  LineID: L_a979d9a80924\r\n  LocalizedDialogue:\r\n   
+    en: '...Yeah. That one.'\r\n- CharacterID: Elsie\r\n  LineID: L_7163e249c160\r\n 
+    LocalizedDialogue:\r\n    en: Fuck. You know that place has got one hell of a
+    security system, right?\r\n- CharacterID: Elsie\r\n  LineID: L_409d9e8ccc0d\r\n 
+    LocalizedDialogue:\r\n    en: See the massive hole in my side?\r\n- CharacterID:
+    Narrator\r\n  LineID: L_b55b6f42a32f\r\n  LocalizedDialogue:\r\n    en: Elsie
+    gestures pointedly towards her bandaged torso.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_6bf24bf39100\r\n  LocalizedDialogue:\r\n    en: What are you going to do about
+    that?\r\n- CharacterID: Player\r\n  LineID: L_c45505d87c36\r\n  LocalizedDialogue:\r\n   
+    en: Uhhh...don't get hit?\r\n- CharacterID: Elsie\r\n  LineID: L_d63cc794707a\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Elsie\r\n  LineID: L_3671149a6881\r\n 
+    LocalizedDialogue:\r\n    en: You're an idiot.\r\n- CharacterID: Fae\r\n  LineID:
+    L_4b38d6140328\r\n  LocalizedDialogue:\r\n    en: THANK YOU! Someone else who
+    gets it.\r\n- CharacterID: Fae\r\n  LineID: L_fa9572d2d1f4\r\n  LocalizedDialogue:\r\n   
+    en: '...Did I just agree with you? Eugh. I did not like that.'\r\n- CharacterID:
+    Elsie\r\n  LineID: L_40dff1ebd54f\r\n  LocalizedDialogue:\r\n    en: No, no.
+    I think if we both think this dumbass is-\r\n- CharacterID: Fae\r\n  LineID:
+    L_147b8a2754a9\r\n  LocalizedDialogue:\r\n    en: A nincompoop?\r\n- CharacterID:
+    Elsie\r\n  LineID: L_b19134913827\r\n  LocalizedDialogue:\r\n    en: I am suddenly
+    reconsidering my niceness towards you.\r\n- CharacterID: Elsie\r\n  LineID: L_2a66330e47c1\r\n 
+    LocalizedDialogue:\r\n    en: Point is. Unless you're made of steel rather than
+    flesh and bone...I would not go against that security system.\r\n- CharacterID:
+    Player\r\n  LineID: L_4e5f0680572c\r\n  LocalizedDialogue:\r\n    en: Weeeeeeeeell...\r\n-
+    CharacterID: Player\r\n  LineID: L_f72fb0399420\r\n  LocalizedDialogue:\r\n   
+    en: About that.\r\n- CharacterID: Player\r\n  LineID: L_5d20f9c21f90\r\n  LocalizedDialogue:\r\n   
+    en: Did you know that Everie is a full android?\r\n- CharacterID: Elsie\r\n 
+    LineID: L_beaa6ed1a29e\r\n  LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID:
+    Elsie\r\n  LineID: L_9247ea5cd509\r\n  LocalizedDialogue:\r\n    en: SHE WHAT?!\r\n-
+    CharacterID: Narrator\r\n  LineID: L_fc46268560f6\r\n  LocalizedDialogue:\r\n   
+    en: Fae throws her hands up in the air.\r\n- CharacterID: Fae\r\n  LineID: L_d0f0ace8e53f\r\n 
+    LocalizedDialogue:\r\n    en: Oh, go on! Spill all of our secrets, why don't
+    you!\r\n- CharacterID: Player\r\n  LineID: L_aeb17b8aae5d\r\n  LocalizedDialogue:\r\n   
+    en: '...Sorry.'\r\n- CharacterID: Elsie\r\n  LineID: L_d20105daab01\r\n  LocalizedDialogue:\r\n   
+    en: And she's, like, fully sentient? Autonomous and everything?\r\n- CharacterID:
+    Player\r\n  LineID: L_a2229bacd565\r\n  LocalizedDialogue:\r\n    en: Other than
+    the fact that she's made of some horrifyingly tough metal and has no memories?\r\n-
+    CharacterID: Player\r\n  LineID: L_40c363acdbce\r\n  LocalizedDialogue:\r\n   
+    en: She's just the same as you and me. Just a person.\r\n- CharacterID: Elsie\r\n 
+    LineID: L_af40519e2e65\r\n  LocalizedDialogue:\r\n    en: '...Okay, not to sound
+    like a trafficker or anything, but do you know how much something like that is
+    worth?'\r\n- CharacterID: Fae\r\n  LineID: L_498c8216369f\r\n  LocalizedDialogue:\r\n   
+    en: Priceless, actually.\r\n- CharacterID: Fae\r\n  LineID: L_1b3f8dab88f7\r\n 
+    LocalizedDialogue:\r\n    en: No, genuinely.\r\n- CharacterID: Fae\r\n  LineID:
+    L_ee32435bad5e\r\n  LocalizedDialogue:\r\n    en: I personally wrecked a century's
+    worth of high-end Syndicate research. I know exactly how much that shit is worth.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_890beb958f50\r\n  LocalizedDialogue:\r\n   
+    en: '...'\r\n- CharacterID: Elsie\r\n  LineID: L_b294fc9afca2\r\n  LocalizedDialogue:\r\n   
+    en: You are crazy, girl.\r\n- CharacterID: Player\r\n  LineID: L_b7f32685b173\r\n 
+    LocalizedDialogue:\r\n    en: So what do you think? Can we use Everie as a meat
+    shield?\r\n- CharacterID: Player\r\n  LineID: L_af53fb0b7dd0\r\n  LocalizedDialogue:\r\n   
+    en: Er, titanium shield?\r\n- CharacterID: Fae\r\n  LineID: L_91179a27080a\r\n 
+    LocalizedDialogue:\r\n    en: I don't think you quite heard what I said before,
+    but that isn't a good idea. Everie's not built for lower thermal environments
+    like Cyberia, and I don't think she needs another lesson to prove that.\r\n-
+    CharacterID: Player\r\n  LineID: L_8fea28fd8022\r\n  LocalizedDialogue:\r\n   
+    en: '...Well shit.'\r\n- CharacterID: Player\r\n  LineID: L_7f8543bd62e8\r\n 
+    LocalizedDialogue:\r\n    en: Most advanced technology ever seen in the universe,
+    and she's weak to a bit of cold?\r\n- CharacterID: Fae\r\n  LineID: L_94df97534209\r\n 
+    LocalizedDialogue:\r\n    en: Coldest place in the galaxy that regularly drops
+    to near absolute zero is not just \u201Ca bit of cold.\u201D\r\n- CharacterID:
+    Player\r\n  LineID: L_976654cddd61\r\n  LocalizedDialogue:\r\n    en: Well, do
+    you have any bright ideas, Miss  Genius-of-the-Millenium?\r\n- CharacterID: Fae\r\n 
+    LineID: L_83d0aaf4d4e0\r\n  LocalizedDialogue:\r\n    en: Clever. And yes, I
+    do.\r\n- CharacterID: Player\r\n  LineID: L_a2299a6ea9c1\r\n  LocalizedDialogue:\r\n   
+    en: Wait, seriously?\r\n- CharacterID: Fae\r\n  LineID: L_e00bef37b25e\r\n  LocalizedDialogue:\r\n   
+    en: Remember when I said I would only leave the ship if it became strictly necessary?\r\n-
+    CharacterID: Fae\r\n  LineID: L_2599de520db2\r\n  LocalizedDialogue:\r\n    en:
+    Well, I guess that time has come.\r\n- CharacterID: Player\r\n  LineID: L_6bc5cc41f52a\r\n 
+    LocalizedDialogue:\r\n    en: No. You're not serious. Really? You're willing
+    to come with us?\r\n- CharacterID: Fae\r\n  LineID: L_d0684f192c2c\r\n  LocalizedDialogue:\r\n   
+    en: Much as I'd like to stay here, I can't. Someone has to go in there in case
+    there's any high-classification Syndicate documents that might need decryption.\r\n-
+    CharacterID: Fae\r\n  LineID: L_2ca95add8a4a\r\n  LocalizedDialogue:\r\n    en:
+    Not to mention, someone has to keep Everie's temperature regulated.\r\n- CharacterID:
+    Fae\r\n  LineID: L_c06ac1c15773\r\n  LocalizedDialogue:\r\n    en: You know,
+    or else she's going to end up frozen and almost dead again.\r\n- CharacterID:
+    Player\r\n  LineID: L_d45ae3776995\r\n  LocalizedDialogue:\r\n    en: \"...Ah.
+    And if Everie's out of commission...\"\r\n- CharacterID: Fae\r\n  LineID: L_458a3c128314\r\n 
+    LocalizedDialogue:\r\n    en: Your entire mission is pretty fucked, yeah.\r\n-
+    CharacterID: Elsie\r\n  LineID: L_0a35023f39b4\r\n  LocalizedDialogue:\r\n   
+    en: \"...You really can't do anything without Fae, huh?\"\r\n- CharacterID: Player\r\n 
+    LineID: L_3328862e328b\r\n  LocalizedDialogue:\r\n    en: Shut up.\r\n- CharacterID:
+    Fae\r\n  LineID: L_475e488a9ad8\r\n  LocalizedDialogue:\r\n    en: No, no. She
+    has a point. I could be in my lab, growing my specimens and extracting lovely
+    fluids from them...\r\n- CharacterID: Fae\r\n  LineID: L_839b3e73bc58\r\n  LocalizedDialogue:\r\n   
+    en: But instead, I have to babysit your expedition.\r\n- CharacterID: Player\r\n 
+    LineID: L_5b849a1a3bd3\r\n  LocalizedDialogue:\r\n    en: Hey! That's not true!
+    If you didn't come with us, I would-\r\n- CharacterID: Fae\r\n  LineID: L_f1c0776f0560\r\n 
+    LocalizedDialogue:\r\n    en: You would end up alone out there as some snow yeti's
+    food...\r\n- CharacterID: Fae\r\n  LineID: L_3c1864187c7f\r\n  LocalizedDialogue:\r\n   
+    en: '...or mate.'\r\n- CharacterID: Player\r\n  LineID: L_d16ab608cfdb\r\n  LocalizedDialogue:\r\n   
+    en: Cruel. Hurtful.\r\n- CharacterID: Player\r\n  LineID: L_b79da8b341de\r\n 
+    LocalizedDialogue:\r\n    en: '...Probably not wrong.'\r\n- CharacterID: Elsie\r\n 
+    LineID: L_cdfefc9e4809\r\n  LocalizedDialogue:\r\n    en: Well, you two just
+    let me know when you're done bickering and actually have a plan of action.\r\n-
+    CharacterID: Narrator\r\n  LineID: L_d0a73ad8cd9e\r\n  LocalizedDialogue:\r\n   
+    en: Fae points at me while ignoring the comment from Elsie, who's still sitting
+    cross-legged on the patient table.\r\n- CharacterID: Fae\r\n  LineID: L_d9c3f641aa74\r\n 
+    LocalizedDialogue:\r\n    en: Just FYI, you are definitely making a fresh roasted
+    pot of coffee after this. The good stuff.\r\n- CharacterID: Player\r\n  LineID:
+    L_b62459bc86f8\r\n  LocalizedDialogue:\r\n    en: Yes, Fae. I will totally do
+    that and totally not fuck it up so bad you have to remake it yourself in the
+    end.\r\n- CharacterID: Fae\r\n  LineID: L_bca26a89fbc5\r\n  LocalizedDialogue:\r\n   
+    en: '...God. Why did I choose you again?'\r\n- CharacterID: Fae\r\n  LineID:
+    L_d23fceff13f6\r\n  LocalizedDialogue:\r\n    en: Anyways, yes. We will use Elsie
+    as a sentient bio-organic metal shield-\r\n- CharacterID: Player\r\n  LineID:
+    L_1ae62d452775\r\n  LocalizedDialogue:\r\n    en: How lovely.\r\n- CharacterID:
+    Fae\r\n  LineID: L_d433d49349bf\r\n  LocalizedDialogue:\r\n    en: It's either
+    that or we get shot up again.\r\n- CharacterID: Elsie\r\n  LineID: L_da0c8255dd7c\r\n 
+    LocalizedDialogue:\r\n    en: To be honest, what bothers me the most is that
+    you guys are totally okay with potentially destroying a piece of technology that
+    is quite literally priceless, but...\r\n- CharacterID: Narrator\r\n  LineID:
+    L_92168eee6baf\r\n  LocalizedDialogue:\r\n    en: Elsie shrugs.\r\n- CharacterID:
+    Elsie\r\n  LineID: L_7f85cfb0156d\r\n  LocalizedDialogue:\r\n    en: I'm not
+    in the trafficking business, so I wouldn't have been able to make that profit
+    anyways.\r\n- CharacterID: Narrator\r\n  LineID: L_417260ce3808\r\n  LocalizedDialogue:\r\n   
+    en: As if on cue, Everie pops back in the lab with DD following close behind.\r\n-
+    CharacterID: Everie\r\n  LineID: L_e3e0c403ccc2\r\n  LocalizedDialogue:\r\n   
+    en: I found DD!\r\n- CharacterID: Fae\r\n  LineID: L_bd0ea9482684\r\n  LocalizedDialogue:\r\n   
+    en: '...Yes, I can see that.'\r\n- CharacterID: Fae\r\n  LineID: L_0a6771160bc0\r\n 
+    LocalizedDialogue:\r\n    en: We'll  be heading out again soon, so get yourself
+    fully suited and prepared to go outside again.\r\n- CharacterID: Everie\r\n 
+    LineID: L_a38401067e76\r\n  LocalizedDialogue:\r\n    en: Back out there? With
+    all the cold?\r\n- CharacterID: Fae\r\n  LineID: L_666ca2be367c\r\n  LocalizedDialogue:\r\n   
+    en: Yes. So leave DD on the ship and get ready.\r\n- CharacterID: Narrator\r\n 
+    LineID: L_499a33a03c5f\r\n  LocalizedDialogue:\r\n    en: Everie looks hesitant.\r\n-
+    CharacterID: Everie\r\n  LineID: L_f2e934697ce5\r\n  LocalizedDialogue:\r\n   
+    en: I mean...I would love to help. I really would! But...won't I just end up
+    freezing and shutting down all over again?\r\n- CharacterID: Narrator\r\n  LineID:
+    L_eb20e8aac272\r\n  LocalizedDialogue:\r\n    en: Fae's face softens a little.\r\n-
+    CharacterID: Fae\r\n  LineID: L_2227f4b3607e\r\n  LocalizedDialogue:\r\n    en:
+    No, Everie. I'm coming with you guys this time. I've got a little contraption
+    that should keep you nice and unfrozen.\r\n- CharacterID: Everie\r\n  LineID:
+    L_165a68b54906\r\n  LocalizedDialogue:\r\n    en: Oh! In that case, of course!\r\n-
+    CharacterID: Narrator\r\n  LineID: L_187e19680db3\r\n  LocalizedDialogue:\r\n   
+    en: Everie nods and turns to DD with a smile.\r\n- CharacterID: Everie\r\n  LineID:
+    L_2a55cc9a3a87\r\n  LocalizedDialogue:\r\n    en: DD, hold down the fort while
+    we're gone, okay?\r\n- CharacterID: DD\r\n  LineID: L_4a004a4f8c3f\r\n  LocalizedDialogue:\r\n   
+    en: '*beeps happily*'\r\n- CharacterID: Narrator\r\n  LineID: L_a735a4b503b1\r\n 
+    LocalizedDialogue:\r\n    en: DD sounds off and does a sort of salute at Everie.\r\n-
+    CharacterID: Fae\r\n  LineID: L_04b6fc57aeb7\r\n  LocalizedDialogue:\r\n    en:
+    While we're at it, though, I'll need you for just one more second, Everie.\r\n-
+    CharacterID: Everie\r\n  LineID: L_2800a7ce9bcf\r\n  LocalizedDialogue:\r\n   
+    en: Really? What for?\r\n- CharacterID: Fae\r\n  LineID: L_39f7e3681ce6\r\n 
+    LocalizedDialogue:\r\n    en: I need to continue doing a few diagnostics on you.
+    Just sit tight.\r\n- CharacterID: Fae\r\n  LineID: L_d027e0f3da85\r\n  LocalizedDialogue:\r\n   
+    en: Player, hurry up and get ready too, or I'm raiding your stash of sodi-crisps.\r\n-
+    CharacterID: Player\r\n  LineID: L_ffe1c438eef8\r\n  LocalizedDialogue:\r\n   
+    en: What! What stash are you-\r\n- CharacterID: Fae\r\n  LineID: L_3526ab08a5fd\r\n 
+    LocalizedDialogue:\r\n    en: Lower pantry, third door, right side in the rec
+    room.\r\n- CharacterID: Player\r\n  LineID: L_5095c661fa44\r\n  LocalizedDialogue:\r\n   
+    en: How did...\r\n- CharacterID: Fae\r\n  LineID: L_858574e805ac\r\n  LocalizedDialogue:\r\n   
+    en: Don't underestimate me.\r\n- CharacterID: Player\r\n  LineID: L_c723c126049e\r\n 
+    LocalizedDialogue:\r\n    en: Dude!!\r\nFacilityIntro:\r\n- CharacterID: Narrator\r\n 
+    LineID: L_34f4a8031126\r\n  LocalizedDialogue:\r\n    en: Finally, in the distance,
+    I can see the shadow of the lab.\r\n- CharacterID: Narrator\r\n  LineID: L_d58875fc478f\r\n 
+    LocalizedDialogue:\r\n    en: As we start to get closer, I see the rust-colored
+    patches of snow from a day ago, from when I had dragged Elsie back to safety.\r\n-
+    CharacterID: Narrator\r\n  LineID: L_cc71b84cacf0\r\n  LocalizedDialogue:\r\n   
+    en: Lovely.\r\n- CharacterID: Player\r\n  LineID: L_dbf1ef5cedb3\r\n  LocalizedDialogue:\r\n   
+    en: Well. That\u2019s gross.\r\n- CharacterID: Elsie\r\n  LineID: L_05ed1d047911\r\n 
+    LocalizedDialogue:\r\n    en: Wait. This is where it happened.\r\n- CharacterID:
+    Fae\r\n  LineID: L_35b092fcd991\r\n  LocalizedDialogue:\r\n    en: Where w-what
+    happened?\r\n- CharacterID: Player\r\n  LineID: L_f545ba30e473\r\n  LocalizedDialogue:\r\n   
+    en: You talking about when you nearly got turned into space-Swiss cheese?\r\n-
+    CharacterID: Elsie\r\n  LineID: L_8c2b73af7485\r\n  LocalizedDialogue:\r\n   
+    en: Bingo. The security system has an automated turret defense system.\r\n- CharacterID:
+    Player\r\n  LineID: L_df4a82ead1d9\r\n  LocalizedDialogue:\r\n    en: Aaaaand
+    how exactly do we get through that?\r\n- CharacterID: Elsie\r\n  LineID: L_5dfdfa68fd6f\r\n 
+    LocalizedDialogue:\r\n    en: Brute force it. Just run as fast as you can, I
+    guess.\r\n- CharacterID: Everie\r\n  LineID: L_5ef9e61d2524\r\n  LocalizedDialogue:\r\n   
+    en: That... doesn\u2019t sound like much of a plan.\r\n- CharacterID: Elsie\r\n 
+    LineID: L_658620172e70\r\n  LocalizedDialogue:\r\n    en: It\u2019s all we got,
+    now get over here. The security line is right-\r\n- CharacterID: Narrator\r\n 
+    LineID: L_1537a5152b2a\r\n  LocalizedDialogue:\r\n    en: As soon as Elsie took
+    a step forward, the alarm blared up again.\r\n- CharacterID: Elsie\r\n  LineID:
+    L_db99ed8bc418\r\n  LocalizedDialogue:\r\n    en: FUCK!\r\n- CharacterID: Player\r\n 
+    LineID: L_2948174b18f0\r\n  LocalizedDialogue:\r\n    en: Elsie!!\r\n- CharacterID:
+    Elsie\r\n  LineID: L_1c7c9e0a4844\r\n  LocalizedDialogue:\r\n    en: Oh, excuse
+    me! It\u2019s totally not an issue, what with all this snow in the fucking way!\r\n-
+    CharacterID: Player\r\n  LineID: L_cf5aab32479c\r\n  LocalizedDialogue:\r\n   
+    en: Guys! Take cover before-\r\n- CharacterID: Narrator\r\n  LineID: L_cbdef8a4f66a\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Narrator\r\n  LineID: L_868b192dfef7\r\n 
+    LocalizedDialogue:\r\n    en: A soft chime rang out, and the alarm system died
+    down.\r\n- CharacterID: Player\r\n  LineID: L_c107f5b040ff\r\n  LocalizedDialogue:\r\n   
+    en: '...What just happened?'\r\n- CharacterID: Narrator\r\n  LineID: L_ba4cbdc930e8\r\n 
+    LocalizedDialogue:\r\n    en: I turned and looked at everyone to see if they
+    were okay.\r\n- CharacterID: Narrator\r\n  LineID: L_a02ebedfe50a\r\n  LocalizedDialogue:\r\n   
+    en: Everie had jumped close to Elsie, who must\u2019ve crossed the security line.\r\n-
+    CharacterID: Everie\r\n  LineID: L_7ce2f02a8450\r\n  LocalizedDialogue:\r\n   
+    en: Maybe... we got lucky?\r\n- CharacterID: Elsie\r\n  LineID: L_6bb03e2bfc47\r\n 
+    LocalizedDialogue:\r\n    en: No. Something\u2019s up. The security doesn\u2019t
+    go down unless a high-ranking Syndicate member is recognized. And I sure as hell
+    offed the only high-ranking Syndicate member on this frozen landscape.\r\n- CharacterID:
+    Player\r\n  LineID: L_34d7dc0a0274\r\n  LocalizedDialogue:\r\n    en: '...Meaning?'\r\n-
+    CharacterID: Elsie\r\n  LineID: L_1db23be0e150\r\n  LocalizedDialogue:\r\n   
+    en: Meaning something doesn\u2019t add up, genius.\r\n- CharacterID: Elsie\r\n 
+    LineID: L_821f52cf6a0b\r\n  LocalizedDialogue:\r\n    en: There was only one
+    Syndicate member on this planet that was that high up on the lander, and he's
+    six-feet under now.\r\n- CharacterID: Elsie\r\n  LineID: L_031a7d7ebec1\r\n 
+    LocalizedDialogue:\r\n    en: Any idea what that means?\r\n- CharacterID: Player\r\n 
+    LineID: L_9a3ca9161560\r\n  LocalizedDialogue:\r\n    en: Fuck if I know!\r\n-
+    CharacterID: Player\r\n  LineID: L_25544a1aa811\r\n  LocalizedDialogue:\r\n   
+    en: Maybe they just really like Everie?\r\n- CharacterID: Elsie\r\n  LineID:
+    L_d774327fbde7\r\n  LocalizedDialogue:\r\n    en: Yeah. You\u2019re the brains
+    of this crew.\r\n- CharacterID: Player\r\n  LineID: L_44f6cdff4a42\r\n  LocalizedDialogue:\r\n   
+    en: I sure am!\r\n- CharacterID: Player\r\n  LineID: L_2093de9e26fe\r\n  LocalizedDialogue:\r\n   
+    en: Anyway, since the alarm\u2019s off, can we get inside now?\r\n- CharacterID:
+    Elsie\r\n  LineID: L_5b41ff7b16ba\r\n  LocalizedDialogue:\r\n    en: You guys
+    do that. I\u2019ve got more interesting things to...discover.\r\n- CharacterID:
+    Player\r\n  LineID: L_ca44b00421c7\r\n  LocalizedDialogue:\r\n    en: Like what?\r\n-
+    CharacterID: Elsie\r\n  LineID: L_ab6cdb2b455e\r\n  LocalizedDialogue:\r\n   
+    en: Do what mercs do best. What else?\r\n- CharacterID: Player\r\n  LineID: L_09357eb21fde\r\n 
+    LocalizedDialogue:\r\n    en: '...Like looting?'\r\n- CharacterID: Elsie\r\n 
+    LineID: L_87b0e2c15b5a\r\n  LocalizedDialogue:\r\n    en: You said it, not me.\r\n-
+    CharacterID: Player\r\n  LineID: L_fa765c96925a\r\n  LocalizedDialogue:\r\n   
+    en: (Cool. I guess.)\r\n- CharacterID: Narrator\r\n  LineID: L_b130ef08dcba\r\n 
+    LocalizedDialogue:\r\n    en: I blink before shuddering; I realize just how unsettling
+    it is when she mentions she\u2019s going to go looting.\r\n- CharacterID: Narrator\r\n 
+    LineID: L_1b9028e9d58e\r\n  LocalizedDialogue:\r\n    en: She winks. I want to
+    grill her a little bit more about what she\u2019s looking for exactly, but she\u2019s
+    already gone.\r\nEverieDecrypts:\r\n- CharacterID: Narrator\r\n  LineID: L_d1b1b9908ad4\r\n 
+    LocalizedDialogue:\r\n    en: I spot Everie staring into a giant tube in the
+    middle of the lab. She seems almost fascinated by it.\r\n- CharacterID: Player\r\n 
+    LineID: L_69fd5045a740\r\n  LocalizedDialogue:\r\n    en: '...Everie?'\r\n- CharacterID:
+    Everie\r\n  LineID: L_31cd7a3aef17\r\n  LocalizedDialogue:\r\n    en: '...'\r\n-
+    CharacterID: Player\r\n  LineID: L_6ad512086bbd\r\n  LocalizedDialogue:\r\n   
+    en: Everie. Hey. You in there?.\r\n- CharacterID: Everie\r\n  LineID: L_39dfe425bbe5\r\n 
+    LocalizedDialogue:\r\n    en: Hm? Oh! Hey! What's up?\r\n- CharacterID: Player\r\n 
+    LineID: L_f19739be7c70\r\n  LocalizedDialogue:\r\n    en: We're almost ready
+    to head out of here, but Fae wants to try one more thing.\r\n- CharacterID: Player\r\n 
+    LineID: L_d5dce93c8206\r\n  LocalizedDialogue:\r\n    en: We also found something
+    that I think you should take a look at.\r\n- CharacterID: Narrator\r\n  LineID:
+    L_f8b3046be0cf\r\n  LocalizedDialogue:\r\n    en: I pull out the USB from my
+    pocket and hand it to Everie, whose eyes lock onto the little device in my hand.\r\n-
+    CharacterID: Everie\r\n  LineID: L_b0b2a50f1df6\r\n  LocalizedDialogue:\r\n   
+    en: What is it?\r\n- CharacterID: Player\r\n  LineID: L_5f86a6ce0452\r\n  LocalizedDialogue:\r\n   
+    en: It's a USB. As for what's on it, I'm not sure. Fae was wondering if you'd
+    be able to...\r\n- CharacterID: Player\r\n  LineID: L_d3323c08f306\r\n  LocalizedDialogue:\r\n   
+    en: '...plug it into your body?'\r\n- CharacterID: Everie\r\n  LineID: L_0be6b479669d\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Everie\r\n  LineID: L_9a15b2d13a60\r\n 
+    LocalizedDialogue:\r\n    en: '...You want me to... download it onto myself?'\r\n-
+    CharacterID: Player\r\n  LineID: L_56a5d776b4ee\r\n  LocalizedDialogue:\r\n   
+    en: Well, Fae thinks maybe like... you might have some data on your body's systems,
+    regarding... stuff... on the USB, and maybe you know how to access it.\r\n- CharacterID:
+    Player\r\n  LineID: L_ae49fdb838a3\r\n  LocalizedDialogue:\r\n    en: So... kinda?
+    I guess?\r\n- CharacterID: Narrator\r\n  LineID: L_5851d5f715b4\r\n  LocalizedDialogue:\r\n   
+    en: Everie stares at me quizzically before her usual smile popped back on her
+    face.\r\n- CharacterID: Everie\r\n  LineID: L_838d300e1b00\r\n  LocalizedDialogue:\r\n   
+    en: Okay!\r\n- CharacterID: Narrator\r\n  LineID: L_db08e33640d6\r\n  LocalizedDialogue:\r\n   
+    en: Aaaaand she grabs the USB out of my hand without a second thought.\r\n- CharacterID:
+    Player\r\n  LineID: L_6eb937e18d98\r\n  LocalizedDialogue:\r\n    en: \"...Wh-
+    That's it? No concern? No fear of danger?\"\r\n- CharacterID: Player\r\n  LineID:
+    L_96dc44c23a36\r\n  LocalizedDialogue:\r\n    en: What if there's some kind of
+    bit rot, or data corruption on it or something?\r\n- CharacterID: Narrator\r\n 
+    LineID: L_1c66f9bb6e7f\r\n  LocalizedDialogue:\r\n    en: Too late; without hesitation,
+    Everie reaches up and slots the device into the back of her neck.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_678b009ac8ab\r\n  LocalizedDialogue:\r\n    en: I can
+    only look on in uncertainty as her eyes light up and she goes silent. The low
+    hum of the labs system becomes louder as I'm left in a silent unease waiting
+    for her to respond.\r\n- CharacterID: Everie\r\n  LineID: L_07739e79d8be\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Player\r\n  LineID: L_0e4c635c20e1\r\n 
+    LocalizedDialogue:\r\n    en: Everie?\r\n- CharacterID: Everie\r\n  LineID: L_d18f5c700d86\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Narrator\r\n  LineID: L_7f0a92103f9f\r\n 
+    LocalizedDialogue:\r\n    en: I reach my hand out to her face-\r\n- CharacterID:
+    Everie\r\n  LineID: L_2b1b14868d9f\r\n  LocalizedDialogue:\r\n    en: HOLY MOLY!!\r\n-
+    CharacterID: Player\r\n  LineID: L_fe69286dcb3a\r\n  LocalizedDialogue:\r\n   
+    en: GAH!!!\r\n- CharacterID: Everie\r\n  LineID: L_98a1075f758e\r\n  LocalizedDialogue:\r\n   
+    en: You ever plug something into the back of your neck? It's a funny feeling!\r\n-
+    CharacterID: Player\r\n  LineID: L_8ebcb7d6609d\r\n  LocalizedDialogue:\r\n   
+    en: E-Everie?! Hey, don't scare me like that!\r\n- CharacterID: Narrator\r\n 
+    LineID: L_ea82b9937c5c\r\n  LocalizedDialogue:\r\n    en: Everie looks at me,
+    her brightness unwavering.\r\n- CharacterID: Everie\r\n  LineID: L_b2f6e22ae560\r\n 
+    LocalizedDialogue:\r\n    en: I dunno why, but I'm seeing tons of files and stuff!\r\n-
+    CharacterID: Player\r\n  LineID: L_d9713299d014\r\n  LocalizedDialogue:\r\n   
+    en: Oooookay, uh... Any chance you know how to decrypt those files?\r\n- CharacterID:
+    Everie\r\n  LineID: L_a902fcb0e4af\r\n  LocalizedDialogue:\r\n    en: Already
+    done!\r\n- CharacterID: Player\r\n  LineID: L_4e285d5b13ff\r\n  LocalizedDialogue:\r\n   
+    en: Well, it was worth a- wait.\r\n- CharacterID: Player\r\n  LineID: L_da26af4bc01b\r\n 
+    LocalizedDialogue:\r\n    en: You're done? ALREADY?!\r\n- CharacterID: Everie\r\n 
+    LineID: L_be1d7c95456f\r\n  LocalizedDialogue:\r\n    en: Yep!\r\n- CharacterID:
+    Player\r\n  LineID: L_b7f5dac7a2c2\r\n  LocalizedDialogue:\r\n    en: 'Alright,
+    new question: How the fuck do you know to break Syndicate Encryption?!?'\r\n-
+    CharacterID: Player\r\n  LineID: L_b7b1bad284bb\r\n  LocalizedDialogue:\r\n   
+    en: That stuff's always a tough nut to crack, even for Fae!\r\n- CharacterID:
+    Everie\r\n  LineID: L_c6f450464bd1\r\n  LocalizedDialogue:\r\n    en: '...'\r\n-
+    CharacterID: Everie\r\n  LineID: L_299cdff91a3f\r\n  LocalizedDialogue:\r\n   
+    en: Huh. How do I know how to decrypt Syndicate files? Weird!\r\n- CharacterID:
+    Player\r\n  LineID: L_bbbe44f314aa\r\n  LocalizedDialogue:\r\n    en: Well, uh...\r\n-
+    CharacterID: Player\r\n  LineID: L_607c7ac9bce1\r\n  LocalizedDialogue:\r\n   
+    en: Can I have that USB back then? Fae could really use it.\r\n- CharacterID:
+    Everie\r\n  LineID: L_a40f6a2a3ba5\r\n  LocalizedDialogue:\r\n    en: Sure!\r\n-
+    CharacterID: Narrator\r\n  LineID: L_913deaf1674c\r\n  LocalizedDialogue:\r\n   
+    en: She hands me back the USB with a smile\r\n- CharacterID: Player\r\n  LineID:
+    L_280126629e4e\r\n  LocalizedDialogue:\r\n    en: (Wonder how she cracked that?
+    It was even faster than Fae hopped up on a triple espresso.)\r\n- CharacterID:
+    Narrator\r\n  LineID: L_c54099551e2e\r\n  LocalizedDialogue:\r\n    en: With
+    that out of the way surprisingly fast, Everie goes back to happily around, looking
+    at the giant tubes.\r\nEverieHeadsToShip:\r\n- CharacterID: Player\r\n  LineID:
+    L_cfe235d70e26\r\n  LocalizedDialogue:\r\n    en: Hey, Everie!\r\n- CharacterID:
+    Everie\r\n  LineID: L_7a50ea18a26d\r\n  LocalizedDialogue:\r\n    en: Hiya! Did
+    that USB help you guys out?\r\n- CharacterID: Player\r\n  LineID: L_a1d8e425a5c1\r\n 
+    LocalizedDialogue:\r\n    en: Absolutely. Fae's having the time of her life right
+    now.\r\n- CharacterID: Everie\r\n  LineID: L_8ab2d55f2f7e\r\n  LocalizedDialogue:\r\n   
+    en: Really? I was helpful to Fae?\r\n- CharacterID: Player\r\n  LineID: L_27e6bfdc6f1f\r\n 
+    LocalizedDialogue:\r\n    en: You totally were. You should've seen how big her
+    eyes got. As big as red giant stars!\r\n- CharacterID: Everie\r\n  LineID: L_aae368fd9ef2\r\n 
+    LocalizedDialogue:\r\n    en: That's super big!\r\n- CharacterID: Narrator\r\n 
+    LineID: L_71421125f335\r\n  LocalizedDialogue:\r\n    en: I chuckle to myself
+    as I humor Everie for a little bit. She seems so happy that she got to be of
+    use to Fae.\r\n- CharacterID: Everie\r\n  LineID: L_5d6e2e214da5\r\n  LocalizedDialogue:\r\n   
+    en: So... what now?\r\n- CharacterID: Player\r\n  LineID: L_f419f9e2fd92\r\n 
+    LocalizedDialogue:\r\n    en: Now? Hmm. Good question.\r\n- CharacterID: Player\r\n 
+    LineID: L_4f2cd96d3f8e\r\n  LocalizedDialogue:\r\n    en: How about you and me
+    take some of our new stuff back to the ship? Sound good?\r\n- CharacterID: Everie\r\n 
+    LineID: L_cfc09ff2954b\r\n  LocalizedDialogue:\r\n    en: Okay! I'll go out when
+    you go out!\r\n- CharacterID: Narrator\r\n  LineID: L_c14a71d9ed15\r\n  LocalizedDialogue:\r\n   
+    en: I nod at Everie, smiling, when Fae clears her throat from across the room.
+    She looks at me for a second, and I get the memo, walking over to her.\r\n- CharacterID:
+    Player\r\n  LineID: L_f5f26d3562e0\r\n  LocalizedDialogue:\r\n    en: (That look
+    usually means she has something for me. Might as well bite.)\r\n- CharacterID:
+    Player\r\n  LineID: L_93281707c518\r\n  LocalizedDialogue:\r\n    en: What's
+    up.\r\n- CharacterID: Fae\r\n  LineID: L_00c3dd0d9c7c\r\n  LocalizedDialogue:\r\n   
+    en: I overheard you and Everie getting ready to load stuff up. I was wondering...\r\n-
+    CharacterID: Fae\r\n  LineID: L_b1958d9ef134\r\n  LocalizedDialogue:\r\n    en:
+    How about you stay behind for just a minute?\r\n- CharacterID: Player\r\n  LineID:
+    L_5bafb648ce29\r\n  LocalizedDialogue:\r\n    en: Like... literally?\r\n- CharacterID:
+    Fae\r\n  LineID: L_89bf4d9105f7\r\n  LocalizedDialogue:\r\n    en: No, as in...
+    stick behind. You might find some other \u201Ctreasure\u201D.\r\n- CharacterID:
+    Player\r\n  LineID: L_eba40098727a\r\n  LocalizedDialogue:\r\n    en: '...Huh.'\r\n-
+    CharacterID: Player\r\n  LineID: L_5f1697d76adb\r\n  LocalizedDialogue:\r\n   
+    en: (Is she implying what I think she's implying???)\r\nEverieTalksLab:\r\n-
+    CharacterID: Narrator\r\n  LineID: L_93b5b94f6cf2\r\n  LocalizedDialogue:\r\n   
+    en: I lightly tap Everie on the shoulder, and she jumps back from me almost immediately.\r\n-
+    CharacterID: Everie\r\n  LineID: L_af52d696b129\r\n  LocalizedDialogue:\r\n   
+    en: Ahh!\r\n- CharacterID: Player\r\n  LineID: L_ad8427821c3f\r\n  LocalizedDialogue:\r\n   
+    en: Whoa! Uhh.. Sorry!\r\n- CharacterID: Everie\r\n  LineID: L_7da3a680c3f6\r\n 
+    LocalizedDialogue:\r\n    en: Don't sneak up on me like that! This place feels
+    like something could jump out from anywhere!\r\n- CharacterID: Narrator\r\n 
+    LineID: L_fa8c56a18d7f\r\n  LocalizedDialogue:\r\n    en: She's beaming brightly,
+    despite the fact that she might've just planted that fear in the back of my mind.\r\n-
+    CharacterID: Player\r\n  LineID: L_2f257a7a6b29\r\n  LocalizedDialogue:\r\n   
+    en: Ha. Haha.\r\n- CharacterID: Everie\r\n  LineID: L_ff79f8d496d5\r\n  LocalizedDialogue:\r\n   
+    en: Something wrong?\r\n- CharacterID: Player\r\n  LineID: L_f2f55ab74e91\r\n 
+    LocalizedDialogue:\r\n    en: No, no. Nothing. How's, uh, things? You find anything
+    to jog your memories?\r\n- CharacterID: Everie\r\n  LineID: L_193ad1c7b31d\r\n 
+    LocalizedDialogue:\r\n    en: Mmm... Not yet. But I feel like I'm close to something!\r\n-
+    CharacterID: Everie\r\n  LineID: L_a5146a81094c\r\n  LocalizedDialogue:\r\n   
+    en: All these images just flicker in my mind. Like... This place is familiar!\r\n-
+    CharacterID: Everie\r\n  LineID: L_9df5e9d9f93c\r\n  LocalizedDialogue:\r\n   
+    en: But that's not possible, right? I've never been here before, and yet...\r\n-
+    CharacterID: Everie\r\n  LineID: L_7e48752ff404\r\n  LocalizedDialogue:\r\n   
+    en: It feels like I was here just yesterday.\r\n- CharacterID: Player\r\n  LineID:
+    L_71bd7ea84e7d\r\n  LocalizedDialogue:\r\n    en: '...Weird.'\r\n- CharacterID:
+    Everie\r\n  LineID: L_0b4b0169b611\r\n  LocalizedDialogue:\r\n    en: Haha! I
+    know, right?!\r\n- CharacterID: Player\r\n  LineID: L_576b40b9c2ff\r\n  LocalizedDialogue:\r\n   
+    en: Well, just... don't freak out if you remember anything, alright? I'm gonna
+    go find some more stuff.\r\n- CharacterID: Everie\r\n  LineID: L_9aa7403d4bf0\r\n 
+    LocalizedDialogue:\r\n    en: Okay!  I'll let you and Fae know if something jumpstarts
+    in my brain!\r\n- CharacterID: Narrator\r\n  LineID: L_9b7d1589113f\r\n  LocalizedDialogue:\r\n   
+    en: I nod, keeping Fae's thoughts fresh in my mind.\r\n- CharacterID: Player\r\n 
+    LineID: L_4c77a7a01d6b\r\n  LocalizedDialogue:\r\n    en: (I should go talk to
+    Fae, see if she's done yet.)\r\nFaeDirectsToEverie:\r\n- CharacterID: Player\r\n 
+    LineID: L_ca57c5929dbf\r\n  LocalizedDialogue:\r\n    en: Hey, Fae, you find
+    anything in that computer?\r\n- CharacterID: Fae\r\n  LineID: L_e9eee1028661\r\n 
+    LocalizedDialogue:\r\n    en: Not yet. I've been downloading copies of everything
+    so I can delete this database.\r\n- CharacterID: Player\r\n  LineID: L_9190207fc07f\r\n 
+    LocalizedDialogue:\r\n    en: Hold up. You want to what?! Did you not learn your
+    lesson?\r\n- CharacterID: Fae\r\n  LineID: L_85be592677e3\r\n  LocalizedDialogue:\r\n   
+    en: You think I'm scared of that bounty hunter blowing up at me?\r\n- CharacterID:
+    Fae\r\n  LineID: L_4a513458c7f2\r\n  LocalizedDialogue:\r\n    en: Besides, you
+    and I don't owe the Syndicate squat after how we've ended up because of them.\r\n-
+    CharacterID: Fae\r\n  LineID: L_16dfc98d7872\r\n  LocalizedDialogue:\r\n    en:
+    Although I'm not lying about downloading a copy of anything in here that looks
+    worthwhile.\r\n- CharacterID: Player\r\n  LineID: L_78b3c55e4d4a\r\n  LocalizedDialogue:\r\n   
+    en: If it's something encrypted by the Syndicate, it's gotta be worthwhile, right?\r\n-
+    CharacterID: Fae\r\n  LineID: L_18b5ee0fc731\r\n  LocalizedDialogue:\r\n    en:
+    Here, take a look.\r\n- CharacterID: Narrator\r\n  LineID: L_3330646e0c6b\r\n 
+    LocalizedDialogue:\r\n    en: I go over and look over Fae's shoulder at the flickering
+    screen.\r\n- CharacterID: Player\r\n  LineID: L_c7441842e5b1\r\n  LocalizedDialogue:\r\n   
+    en: Ugh...\r\n- CharacterID: Player\r\n  LineID: L_ac9139cbe76b\r\n  LocalizedDialogue:\r\n   
+    en: I'd be happier if it were comic books.\r\n- CharacterID: Narrator\r\n  LineID:
+    L_f50e5476246c\r\n  LocalizedDialogue:\r\n    en: My eyes narrow as I make out
+    the words on the file pages.\r\n- CharacterID: Player\r\n  LineID: L_600799193626\r\n 
+    LocalizedDialogue:\r\n    en: What's all this?\r\n- CharacterID: Player\r\n 
+    LineID: L_21eb9238aced\r\n  LocalizedDialogue:\r\n    en: Project Prometheus...?\r\n-
+    CharacterID: Fae\r\n  LineID: L_1055030c2bf7\r\n  LocalizedDialogue:\r\n    en:
+    That seems to be the most prominent name out of all of these files.\r\n- CharacterID:
+    Player\r\n  LineID: L_eb19c0b64737\r\n  LocalizedDialogue:\r\n    en: What makes
+    you say that?\r\n- CharacterID: Narrator\r\n  LineID: L_df7fa8045a46\r\n  LocalizedDialogue:\r\n   
+    en: With a tap of two buttons, Fae popped a window on the screen and typed the
+    two words into the computer.\r\n- CharacterID: Fae\r\n  LineID: L_078e59054513\r\n 
+    LocalizedDialogue:\r\n    en: Look. It shows up way too many times on the word
+    search tool to be unimportant.\r\n- CharacterID: Player\r\n  LineID: L_13f3bf18063f\r\n 
+    LocalizedDialogue:\r\n    en: Huh.\r\n- CharacterID: Narrator\r\n  LineID: L_7767307d3a47\r\n 
+    LocalizedDialogue:\r\n    en: Two blinking lines catch my eye, prompting a closer
+    look.\r\n- CharacterID: Player\r\n  LineID: L_5688beace48a\r\n  LocalizedDialogue:\r\n   
+    en: Subject F31- Status Pending... and...\r\n- CharacterID: Player\r\n  LineID:
+    L_5c4e0e50bc06\r\n  LocalizedDialogue:\r\n    en: Hm?\r\n- CharacterID: Narrator\r\n 
+    LineID: L_2893a05ee4c8\r\n  LocalizedDialogue:\r\n    en: My eyebrows furrowed
+    as I read the subject lines.\r\n- CharacterID: Player\r\n  LineID: L_ff8171ca005c\r\n 
+    LocalizedDialogue:\r\n    en: 'Subject E01- Subject Status: Stable.'\r\n- CharacterID:
+    Player\r\n  LineID: L_8cecd792c5df\r\n  LocalizedDialogue:\r\n    en: Wonder
+    what these two are.\r\n- CharacterID: Player\r\n  LineID: L_d794b74d1c35\r\n 
+    LocalizedDialogue:\r\n    en: They gotta be something of value, probably...\r\n-
+    CharacterID: Narrator\r\n  LineID: L_a8d34bc8bc5e\r\n  LocalizedDialogue:\r\n   
+    en: Fae clicks another file, and the screen fills up with pictures that captured
+    my eye.\r\n- CharacterID: Narrator\r\n  LineID: L_52670228cc02\r\n  LocalizedDialogue:\r\n   
+    en: \"...I mean, of course I'd be drawn to pictures more than words.\"\r\n- CharacterID:
+    Narrator\r\n  LineID: L_fd9e60de24e0\r\n  LocalizedDialogue:\r\n    en: I read
+    the dusty screen out loud while looking over Fae's shoulder.\r\n- CharacterID:
+    Player\r\n  LineID: L_d5dbf8fc47f2\r\n  LocalizedDialogue:\r\n    en: Day XO,
+    Month \u2666x, Year xoO\u2660... The next Turning of the Zodiac is approaching.
+    We mus carry it out soon...\r\n- CharacterID: Player\r\n  LineID: L_2b101edeb7d4\r\n 
+    LocalizedDialogue:\r\n    en: Turning of the Zodiac? I thought the Zodiacs were
+    the top Syndicate leaders. What the hell does turning mean?\r\n- CharacterID:
+    Fae\r\n  LineID: L_a9f1474ab98d\r\n  LocalizedDialogue:\r\n    en: Whatever it
+    is, it's got lots of information encrypted. I'll have to take a closer look into
+    this data.\r\n- CharacterID: Fae\r\n  LineID: L_47f7d523c1df\r\n  LocalizedDialogue:\r\n   
+    en: Also, I've been digging through the Syndicate files I've been able to access,
+    trying to figure out more about this place. It's some sort of advanced bio-augmentation
+    facility.\r\n- CharacterID: Fae\r\n  LineID: L_5c121e1ef30f\r\n  LocalizedDialogue:\r\n   
+    en: This facility wasn't meant to just construct robots. These are extremely
+    advanced bio frames, far beyond anything commercially available.\r\n- CharacterID:
+    Player\r\n  LineID: L_28fe8784a1d3\r\n  LocalizedDialogue:\r\n    en: Why the
+    hell does the Syndicate need such advanced bio frames? This isn't just some sort
+    of weird, evil robot-making factory?\r\n- CharacterID: Fae\r\n  LineID: L_dc0bbdb4bb4f\r\n 
+    LocalizedDialogue:\r\n    en: I'm not sure either, but I know it isn't something
+    as stupid as making an evil robot army.\r\n- CharacterID: Fae\r\n  LineID: L_2bd502440b69\r\n 
+    LocalizedDialogue:\r\n    en: Once I've finished downloading all the files, I'll
+    take a closer look at them on the ship.\r\n- CharacterID: Fae\r\n  LineID: L_b881e684b1f0\r\n 
+    LocalizedDialogue:\r\n    en: There's just one folder that I haven't been able
+    to access due to some ancient encryption method.\r\n- CharacterID: Player\r\n 
+    LineID: L_9e911b989c3c\r\n  LocalizedDialogue:\r\n    en: Really?\r\n- CharacterID:
+    Fae\r\n  LineID: L_4df57d5cf892\r\n  LocalizedDialogue:\r\n    en: Yeah. The
+    Syndicate folks who worked here probably had an efficient way of encrypting and 
+    decrypting.\r\n- CharacterID: Player\r\n  LineID: L_46146f7ac726\r\n  LocalizedDialogue:\r\n   
+    en: An external data drive? What, like a memory card?\r\n- CharacterID: Fae\r\n 
+    LineID: L_4eb5fbe43ff4\r\n  LocalizedDialogue:\r\n    en: Precisely.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_82edc5f1bb57\r\n  LocalizedDialogue:\r\n    en: I'm suddenly
+    aware of the small USB in my pocket, and I pull it out, staring at it.\r\n- CharacterID:
+    Fae\r\n  LineID: L_c322bd9eb94c\r\n  LocalizedDialogue:\r\n    en: What's that?\r\n-
+    CharacterID: Player\r\n  LineID: L_a344a1b82dd5\r\n  LocalizedDialogue:\r\n   
+    en: A USB. I found it in a robot friend I patched up.\r\n- CharacterID: Fae\r\n 
+    LineID: L_76a69556e67b\r\n  LocalizedDialogue:\r\n    en: Hmmm... Lemme see it.\r\n-
+    CharacterID: Narrator\r\n  LineID: L_5da692690c84\r\n  LocalizedDialogue:\r\n   
+    en: I hand the USB to Fae who looks at it with curiosity before plugging it in
+    the computer.\r\n- CharacterID: Fae\r\n  LineID: L_f76fda1d2afd\r\n  LocalizedDialogue:\r\n   
+    en: '...'\r\n- CharacterID: Fae\r\n  LineID: L_0e779f321847\r\n  LocalizedDialogue:\r\n   
+    en: Curse this ancient encryption. I can see where the Syndicate is hiding their
+    best data but I can't access it.\r\n- CharacterID: Player\r\n  LineID: L_136aeb19a12c\r\n 
+    LocalizedDialogue:\r\n    en: Hmmm... Maybe Everie could plug it into herself?\r\n-
+    CharacterID: Fae\r\n  LineID: L_9588db7dbc49\r\n  LocalizedDialogue:\r\n    en:
+    That's... actually not a bad idea. Go ahead and give her a shot.\r\nFoundFiles:\r\n-
+    CharacterID: Narrator\r\n  LineID: L_1727dc2bc014\r\n  LocalizedDialogue:\r\n   
+    en: I place the USB next to Fae, who raises an eyebrow at me.\r\n- CharacterID:
+    Fae\r\n  LineID: L_2130a80cae92\r\n  LocalizedDialogue:\r\n    en: Didn't I just
+    tell you to ask Everie if she had any ideas on decrypting that USB?\r\n- CharacterID:
+    Narrator\r\n  LineID: L_107eda0f0e16\r\n  LocalizedDialogue:\r\n    en: I lean
+    against the desk and don't even look at Fae for what I'm about to say.\r\n- CharacterID:
+    Player\r\n  LineID: L_75860b7e0298\r\n  LocalizedDialogue:\r\n    en: \"...You're
+    not gonna believe this.\"\r\n- CharacterID: Fae\r\n  LineID: L_c7532d44c2cf\r\n 
+    LocalizedDialogue:\r\n    en: '...'\r\n- CharacterID: Fae\r\n  LineID: L_ccf46f01c7d4\r\n 
+    LocalizedDialogue:\r\n    en: '.... Huh.'\r\n- CharacterID: Player\r\n  LineID:
+    L_9f7a28e98c59\r\n  LocalizedDialogue:\r\n    en: See, I dunno how, but she cracked
+    into it faster than lightning.\r\n- CharacterID: Fae\r\n  LineID: L_9b181a530388\r\n 
+    LocalizedDialogue:\r\n    en: I'm going to need to run more tests on our mysterious
+    android friend. But for now...\r\n- CharacterID: Narrator\r\n  LineID: L_be884f382ae1\r\n 
+    LocalizedDialogue:\r\n    en: Fae snatches up the USB and quickly inserts it
+    into the computer.\r\n- CharacterID: Narrator\r\n  LineID: L_9f96d9f85c39\r\n 
+    LocalizedDialogue:\r\n    en: Within seconds and minimal mouse clicks, the USB's
+    files pop up on the screen.\r\n- CharacterID: Fae\r\n  LineID: L_fd671ef507a4\r\n 
+    LocalizedDialogue:\r\n    en: Just... wow. Somehow Everie just gave me access
+    to top-level Syndicate data files.\r\n- CharacterID: Fae\r\n  LineID: L_2c225acb9e9f\r\n 
+    LocalizedDialogue:\r\n    en: '...Without taking decades to break the encryption.'\r\n-
+    CharacterID: Player\r\n  LineID: L_5740e9069810\r\n  LocalizedDialogue:\r\n   
+    en: Wicked!\r\n- CharacterID: Player\r\n  LineID: L_341e9813f365\r\n  LocalizedDialogue:\r\n   
+    en: While you're playing with your new toys, is it all good if I head back to
+    the ship with some of our loot? Since we got what we came for, at least.\r\n-
+    CharacterID: Fae\r\n  LineID: L_033faa9f5f23\r\n  LocalizedDialogue:\r\n    en:
+    You can go on ahead. I'd like to spend a bit more time here to inspect this gold
+    mine of high level research data we've landed in.\r\n- CharacterID: Player\r\n 
+    LineID: L_c40273afdb84\r\n  LocalizedDialogue:\r\n    en: Fair enough.\r\n- CharacterID:
+    Player\r\n  LineID: L_a57a4c7364f9\r\n  LocalizedDialogue:\r\n    en: (Maybe
+    I should go check back on Everie, yeah. She was a major help on this!)\r\n- CharacterID:
+    Narrator\r\n  LineID: L_4e9f80abf1f8\r\n  LocalizedDialogue:\r\n    en: Rather
+    than stick with Fae and listen to her read out loud, I leave her to her own devices
+    and look for more to do.\r\nLabComputerBroken:\r\n- CharacterID: Player\r\n 
+    LineID: L_48eaf37ebdc8\r\n  LocalizedDialogue:\r\n    en: Hey, uh, Fae, found
+    a mangled metal body in the corner. I can't make heads or tales of it, and I
+    was wondering if you had any ideas on it?\r\n- CharacterID: Fae\r\n  LineID:
+    L_ae4615ec32da\r\n  LocalizedDialogue:\r\n    en: Honestly? I'd say try and fix
+    it. Could be worth a fair bit of credits.\r\n- CharacterID: Player\r\n  LineID:
+    L_fff1eac7b7ed\r\n  LocalizedDialogue:\r\n    en: Can't argue with that. Any
+    ideas?\r\n- CharacterID: Fae\r\n  LineID: L_3195a1cf4934\r\n  LocalizedDialogue:\r\n   
+    en: If I had access to the computer files, I might be able to find something.\r\n-
+    CharacterID: Player\r\n  LineID: L_833110d40550\r\n  LocalizedDialogue:\r\n   
+    en: I guess I could give it a try?\r\n- CharacterID: Fae\r\n  LineID: L_1dc3d780add4\r\n 
+    LocalizedDialogue:\r\n    en: Knock yourself out.\r\nLabComputerFix:\r\n- CharacterID:
+    Player\r\n  LineID: L_f39864af091d\r\n  LocalizedDialogue:\r\n    en: Hey, uh,
+    Fae, found a mangled metal body in the corner. I can't make heads or tales of
+    it, and I was wondering if you had any ideas on it?\r\n- CharacterID: Fae\r\n 
+    LineID: L_c04b1ee02545\r\n  LocalizedDialogue:\r\n    en: Might be worth seeing
+    if it's fixable. Could be worth a fair amount of credits.\r\n- CharacterID: Player\r\n 
+    LineID: L_0bf42eab6cef\r\n  LocalizedDialogue:\r\n    en: Can't argue with that.
+    Any ideas?\r\n- CharacterID: Fae\r\n  LineID: L_e00e16e80ac4\r\n  LocalizedDialogue:\r\n   
+    en: Sure. I've finished deciphering some of these Syndicate files, and I found
+    some blueprints for these metal bodies.\r\n- CharacterID: Fae\r\n  LineID: L_4063528b6fc1\r\n 
+    LocalizedDialogue:\r\n    en: Let me send you the file.\r\n- CharacterID: Player\r\n 
+    LineID: L_c913f388ffb9\r\n  LocalizedDialogue:\r\n    en: Cool. Thanks!\r\nLabIntroPart1:\r\n-
+    CharacterID: Player\r\n  LineID: L_1887f34f28f8\r\n  LocalizedDialogue:\r\n   
+    en: Finally... Out of the cold.\r\n- CharacterID: Fae\r\n  LineID: L_d3e913418f22\r\n 
+    LocalizedDialogue:\r\n    en: Not quite. If you haven't noticed the power isn't
+    on and this place is completely made of metal.\r\n- CharacterID: Fae\r\n  LineID:
+    L_43898f011e5e\r\n  LocalizedDialogue:\r\n    en: So no, we're not out of the
+    cold.\r\n- CharacterID: Player\r\n  LineID: L_2568c533344a\r\n  LocalizedDialogue:\r\n   
+    en: Fine! It\u2019s LESS cold, is that better?\r\n- CharacterID: Fae\r\n  LineID:
+    L_aafeb6223769\r\n  LocalizedDialogue:\r\n    en: Only by a few degrees.\r\n-
+    CharacterID: Player\r\n  LineID: L_75002bbdef3e\r\n  LocalizedDialogue:\r\n   
+    en: Come on, don\u2019t be like that, Fae.\r\n- CharacterID: Fae\r\n  LineID:
+    L_dc45e352043a\r\n  LocalizedDialogue:\r\n    en: Let\u2019s just focus on getting
+    the power online, shall we? That\u2019s our current objective.\r\n- CharacterID:
+    Player\r\n  LineID: L_f64606036f84\r\n  LocalizedDialogue:\r\n    en: No one
+    asked- *sigh* Forget it. What are we looking for?\r\n- CharacterID: Fae\r\n 
+    LineID: L_6cd2593823ad\r\n  LocalizedDialogue:\r\n    en: We need to find out
+    why Everie seemed so emotional after mentioning Cyberia.\r\n- CharacterID: Player\r\n 
+    LineID: L_01e3ab5f3e3a\r\n  LocalizedDialogue:\r\n    en: Aside from that...
+    Uhh... Anything that\u2019s not nailed down? Or anything that looks important?\r\n-
+    CharacterID: Fae\r\n  LineID: L_a3ad489eea30\r\n  LocalizedDialogue:\r\n    en:
+    A bit of both, actually. Important stuff, we may need for later, figure out what\u2019s
+    up with our robot friend, and all. As for the not-nailed-down stuff...\r\n- CharacterID:
+    Fae\r\n  LineID: L_4267228cfb3b\r\n  LocalizedDialogue:\r\n    en: '...Wouldn\u2019t
+    hurt to have an extra source of income to cover our expenses, right?'\r\n- CharacterID:
+    Player\r\n  LineID: L_cb6ec110eaf1\r\n  LocalizedDialogue:\r\n    en: A girl
+    after my own heart.\r\n- CharacterID: Fae\r\n  LineID: L_9b57289dd33d\r\n  LocalizedDialogue:\r\n   
+    en: Yeah, maybe to experiment on it.\r\n- CharacterID: Narration\r\n  LineID:
+    L_702883b06e84\r\n  LocalizedDialogue:\r\n    en: I roll my eyes and we all split
+    up.\r\nLabIntroPart2:\r\n- CharacterID: Ava\r\n  LineID: L_de250d5f6295\r\n 
+    LocalizedDialogue:\r\n    en: Well, I got good news and bad news.\r\n- CharacterID:
+    Fae\r\n  LineID: L_95abc946605d\r\n  LocalizedDialogue:\r\n    en: '*sigh*...
+    Maybe you find something to activate the motors in the arm to let go.'\r\n- CharacterID:
+    Player\r\n  LineID: L_423f905b9953\r\n  LocalizedDialogue:\r\n    en: Got it.\r\n-
+    CharacterID: Player\r\n  LineID: L_daebc046eeb9\r\n  LocalizedDialogue:\r\n   
+    en: Sooo uhhh... any ideas?\r\n- CharacterID: Player\r\n  LineID: L_08ae1ae0db6b\r\n 
+    LocalizedDialogue:\r\n    en: Good news is, I found what might be the power switch
+    to this place. Bad news is, it's being held down by this robot-hand thingy.\r\nLabIntroPart3:\r\n-
+    CharacterID: Player\r\n  LineID: L_4788612099fe\r\n  LocalizedDialogue:\r\n   
+    en: Aaaaand voila! Ha! Knew I was on the money!\r\n- CharacterID: Fae\r\n  LineID:
+    L_1657a75f14bb\r\n  LocalizedDialogue:\r\n    en: And finally I can feel my fingers
+    again.\r\n- CharacterID: Player\r\n  LineID: L_b87f0ebac3dc\r\n  LocalizedDialogue:\r\n   
+    en: Not a whole lot of heat, though\u2026 Well, it beats bumping into things
+    and becoming a popsicle in this place.\r\n- CharacterID: Player\r\n  LineID:
+    L_4cb66cbf90a4\r\n  LocalizedDialogue:\r\n    en: Alright, now that it\u2019s
+    a bit lighter, time to see what I can dig up.\r\nPart3Ender:\r\n- CharacterID:
+    Player\r\n  LineID: L_f883f6dcb9e0\r\n  LocalizedDialogue:\r\n    en: Ahhh...
+    glorious bed. How I've missed you.\r\n- CharacterID: Narrator\r\n  LineID: L_48739e9488ab\r\n 
+    LocalizedDialogue:\r\n    en: With a fluff or two of the pillow, it doesn't take
+    long for my ass to go out like a light.\r\n- CharacterID: Narrator\r\n  LineID:
+    L_d3bbacdf67a8\r\n  LocalizedDialogue:\r\n    en: Hopefully tomorrow will be
+    easier to deal with...\r\nPart3ToLab:\r\n- CharacterID: Narrator\r\n  LineID:
+    L_945ef8cb79e0\r\n  LocalizedDialogue:\r\n    en: Cyberia is just as shitty to
+    experience the second time as it is the first time.\r\n- CharacterID: Narrator\r\n 
+    LineID: L_d71d8729c01f\r\n  LocalizedDialogue:\r\n    en: Literally the first
+    blast of icy has Fae nearly bolting back into the ship.\r\n- CharacterID: Narrator\r\n 
+    LineID: L_82f7f5c0213e\r\n  LocalizedDialogue:\r\n    en: The only thing keeping
+    her from doing so is Everie looking like she's about two seconds from freezing
+    up again.\r\n- CharacterID: Player\r\n  LineID: L_a329c8d00047\r\n  LocalizedDialogue:\r\n   
+    en: How much farther, Elsie?\r\n- CharacterID: Elsie\r\n  LineID: L_7e7021032599\r\n 
+    LocalizedDialogue:\r\n    en: At my best guess? Maybe an hour or two...? It's
+    not terribly far, but not having a lander to navigate this frozen hellscape does
+    slow things down.\r\n- CharacterID: Narrator\r\n  LineID: L_0301a7080ddd\r\n 
+    LocalizedDialogue:\r\n    en: Another two hours of this. Great.\r\n- CharacterID:
+    Narrator\r\n  LineID: L_202bcd29504d\r\n  LocalizedDialogue:\r\n    en: Finally,
+    in the distance, I can see the shadow of the lab.\r\nSurgeryFixed:\r\n- CharacterID:
+    Player\r\n  LineID: L_378422937a31\r\n  LocalizedDialogue:\r\n    en: '...'\r\n-
+    CharacterID: Player\r\n  LineID: L_c27e24ee8f9a\r\n  LocalizedDialogue:\r\n   
+    en: Phew, okay, no robot zombie, I'm safe from becoming a digital undead.\r\n-
+    CharacterID: Player\r\n  LineID: L_d28e26eb6fb1\r\n  LocalizedDialogue:\r\n   
+    en: (Maybe Fae's right, have I been watching too many movies?)\r\n- CharacterID:
+    Player\r\n  LineID: L_25f17a315332\r\n  LocalizedDialogue:\r\n    en: (...Nah.)\r\n-
+    CharacterID: Player\r\n  LineID: L_fa81d6020321\r\n  LocalizedDialogue:\r\n   
+    en: Hokay, bud, now that you're put back together, time to sell you for money...
+    Hm?\r\n- CharacterID: Narrator\r\n  LineID: L_7ee02ab30897\r\n  LocalizedDialogue:\r\n   
+    en: After fixing up the metal body I notice something hidden within the metal
+    remains.\r\n- CharacterID: Player\r\n  LineID: L_243382e307d5\r\n  LocalizedDialogue:\r\n   
+    en: The heck's this...?\r\n- CharacterID: Narrator\r\n  LineID: L_8ebfb52f6876\r\n 
+    LocalizedDialogue:\r\n    en: I reach my hand inside, and pull out what appears
+    to be...\r\n- CharacterID: Player\r\n  LineID: L_9baaba1c5c4b\r\n  LocalizedDialogue:\r\n   
+    en: '...A USB? Wow. Syndicate still uses these?'\r\n- CharacterID: Player\r\n 
+    LineID: L_fb12d6e74e17\r\n  LocalizedDialogue:\r\n    en: Maybe I should bring
+    it over to Fae. She'll know what to do with it..\r\nSurgeryUnfinished:\r\n- CharacterID:
+    Player\r\n  LineID: L_0ee9cc21265c\r\n  LocalizedDialogue:\r\n    en: Ho, man...
+    What happened to this guy? His innards are all messed up.\r\n- CharacterID: Player\r\n 
+    LineID: L_405c46585de9\r\n  LocalizedDialogue:\r\n    en: I'm no robot fixer,
+    but I might be able to figure this out. Worst comes to worst, I could ask Fae
+    for some tips.\r\n- CharacterID: Player\r\n  LineID: L_b79834d581b5\r\n  LocalizedDialogue:\r\n   
+    en: Might be worth a bit more if he's fixed up.\r\n"
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +870,7 @@ MonoBehaviour:
         TargetContainer: {fileID: 0}
         TargetAliasOrName: 
         PushReturnPoint: 0
+        TargetLineID: 
       - Labels:
         - Language: en
           Text: 
@@ -71,6 +881,7 @@ MonoBehaviour:
         TargetContainer: {fileID: 0}
         TargetAliasOrName: gggfdd
         PushReturnPoint: 0
+        TargetLineID: 
       - Labels:
         - Language: en
           Text: fffg
@@ -81,6 +892,7 @@ MonoBehaviour:
         TargetContainer: {fileID: 0}
         TargetAliasOrName: ff
         PushReturnPoint: 0
+        TargetLineID: 
       - Labels:
         - Language: en
           Text: 
@@ -91,10 +903,12 @@ MonoBehaviour:
         TargetContainer: {fileID: 0}
         TargetAliasOrName: 
         PushReturnPoint: 0
+        TargetLineID: 
       - Labels: []
         TargetContainer: {fileID: 0}
         TargetAliasOrName: 
         PushReturnPoint: 0
+        TargetLineID: 
       AllowGoBack: 0
       TargetLineID: 
   - ConversationID: LabIntroPart2
@@ -238,6 +1052,7 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
+      TargetLineID: 
   - ConversationID: LabIntroPart2
     LineID: L_423f905b9953
     ConversationLineIndex: 5
@@ -276,7 +1091,7 @@ MonoBehaviour:
       TargetLineID: 
   DefaultPresentationMode: 0
   AudioManifest: {fileID: 11400000, guid: 2e8c6e3aed53bbe44adfb275049e1155, type: 2}
-  ConversationYaml: {fileID: 0}
+  ConversationYaml: {fileID: -4870748962520551295}
   AllowPersistentOverrides: 1
   FilePath: DialogueScriptSample.yml
   SourceYaml: {fileID: 102900000, guid: 4612376414d9cc742be9c4b790213e6a, type: 3}
@@ -287,97 +1102,3 @@ MonoBehaviour:
   _conversationGuid: bde237e7-af83-4511-9d84-4ac0211d6853
   GraphAssetGuid: 1631c224839c18d4db6d350025c51dc5
   AuthoringMode: 1
---- !u!49 &3634575922960102340
-TextAsset:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: EmbeddedYaml
-  m_Script: "Conversation1:\r\n- CharacterID: Ava\r\n  LineID: L_04d64b899837\r\n 
-    LocalizedDialogue:\r\n    en: Jared... we\u2019re definitely off-trail.\r\n   
-    fr: Jared... on s'est clairement \xE9gar\xE9s.\r\n    es: Jared... definitivamente
-    nos perdimos del sendero.\r\n- CharacterID: Jared\r\n  LineID: L_cb8d04d73eed\r\n 
-    LocalizedDialogue:\r\n    en: Technically, we\u2019re *still* in the forest.
-    Nature counts.\r\n    fr: Techniquement, on est toujours dans la for\xEAt. \xC7a
-    compte, non?\r\n    es: T\xE9cnicamente, seguimos en el bosque. Eso cuenta.\r\n-
-    CharacterID: Ava\r\n  LineID: L_8205ac8c4e8a\r\n  LocalizedDialogue:\r\n    en:
-    We\u2019ve circled that tree three times now.\r\n    fr: On a tourn\xE9 autour
-    de cet arbre trois fois.\r\n    es: Hemos rodeado ese \xE1rbol tres veces.\r\n-
-    CharacterID: Jared\r\n  LineID: L_9cd861a48566\r\n  LocalizedDialogue:\r\n   
-    en: It\u2019s a popular tree. Five stars on TreeAdvisor.\r\n    fr: C\u2019est
-    un arbre populaire. Cinq \xE9toiles sur TreeAdvisor.\r\n    es: Es un \xE1rbol
-    famoso. Cinco estrellas en TreeAdvisor.\r\n- CharacterID: Ava\r\n  LineID: L_e01c38d35e8f\r\n 
-    LocalizedDialogue:\r\n    en: Shh! Did you hear that?\r\n    fr: Chut! T\u2019as
-    entendu \xE7a ?\r\n    es: \xA1Shh! \xBFEscuchaste eso?\r\n- CharacterID: Jared\r\n 
-    LineID: L_8e7776524b04\r\n  LocalizedDialogue:\r\n    en: Maybe it\u2019s a bear.
-    Or a ranger with snacks.\r\n    fr: Peut-\xEAtre un ours. Ou un garde forestier
-    avec des snacks.\r\n    es: Quiz\xE1s un oso. O un guardabosques con bocadillos.\r\n-
-    CharacterID: Wolfstag\r\n  LineID: L_ec0dec9027e2\r\n  LocalizedDialogue:\r\n   
-    en: *A towering silhouette appears between the trees. Antlers like twisted branches.*\r\n   
-    fr: *Une silhouette massive \xE9merge entre les arbres. Des bois torsad\xE9s.*\r\n   
-    es: *Una silueta imponente aparece entre los \xE1rboles. Astas retorcidas.*\r\n-
-    CharacterID: Ava\r\n  LineID: L_603c3f4ba4d6\r\n  LocalizedDialogue:\r\n    en:
-    What is *that?!*\r\n    fr: C\u2019est quoi *\xE7a* ?!\r\n    es: \xBF\xA1Qu\xE9
-    es *eso*!?\r\n- CharacterID: Jared\r\n  LineID: L_d1cfb2aa2db7\r\n  LocalizedDialogue:\r\n   
-    en: *gasps* Whoooooa. Look at you!\r\n    fr: *hal\xE8tement* Wooooow. Regarde-moi
-    \xE7a!\r\n    es: *jadea* \xA1Wooooow! \xA1M\xEDrate!\r\n- CharacterID: Jared\r\n 
-    LineID: L_16a17b3396e4\r\n  LocalizedDialogue:\r\n    en: Are you lost too, buddy?
-    You need scritches? Huh? Who\u2019s a majestic forest beast? *You* are!\r\n   
-    fr: Tu t\u2019es perdu aussi, mon grand ? Tu veux des gratouilles ? Qui est une
-    b\xEAte majestueuse ? *C\u2019est toi!*\r\n    es: \xBFTambi\xE9n est\xE1s perdido,
-    amigo? \xBFQuieres caricias? \xBFQui\xE9n es una bestia majestuosa? \xA1*T\xFA*!\r\n-
-    CharacterID: Wolfstag\r\n  LineID: L_fecc5a327214\r\n  LocalizedDialogue:\r\n   
-    en: *It tilts its head slightly. Curious.*\r\n    fr: *Il incline l\xE9g\xE8rement
-    la t\xEAte. Curieux.*\r\n    es: *Inclina ligeramente la cabeza. Curioso.*\r\n-
-    CharacterID: Ava\r\n  LineID: L_4e12510204f1\r\n  LocalizedDialogue:\r\n    en:
-    Jared\u2026 stop trying to pet the antler demon!\r\n    fr: Jared\u2026 arr\xEAte
-    d\u2019essayer de caresser le d\xE9mon \xE0 bois!\r\n    es: \xA1Jared... deja
-    de intentar acariciar al demonio de los cuernos!\r\n- CharacterID: Wolfstag\r\n 
-    LineID: L_81d918d79d10\r\n  LocalizedDialogue:\r\n    en: *The shadows melt away.
-    The creature\u2019s full form is revealed\u2014fur glows silver in the moonlight.*\r\n   
-    fr: *Les ombres se dissipent. La cr\xE9ature se d\xE9voile \u2014 sa fourrure
-    luit \xE0 la lumi\xE8re lunaire.*\r\n    es: *Las sombras se desvanecen. Su forma
-    completa aparece \u2014 su pelaje brilla bajo la luna.*\r\n- CharacterID: Jared\r\n 
-    LineID: L_44b11d6cd642\r\n  LocalizedDialogue:\r\n    en: Oh my god. He\u2019s
-    gorgeous. I want ten of him.\r\n    fr: Oh mon dieu. Il est splendide. J\u2019en
-    veux dix.\r\n    es: Dios m\xEDo. Es hermoso. Quiero diez.\r\n- CharacterID:
-    Ava\r\n  LineID: L_b06da097d428\r\n  LocalizedDialogue:\r\n    en: ...I think
-    he\u2019s leading us somewhere.\r\n    fr: ...Je crois qu\u2019il nous guide
-    quelque part.\r\n    es: ...Creo que nos est\xE1 guiando.\r\n- CharacterID: Wolfstag\r\n 
-    LineID: L_9379a5301f7e\r\n  LocalizedDialogue:\r\n    en: *He glances back, takes
-    a few careful steps, then waits.*\r\n    fr: *Il jette un regard en arri\xE8re,
-    avance lentement, puis s\u2019arr\xEAte.*\r\n    es: *Mira hacia atr\xE1s, da
-    unos pasos y espera.*\r\n- CharacterID: Jared\r\n  LineID: L_b5e5b1e08f68\r\n 
-    LocalizedDialogue:\r\n    en: Look at him! He\u2019s so polite. Trail angel confirmed.\r\n   
-    fr: Regarde-le ! Trop poli. Ange du sentier confirm\xE9.\r\n    es: \xA1M\xEDralo!
-    Tan educado. \xC1ngel del sendero confirmado.\r\n- CharacterID: Ava\r\n  LineID:
-    L_6c2df39ca769\r\n  LocalizedDialogue:\r\n    en: I think he wants us to follow.
-    And... I think we should.\r\n    fr: Il veut qu\u2019on le suive. Et... je crois
-    qu\u2019on devrait.\r\n    es: Quiere que lo sigamos. Y... creo que debemos hacerlo.\r\n-
-    CharacterID: Wolfstag\r\n  LineID: L_ff77ae8df82b\r\n  LocalizedDialogue:\r\n   
-    en: *The creature moves ahead again, parting the brush. Bits of a path peek through
-    behind him.*\r\n    fr: *La cr\xE9ature avance \xE0 nouveau, \xE9cartant les
-    buissons. Un sentier appara\xEEt derri\xE8re lui.*\r\n    es: *La criatura avanza,
-    apartando los arbustos. Se revela un sendero detr\xE1s de \xE9l.*\r\n- CharacterID:
-    Jared\r\n  LineID: L_dc490e2592df\r\n  LocalizedDialogue:\r\n    en: Wait...
-    this looks familiar. That\u2019s the ridge! That\u2019s the way back!\r\n   
-    fr: Attends... \xE7a me dit quelque chose. C\u2019est la cr\xEAte ! C\u2019est
-    le bon chemin!\r\n    es: Espera... esto me suena. \xA1Esa es la cresta! \xA1Ese
-    es el camino de regreso!\r\n- CharacterID: Ava\r\n  LineID: L_2e2673368a71\r\n 
-    LocalizedDialogue:\r\n    en: He really *is* guiding us...\r\n    fr: Il nous
-    guide vraiment...\r\n    es: De verdad nos est\xE1 guiando...\r\n- CharacterID:
-    Wolfstag\r\n  LineID: L_4c04459eaeba\r\n  LocalizedDialogue:\r\n    en: *He pauses
-    at the clearing's edge, makes eye contact, then silently disappears into the
-    mist.*\r\n    fr: *Il s\u2019arr\xEAte \xE0 la lisi\xE8re de la clairi\xE8re,
-    nous regarde, puis dispara\xEEt dans la brume.*\r\n    es: *Se detiene en el
-    borde del claro, nos mira y desaparece entre la niebla.*\r\n- CharacterID: Jared\r\n 
-    LineID: L_6e955da171a6\r\n  LocalizedDialogue:\r\n    en: ...Goodbye, magic antler
-    puppy. I hope you find your own trail home.\r\n    fr: ...Adieu, chien magique
-    \xE0 bois. J\u2019esp\xE8re que tu retrouveras ton chemin.\r\n    es: ...Adi\xF3s,
-    cachorro m\xE1gico de astas. Ojal\xE1 encuentres tu camino.\r\n- CharacterID:
-    Ava\r\n  LineID: L_1d54676a6a5b\r\n  LocalizedDialogue:\r\n    en: ...Next time,
-    I\u2019m bringing a map and a compass. And maybe pepper spray.\r\n    fr: ...La
-    prochaine fois, je prends une carte, une boussole... et du spray au poivre.\r\n   
-    es: ...La pr\xF3xima vez, llevar\xE9 un mapa, una br\xFAjula... y tal vez gas
-    pimienta."
