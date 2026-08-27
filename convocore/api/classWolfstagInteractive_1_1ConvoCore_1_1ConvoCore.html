@@ -221,6 +221,9 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a8afa13241331240c42169cdc636840f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0361ff66b289fcccbbab9bfbe452f240" id="r_a0361ff66b289fcccbbab9bfbe452f240"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a0361ff66b289fcccbbab9bfbe452f240">HandleLineContinuation</a> (<a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1DialogueLineInfo.html">ConvoCoreConversationData.DialogueLineInfo</a> line)</td></tr>
 <tr class="separator:a0361ff66b289fcccbbab9bfbe452f240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb2e9faf0a9a2c51e6af049812e245cd" id="r_abb2e9faf0a9a2c51e6af049812e245cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#abb2e9faf0a9a2c51e6af049812e245cd">JumpToLineId</a> (string targetLineId, bool pushReturnPoint)</td></tr>
+<tr class="memdesc:abb2e9faf0a9a2c51e6af049812e245cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jumps to another line in the current conversation by its stable LineID.  <br /></td></tr>
+<tr class="separator:abb2e9faf0a9a2c51e6af049812e245cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0baf99599ca57ee011a376d60aa2bbc3" id="r_a0baf99599ca57ee011a376d60aa2bbc3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a0baf99599ca57ee011a376d60aa2bbc3">HandleContainerBranch</a> (<a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1LineContinuation.html">ConvoCoreConversationData.LineContinuation</a> cont)</td></tr>
 <tr class="separator:a0baf99599ca57ee011a376d60aa2bbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83d5dd66bb17c8a12ae07338ce9972b0" id="r_a83d5dd66bb17c8a12ae07338ce9972b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a83d5dd66bb17c8a12ae07338ce9972b0">TryReturnOrEnd</a> ()</td></tr>
@@ -573,6 +576,45 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb2e9faf0a9a2c51e6af049812e245cd" name="abb2e9faf0a9a2c51e6af049812e245cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb2e9faf0a9a2c51e6af049812e245cd">&#9670;&#160;</a></span>JumpToLineId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WolfstagInteractive.ConvoCore.ConvoCore.JumpToLineId </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>targetLineId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pushReturnPoint</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Jumps to another line in the current conversation by its stable LineID. </p>
+<p>Reverse history is positionally indexed, so a backward jump keeps the still-valid prefix (frames before the target) — reverse keeps working through hub loops — while a forward jump resets it (intermediate frames would be holes), matching SwitchConversation. </p>
 
 </div>
 </div>

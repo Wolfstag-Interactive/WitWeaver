@@ -16,6 +16,7 @@ var classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore =
     [ "HandleChoiceBranch", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a8afa13241331240c42169cdc636840f0", null ],
     [ "HandleContainerBranch", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a0baf99599ca57ee011a376d60aa2bbc3", null ],
     [ "HandleLineContinuation", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a0361ff66b289fcccbbab9bfbe452f240", null ],
+    [ "JumpToLineId", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#abb2e9faf0a9a2c51e6af049812e245cd", null ],
     [ "PauseConversation", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a2d32a48e533852397b3c1bda4dde878a", null ],
     [ "PlayConversation", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a641a290877ed138a98aa3071f88a8364", null ],
     [ "PlayConversation", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html#a52d312daba7f072fa528b90fbf4c3bdd", null ],

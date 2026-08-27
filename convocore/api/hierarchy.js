@@ -58,6 +58,9 @@ var hierarchy =
     [ "WolfstagInteractive.ConvoCore.IConvoAudioProvider", "interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoAudioProvider.html", [
       [ "WolfstagInteractive.ConvoCore.ConvoCoreUnityAudioProvider", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUnityAudioProvider.html", null ]
     ] ],
+    [ "WolfstagInteractive.ConvoCore.IConvoBranchCondition", "interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoBranchCondition.html", [
+      [ "WolfstagInteractive.ConvoCore.BaseConvoBranchCondition", "classWolfstagInteractive_1_1ConvoCore_1_1BaseConvoBranchCondition.html", null ]
+    ] ],
     [ "WolfstagInteractive.ConvoCore.IConvoCoreCharacterDisplay", "interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreCharacterDisplay.html", [
       [ "WolfstagInteractive.ConvoCore.ConvoCoreCharacterDisplayBase", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase.html", [
         [ "WolfstagInteractive.ConvoCore.ConvoCoreActionOnlyDisplay", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreActionOnlyDisplay.html", null ],
@@ -87,6 +90,7 @@ var hierarchy =
     [ "WolfstagInteractive.ConvoCore.IConvoCoreSpreadsheetReader", "interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreSpreadsheetReader.html", null ],
     [ "WolfstagInteractive.ConvoCore.IConvoInput", "interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoInput.html", [
       [ "WolfstagInteractive.ConvoCore.ContainerInput", "classWolfstagInteractive_1_1ConvoCore_1_1ContainerInput.html", null ],
+      [ "WolfstagInteractive.ConvoCore.GraphConversationInput", "classWolfstagInteractive_1_1ConvoCore_1_1GraphConversationInput.html", null ],
       [ "WolfstagInteractive.ConvoCore.SingleConversationInput", "classWolfstagInteractive_1_1ConvoCore_1_1SingleConversationInput.html", null ]
     ] ],
     [ "WolfstagInteractive.ConvoCore.SaveSystem.IConvoSaveProvider", "interfaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1IConvoSaveProvider.html", [
@@ -150,7 +154,9 @@ var hierarchy =
     [ "WolfstagInteractive.ConvoCore.PrefabExpressionMapping", "classWolfstagInteractive_1_1ConvoCore_1_1PrefabExpressionMapping.html", null ],
     [ "WolfstagInteractive.ConvoCore.PreprocessorResult", "classWolfstagInteractive_1_1ConvoCore_1_1PreprocessorResult.html", null ],
     [ "PropertyAttribute", null, [
+      [ "WolfstagInteractive.ConvoCore.ContainerAliasSelectorAttribute", "classWolfstagInteractive_1_1ConvoCore_1_1ContainerAliasSelectorAttribute.html", null ],
       [ "WolfstagInteractive.ConvoCore.ExpressionIDSelectorAttribute", "classWolfstagInteractive_1_1ConvoCore_1_1ExpressionIDSelectorAttribute.html", null ],
+      [ "WolfstagInteractive.ConvoCore.LineIDSelectorAttribute", "classWolfstagInteractive_1_1ConvoCore_1_1LineIDSelectorAttribute.html", null ],
       [ "WolfstagInteractive.ConvoCore.PagedListAttribute", "classWolfstagInteractive_1_1ConvoCore_1_1PagedListAttribute.html", null ]
     ] ],
     [ "WolfstagInteractive.ConvoCore.RepresentationPair", "classWolfstagInteractive_1_1ConvoCore_1_1RepresentationPair.html", null ],

@@ -114,10 +114,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a2a82c9e53582065b1651e9ec15f441b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2caf3b37074e89075cb270c6ccc3ef8" id="r_af2caf3b37074e89075cb270c6ccc3ef8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1ChoiceOption.html#af2caf3b37074e89075cb270c6ccc3ef8">PushReturnPoint</a></td></tr>
 <tr class="separator:af2caf3b37074e89075cb270c6ccc3ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17aabcedc5b3f05195453d34d305ba78" id="r_a17aabcedc5b3f05195453d34d305ba78"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1ChoiceOption.html#a17aabcedc5b3f05195453d34d305ba78">TargetLineID</a></td></tr>
+<tr class="separator:a17aabcedc5b3f05195453d34d305ba78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a single selectable option in a LineContinuationMode.PlayerChoice line. </p>
-<p>Holds the localized label text, the target ConversationContainer to branch into, the alias or name of the entry to start from, and whether to push a return point onto the stack. </p>
+<p>Holds the localized label text and the branch target. Target resolution priority: a non-empty TargetLineID jumps to that line within the current conversation; otherwise a non-null TargetContainer branches to another conversation; otherwise the conversation ends with a warning. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a06020925a65e678136da8597693cbb2f" name="a06020925a65e678136da8597693cbb2f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06020925a65e678136da8597693cbb2f">&#9670;&#160;</a></span>Labels</h2>
@@ -169,6 +171,20 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classWolfstagInteractive_1_1ConvoCore_1_1ConversationContainer.html">ConversationContainer</a> WolfstagInteractive.ConvoCore.ConvoCoreConversationData.ChoiceOption.TargetContainer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17aabcedc5b3f05195453d34d305ba78" name="a17aabcedc5b3f05195453d34d305ba78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17aabcedc5b3f05195453d34d305ba78">&#9670;&#160;</a></span>TargetLineID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string WolfstagInteractive.ConvoCore.ConvoCoreConversationData.ChoiceOption.TargetLineID</td>
         </tr>
       </table>
 </div><div class="memdoc">
