@@ -5,15 +5,15 @@ title: Save Manager
 
 # Save Manager
 
-`ConvoCoreSaveManager` is the central hub of the save system. It owns the active save provider, manages save slots, assembles the full game snapshot, and distributes restored snapshots to all registered conversation savers.
+`WitWeaverSaveManager` is the central hub of the save system. It owns the active save provider, manages save slots, assembles the full game snapshot, and distributes restored snapshots to all registered conversation savers.
 
 ---
 
 ## What kind of object is it?
 
-`ConvoCoreSaveManager` is a **ScriptableObject**, a project asset rather than a scene component. You create one per project, keep it in your project files, and reference it from scene GameObjects (your bootstrapper, conversation runners, UI, etc.) via serialized fields.
+`WitWeaverSaveManager` is a **ScriptableObject**, a project asset rather than a scene component. You create one per project, keep it in your project files, and reference it from scene GameObjects (your bootstrapper, conversation runners, UI, etc.) via serialized fields.
 
-**Create via**: Right-click in the Project window → **Create → ConvoCore → Runtime → Save Manager**
+**Create via**: Right-click in the Project window → **Create → WitWeaver → Runtime → Save Manager**
 
 ---
 
@@ -21,8 +21,8 @@ title: Save Manager
 
 | Field | Description |
 |---|---|
-| **Variable Store** | Reference to your `ConvoVariableStore` asset. The save manager reads Global-scoped variables from here when assembling a snapshot, and writes them back when restoring. |
-| **Settings State** | Reference to a `ConvoCoreSettingsSnapshot` asset. Used to persist language preference and other settings independently of game slot data. |
+| **Variable Store** | Reference to your `WitWeaverVariableStore` asset. The save manager reads Global-scoped variables from here when assembling a snapshot, and writes them back when restoring. |
+| **Settings State** | Reference to a `WitWeaverSettingsSnapshot` asset. Used to persist language preference and other settings independently of game slot data. |
 | **Use Yaml** | When enabled, the built-in YAML provider is used instead of JSON. Both produce the same data - YAML is more readable for debugging, JSON is more compact. Has no effect if you inject a custom provider via `SetProvider()`. |
 | **Default Slot** | The slot name used by `SaveToDefaultSlot()` and `LoadFromDefaultSlot()`. Useful for simple single-slot games. |
 
@@ -33,12 +33,12 @@ title: Save Manager
 Call `Initialize()` before any save or load operation. The bootstrapper is the right place for this.
 
 ```csharp
-using WolfstagInteractive.ConvoCore.SaveSystem;
+using WolfstagInteractive.WitWeaver.SaveSystem;
 using UnityEngine;
 
 public class GameBootstrapper : MonoBehaviour
 {
-    [SerializeField] private ConvoCoreSaveManager _saveManager;
+    [SerializeField] private WitWeaverSaveManager _saveManager;
 
     private void Awake()
     {
@@ -92,13 +92,13 @@ _saveManager.InitializeSettings();
 _saveManager.SaveSettings();
 ```
 
-`InitializeSettings()` also triggers `ConvoCoreLanguageManager` to apply the saved language code, so the correct locale is active before any UI renders.
+`InitializeSettings()` also triggers `WitWeaverLanguageManager` to apply the saved language code, so the correct locale is active before any UI renders.
 
 ---
 
 ## Snapshot registry
 
-`ConvoCoreConversationSaveManager` components call `RegisterConversationSnapshot()` automatically when they commit. You rarely need to call these directly, but they are public for edge cases:
+`WitWeaverConversationSaveManager` components call `RegisterConversationSnapshot()` automatically when they commit. You rarely need to call these directly, but they are public for edge cases:
 
 ```csharp
 // Register or update a conversation snapshot in the manager's in-memory registry
@@ -116,7 +116,7 @@ ConversationSnapshot snap = _saveManager.GetConversationSnapshot(conversationGui
 
 ```csharp
 // Assemble and return the full game snapshot (does not write to disk)
-ConvoCoreGameSnapshot snapshot = _saveManager.GetGameSnapshot();
+WitWeaverGameSnapshot snapshot = _saveManager.GetGameSnapshot();
 
 // Restore the manager's in-memory state from a snapshot (does not read from disk)
 _saveManager.RestoreGameSnapshot(snapshot);
@@ -150,7 +150,7 @@ All events fire on the main thread. Subscribe to them from any MonoBehaviour.
 | `OnLoadCompleted` | `Action<string>` | After a successful `Load()` or `LoadFromDefaultSlot()`. The string argument is the slot name. |
 | `OnSettingsSaved` | `Action` | After `SaveSettings()` completes. |
 | `OnSettingsLoaded` | `Action` | After `InitializeSettings()` completes. |
-| `OnSnapshotAssembled` | `Action<ConvoCoreGameSnapshot>` | After the snapshot is assembled but **before** it is written to disk. |
+| `OnSnapshotAssembled` | `Action<WitWeaverGameSnapshot>` | After the snapshot is assembled but **before** it is written to disk. |
 
 ### Subscribing to events
 
@@ -181,7 +181,7 @@ private void HandleLoadCompleted(string slot)
 ```
 
 :::info[For Advanced Users]
-`OnSnapshotAssembled` fires with the fully assembled `ConvoCoreGameSnapshot` **before** it is handed to the save provider. This is the extension point for injecting game-specific data (player level, inventory, quest flags, etc.) into the snapshot without modifying the save system itself.
+`OnSnapshotAssembled` fires with the fully assembled `WitWeaverGameSnapshot` **before** it is handed to the save provider. This is the extension point for injecting game-specific data (player level, inventory, quest flags, etc.) into the snapshot without modifying the save system itself.
 
 ```csharp
 private void OnEnable()
@@ -194,17 +194,17 @@ private void OnDisable()
     _saveManager.OnSnapshotAssembled -= InjectGameData;
 }
 
-private void InjectGameData(string slot, ConvoCoreGameSnapshot snapshot)
+private void InjectGameData(string slot, WitWeaverGameSnapshot snapshot)
 {
     // Add a global variable to carry player level into the snapshot
-    snapshot.GlobalVariables.Add(new ConvoVariableEntry
+    snapshot.GlobalVariables.Add(new WitWeaverVariableEntry
     {
-        CoreVariable = new ConvoCoreVariable
+        CoreVariable = new WitWeaverVariable
         {
             Key = "player_level",
-            Type = ConvoVariableType.Int
+            Type = WitWeaverVariableType.Int
         }.SetInt(_playerLevel),
-        Scope = ConvoVariableScope.Global
+        Scope = WitWeaverVariableScope.Global
     });
 }
 ```
@@ -221,7 +221,7 @@ A simple slot selection implementation:
 ```csharp
 public class SaveSlotUI : MonoBehaviour
 {
-    [SerializeField] private ConvoCoreSaveManager _saveManager;
+    [SerializeField] private WitWeaverSaveManager _saveManager;
     [SerializeField] private string[] _slots = { "slot_1", "slot_2", "slot_3" };
 
     public void OnSaveSlotClicked(int index)

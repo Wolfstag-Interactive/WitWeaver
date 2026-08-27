@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'ConvoCore Documentation',
+  title: 'WitWeaver Documentation',
   tagline: 'A modular Unity dialogue framework',
   url: 'https://docs.wolfstaginteractive.com',
   baseUrl: '/',
@@ -17,7 +17,7 @@ const config: Config = {
         indexDocs: true,
         indexBlog: false,
         indexPages: false,
-        docsRouteBasePath: "/convocore",
+        docsRouteBasePath: "/witweaver",
       },
     ],
   ],
@@ -27,7 +27,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          routeBasePath: 'convocore',
+          routeBasePath: 'witweaver',
           sidebarPath: require.resolve('./sidebars.ts'),
         },
         blog: false,
@@ -40,10 +40,10 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: 'ConvoCore',
+      title: 'WitWeaver',
       items: [
-        {to: '/convocore/', label: 'Guide', position: 'left'},
-        {href: 'https://docs.wolfstaginteractive.com/convocore/api/', label: 'API', position: 'left'},
+        {to: '/witweaver/', label: 'Guide', position: 'left'},
+        {href: 'https://docs.wolfstaginteractive.com/witweaver/api/', label: 'API', position: 'left'},
       ],
     },
     prism: {

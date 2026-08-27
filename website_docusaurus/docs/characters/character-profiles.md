@@ -5,13 +5,13 @@ title: Character Profiles
 
 # Character Profiles
 
-A `ConvoCoreCharacterProfileBaseData` ScriptableObject represents one character in ConvoCore. It defines who the character is, what their display name and color are, and which visual representations they have available. Every character that speaks in a conversation must have a profile.
+A `WitWeaverCharacterProfileBaseData` ScriptableObject represents one character in WitWeaver. It defines who the character is, what their display name and color are, and which visual representations they have available. Every character that speaks in a conversation must have a profile.
 
 ---
 
 ## Creating a Character Profile
 
-Right-click in the **Project** panel → **Create → ConvoCore → Character Profile**.
+Right-click in the **Project** panel → **Create → WitWeaver → Character Profile**.
 
 Name the asset something descriptive, typically the character's in-world name or a short identifier. The asset name does not need to match any ID, but keeping them consistent avoids confusion.
 
@@ -23,7 +23,7 @@ Name the asset something descriptive, typically the character's in-world name or
 |---|---|
 | **Character Name** | Display name shown in the dialogue UI (this is what players see). Can include spaces, punctuation, and unicode. |
 | **Character ID** | Unique identifier used in YAML and conversation data. Must match the `CharacterID` field in your YAML exactly. Case-sensitive. |
-| **Character Name Color** | Color used for this character's name label in the dialogue UI. Passed through to your `ConvoCoreUIFoundation` subclass as `primaryProfile.CharacterNameColor`. |
+| **Character Name Color** | Color used for this character's name label in the dialogue UI. Passed through to your `WitWeaverUIFoundation` subclass as `primaryProfile.CharacterNameColor`. |
 | **Character Description** | Optional free-text notes for your team's reference. Not shown at runtime. |
 | **Is Player Character** | Mark this for the player-controlled character. Enables `{PlayerName}` substitution in dialogue text. Exactly one profile per conversation should have this checked. |
 | **Representations** | A list of `RepresentationPair` entries, each pairing a variant name with a `CharacterRepresentationBase` asset. See [Character Representations](character-representations). |
@@ -44,31 +44,31 @@ Use short, lowercase IDs with underscores: `town_guard`, `merchant`, `player`. A
 :::
 
 :::warning
-A mismatched Character ID (wrong case, typo, or a profile simply missing from the conversation's participant list) causes ConvoCore to log a warning at runtime and skip character resolution for that line. The dialogue still advances, but the speaker will appear as unknown and no character representation will be displayed. If a character's portrait or name never appears, this is the first thing to check.
+A mismatched Character ID (wrong case, typo, or a profile simply missing from the conversation's participant list) causes WitWeaver to log a warning at runtime and skip character resolution for that line. The dialogue still advances, but the speaker will appear as unknown and no character representation will be displayed. If a character's portrait or name never appears, this is the first thing to check.
 :::
 
 ---
 
 ## Adding Profiles to a Conversation
 
-Character profiles do not automatically apply to every conversation. You must explicitly list which characters participate in each `ConvoCoreConversationData` asset.
+Character profiles do not automatically apply to every conversation. You must explicitly list which characters participate in each `WitWeaverConversationData` asset.
 
-1. Select your `ConvoCoreConversationData` asset in the Project panel.
+1. Select your `WitWeaverConversationData` asset in the Project panel.
 2. In the Inspector, find the **Conversation Participant Profiles** list.
 3. Click **+** and drag the character's profile asset into the new slot.
 4. Repeat for every character whose `CharacterID` appears in the conversation's YAML.
 
-Every `CharacterID` referenced in the YAML must have a matching profile in this list. ConvoCore resolves speaker data at parse time; missing profiles produce a warning and leave the speaker unresolved for affected lines.
+Every `CharacterID` referenced in the YAML must have a matching profile in this list. WitWeaver resolves speaker data at parse time; missing profiles produce a warning and leave the speaker unresolved for affected lines.
 
 :::note
-The **Conversation Participant Profiles** list is on the `ConvoCoreConversationData` asset, not on the `ConvoCore` component. It is scoped per conversation, so two different conversations can have different participant sets even if they share some characters.
+The **Conversation Participant Profiles** list is on the `WitWeaverConversationData` asset, not on the `WitWeaver` component. It is scoped per conversation, so two different conversations can have different participant sets even if they share some characters.
 :::
 
 ---
 
 ## Player Character and `{PlayerName}` Substitution
 
-Mark exactly one character profile per conversation as **Is Player Character**. ConvoCore uses this profile's **Character Name** as the substitution value for the `{PlayerName}` token in any dialogue text.
+Mark exactly one character profile per conversation as **Is Player Character**. WitWeaver uses this profile's **Character Name** as the substitution value for the `{PlayerName}` token in any dialogue text.
 
 For example, if the player's character name is `Alex` and a line contains:
 
@@ -85,7 +85,7 @@ At runtime this becomes: `"Welcome back, Alex! Ready to trade?"`
 :::
 
 :::warning
-If no profile in the conversation is marked **Is Player Character**, the `{PlayerName}` token is left unreplaced in the output text. If multiple profiles are marked as **Is Player Character**, ConvoCore uses the first one it finds; the result is undefined if the order varies. Mark exactly one profile per conversation.
+If no profile in the conversation is marked **Is Player Character**, the `{PlayerName}` token is left unreplaced in the output text. If multiple profiles are marked as **Is Player Character**, WitWeaver uses the first one it finds; the result is undefined if the order varies. Mark exactly one profile per conversation.
 :::
 
 ---

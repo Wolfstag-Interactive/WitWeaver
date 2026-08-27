@@ -5,7 +5,7 @@ title: Conversation State
 
 # Conversation State
 
-ConvoCore tracks the lifecycle of a running conversation through the `ConversationState` enum, accessible at any time via the `CurrentDialogueState` property. Understanding state transitions is important for writing reliable UI code, integrating with other game systems, and avoiding common bugs like double-starting a conversation.
+WitWeaver tracks the lifecycle of a running conversation through the `ConversationState` enum, accessible at any time via the `CurrentDialogueState` property. Understanding state transitions is important for writing reliable UI code, integrating with other game systems, and avoiding common bugs like double-starting a conversation.
 
 ---
 
@@ -179,7 +179,7 @@ private void OnConversationOver()
 :::warning
 **Always unsubscribe from C# events when your component is disabled or destroyed.**
 
-If a `MonoBehaviour` subscribes to a ConvoCore C# event in `OnEnable` but never removes the listener in `OnDisable`, the runner continues to hold a reference to your object even after it is destroyed. When the event fires, Unity will throw a `MissingReferenceException` or `NullReferenceException`.
+If a `MonoBehaviour` subscribes to a WitWeaver C# event in `OnEnable` but never removes the listener in `OnDisable`, the runner continues to hold a reference to your object even after it is destroyed. When the event fires, Unity will throw a `MissingReferenceException` or `NullReferenceException`.
 
 The correct pattern:
 

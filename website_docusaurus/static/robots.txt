@@ -5,4 +5,4 @@ Allow: /
 Sitemap: https://docs.wolfstaginteractive.com/sitemap.xml
 
 # Doxygen API sitemap (all C# API class and namespace pages)
-Sitemap: https://docs.wolfstaginteractive.com/convocore/api/sitemap.xml
+Sitemap: https://docs.wolfstaginteractive.com/witweaver/api/sitemap.xml

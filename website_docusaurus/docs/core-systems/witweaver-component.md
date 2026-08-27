@@ -1,20 +1,20 @@
 ---
 sidebar_position: 1
-title: ConvoCore Component
+title: WitWeaver Component
 ---
 
-# ConvoCore Component
+# WitWeaver Component
 
-The `ConvoCore` MonoBehaviour is the central piece of the runtime system. Attach it to a GameObject in your scene and it manages all conversation playback: loading dialogue data, advancing lines, running actions, firing events, and coordinating with the UI.
+The `WitWeaver` MonoBehaviour is the central piece of the runtime system. Attach it to a GameObject in your scene and it manages all conversation playback: loading dialogue data, advancing lines, running actions, firing events, and coordinating with the UI.
 
 ---
 
 ## Setting It Up
 
 1. Create an empty GameObject (or use an existing manager object).
-2. Add the **ConvoCore** component via *Add Component → ConvoCore*.
+2. Add the **WitWeaver** component via *Add Component → WitWeaver*.
 3. Set the **Input** field to determine what plays when `PlayConversation()` is called with no argument. See [Input Modes](input-modes) for the available types.
-4. Optionally assign a **Conversation UI**, a reference to a `ConvoCoreUIFoundation` component in your scene.
+4. Optionally assign a **Conversation UI**, a reference to a `WitWeaverUIFoundation` component in your scene.
 
 ---
 
@@ -22,15 +22,15 @@ The `ConvoCore` MonoBehaviour is the central piece of the runtime system. Attach
 
 ### Input
 
-A `[SerializeReference]` field that accepts either a `SingleConversationInput` or a `ContainerInput`. This is the "default" conversation source. When you call `PlayConversation()` with no arguments, ConvoCore asks the configured input to resolve which conversation to start.
+A `[SerializeReference]` field that accepts either a `SingleConversationInput` or a `ContainerInput`. This is the "default" conversation source. When you call `PlayConversation()` with no arguments, WitWeaver asks the configured input to resolve which conversation to start.
 
-You can also pass a `ConvoCoreConversationData` directly to `PlayConversation(data)` to bypass this field entirely.
+You can also pass a `WitWeaverConversationData` directly to `PlayConversation(data)` to bypass this field entirely.
 
 See [Input Modes](input-modes) for a full breakdown of both types.
 
 ### Conversation UI
 
-A reference to a `ConvoCoreUIFoundation` component. This is the UI layer ConvoCore writes dialogue to. If this field is `null`, ConvoCore still runs the full conversation (all actions fire, all events fire, all state transitions happen), but nothing appears on screen. This can be intentional for headless or automated testing scenarios.
+A reference to a `WitWeaverUIFoundation` component. This is the UI layer WitWeaver writes dialogue to. If this field is `null`, WitWeaver still runs the full conversation (all actions fire, all events fire, all state transitions happen), but nothing appears on screen. This can be intentional for headless or automated testing scenarios.
 
 ---
 
@@ -39,7 +39,7 @@ A reference to a `ConvoCoreUIFoundation` component. This is the UI layer ConvoCo
 | Method | Description |
 |---|---|
 | `PlayConversation()` | Starts a conversation using the configured Input. |
-| `PlayConversation(ConvoCoreConversationData data)` | Starts a specific conversation directly, ignoring the Input field. |
+| `PlayConversation(WitWeaverConversationData data)` | Starts a specific conversation directly, ignoring the Input field. |
 | `StartConversation()` | No-argument alias for `PlayConversation()`. Use this as a UnityEvent target. |
 | `PauseConversation()` | Pauses the running conversation. Fires `PausedConversation`. |
 | `ResumeConversation()` | Resumes from the paused state. |
@@ -59,7 +59,7 @@ Use `StartConversation()` rather than `PlayConversation()` as your UnityEvent ta
 
 ## Events
 
-ConvoCore exposes two categories of events: **UnityEvents** (wired in the inspector or via `AddListener` in code) and **C# Actions** (subscribed in code only, used for tighter integration with other runtime systems such as the save system).
+WitWeaver exposes two categories of events: **UnityEvents** (wired in the inspector or via `AddListener` in code) and **C# Actions** (subscribed in code only, used for tighter integration with other runtime systems such as the save system).
 
 ### UnityEvents
 
@@ -88,8 +88,8 @@ _runner.CompletedConversation.RemoveListener(OnConversationComplete);
 
 | Event | Signature | When it fires |
 |---|---|---|
-| `OnConversationStarted` | `Action<ConvoCoreConversationData>` | Fires when a conversation starts. Carries the data asset. |
-| `OnConversationEnded` | `Action<ConvoCoreConversationData>` | Fires when a conversation ends for any reason (stop or completion). |
+| `OnConversationStarted` | `Action<WitWeaverConversationData>` | Fires when a conversation starts. Carries the data asset. |
+| `OnConversationEnded` | `Action<WitWeaverConversationData>` | Fires when a conversation ends for any reason (stop or completion). |
 | `OnLineStarted` | `Action<string>` | Fires at the start of each dialogue line. The string argument is the line’s ID. |
 | `OnLineCompleted` | `Action<string>` | Fires after each dialogue line finishes (after all after-actions have run). |
 | `OnChoiceMade` | `Action<int>` | Fires when the player selects a choice. The int argument is the zero-based choice index. |
@@ -132,7 +132,7 @@ Subscribing in `OnEnable` without a matching `OnDisable` unsubscription causes t
 
 ## The `{PlayerName}` Placeholder
 
-Write `{PlayerName}` anywhere in a YAML dialogue string and ConvoCore will substitute it at runtime with the `CharacterName` of the character whose profile has `IsPlayerCharacter` checked. No additional code is required - the substitution happens automatically during line rendering.
+Write `{PlayerName}` anywhere in a YAML dialogue string and WitWeaver will substitute it at runtime with the `CharacterName` of the character whose profile has `IsPlayerCharacter` checked. No additional code is required - the substitution happens automatically during line rendering.
 
 **Example YAML:**
 
@@ -148,16 +148,16 @@ Only one character profile should have `IsPlayerCharacter` checked. If multiple 
 
 ---
 
-## IConvoStartContextProvider
+## IWitWeaverStartContextProvider
 
-When `PlayConversation()` is called, ConvoCore performs a `GetComponent<IConvoStartContextProvider>()` on its own GameObject. If a component implementing that interface is present (for example, `ConvoCoreConversationSaveManager`), ConvoCore calls it to retrieve a `ConvoStartContext` before the conversation begins.
+When `PlayConversation()` is called, WitWeaver performs a `GetComponent<IWitWeaverStartContextProvider>()` on its own GameObject. If a component implementing that interface is present (for example, `WitWeaverConversationSaveManager`), WitWeaver calls it to retrieve a `WitWeaverStartContext` before the conversation begins.
 
-The `ConvoStartContext` can specify:
+The `WitWeaverStartContext` can specify:
 
 - **Where to start** - a specific line index rather than line 0.
 - **Which lines to mark as visited** - a set of line IDs that are treated as already-seen (used by the save system to restore visited-line state).
 
-This integration is entirely transparent - the ConvoCore component itself does not need to know anything about the save system. You do not need to change any code on ConvoCore to activate save-system integration. Just add `ConvoCoreConversationSaveManager` to the same GameObject.
+This integration is entirely transparent - the WitWeaver component itself does not need to know anything about the save system. You do not need to change any code on WitWeaver to activate save-system integration. Just add `WitWeaverConversationSaveManager` to the same GameObject.
 
 ---
 
@@ -174,7 +174,7 @@ This integration is entirely transparent - the ConvoCore component itself does n
 The core execution loop is the `ExecuteDialogueSequence()` coroutine. It iterates through `DialogueLines` starting from the resolved start index, and for each line it:
 
 1. Runs all **before-actions** (`BaseDialogueLineAction` assets assigned to that line, in order).
-2. Calls `UpdateDialogueUI()` on the assigned `ConvoCoreUIFoundation`, which triggers rendering.
+2. Calls `UpdateDialogueUI()` on the assigned `WitWeaverUIFoundation`, which triggers rendering.
 3. Waits for line continuation (input, timer, or immediate, depending on `LineContinuationMode`).
 4. Runs all **after-actions**.
 5. Fires `OnLineCompleted`.

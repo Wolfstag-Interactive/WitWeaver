@@ -6,22 +6,22 @@ title: Building a Custom UI
 # Building a Custom UI
 
 :::tip
-ConvoCore includes a ready-made sample UI in the Samples package that demonstrates all of these patterns in a working scene. If you prefer a hands-on starting point over building from scratch, [import the Sample UI](sample-ui) first and read its code alongside this guide.
+WitWeaver includes a ready-made sample UI in the Samples package that demonstrates all of these patterns in a working scene. If you prefer a hands-on starting point over building from scratch, [import the Sample UI](sample-ui) first and read its code alongside this guide.
 :::
 
-This page walks through creating a complete, working dialogue UI for ConvoCore from scratch. By the end you will have a UI that displays the speaker's name and dialogue text, handles player input to advance lines, and presents branching choices.
+This page walks through creating a complete, working dialogue UI for WitWeaver from scratch. By the end you will have a UI that displays the speaker's name and dialogue text, handles player input to advance lines, and presents branching choices.
 
 ---
 
 ## Prerequisites
 
-- ConvoCore is installed and a `ConvoCoreConversationData` asset exists with parsed dialogue lines.
+- WitWeaver is installed and a `WitWeaverConversationData` asset exists with parsed dialogue lines.
 - **TextMeshPro** is installed (Window → Package Manager → TextMeshPro). The code examples on this page use TMP - see the note below if you plan to use a different text system.
-- A scene is open with a `ConvoCore` component on a GameObject.
+- A scene is open with a `WitWeaver` component on a GameObject.
 :::warning
 **The examples on this page use TextMeshPro** (`TMP_Text`, `TMP_Dropdown`, etc.). If you have not installed it, go to Window → Package Manager, find **TextMeshPro**, and click Install.
 
-TextMeshPro is **not** a hard dependency of ConvoCore - the framework has no TMP references. You can build your UI using standard Unity UI Text, UI Toolkit, or any other system. The `TMP_Text` references in the code below are purely a choice for the examples.
+TextMeshPro is **not** a hard dependency of WitWeaver - the framework has no TMP references. You can build your UI using standard Unity UI Text, UI Toolkit, or any other system. The `TMP_Text` references in the code below are purely a choice for the examples.
 :::
 
 ---
@@ -36,10 +36,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using WolfstagInteractive.ConvoCore;
-using WolfstagInteractive.ConvoCore.UI;
+using WolfstagInteractive.WitWeaver;
+using WolfstagInteractive.WitWeaver.UI;
 
-public class MyDialogueUI : ConvoCoreUIFoundation
+public class MyDialogueUI : WitWeaverUIFoundation
 {
     [SerializeField] private GameObject _dialoguePanel;
     [SerializeField] private TMP_Text _speakerNameText;
@@ -55,7 +55,7 @@ public class MyDialogueUI : ConvoCoreUIFoundation
         _advanceButton.onClick.AddListener(OnAdvanceClicked);
     }
 
-    protected override void InitializeUI(ConvoCore runner)
+    protected override void InitializeUI(WitWeaver runner)
     {
         _dialoguePanel.SetActive(true);
         _playerAdvanced = false;
@@ -66,7 +66,7 @@ public class MyDialogueUI : ConvoCoreUIFoundation
         string localizedText,
         string speakerName,
         CharacterRepresentationBase representation,
-        ConvoCoreCharacterProfileBaseData primaryProfile)
+        WitWeaverCharacterProfileBaseData primaryProfile)
     {
         _speakerNameText.text = speakerName;
         _dialogueText.text = localizedText;
@@ -180,8 +180,8 @@ Style the choice button prefab with a visible background and hover highlight so 
    - **Advance Button** → the `AdvanceButton` Button
    - **Choice Container** → the `ChoiceContainer` Transform
    - **Choice Button Prefab** → the Button prefab created in Step 3
-3. Select the GameObject that has the `ConvoCore` component.
-4. Drag the `DialoguePanel` GameObject (which now has `MyDialogueUI` on it) into the **Conversation UI** field on the `ConvoCore` component.
+3. Select the GameObject that has the `WitWeaver` component.
+4. Drag the `DialoguePanel` GameObject (which now has `MyDialogueUI` on it) into the **Conversation UI** field on the `WitWeaver` component.
 
 ---
 
@@ -248,7 +248,7 @@ Press **Play**. Trigger the conversation (via `StartConversation()` or the start
 **Choice buttons appear but clicking them does nothing**: Check that the `capturedIndex` variable is captured inside the loop with a local copy. Without `int capturedIndex = i`, all lambdas reference the same `i` variable and will all read the post-loop value.
 :::
 
-**No text at all (panel is visible but blank)**: Check the Console for YAML parse errors. Open the `ConvoCoreConversationData` asset and confirm the YAML was validated successfully (right-click → Force Validate Dialogue Lines).
+**No text at all (panel is visible but blank)**: Check the Console for YAML parse errors. Open the `WitWeaverConversationData` asset and confirm the YAML was validated successfully (right-click → Force Validate Dialogue Lines).
 
 ---
 

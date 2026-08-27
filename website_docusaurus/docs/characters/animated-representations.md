@@ -13,7 +13,7 @@ Each expression on the asset (Happy, Angry, Neutral, etc.) holds up to two anima
 
 ## What Can Be Animated
 
-Out of the box, ConvoCore ships two animation types (called payloads):
+Out of the box, WitWeaver ships two animation types (called payloads):
 
 | Payload | What it is | Good for |
 |---|---|---|
@@ -26,7 +26,7 @@ You can also write your own payload type for other animation systems (Live2D, Sp
 
 ## Creating the Asset
 
-Right-click in the **Project** panel → **Create → ConvoCore → Character → Representation → Animated Character Representation**
+Right-click in the **Project** panel → **Create → WitWeaver → Character → Representation → Animated Character Representation**
 
 Then add it to a character profile the same way as any other representation:
 
@@ -99,14 +99,14 @@ For animations that are more than a sprite swap, this payload places a prefab of
 While the prefab is showing, the image's own sprite is hidden so the two do not draw on top of each other. When the line changes or the conversation hides, the prefab is turned off and the image is restored automatically. The same prefab is reused between lines instead of being created again each time.
 
 :::tip
-Prefer **Play State** over **Set Trigger**. Triggers fired on the very first frame a prefab becomes active can be missed by the Animator. ConvoCore works around this, but Play State is the more reliable option when either would work.
+Prefer **Play State** over **Set Trigger**. Triggers fired on the very first frame a prefab becomes active can be missed by the Animator. WitWeaver works around this, but Play State is the more reliable option when either would work.
 :::
 
 ---
 
 ## How It Shows Up In Game
 
-The included 2D canvas UI (`ConvoCoreSampleUICanvas`) handles animated representations with no extra setup:
+The included 2D canvas UI (`WitWeaverSampleUICanvas`) handles animated representations with no extra setup:
 
 - The **speaker portrait** image plays the Portrait animation of the first character on the line.
 - Each character's **full body slot** image (the Left, Center, and Right slots by default) plays their Full Body animation.
@@ -114,10 +114,10 @@ The included 2D canvas UI (`ConvoCoreSampleUICanvas`) handles animated represent
 - Moving to the next line, jumping back to the previous line, and switching languages mid-line are all handled for you. Animations stop cleanly and restart from the first frame when a line is shown again.
 
 :::warning
-The included 3D sample UI (`ConvoCoreSampleUI3D`) does not render animated representations. It only works with prefab representations, because 3D scenes animate characters through the character display and behaviour system instead. Use the animated representation with canvas style UIs.
+The included 3D sample UI (`WitWeaverSampleUI3D`) does not render animated representations. It only works with prefab representations, because 3D scenes animate characters through the character display and behaviour system instead. Use the animated representation with canvas style UIs.
 :::
 
-If you built your own UI on top of `ConvoCoreUIFoundation`, see the note for custom UIs at the end of this page.
+If you built your own UI on top of `WitWeaverUIFoundation`, see the note for custom UIs at the end of this page.
 
 ---
 
@@ -136,7 +136,7 @@ A character named Ava with a blinking idle portrait and a talking expression:
 
 ## Writing a Custom Animation Backend
 
-The two built-in payloads are not the whole story. Any animation system can plug in by writing one class that describes the data (the payload) and one class that plays it (the playback). Nothing in ConvoCore needs to change: the payload dropdown in the inspector finds your class automatically.
+The two built-in payloads are not the whole story. Any animation system can plug in by writing one class that describes the data (the payload) and one class that plays it (the playback). Nothing in WitWeaver needs to change: the payload dropdown in the inspector finds your class automatically.
 
 This section walks through a real example: showing a **Live2D Cubism** model as an animated portrait.
 
@@ -164,14 +164,14 @@ Live2D models draw with mesh renderers, which do not render inside a Unity UI ca
 - Inside it, on a layer of its own, sit the Cubism model and a small orthographic camera pointed at it.
 - The camera renders into a **RenderTexture**, and the RawImage displays that texture.
 
-The result is a self-contained UI prefab that shows the live model. Build and test this prefab on its own before writing any ConvoCore code. The same trick works for any world-object system you want inside a portrait (3D heads, particle portraits, etc.).
+The result is a self-contained UI prefab that shows the live model. Build and test this prefab on its own before writing any WitWeaver code. The same trick works for any world-object system you want inside a portrait (3D heads, particle portraits, etc.).
 
 ### Step 2: write the payload
 
 ```csharp
 using System;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
 [Serializable]
 public sealed class Live2DAnimationPayload : AnimatedExpressionPayload
@@ -201,7 +201,7 @@ That is the whole authoring side. As soon as this class compiles, **Live 2D** ap
 
 ```csharp
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 // using Live2D.Cubism.Framework.Expression;
 
 public sealed class Live2DPlayback : IAnimatedExpressionPlayback
@@ -278,9 +278,9 @@ Making the mouth move while text types out is a per-line behavior, not a per-exp
 
 ### A note for custom UIs
 
-If you built your own UI on `ConvoCoreUIFoundation`, you have two hooks:
+If you built your own UI on `WitWeaverUIFoundation`, you have two hooks:
 
-- **uGUI based UIs** that copied the sample canvas approach can override `RenderRepresentation` (it is virtual) and reuse `ConvoCoreAnimatedPortraitPlayer.GetOrAdd(image).Play(...)` on their own images. Remember to call `ConvoCoreAnimatedPortraitPlayer.StopOn(...)` wherever you hide images between lines.
+- **uGUI based UIs** that copied the sample canvas approach can override `RenderRepresentation` (it is virtual) and reuse `WitWeaverAnimatedPortraitPlayer.GetOrAdd(image).Play(...)` on their own images. Remember to call `WitWeaverAnimatedPortraitPlayer.StopOn(...)` wherever you hide images between lines.
 - **Non-uGUI UIs** (UI Toolkit, world-space, custom renderers) implement `IAnimatedPortraitSurface` once for their display target and tick the playback themselves. Every payload, built-in or custom, then works on that UI unchanged.
 
 ---

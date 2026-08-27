@@ -5,7 +5,7 @@ title: 3D UI
 
 # 3D UI
 
-`ConvoCoreSampleUI3D` is the world-space dialogue UI. It handles dialogue text, speaker names, and choice buttons, but has no concept of character slots. Instead, it delegates all character placement to **character behaviours** — `ConvoCoreCharacterBehaviour` ScriptableObjects that decide where each character goes and how long they stay there.
+`WitWeaverSampleUI3D` is the world-space dialogue UI. It handles dialogue text, speaker names, and choice buttons, but has no concept of character slots. Instead, it delegates all character placement to **character behaviours** — `WitWeaverCharacterBehaviour` ScriptableObjects that decide where each character goes and how long they stay there.
 
 Use this class when your characters are GameObjects living in the scene, not elements rendered inside a Canvas.
 
@@ -14,16 +14,16 @@ Use this class when your characters are GameObjects living in the scene, not ele
 ## How It Works
 
 ```
-ConvoCoreSampleUI3D
+WitWeaverSampleUI3D
        │
        │  conversation starts
        ▼
-ConvoCoreCharacterBehaviour.OnConversationBegin()
+WitWeaverCharacterBehaviour.OnConversationBegin()
        │
        │  each line begins
        ▼
-ConvoCoreCharacterBehaviour.ResolvePresence(rep, context, spawner)
-       │                    returns IConvoCoreCharacterDisplay
+WitWeaverCharacterBehaviour.ResolvePresence(rep, context, spawner)
+       │                    returns IWitWeaverCharacterDisplay
        ▼
 display.BindRepresentation(representationAsset)
 display.ApplyDisplayOptions(lineOptions)
@@ -31,16 +31,16 @@ display.ApplyExpression(expressionId)
        │
        │  conversation ends
        ▼
-ConvoCoreCharacterBehaviour.OnConversationEnd()
+WitWeaverCharacterBehaviour.OnConversationEnd()
 ```
 
-The UI calls `OnConversationBegin()` when the conversation starts, then calls `ResolvePresence()` for each character on each line to get an `IConvoCoreCharacterDisplay` to apply expressions to. When the conversation ends it calls `OnConversationEnd()`, which is where behaviours tear down spawned instances.
+The UI calls `OnConversationBegin()` when the conversation starts, then calls `ResolvePresence()` for each character on each line to get an `IWitWeaverCharacterDisplay` to apply expressions to. When the conversation ends it calls `OnConversationEnd()`, which is where behaviours tear down spawned instances.
 
 ---
 
 ## Where Behaviours Live
 
-Unlike a single global "presence" field, character behaviours are assigned per **configuration entry** on each character's `PrefabCharacterRepresentationData` asset. Each entry holds a list of `ConvoCoreCharacterBehaviour` assets.
+Unlike a single global "presence" field, character behaviours are assigned per **configuration entry** on each character's `PrefabCharacterRepresentationData` asset. Each entry holds a list of `WitWeaverCharacterBehaviour` assets.
 
 ```
 PrefabCharacterRepresentationData
@@ -62,7 +62,7 @@ This means different entries on the same character can use entirely different pl
 
 ### 1. Create character behaviour assets
 
-Right-click in the Project panel → **Create → ConvoCore → Character Behaviour** → choose the type that matches your scene setup. See [Character Behaviours →](presence-types) for guidance on which type to use.
+Right-click in the Project panel → **Create → WitWeaver → Character Behaviour** → choose the type that matches your scene setup. See [Character Behaviours →](presence-types) for guidance on which type to use.
 
 ### 2. Assign behaviours to configuration entries
 
@@ -70,15 +70,15 @@ Open your `PrefabCharacterRepresentationData` asset. In **Configuration Entries*
 
 ### 3. Add the spawner and pool
 
-`ConvoCoreSampleUI3D` needs a `ConvoCorePrefabRepresentationSpawner` for behaviours that spawn characters.
+`WitWeaverSampleUI3D` needs a `WitWeaverPrefabRepresentationSpawner` for behaviours that spawn characters.
 
-1. Select the GameObject that holds your `ConvoCoreSampleUI3D` component.
-2. **Add Component → ConvoCorePrefabPool**.
-3. **Add Component → ConvoCorePrefabRepresentationSpawner**. Drag `ConvoCorePrefabPool` into the **Pool** field.
-4. Drag `ConvoCorePrefabRepresentationSpawner` into the **Prefab Representation Spawner** field on `ConvoCoreSampleUI3D`.
+1. Select the GameObject that holds your `WitWeaverSampleUI3D` component.
+2. **Add Component → WitWeaverPrefabPool**.
+3. **Add Component → WitWeaverPrefabRepresentationSpawner**. Drag `WitWeaverPrefabPool` into the **Pool** field.
+4. Drag `WitWeaverPrefabRepresentationSpawner` into the **Prefab Representation Spawner** field on `WitWeaverSampleUI3D`.
 
 :::note
-Not all behaviours use the spawner. `ExternalBehaviour` for scene-resident characters never calls it. The spawner is a required field on `ConvoCoreSampleUI3D` so that behaviours which do spawn characters — such as `WorldPointBehaviour` or `FollowTargetBehaviour` — can operate without additional setup when you switch behaviour types. If you are certain you will only ever use `ExternalBehaviour`, the spawner will simply sit idle.
+Not all behaviours use the spawner. `ExternalBehaviour` for scene-resident characters never calls it. The spawner is a required field on `WitWeaverSampleUI3D` so that behaviours which do spawn characters — such as `WorldPointBehaviour` or `FollowTargetBehaviour` — can operate without additional setup when you switch behaviour types. If you are certain you will only ever use `ExternalBehaviour`, the spawner will simply sit idle.
 :::
 
 ### 4. Assign the remaining fields
@@ -89,7 +89,7 @@ Fill in the standard dialogue UI fields: dialogue text, speaker name, choice pan
 
 ## Character Persistence Across Lines
 
-3D characters are persistent. Once a character appears in a conversation, they remain in the scene for the entire conversation. ConvoCore does not despawn a character just because they aren't listed on the current line.
+3D characters are persistent. Once a character appears in a conversation, they remain in the scene for the entire conversation. WitWeaver does not despawn a character just because they aren't listed on the current line.
 
 When the runner processes a line:
 - Characters on that line have their expressions updated via `ApplyExpression()`.
@@ -101,7 +101,7 @@ Despawning is a conversation-end operation. Each behaviour handles it in `OnConv
 
 ## No Slot System
 
-`ConvoCoreSampleUI3D` does not have slot anchors, a slot list, or any concept of Left/Center/Right positioning. The behaviours are the only thing that decides where characters stand.
+`WitWeaverSampleUI3D` does not have slot anchors, a slot list, or any concept of Left/Center/Right positioning. The behaviours are the only thing that decides where characters stand.
 
 `DialogueLineDisplayOptions` fields like `CharacterPosition` and `SlotId` are ignored by the 3D UI. The `DisplayOptions` struct is available to behaviours via `CharacterBehaviourContext` if a behaviour wants to read flip or scale data, but placement is never driven by those fields.
 
@@ -109,7 +109,7 @@ Despawning is a conversation-end operation. Each behaviour handles it in `OnConv
 
 ## The CharacterBehaviourContext
 
-When `ConvoCoreSampleUI3D` calls `ResolvePresence()`, it passes a `CharacterBehaviourContext` struct alongside the representation and spawner:
+When `WitWeaverSampleUI3D` calls `ResolvePresence()`, it passes a `CharacterBehaviourContext` struct alongside the representation and spawner:
 
 | Field | Type | Description |
 |---|---|---|
@@ -138,13 +138,13 @@ This is intentional and safe. The warning tells you which character was skipped 
 
 ## Scene-Resident Characters
 
-If your characters are already in the scene, use `ExternalBehaviour` or `TransformLerpBehaviour` and register each character with `ConvoCoreSceneCharacterRegistry`.
+If your characters are already in the scene, use `ExternalBehaviour` or `TransformLerpBehaviour` and register each character with `WitWeaverSceneCharacterRegistry`.
 
-1. Add **ConvoCoreSceneCharacterRegistry** to any GameObject in the scene.
-2. Add **ConvoCoreSceneCharacterRegistrant** to the scene character's root GameObject.
+1. Add **WitWeaverSceneCharacterRegistry** to any GameObject in the scene.
+2. Add **WitWeaverSceneCharacterRegistrant** to the scene character's root GameObject.
 3. Set the **Character Id** on the registrant to match the character ID used in the conversation YAML.
 
-No further configuration is needed. `ConvoCorePrefabRepresentationSpawner` finds the registry automatically via `ConvoCoreSceneCharacterRegistry.Instance`. The **Scene Character Registry** field on the spawner is optional — only assign it when you have multiple registries in the scene and need to target a specific one.
+No further configuration is needed. `WitWeaverPrefabRepresentationSpawner` finds the registry automatically via `WitWeaverSceneCharacterRegistry.Instance`. The **Scene Character Registry** field on the spawner is optional — only assign it when you have multiple registries in the scene and need to target a specific one.
 
 Scene-resident characters are never spawned, pooled, or destroyed by the 3D UI. No source-mode flag is required on the representation asset; the spawner always checks the scene registry by character ID first and falls back to spawning a prefab only if no match is found.
 

@@ -5,7 +5,7 @@ title: Input Modes
 
 # Input Modes
 
-The **Input** field on the ConvoCore component determines what conversation (or group of conversations) plays when you call `PlayConversation()` with no arguments. Instead of a fixed reference to one conversation, this field accepts an `IConvoInput` implementation, a small object that resolves a conversation at the moment `PlayConversation()` is called.
+The **Input** field on the WitWeaver component determines what conversation (or group of conversations) plays when you call `PlayConversation()` with no arguments. Instead of a fixed reference to one conversation, this field accepts an `IWitWeaverInput` implementation, a small object that resolves a conversation at the moment `PlayConversation()` is called.
 
 ---
 
@@ -21,17 +21,17 @@ This is different from a standard object reference field, which can only hold on
 
 ## SingleConversationInput
 
-The simplest input mode. Points to one specific `ConvoCoreConversationData` asset. Every call to `PlayConversation()` plays that same conversation.
+The simplest input mode. Points to one specific `WitWeaverConversationData` asset. Every call to `PlayConversation()` plays that same conversation.
 
 ### Fields
 
 | Field | Description |
 |---|---|
-| **Conversation** | The `ConvoCoreConversationData` asset to play. |
+| **Conversation** | The `WitWeaverConversationData` asset to play. |
 
 ### When to use it
 
-Use `SingleConversationInput` when a ConvoCore component is dedicated to one conversation that never changes - for example, an NPC with a single greeting, a door that always plays the same "locked" explanation, or a quest-giver whose dialogue is replaced by swapping the entire `ConvoCoreConversationData` reference in code.
+Use `SingleConversationInput` when a WitWeaver component is dedicated to one conversation that never changes - for example, an NPC with a single greeting, a door that always plays the same "locked" explanation, or a quest-giver whose dialogue is replaced by swapping the entire `WitWeaverConversationData` reference in code.
 
 ### Overriding at runtime
 
@@ -84,7 +84,7 @@ There are three ways to trigger conversation playback:
 | Call | What it does |
 |---|---|
 | `PlayConversation()` | Uses the configured Input to resolve which conversation to play. |
-| `PlayConversation(ConvoCoreConversationData data)` | Ignores the Input field entirely and plays the given conversation directly. |
+| `PlayConversation(WitWeaverConversationData data)` | Ignores the Input field entirely and plays the given conversation directly. |
 | `StartConversation()` | A no-argument alias for `PlayConversation()`. Use this as a UnityEvent target. |
 
 The reason `StartConversation()` exists is Unity's event system constraint: methods wired in the inspector via UnityEvent must have no parameters. `PlayConversation()` has an overload with a parameter, which confuses the inspector dropdown. `StartConversation()` is the unambiguous, no-argument entry point suitable for drag-and-drop event wiring.
@@ -100,28 +100,28 @@ _runner.StartConversation();
 ---
 
 :::info[For Advanced Users]
-You can implement `IConvoInput` yourself to create fully custom conversation selection logic: procedural selection driven by game state, condition checks, external databases, probability tables, or anything else.
+You can implement `IWitWeaverInput` yourself to create fully custom conversation selection logic: procedural selection driven by game state, condition checks, external databases, probability tables, or anything else.
 
 The interface has one method:
 
 ```csharp
-public interface IConvoInput
+public interface IWitWeaverInput
 {
-    ConvoCoreConversationData Resolve(ConvoCore runner);
+    WitWeaverConversationData Resolve(WitWeaver runner);
 }
 ```
 
-Implement it as a `[Serializable]` class (not a MonoBehaviour) and it will appear automatically in the `[SerializeReference]` dropdown on the ConvoCore inspector:
+Implement it as a `[Serializable]` class (not a MonoBehaviour) and it will appear automatically in the `[SerializeReference]` dropdown on the WitWeaver inspector:
 
 ```csharp
 [Serializable]
-public class QuestStateInput : IConvoInput
+public class QuestStateInput : IWitWeaverInput
 {
-    public ConvoCoreConversationData DefaultConversation;
-    public ConvoCoreConversationData QuestActiveConversation;
-    public ConvoCoreConversationData QuestCompleteConversation;
+    public WitWeaverConversationData DefaultConversation;
+    public WitWeaverConversationData QuestActiveConversation;
+    public WitWeaverConversationData QuestCompleteConversation;
 
-    public ConvoCoreConversationData Resolve(ConvoCore runner)
+    public WitWeaverConversationData Resolve(WitWeaver runner)
     {
         if (QuestManager.IsComplete("main_quest"))
             return QuestCompleteConversation;
@@ -132,5 +132,5 @@ public class QuestStateInput : IConvoInput
 }
 ```
 
-The `runner` parameter gives you access to the ConvoCore component itself (and therefore its GameObject, scene, and any other components) at the moment of resolution.
+The `runner` parameter gives you access to the WitWeaver component itself (and therefore its GameObject, scene, and any other components) at the moment of resolution.
 :::

@@ -5,13 +5,13 @@ title: Player Choices
 
 # Player Choices
 
-When a dialogue line's continuation mode is set to `PlayerChoice`, ConvoCore pauses playback, hands a list of options to your UI, and waits for the player to make a selection. This page covers how to configure choice lines, what each field does, how to implement the UI coroutine that presents the options, and the edge cases you need to handle.
+When a dialogue line's continuation mode is set to `PlayerChoice`, WitWeaver pauses playback, hands a list of options to your UI, and waits for the player to make a selection. This page covers how to configure choice lines, what each field does, how to implement the UI coroutine that presents the options, and the edge cases you need to handle.
 
 ---
 
 ## Overview
 
-A `PlayerChoice` line is a pause point in the conversation. Rather than automatically advancing to the next line, ConvoCore:
+A `PlayerChoice` line is a pause point in the conversation. Rather than automatically advancing to the next line, WitWeaver:
 
 1. Collects the list of `ChoiceOption` entries configured on that line.
 2. Resolves the localized label for each option in the current language.
@@ -24,7 +24,7 @@ A `PlayerChoice` line is a pause point in the conversation. Rather than automati
 
 ## Setting up a choice line in the Inspector
 
-1. Open a `ConvoCoreConversationData` asset in the Unity Inspector.
+1. Open a `WitWeaverConversationData` asset in the Unity Inspector.
 2. Find the line you want to act as a choice point.
 3. Set its **Continuation Mode** to `PlayerChoice`.
 4. A **Choice Options** list will appear. Add one entry per choice.
@@ -41,13 +41,13 @@ Each entry in the **Choice Options** list has the following fields:
 | **Labels** | Yes | A localized map of language codes to display strings. Uses the same format as `LocalizedDialogue` in YAML - one entry per supported language. |
 | **Target Container** | Yes | The `ConversationContainer` asset that holds the conversation to branch into when this option is selected. |
 | **Target Alias Or Name** | Yes | The alias or name of the entry inside the target container to jump to when this option is selected. |
-| **Push Return Point** | No | If checked, ConvoCore saves the current position onto the return stack before branching. When the branched conversation ends, it returns to the line after the choice line and resumes. |
+| **Push Return Point** | No | If checked, WitWeaver saves the current position onto the return stack before branching. When the branched conversation ends, it returns to the line after the choice line and resumes. |
 
 ---
 
 ## AllowGoBack
 
-Each choice-bearing line has an **Allow Go Back** toggle. When it is enabled, ConvoCore automatically appends an extra option to the end of the choices list at runtime. Its label is `"← Go Back"` (or a localized equivalent if you configure one in `ConvoCoreSettings`). Selecting it calls `ReverseOneLine()` internally, which steps the conversation back to the previous line and replays it.
+Each choice-bearing line has an **Allow Go Back** toggle. When it is enabled, WitWeaver automatically appends an extra option to the end of the choices list at runtime. Its label is `"← Go Back"` (or a localized equivalent if you configure one in `WitWeaverSettings`). Selecting it calls `ReverseOneLine()` internally, which steps the conversation back to the previous line and replays it.
 
 Use `AllowGoBack` on choices where the player might want to re-read the preceding line before committing to an answer, for example a character asking a question that the player may not have fully read yet.
 
@@ -59,7 +59,7 @@ Use `AllowGoBack` on choices where the player might want to re-read the precedin
 
 ## Implementing PresentChoices in your UI
 
-Your UI class inherits from `ConvoCoreUIFoundation`. To display choices, override the `PresentChoices` coroutine:
+Your UI class inherits from `WitWeaverUIFoundation`. To display choices, override the `PresentChoices` coroutine:
 
 ```csharp
 protected override IEnumerator PresentChoices(
@@ -91,14 +91,14 @@ protected override IEnumerator PresentChoices(
 |---|---|---|
 | `options` | `List<ChoiceOption>` | The raw choice data from the Conversation Data asset. Access `Target Container`, `Target Alias Or Name`, and `Push Return Point` here if your UI needs them (e.g., to display branch previews or icons). |
 | `localizedLabels` | `List<string>` | The already-localized display strings for the current language, in the same order as `options`. Use these for button text; do not re-localize manually. |
-| `result` | `ChoiceResult` | Write the player's 0-based selection index to `result.SelectedIndex` when a choice is made. ConvoCore reads this value when the coroutine completes. |
+| `result` | `ChoiceResult` | Write the player's 0-based selection index to `result.SelectedIndex` when a choice is made. WitWeaver reads this value when the coroutine completes. |
 
 :::note
-A coroutine is a function that can pause its execution and resume later without blocking the rest of the game. The line `yield return new WaitUntil(() => result.SelectedIndex >= 0)` means "pause here and check this condition every frame. When it becomes true (meaning a button was clicked and wrote a valid index), continue executing." This pattern lets your UI remain responsive while ConvoCore waits for input.
+A coroutine is a function that can pause its execution and resume later without blocking the rest of the game. The line `yield return new WaitUntil(() => result.SelectedIndex >= 0)` means "pause here and check this condition every frame. When it becomes true (meaning a button was clicked and wrote a valid index), continue executing." This pattern lets your UI remain responsive while WitWeaver waits for input.
 :::
 
 :::warning
-`result.SelectedIndex` starts at `-1`, which means "no selection made yet." Your coroutine must not return until `result.SelectedIndex` is a valid, non-negative index. If your coroutine returns early (for example, due to a coding mistake that skips the `WaitUntil`), ConvoCore will attempt to branch using index `-1` and log an error. Always ensure the coroutine blocks until the player makes a genuine selection.
+`result.SelectedIndex` starts at `-1`, which means "no selection made yet." Your coroutine must not return until `result.SelectedIndex` is a valid, non-negative index. If your coroutine returns early (for example, due to a coding mistake that skips the `WaitUntil`), WitWeaver will attempt to branch using index `-1` and log an error. Always ensure the coroutine blocks until the player makes a genuine selection.
 :::
 
 ### Capturing the loop variable
@@ -109,7 +109,7 @@ The line `int capturedIndex = i;` inside the loop is important. Without it, ever
 
 ## Handling the case of no choices
 
-If a line is set to `PlayerChoice` but its **Choice Options** list is empty and `AllowGoBack` is false, ConvoCore has no valid options to present. In this case it logs a warning to the Unity Console and automatically advances to the next line as if the continuation mode were `Continue`. The `PresentChoices` coroutine is not called.
+If a line is set to `PlayerChoice` but its **Choice Options** list is empty and `AllowGoBack` is false, WitWeaver has no valid options to present. In this case it logs a warning to the Unity Console and automatically advances to the next line as if the continuation mode were `Continue`. The `PresentChoices` coroutine is not called.
 
 This behavior allows you to stub out choice lines during development: leave the options list empty, continue building other content, and fill in the choices later without breaking playback.
 
@@ -150,5 +150,5 @@ With `AllowGoBack` enabled, a fourth option "← Go Back" will appear automatica
 ---
 
 :::info[For Advanced Users]
-`ChoiceResult` is a plain class with a single `int SelectedIndex` field initialized to `-1`. ConvoCore reads it synchronously after your `PresentChoices` coroutine finishes. There is no thread-safety concern because Unity coroutines run on the main thread. If you need to handle animated transitions, tween-out effects, or audio cues after a choice is made but before ConvoCore branches, perform all of that work inside `PresentChoices` before the coroutine returns. ConvoCore will not branch until the coroutine completes.
+`ChoiceResult` is a plain class with a single `int SelectedIndex` field initialized to `-1`. WitWeaver reads it synchronously after your `PresentChoices` coroutine finishes. There is no thread-safety concern because Unity coroutines run on the main thread. If you need to handle animated transitions, tween-out effects, or audio cues after a choice is made but before WitWeaver branches, perform all of that work inside `PresentChoices` before the coroutine returns. WitWeaver will not branch until the coroutine completes.
 :::

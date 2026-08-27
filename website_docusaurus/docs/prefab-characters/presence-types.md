@@ -7,7 +7,7 @@ title: Character Behaviours
 
 A **character behaviour** is a ScriptableObject that decides where 3D prefab characters are positioned during a conversation and how long they remain in the scene. The 3D UI calls into the behaviour at conversation start, per line, and at conversation end — the behaviour handles the rest.
 
-All character behaviour types extend `ConvoCoreCharacterBehaviour`. ConvoCore ships with seven built-in types covering the most common placement needs.
+All character behaviour types extend `WitWeaverCharacterBehaviour`. WitWeaver ships with seven built-in types covering the most common placement needs.
 
 Character behaviours live on individual **configuration entries** inside a `PrefabCharacterRepresentationData` asset — not on the UI component. This means different configuration entries on the same character (for example `"CloseUp"` and `"Distant"`) can each carry a different set of behaviours, and the active set switches automatically when the entry changes between dialogue lines.
 
@@ -24,38 +24,38 @@ Each configuration entry holds a **list** of behaviours. At runtime all behaviou
 | A character should follow a moving scene object | `FollowTargetBehaviour` |
 | Character is positioned relative to the active camera | `CameraRelativeBehaviour` |
 | A scene character walks or turns to a spot at conversation start | `TransformLerpBehaviour` |
-| A scene character with an Animator needs its parameters driven | `ConvoCoreAnimatorBehaviour` |
+| A scene character with an Animator needs its parameters driven | `WitWeaverAnimatorBehaviour` |
 | Different dialogue modes need different placement strategies | `SequencedBehaviour` |
 
 ---
 
 ## ExternalBehaviour
 
-Characters are fully managed by the developer. ConvoCore does not spawn, position, move, or destroy anything.
+Characters are fully managed by the developer. WitWeaver does not spawn, position, move, or destroy anything.
 
 **How it works:**
-- `ResolvePresence()` looks up the character in `ConvoCoreSceneCharacterRegistry` by ID (from `CharacterBehaviourContext.CharacterId`) and returns the `IConvoCoreCharacterDisplay` component on that GameObject.
+- `ResolvePresence()` looks up the character in `WitWeaverSceneCharacterRegistry` by ID (from `CharacterBehaviourContext.CharacterId`) and returns the `IWitWeaverCharacterDisplay` component on that GameObject.
 - If the character is not found in the registry, `ResolvePresence()` returns `null`, a warning is logged to the Console identifying the missing character ID, and expression application is skipped for that character on that line.
 - `OnConversationEnd()` is a no-op — cleanup is entirely your responsibility.
 
 **Inspector fields:** None beyond the base class.
 
-**Use when:** characters are already standing in the scene, placed by the designer or spawned by your own systems, and you want ConvoCore to drive only their expressions.
+**Use when:** characters are already standing in the scene, placed by the designer or spawned by your own systems, and you want WitWeaver to drive only their expressions.
 
 :::warning
-If you use `ExternalBehaviour`, every character in your conversation must be registered with `ConvoCoreSceneCharacterRegistry` at runtime before the conversation starts. If a character is missing, you will see a warning and that character's expressions will be skipped silently.
+If you use `ExternalBehaviour`, every character in your conversation must be registered with `WitWeaverSceneCharacterRegistry` at runtime before the conversation starts. If a character is missing, you will see a warning and that character's expressions will be skipped silently.
 :::
 
 ---
 
 ## WorldPointBehaviour
 
-Characters are spawned at authored world positions when they first appear in a line. Positions are authored visually in the scene using `ConvoCoreSpawnPoint` markers and referenced here by string ID. Characters are cached after their first line — a character that appears on multiple lines is not re-spawned.
+Characters are spawned at authored world positions when they first appear in a line. Positions are authored visually in the scene using `WitWeaverSpawnPoint` markers and referenced here by string ID. Characters are cached after their first line — a character that appears on multiple lines is not re-spawned.
 
 **How it works:**
-- `OnConversationBegin()` queries `ConvoCoreSpawnPointRegistry` for each configured Spawn Point ID and creates a lightweight marker `Transform` at the matching spawn point's world position and rotation.
+- `OnConversationBegin()` queries `WitWeaverSpawnPointRegistry` for each configured Spawn Point ID and creates a lightweight marker `Transform` at the matching spawn point's world position and rotation.
 - `ResolvePresence()` checks whether the character has already been spawned. If not, it spawns a prefab instance via the spawner and parents it under the marker at the index matching `CharacterBehaviourContext.CharacterIndex`.
-- On subsequent lines with the same character, the cached `IConvoCoreCharacterDisplay` is returned directly.
+- On subsequent lines with the same character, the cached `IWitWeaverCharacterDisplay` is returned directly.
 - `OnConversationEnd()` releases all spawned instances via the spawner and destroys the marker Transforms.
 
 **Inspector fields:**
@@ -66,31 +66,31 @@ Characters are spawned at authored world positions when they first appear in a l
 
 **Setting up spawn points:**
 
-Position characters visually in the scene using `ConvoCoreSpawnPoint` markers:
+Position characters visually in the scene using `WitWeaverSpawnPoint` markers:
 
-1. Add **ConvoCoreSpawnPointRegistry** to any GameObject in the scene (required once per scene).
+1. Add **WitWeaverSpawnPointRegistry** to any GameObject in the scene (required once per scene).
 2. Create a new empty GameObject at the desired character position and name it descriptively (e.g. `SpawnPoint_Guard`).
-3. Add **ConvoCoreSpawnPoint**. Set a unique **Spawn Point ID** (e.g. `"Guard_Post"`).
+3. Add **WitWeaverSpawnPoint**. Set a unique **Spawn Point ID** (e.g. `"Guard_Post"`).
 4. In the `WorldPointBehaviour` asset inspector, add an entry to **World Points** and type the matching Spawn Point ID.
 
-The scene-view gizmo on each `ConvoCoreSpawnPoint` shows a sphere, a forward direction ray, and a label so you can see all authored positions at a glance.
+The scene-view gizmo on each `WitWeaverSpawnPoint` shows a sphere, a forward direction ray, and a label so you can see all authored positions at a glance.
 
 :::tip
 Because spawn points are GameObjects in the scene, you position characters exactly like any other object — using the standard Transform handles. No manual coordinate entry needed.
 :::
 
 :::warning
-If a Spawn Point ID has no matching `ConvoCoreSpawnPoint` active in the scene when the conversation starts, a warning is logged and that character slot is skipped. The `WorldPointBehaviour` inspector also highlights unresolved IDs while in edit mode.
+If a Spawn Point ID has no matching `WitWeaverSpawnPoint` active in the scene when the conversation starts, a warning is logged and that character slot is skipped. The `WorldPointBehaviour` inspector also highlights unresolved IDs while in edit mode.
 :::
 
 ---
 
 ## FollowTargetBehaviour
 
-A character is spawned at conversation start and follows a scene `Transform` for the duration of the conversation. The follow target is resolved via `ConvoCoreSceneCharacterRegistry` by ID.
+A character is spawned at conversation start and follows a scene `Transform` for the duration of the conversation. The follow target is resolved via `WitWeaverSceneCharacterRegistry` by ID.
 
 **How it works:**
-- `ResolvePresence()` looks up the **follow target** Transform in `ConvoCoreSceneCharacterRegistry` by the configured ID. The character prefab is then spawned via the spawner and a `ConvoCoreFollowTarget` component is attached to keep it tracking the target.
+- `ResolvePresence()` looks up the **follow target** Transform in `WitWeaverSceneCharacterRegistry` by the configured ID. The character prefab is then spawned via the spawner and a `WitWeaverFollowTarget` component is attached to keep it tracking the target.
 - Each frame the spawned instance is moved to match the target's position plus the configured offset.
 - `OnConversationEnd()` fires any configured completion Animator triggers, then releases the spawned instance.
 
@@ -98,7 +98,7 @@ A character is spawned at conversation start and follows a scene `Transform` for
 
 | Field | Description |
 |---|---|
-| **Target Scene Id** | Registry ID of the follow target — the scene Transform the spawned character tracks. Must be registered with `ConvoCoreSceneCharacterRegistry`. |
+| **Target Scene Id** | Registry ID of the follow target — the scene Transform the spawned character tracks. Must be registered with `WitWeaverSceneCharacterRegistry`. |
 | **Offset** | A world-space offset applied to the follow target's position. Useful for placing the character slightly ahead of or beside the target. |
 | **Animator Parameter Name** | Optional. Animator parameter to set on the spawned character when following begins. Leave empty to skip. |
 | **Parameter Type** | `Bool`, `Int`, `Float`, or `Trigger`. |
@@ -137,22 +137,22 @@ A character is positioned at an authored offset from the active camera. Useful f
 
 ---
 
-## ConvoCoreAnimatorBehaviour
+## WitWeaverAnimatorBehaviour
 
-A scene-resident character with an Animator. The behaviour resolves the character via `ConvoCoreSceneCharacterRegistry` and returns it to the expression pipeline. Expression application is handled by a `ConvoCoreAnimatorDisplay` component on the scene object.
+A scene-resident character with an Animator. The behaviour resolves the character via `WitWeaverSceneCharacterRegistry` and returns it to the expression pipeline. Expression application is handled by a `WitWeaverAnimatorDisplay` component on the scene object.
 
 **How it works:**
-- `ResolvePresence()` looks up the character via `ConvoCoreSceneCharacterRegistry` and returns its `IConvoCoreCharacterDisplay` component. This is identical to `ExternalBehaviour`.
+- `ResolvePresence()` looks up the character via `WitWeaverSceneCharacterRegistry` and returns its `IWitWeaverCharacterDisplay` component. This is identical to `ExternalBehaviour`.
 - `OnConversationEnd()` is a no-op.
 
 **Inspector fields:** None beyond the base class.
 
-`ConvoCoreAnimatorBehaviour` is a named variant of `ExternalBehaviour` provided as a clarity signal in the Project panel. All Animator parameter configuration lives on the `ConvoCoreAnimatorDisplay` component on the character prefab.
+`WitWeaverAnimatorBehaviour` is a named variant of `ExternalBehaviour` provided as a clarity signal in the Project panel. All Animator parameter configuration lives on the `WitWeaverAnimatorDisplay` component on the character prefab.
 
-**Use when:** characters are fully animated scene objects with existing Animator controllers, and you want ConvoCore to set Animator parameters in response to dialogue expression changes.
+**Use when:** characters are fully animated scene objects with existing Animator controllers, and you want WitWeaver to set Animator parameters in response to dialogue expression changes.
 
 :::note
-Both `ConvoCoreAnimatorBehaviour` and `ExternalBehaviour` resolve scene-resident characters via the registry and return their `IConvoCoreCharacterDisplay`. Use `ConvoCoreAnimatorBehaviour` as a clarity signal that the character uses `ConvoCoreAnimatorDisplay`; use `ExternalBehaviour` when the character uses any other display component.
+Both `WitWeaverAnimatorBehaviour` and `ExternalBehaviour` resolve scene-resident characters via the registry and return their `IWitWeaverCharacterDisplay`. Use `WitWeaverAnimatorBehaviour` as a clarity signal that the character uses `WitWeaverAnimatorDisplay`; use `ExternalBehaviour` when the character uses any other display component.
 :::
 
 ---
@@ -162,7 +162,7 @@ Both `ConvoCoreAnimatorBehaviour` and `ExternalBehaviour` resolve scene-resident
 A scene-resident character moves to an authored target position when a conversation begins and returns to their original position when it ends. Useful for an NPC who turns to face the player or walks a few steps to a conversation spot.
 
 **How it works:**
-- `ResolvePresence()` looks up the character via the registry, records their current world position and rotation, then smoothly interpolates to the authored target over a configurable duration using a runtime `ConvoCoreTransformLerp` component.
+- `ResolvePresence()` looks up the character via the registry, records their current world position and rotation, then smoothly interpolates to the authored target over a configurable duration using a runtime `WitWeaverTransformLerp` component.
 - Slots are matched by `CharacterId` first; index is used as a fallback.
 - `OnConversationEnd()` interpolates the character back to their original position and rotation.
 
@@ -194,7 +194,7 @@ Wraps a list of other behaviour assets and selects between them based on a round
 
 | Field | Description |
 |---|---|
-| **Behaviours** | An ordered list of `ConvoCoreCharacterBehaviour` assets to cycle through. Wraps around when the list is exhausted. |
+| **Behaviours** | An ordered list of `WitWeaverCharacterBehaviour` assets to cycle through. Wraps around when the list is exhausted. |
 
 **Use when:** the same character has different placement behaviour depending on which conversation is active, or when you want to swap behaviour types between runs without changing the configuration entry.
 
@@ -202,19 +202,19 @@ Wraps a list of other behaviour assets and selects between them based on a round
 
 ## Writing a Custom Behaviour
 
-Extend `ConvoCoreCharacterBehaviour` (a `ScriptableObject`) to create your own placement strategy:
+Extend `WitWeaverCharacterBehaviour` (a `ScriptableObject`) to create your own placement strategy:
 
 ```csharp
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ConvoCore/Character Behaviour/My Custom Behaviour")]
-public class MyCustomBehaviour : ConvoCoreCharacterBehaviour
+[CreateAssetMenu(menuName = "WitWeaver/Character Behaviour/My Custom Behaviour")]
+public class MyCustomBehaviour : WitWeaverCharacterBehaviour
 {
-    public override IConvoCoreCharacterDisplay ResolvePresence(
+    public override IWitWeaverCharacterDisplay ResolvePresence(
         PrefabCharacterRepresentationData representation,
         CharacterBehaviourContext context,
-        ConvoCorePrefabRepresentationSpawner spawner)
+        WitWeaverPrefabRepresentationSpawner spawner)
     {
         // Spawn, locate, or return a character display here.
         // Return null to skip expression application for this character on this line.
@@ -244,7 +244,7 @@ public class MyCustomBehaviour : ConvoCoreCharacterBehaviour
 }
 ```
 
-Because character behaviours are ScriptableObjects, they cannot hold direct serialized references to scene objects. Use `ConvoCoreSceneCharacterRegistry` or `ConvoCoreSpawnPointRegistry` to resolve scene objects by ID at runtime, or store authored data (positions, offsets, IDs) as serialized fields and resolve live references inside `OnConversationBegin()`.
+Because character behaviours are ScriptableObjects, they cannot hold direct serialized references to scene objects. Use `WitWeaverSceneCharacterRegistry` or `WitWeaverSpawnPointRegistry` to resolve scene objects by ID at runtime, or store authored data (positions, offsets, IDs) as serialized fields and resolve live references inside `OnConversationBegin()`.
 
 ---
 

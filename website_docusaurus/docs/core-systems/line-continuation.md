@@ -5,19 +5,19 @@ title: Line Continuation
 
 # Line Continuation
 
-After ConvoCore displays a dialogue line, it needs to know what to do next. Should it advance to the following line? End the conversation? Jump to a different conversation? Display a set of options for the player? The answer is controlled by the **Line Continuation Mode**, a field set on each line in the `ConvoCoreConversationData` inspector, not in the YAML file itself.
+After WitWeaver displays a dialogue line, it needs to know what to do next. Should it advance to the following line? End the conversation? Jump to a different conversation? Display a set of options for the player? The answer is controlled by the **Line Continuation Mode**, a field set on each line in the `WitWeaverConversationData` inspector, not in the YAML file itself.
 
 :::note[Why is this in the inspector, not the YAML?]
 YAML is optimised for prose: it is where a writer authors dialogue quickly and legibly in any text editor. Branching logic belongs in the asset graph where it can be wired up visually, validated by the editor, and iterated without touching source text.
 
-In practice this means a typical workflow looks like: write all the dialogue text in YAML, import it, then open the `ConvoCoreConversationData` asset in Unity to configure continuation modes and hook up any branching. For linear conversations (the majority of lines), every line defaults to `Continue` and nothing needs touching in the inspector at all.
+In practice this means a typical workflow looks like: write all the dialogue text in YAML, import it, then open the `WitWeaverConversationData` asset in Unity to configure continuation modes and hook up any branching. For linear conversations (the majority of lines), every line defaults to `Continue` and nothing needs touching in the inspector at all.
 :::
 
 ---
 
 ## Setting the continuation mode
 
-Open a `ConvoCoreConversationData` asset in the Unity Inspector. Each dialogue line entry has a **Continuation Mode** dropdown. Select the mode that describes what should happen after that line finishes displaying.
+Open a `WitWeaverConversationData` asset in the Unity Inspector. Each dialogue line entry has a **Continuation Mode** dropdown. Select the mode that describes what should happen after that line finishes displaying.
 
 The five available modes are described below.
 
@@ -39,9 +39,9 @@ Line 1 → Continue → Line 2 → Continue → Line 3 → ...
 
 ### EndConversation
 
-After this line finishes, stop the conversation entirely. ConvoCore fires the `CompletedConversation` event, which your game code can listen to in order to trigger a cutscene, unlock a quest step, return camera control to the player, and so on.
+After this line finishes, stop the conversation entirely. WitWeaver fires the `CompletedConversation` event, which your game code can listen to in order to trigger a cutscene, unlock a quest step, return camera control to the player, and so on.
 
-Use `EndConversation` on the final line of every conversation that has a definitive end. If the last line in a conversation list uses the default `Continue` mode and there is no next line, ConvoCore will also fire `CompletedConversation`, but setting `EndConversation` explicitly makes the intent clear and is the recommended practice.
+Use `EndConversation` on the final line of every conversation that has a definitive end. If the last line in a conversation list uses the default `Continue` mode and there is no next line, WitWeaver will also fire `CompletedConversation`, but setting `EndConversation` explicitly makes the intent clear and is the recommended practice.
 
 ---
 
@@ -58,16 +58,16 @@ After this line finishes, jump to a specific conversation inside a `Conversation
 | **Push Return Point** | If checked, the current position is saved onto the return stack before branching. |
 
 :::note
-Think of `ContainerBranch` like choosing a chapter in a choose-your-own-adventure book. The current conversation is your main story. `ContainerBranch` opens a specific chapter in another part of the book and starts reading from there. If you enable **Push Return Point**, a bookmark is placed in your main story so that when the new chapter finishes, ConvoCore automatically flips back to where you left off and keeps reading.
+Think of `ContainerBranch` like choosing a chapter in a choose-your-own-adventure book. The current conversation is your main story. `ContainerBranch` opens a specific chapter in another part of the book and starts reading from there. If you enable **Push Return Point**, a bookmark is placed in your main story so that when the new chapter finishes, WitWeaver automatically flips back to where you left off and keeps reading.
 :::
 
 **PushReturnPoint in detail:**
 
 When `Push Return Point` is checked:
-1. ConvoCore saves the index of the line immediately after the current one onto an internal return stack.
+1. WitWeaver saves the index of the line immediately after the current one onto an internal return stack.
 2. It then jumps to the target conversation in the target container.
 3. That conversation plays through normally.
-4. When that conversation reaches an `EndConversation` line, ConvoCore checks the return stack.
+4. When that conversation reaches an `EndConversation` line, WitWeaver checks the return stack.
 5. If the stack has entries, it pops the top entry and resumes the original conversation from that saved position, rather than firing `CompletedConversation`.
 
 This makes it possible to build reusable sub-dialogues, for example a character's backstory explanation that can be triggered from multiple different points in your main conversation, always returning to the caller when it ends.
@@ -97,7 +97,7 @@ Reversing (the "go back one line" feature) survives **backward** jumps — after
 
 ### PlayerChoice
 
-After this line finishes, display a set of options for the player to choose from and wait for a selection. When the player picks an option, ConvoCore either jumps to a target line in the same conversation (the choice's **Target Line**) or branches to the conversation associated with that option via a container.
+After this line finishes, display a set of options for the player to choose from and wait for a selection. When the player picks an option, WitWeaver either jumps to a target line in the same conversation (the choice's **Target Line**) or branches to the conversation associated with that option via a container.
 
 `PlayerChoice` is covered in full on the [Player Choices](player-choices) page.
 
@@ -105,10 +105,10 @@ After this line finishes, display a set of options for the player to choose from
 
 ## The return stack
 
-The return stack is an internal list maintained by the active `ConvoCore` conversation runner. It enables nested branching:
+The return stack is an internal list maintained by the active `WitWeaver` conversation runner. It enables nested branching:
 
 - You can push multiple return points by using `ContainerBranch + Push Return Point` within a branched conversation that was itself reached via a push.
-- When each branched conversation ends, ConvoCore pops one entry from the stack and resumes from that saved position.
+- When each branched conversation ends, WitWeaver pops one entry from the stack and resumes from that saved position.
 - The stack is cleared when `CompletedConversation` fires (i.e., when an `EndConversation` is reached and the stack is empty).
 
 A practical example of two-level nesting:

@@ -5,14 +5,14 @@ title: UI Foundation
 
 # UI Foundation
 
-## What is ConvoCoreUIFoundation?
+## What is WitWeaverUIFoundation?
 
-`ConvoCoreUIFoundation` is a concrete `MonoBehaviour` that defines the contract between the ConvoCore runner and your dialogue display. It is the bridge: ConvoCore calls methods on this class to say what should be shown, and your subclass overrides those methods to decide how to show it. All methods have default no-op implementations; override only what your UI needs.
+`WitWeaverUIFoundation` is a concrete `MonoBehaviour` that defines the contract between the WitWeaver runner and your dialogue display. It is the bridge: WitWeaver calls methods on this class to say what should be shown, and your subclass overrides those methods to decide how to show it. All methods have default no-op implementations; override only what your UI needs.
 
-Attach a subclass of `ConvoCoreUIFoundation` to any GameObject in the scene, then drag that GameObject into the **Conversation UI** field on the `ConvoCore` component.
+Attach a subclass of `WitWeaverUIFoundation` to any GameObject in the scene, then drag that GameObject into the **Conversation UI** field on the `WitWeaver` component.
 
 :::note
-ConvoCore is deliberately headless - it manages conversation state and fires events, but contains zero UI code. This means you can build any kind of dialogue display: a text box, a speech bubble, a 3D floating panel, a comic strip, or a fully custom renderer. `ConvoCoreUIFoundation` is the seam where your display plugs in. ConvoCore does not care what UI system you use - Unity UI (uGUI), UI Toolkit, TextMeshPro, IMGUI, or a completely custom approach are all valid.
+WitWeaver is deliberately headless - it manages conversation state and fires events, but contains zero UI code. This means you can build any kind of dialogue display: a text box, a speech bubble, a 3D floating panel, a comic strip, or a fully custom renderer. `WitWeaverUIFoundation` is the seam where your display plugs in. WitWeaver does not care what UI system you use - Unity UI (uGUI), UI Toolkit, TextMeshPro, IMGUI, or a completely custom approach are all valid.
 :::
 
 ---
@@ -22,11 +22,11 @@ ConvoCore is deliberately headless - it manages conversation state and fires eve
 All base implementations do nothing by default. The runner will not crash if you do not override them, but nothing will appear on screen.
 
 ```csharp
-public class ConvoCoreUIFoundation : MonoBehaviour
+public class WitWeaverUIFoundation : MonoBehaviour
 {
     // Called once when a conversation starts.
     // Show your dialogue panel, reset any state here.
-    protected virtual void InitializeUI(ConvoCore runner) { }
+    protected virtual void InitializeUI(WitWeaver runner) { }
 
     // Called every time a new line is ready to display.
     // Update your speaker name, dialogue text, portrait, etc.
@@ -35,7 +35,7 @@ public class ConvoCoreUIFoundation : MonoBehaviour
         string localizedText,
         string speakerName,
         CharacterRepresentationBase representation,
-        ConvoCoreCharacterProfileBaseData primaryProfile) { }
+        WitWeaverCharacterProfileBaseData primaryProfile) { }
 
     // Called when the active language changes mid-conversation.
     // Update the displayed text to the new localized string.
@@ -85,7 +85,7 @@ protected override IEnumerator WaitForUserInput()
 private void OnAdvanceInput()
 {
     _playerAdvanced = true;
-    RaiseAdvance(); // Tell ConvoCore to continue.
+    RaiseAdvance(); // Tell WitWeaver to continue.
 }
 ```
 :::
@@ -121,7 +121,7 @@ protected override IEnumerator PresentChoices(
 
 ## Events
 
-Fire these events from your input handler to signal the runner. ConvoCore subscribes to them internally.
+Fire these events from your input handler to signal the runner. WitWeaver subscribes to them internally.
 
 | Event | When to fire |
 |---|---|
@@ -155,21 +155,21 @@ public virtual int MaxVisibleCharacterSlots => 3;
 
 Returns `3` by default: one primary speaker and up to two secondary characters visible simultaneously. Override this property if your UI supports a different number of simultaneous character portraits.
 
-ConvoCore uses this value to determine how many `ConvoCoreCharacterDisplayBase` components to manage. If your UI is speaker-only (no secondary characters shown), return `1`.
+WitWeaver uses this value to determine how many `WitWeaverCharacterDisplayBase` components to manage. If your UI is speaker-only (no secondary characters shown), return `1`.
 
 ---
 
-## ConvoCoreCharacterDisplayBase
+## WitWeaverCharacterDisplayBase
 
 :::info[For Advanced Users]
-`ConvoCoreCharacterDisplayBase` is an abstract `MonoBehaviour` companion to `ConvoCoreUIFoundation`. It represents the visual panel for one character slot: the portrait area, model view, or sprite display for a single character.
+`WitWeaverCharacterDisplayBase` is an abstract `MonoBehaviour` companion to `WitWeaverUIFoundation`. It represents the visual panel for one character slot: the portrait area, model view, or sprite display for a single character.
 
-Your UI can have up to `MaxVisibleCharacterSlots` of these components. When the runner applies an expression for a line, it calls `ApplyExpression()` on the relevant `CharacterRepresentationBase` asset, passing the matching `ConvoCoreCharacterDisplayBase` component so the representation can update it directly.
+Your UI can have up to `MaxVisibleCharacterSlots` of these components. When the runner applies an expression for a line, it calls `ApplyExpression()` on the relevant `CharacterRepresentationBase` asset, passing the matching `WitWeaverCharacterDisplayBase` component so the representation can update it directly.
 
 Extend it to hook into your portrait renderer, animator, or any display system:
 
 ```csharp
-public class MyCharacterDisplay : ConvoCoreCharacterDisplayBase
+public class MyCharacterDisplay : WitWeaverCharacterDisplayBase
 {
     [SerializeField] private Image _portraitImage;
     [SerializeField] private Animator _animator;
@@ -192,7 +192,7 @@ public class MyCharacterDisplay : ConvoCoreCharacterDisplayBase
 }
 ```
 
-You do not need to use `ConvoCoreCharacterDisplayBase`; it is a convenience layer, not a requirement. If your UI manages character visuals independently and you handle `UpdateDialogueUI()` directly, you can skip it entirely.
+You do not need to use `WitWeaverCharacterDisplayBase`; it is a convenience layer, not a requirement. If your UI manages character visuals independently and you handle `UpdateDialogueUI()` directly, you can skip it entirely.
 :::
 
 ---

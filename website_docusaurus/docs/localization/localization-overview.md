@@ -5,7 +5,7 @@ title: Localization Overview
 
 # Localization Overview
 
-ConvoCore has a native localization system built directly into the YAML dialogue format. No external localization packages are required. Every dialogue line carries its own translations as a map of language codes to text strings, and the runtime resolves the correct text for the active language at display time.
+WitWeaver has a native localization system built directly into the YAML dialogue format. No external localization packages are required. Every dialogue line carries its own translations as a map of language codes to text strings, and the runtime resolves the correct text for the active language at display time.
 
 ---
 
@@ -26,7 +26,7 @@ Dialogue:
       ES: "Buenos dias, viajero. En que puedo ayudar?"
 ```
 
-When the conversation runner reaches this line, it calls `ConvoCoreDialogueLocalizationHandler.GetLocalizedDialogue(line)` with the current language from `ConvoCoreLanguageManager`. The handler returns the appropriate string, which is then passed to the UI for display.
+When the conversation runner reaches this line, it calls `WitWeaverDialogueLocalizationHandler.GetLocalizedDialogue(line)` with the current language from `WitWeaverLanguageManager`. The handler returns the appropriate string, which is then passed to the UI for display.
 
 ---
 
@@ -40,7 +40,7 @@ If the active language is not present in a line's `LocalizedDialogue` map, the h
 4. **Base of English**: strips any region suffix from the English code (rarely needed).
 5. **First available key**: uses whichever key is first in the map.
 
-The result also carries an `IsFallback` flag and an `ErrorMessage` string. When `IsFallback` is `true`, ConvoCore logs a warning to the console so you can track missing translations during development. The text still displays; the conversation does not break.
+The result also carries an `IsFallback` flag and an `ErrorMessage` string. When `IsFallback` is `true`, WitWeaver logs a warning to the console so you can track missing translations during development. The text still displays; the conversation does not break.
 
 :::tip
 Include an `EN` entry in every dialogue line. It serves as the catch-all fallback for any language whose translation is incomplete. If a line has only an `EN` key, all non-English players will see the English text rather than a missing-translation error.
@@ -48,16 +48,16 @@ Include an `EN` entry in every dialogue line. It serves as the catch-all fallbac
 
 ---
 
-## ConvoCoreLanguageManager
+## WitWeaverLanguageManager
 
-`ConvoCoreLanguageManager` is the singleton that tracks the active language and notifies the rest of the system when it changes. It reads its configuration from `ConvoCoreSettings`.
+`WitWeaverLanguageManager` is the singleton that tracks the active language and notifies the rest of the system when it changes. It reads its configuration from `WitWeaverSettings`.
 
 | Member | Type | Description |
 |---|---|---|
-| `Instance` | `ConvoCoreLanguageManager` | The singleton. Auto-created on first access. |
+| `Instance` | `WitWeaverLanguageManager` | The singleton. Auto-created on first access. |
 | `CurrentLanguage` | `string` | The currently active language code (e.g., `"EN"`). Returns `"EN"` if settings are unavailable. |
 | `SetLanguage(string code)` | `void` | Changes the active language. Fires `OnLanguageChanged`. Only accepts codes that exist in the Supported Languages list (case-insensitive). |
-| `GetSupportedLanguages()` | `List<string>` | Returns the full list of supported language codes from `ConvoCoreSettings`. Returns `["EN"]` as a fallback if settings are missing. |
+| `GetSupportedLanguages()` | `List<string>` | Returns the full list of supported language codes from `WitWeaverSettings`. Returns `["EN"]` as a fallback if settings are missing. |
 | `OnLanguageChanged` | `static Action<string>` | Fired when `SetLanguage` successfully changes the active language. The argument is the new canonical language code (as stored in Supported Languages). |
 
 ### Subscribing to Language Changes
@@ -67,12 +67,12 @@ Subscribe in `OnEnable` and unsubscribe in `OnDisable` to avoid stale event list
 ```csharp
 private void OnEnable()
 {
-    ConvoCoreLanguageManager.OnLanguageChanged += HandleLanguageChanged;
+    WitWeaverLanguageManager.OnLanguageChanged += HandleLanguageChanged;
 }
 
 private void OnDisable()
 {
-    ConvoCoreLanguageManager.OnLanguageChanged -= HandleLanguageChanged;
+    WitWeaverLanguageManager.OnLanguageChanged -= HandleLanguageChanged;
 }
 
 private void HandleLanguageChanged(string newLanguage)
@@ -84,10 +84,10 @@ private void HandleLanguageChanged(string newLanguage)
 
 ### Initialization
 
-`ConvoCoreLanguageManager` initializes lazily on the first access to `Instance`. During initialization it:
+`WitWeaverLanguageManager` initializes lazily on the first access to `Instance`. During initialization it:
 
-1. Looks for `ConvoCoreSettings` via `ConvoCoreYamlLoader.Settings`.
-2. Falls back to `Resources.Load<ConvoCoreSettings>("ConvoCoreSettings")`.
+1. Looks for `WitWeaverSettings` via `WitWeaverYamlLoader.Settings`.
+2. Falls back to `Resources.Load<WitWeaverSettings>("WitWeaverSettings")`.
 3. In the editor only, searches the project with `AssetDatabase.FindAssets`.
 4. If no settings are found, logs an error. `CurrentLanguage` returns `"EN"` as a safe fallback.
 
@@ -97,13 +97,13 @@ If `SupportedLanguages` is empty when initialization runs, `"EN"` is added autom
 
 ## Language Codes
 
-Language codes in ConvoCore are arbitrary strings with no built-in list of valid values. A few rules apply:
+Language codes in WitWeaver are arbitrary strings with no built-in list of valid values. A few rules apply:
 
 - Matching is **case-insensitive**: `"EN"`, `"en"`, and `"En"` all refer to the same language.
-- `SetLanguage` performs a **canonical lookup** against the Supported Languages list in `ConvoCoreSettings`. If you call `SetLanguage("fr")` and the list contains `"FR"`, the active language is stored as `"FR"` (the canonical form from the list).
+- `SetLanguage` performs a **canonical lookup** against the Supported Languages list in `WitWeaverSettings`. If you call `SetLanguage("fr")` and the list contains `"FR"`, the active language is stored as `"FR"` (the canonical form from the list).
 - Regional variants (`"fr-CA"`, `"pt-BR"`) are supported - the fallback chain strips the region suffix automatically.
 
-For interoperability and readability, use ISO 639-1 two-letter codes (`EN`, `FR`, `DE`, `ES`, `PT`, `ZH`, etc.) or IETF BCP 47 tags (`fr-CA`, `pt-BR`) for regional variants. ConvoCore accepts any string, but standard codes are easier to maintain as your project scales.
+For interoperability and readability, use ISO 639-1 two-letter codes (`EN`, `FR`, `DE`, `ES`, `PT`, `ZH`, etc.) or IETF BCP 47 tags (`fr-CA`, `pt-BR`) for regional variants. WitWeaver accepts any string, but standard codes are easier to maintain as your project scales.
 
 ---
 
@@ -113,35 +113,35 @@ Call `SetLanguage` at any point: before a conversation, during a conversation, o
 
 ```csharp
 // Switch to French.
-ConvoCoreLanguageManager.Instance.SetLanguage("FR");
+WitWeaverLanguageManager.Instance.SetLanguage("FR");
 ```
 
 If a conversation is currently playing and you want the displayed line to update immediately, also call `UpdateUIForLanguage` on the runner:
 
 ```csharp
-ConvoCoreLanguageManager.Instance.SetLanguage("FR");
+WitWeaverLanguageManager.Instance.SetLanguage("FR");
 _runner.UpdateUIForLanguage("FR");
 ```
 
 This re-localizes and re-renders the current dialogue line in the new language without restarting the conversation.
 
 :::warning
-`SetLanguage` silently does nothing if the code you pass is not in the Supported Languages list. If you have added a language to your YAML files but forgotten to add it to the list in `ConvoCoreSettings`, calls to `SetLanguage` for that code will log a warning and leave the active language unchanged. Always keep the Supported Languages list in settings synchronized with the codes in your YAML files.
+`SetLanguage` silently does nothing if the code you pass is not in the Supported Languages list. If you have added a language to your YAML files but forgotten to add it to the list in `WitWeaverSettings`, calls to `SetLanguage` for that code will log a warning and leave the active language unchanged. Always keep the Supported Languages list in settings synchronized with the codes in your YAML files.
 :::
 
 ---
 
 ## Localization and Choice Labels
 
-Choice options (`ChoiceOption.Labels`) use the same `List<LocalizedDialogue>` structure as dialogue lines. Each choice label is a list of `Language`/`Text` pairs. The same fallback chain applies. When displaying a choice prompt, ConvoCore resolves each option's label using the active language.
+Choice options (`ChoiceOption.Labels`) use the same `List<LocalizedDialogue>` structure as dialogue lines. Each choice label is a list of `Language`/`Text` pairs. The same fallback chain applies. When displaying a choice prompt, WitWeaver resolves each option's label using the active language.
 
-Manage choice labels in the Conversation Data inspector, as they are not part of the raw YAML format; choices are configured as ScriptableObject data on the `ConvoCoreConversationData` asset after YAML import.
+Manage choice labels in the Conversation Data inspector, as they are not part of the raw YAML format; choices are configured as ScriptableObject data on the `WitWeaverConversationData` asset after YAML import.
 
 ---
 
 ## LocalizedDialogueResult
 
-`ConvoCoreDialogueLocalizationHandler.GetLocalizedDialogue` returns a `LocalizedDialogueResult` struct:
+`WitWeaverDialogueLocalizationHandler.GetLocalizedDialogue` returns a `LocalizedDialogueResult` struct:
 
 | Field | Type | Description |
 |---|---|---|
@@ -154,7 +154,7 @@ Manage choice labels in the Conversation Data inspector, as they are not part of
 The runner logs a `Debug.LogWarning` when `IsFallback` is `true` and a `Debug.LogError` when `Success` is `false`. Use these logs during development to audit incomplete translation coverage.
 
 :::info[For Advanced Users]
-`ConvoCoreDialogueLocalizationHandler` is instantiated once per `ConvoCore` MonoBehaviour during `Awake`, with the `ConvoCoreLanguageManager.Instance` passed as a constructor argument. The handler holds no state of its own; it reads `CurrentLanguage` from the manager on every call. This means language changes take effect on the very next line that is resolved, with no additional wiring required.
+`WitWeaverDialogueLocalizationHandler` is instantiated once per `WitWeaver` MonoBehaviour during `Awake`, with the `WitWeaverLanguageManager.Instance` passed as a constructor argument. The handler holds no state of its own; it reads `CurrentLanguage` from the manager on every call. This means language changes take effect on the very next line that is resolved, with no additional wiring required.
 
-If you want to replace the localization strategy entirely (for example, to integrate with Unity Localization or a custom translation backend), instantiate a custom handler that wraps your backend and call it in place of the built-in one. Because `ConvoCoreDialogueLocalizationHandler` is not sealed, you can also subclass it.
+If you want to replace the localization strategy entirely (for example, to integrate with Unity Localization or a custom translation backend), instantiate a custom handler that wraps your backend and call it in place of the built-in one. Because `WitWeaverDialogueLocalizationHandler` is not sealed, you can also subclass it.
 :::

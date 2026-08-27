@@ -13,9 +13,9 @@ A `ConversationContainer` is a ScriptableObject that groups multiple conversatio
 
 Right-click in the **Project** panel and choose:
 
-**Create → ConvoCore → Conversation Container**
+**Create → WitWeaver → Conversation Container**
 
-Add `ConvoCoreConversationData` assets to the **Entries** list and configure the mode and selection strategy.
+Add `WitWeaverConversationData` assets to the **Entries** list and configure the mode and selection strategy.
 
 ---
 
@@ -57,12 +57,12 @@ Each entry in a container's list exposes the following fields:
 | Field | Description |
 |---|---|
 | **Alias** | A unique string identifier for this entry within the container. This is the string you reference when branching to a specific entry from a dialogue line or player choice. |
-| **Conversation Data** | The `ConvoCoreConversationData` asset this entry represents. |
+| **Conversation Data** | The `WitWeaverConversationData` asset this entry represents. |
 | **Enabled** | When unchecked, all selection strategies skip this entry. Use this to temporarily disable a conversation without removing it from the list. |
 | **Delay After End Seconds** | (Playlist mode only.) How many seconds to wait after this conversation ends before the next one begins. Set to `0` for no delay. |
 | **Weight** | (WeightedRandom strategy only.) The relative weight of this entry. A weight of `2` makes this entry twice as likely to be chosen as an entry with weight `1`. |
 | **Start Line Index** | When this entry is jumped to via a branch, the conversation starts at this line index rather than line 0. Set to `0` for the default start. |
-| **Tags** | Optional string tags you can inspect from custom logic or condition checks. ConvoCore does not use these internally; they are provided for your own systems. |
+| **Tags** | Optional string tags you can inspect from custom logic or condition checks. WitWeaver does not use these internally; they are provided for your own systems. |
 
 :::tip
 Always assign meaningful **Alias** names to your entries (e.g., `"confrontation"`, `"peaceful_resolution"`, `"greeting_day1"`). These are the strings you reference in YAML choice targets and branching lines. Blank or generic aliases make branching harder to maintain as your project grows.
@@ -72,12 +72,12 @@ Always assign meaningful **Alias** names to your entries (e.g., `"confrontation"
 
 ## Branching Into a Container
 
-When a dialogue line's `LineContinuationMode` is set to `ContainerBranch`, ConvoCore needs two pieces of information:
+When a dialogue line's `LineContinuationMode` is set to `ContainerBranch`, WitWeaver needs two pieces of information:
 
 1. **Target Container**: the `ConversationContainer` asset to jump into.
 2. **Target Alias Or Name**: a string that must match the **Alias** of an entry in that container.
 
-At runtime, the container resolves the alias to the corresponding `ConvoCoreConversationData` and starts it at the entry's configured `Start Line Index`.
+At runtime, the container resolves the alias to the corresponding `WitWeaverConversationData` and starts it at the entry's configured `Start Line Index`.
 
 **Example YAML branching (choice-driven):**
 
@@ -102,7 +102,7 @@ In this case the runner expects a `ConversationContainer` with entries aliased `
 | Method | Returns | Description |
 |---|---|---|
 | `GetByGuid(string guid)` | `ContainerEntry` | Returns the entry whose `ConversationData` has the matching `ConversationGuid`. Returns `null` if not found. |
-| `IndexOf(ConvoCoreConversationData data)` | `int` | Returns the zero-based index of the entry holding the given data asset. Returns `-1` if not found. |
+| `IndexOf(WitWeaverConversationData data)` | `int` | Returns the zero-based index of the entry holding the given data asset. Returns `-1` if not found. |
 | `IndexOfGuid(string guid)` | `int` | Returns the zero-based index of the entry whose conversation data has the given GUID. Returns `-1` if not found. |
 
 These methods are used internally by the save system when restoring the active conversation after a load. The save system stores a GUID rather than an index, so it can survive entry reordering in the inspector between sessions.
@@ -111,7 +111,7 @@ These methods are used internally by the save system when restoring the active c
 
 ## Relationship to ContainerInput
 
-When the ConvoCore component's **Input** field is set to `ContainerInput`, it points at a `ConversationContainer`. Every time `PlayConversation()` is called, the runner asks the container to resolve the next conversation according to its configured strategy and plays the result.
+When the WitWeaver component's **Input** field is set to `ContainerInput`, it points at a `ConversationContainer`. Every time `PlayConversation()` is called, the runner asks the container to resolve the next conversation according to its configured strategy and plays the result.
 
 You can also override the start alias or loop behavior on the `ContainerInput` itself, giving per-runner control without modifying the shared container asset.
 

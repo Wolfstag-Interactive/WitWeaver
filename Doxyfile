@@ -1,7 +1,7 @@
-PROJECT_NAME           = "ConvoCore"
+PROJECT_NAME           = "WitWeaver"
 OUTPUT_DIRECTORY       = Docs
-INPUT                  = ./WolfstagInteractive/ConvoCore/Scripts \
-                         ./WolfstagInteractive/ConvoCore/SaveSystem
+INPUT                  = ./WolfstagInteractive/WitWeaver/Scripts \
+                         ./WolfstagInteractive/WitWeaver/SaveSystem
 FILE_PATTERNS          = *.cs
 RECURSIVE              = YES
 EXCLUDE_PATTERNS       = */Editor/*
@@ -13,7 +13,7 @@ HAVE_DOT               = YES
 DOT_IMAGE_FORMAT       = svg
 HTML_OUTPUT            = html
 OPTIMIZE_OUTPUT_CSHARP  = YES
-SITEMAP_URL            = https://docs.wolfstaginteractive.com/convocore/api/
+SITEMAP_URL            = https://docs.wolfstaginteractive.com/witweaver/api/
 EXTRACT_ALL             = YES
 EXTRACT_PRIVATE         = YES
 EXTRACT_INTERNALS       = YES

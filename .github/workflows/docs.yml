@@ -1,4 +1,4 @@
-name: Build ConvoCore Docs Site
+name: Build WitWeaver Docs Site
 
 on:
   push:
@@ -30,20 +30,20 @@ jobs:
       # Copy Doxygen output into Docusaurus static folder
       - name: Copy Doxygen HTML into Docusaurus static path
         run: |
-          rm -rf website_docusaurus/static/convocore/api
-          mkdir -p website_docusaurus/static/convocore/api
-          rsync -a Docs/html/ website_docusaurus/static/convocore/api/
+          rm -rf website_docusaurus/static/witweaver/api
+          mkdir -p website_docusaurus/static/witweaver/api
+          rsync -a Docs/html/ website_docusaurus/static/witweaver/api/
       # Generate API sitemap.xml from all Doxygen HTML pages so AI crawlers
       # can discover every class and namespace page without running JavaScript.
       # Written directly into the already-rsynced static folder so it is
       # included in the Docusaurus build regardless of Doxygen version.
       - name: Generate API sitemap.xml
         run: |
-          BASE="https://docs.wolfstaginteractive.com/convocore/api"
-          OUT="website_docusaurus/static/convocore/api/sitemap.xml"
+          BASE="https://docs.wolfstaginteractive.com/witweaver/api"
+          OUT="website_docusaurus/static/witweaver/api/sitemap.xml"
           echo '<?xml version="1.0" encoding="UTF-8"?>' > "$OUT"
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> "$OUT"
-          find website_docusaurus/static/convocore/api -maxdepth 1 -name "*.html" | sort | while read f; do
+          find website_docusaurus/static/witweaver/api -maxdepth 1 -name "*.html" | sort | while read f; do
             page=$(basename "$f")
             echo "  <url><loc>$BASE/$page</loc></url>" >> "$OUT"
           done
@@ -52,8 +52,8 @@ jobs:
 
       - name: Ensure copied API contains class pages
         run: |
-          test -f website_docusaurus/static/convocore/api/annotated.html
-          test -f website_docusaurus/static/convocore/api/classes.html
+          test -f website_docusaurus/static/witweaver/api/annotated.html
+          test -f website_docusaurus/static/witweaver/api/classes.html
 
       - name: Ensure Doxygen produced class pages
         run: |
@@ -62,7 +62,7 @@ jobs:
 
       # Hard fail if API did not generate correctly
       - name: Ensure API index exists
-        run: test -f website_docusaurus/static/convocore/api/index.html
+        run: test -f website_docusaurus/static/witweaver/api/index.html
 
       # Build Docusaurus site
       - name: Build Docusaurus

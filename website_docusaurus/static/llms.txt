@@ -1,104 +1,104 @@
-# ConvoCore
+# WitWeaver
 
-> ConvoCore is a modular Unity dialogue framework for authoring branching conversations in YAML and playing them back in any genre of game. Write dialogue in plain YAML files -- no proprietary formats, no node graphs. Character logic, expressions, branching, localization, and save state are all configured in the Unity editor. ConvoCore compiles YAML into runtime-ready ScriptableObjects automatically.
+> WitWeaver is a modular Unity dialogue framework for authoring branching conversations in YAML and playing them back in any genre of game. Write dialogue in plain YAML files -- no proprietary formats, no node graphs. Character logic, expressions, branching, localization, and save state are all configured in the Unity editor. WitWeaver compiles YAML into runtime-ready ScriptableObjects automatically.
 
 ## Getting Started
 
-- [Installation](https://docs.wolfstaginteractive.com/convocore/getting-started/installation): Install ConvoCore via the Unity Package Manager
-- [Quick Start](https://docs.wolfstaginteractive.com/convocore/getting-started/quick-start): Create your first conversation from scratch -- YAML file, ConversationData asset, ConvoCore component, and test output
-- [Project Structure](https://docs.wolfstaginteractive.com/convocore/getting-started/project-structure): Where to place YAML files, assets, and scripts in your project
-- [Troubleshooting](https://docs.wolfstaginteractive.com/convocore/getting-started/troubleshooting): Common mistakes and fixes for setup and runtime issues
+- [Installation](https://docs.wolfstaginteractive.com/witweaver/getting-started/installation): Install WitWeaver via the Unity Package Manager
+- [Quick Start](https://docs.wolfstaginteractive.com/witweaver/getting-started/quick-start): Create your first conversation from scratch -- YAML file, ConversationData asset, WitWeaver component, and test output
+- [Project Structure](https://docs.wolfstaginteractive.com/witweaver/getting-started/project-structure): Where to place YAML files, assets, and scripts in your project
+- [Troubleshooting](https://docs.wolfstaginteractive.com/witweaver/getting-started/troubleshooting): Common mistakes and fixes for setup and runtime issues
 
 ## Core Systems
 
-- [ConvoCore Component](https://docs.wolfstaginteractive.com/convocore/core-systems/convocore-component): The main MonoBehaviour -- PlayConversation, StopConversation, events (StartedConversation, CompletedConversation, OnLineStarted, OnChoiceMade), and the IConvoStartContextProvider pattern
-- [Conversation Data](https://docs.wolfstaginteractive.com/convocore/core-systems/conversation-data): The ScriptableObject that holds compiled dialogue, participants, and YAML references -- ConversationGuid, Import YAML from Key, Sync from Source
-- [Conversation Container](https://docs.wolfstaginteractive.com/convocore/core-systems/conversation-container): Groups multiple conversations into playlists or selector modes with weighting, aliases, and branching
-- [Input Modes](https://docs.wolfstaginteractive.com/convocore/core-systems/input-modes): SingleConversationInput vs ContainerInput -- how ConvoCore resolves which conversation to play
-- [Conversation State](https://docs.wolfstaginteractive.com/convocore/core-systems/conversation-state): Inactive, Active, Paused, Completed state machine -- transitions, CanReverseOneLine, event subscription safety
-- [Player Choices](https://docs.wolfstaginteractive.com/convocore/core-systems/player-choices): Branching dialogue via player choice lines -- ChoiceOption fields, PushReturnPoint, AllowGoBack
+- [WitWeaver Component](https://docs.wolfstaginteractive.com/witweaver/core-systems/witweaver-component): The main MonoBehaviour -- PlayConversation, StopConversation, events (StartedConversation, CompletedConversation, OnLineStarted, OnChoiceMade), and the IWitWeaverStartContextProvider pattern
+- [Conversation Data](https://docs.wolfstaginteractive.com/witweaver/core-systems/conversation-data): The ScriptableObject that holds compiled dialogue, participants, and YAML references -- ConversationGuid, Import YAML from Key, Sync from Source
+- [Conversation Container](https://docs.wolfstaginteractive.com/witweaver/core-systems/conversation-container): Groups multiple conversations into playlists or selector modes with weighting, aliases, and branching
+- [Input Modes](https://docs.wolfstaginteractive.com/witweaver/core-systems/input-modes): SingleConversationInput vs ContainerInput -- how WitWeaver resolves which conversation to play
+- [Conversation State](https://docs.wolfstaginteractive.com/witweaver/core-systems/conversation-state): Inactive, Active, Paused, Completed state machine -- transitions, CanReverseOneLine, event subscription safety
+- [Player Choices](https://docs.wolfstaginteractive.com/witweaver/core-systems/player-choices): Branching dialogue via player choice lines -- ChoiceOption fields, PushReturnPoint, AllowGoBack
 
 ## YAML Reference
 
-- [YAML Overview](https://docs.wolfstaginteractive.com/convocore/yaml-reference/yaml-overview): Why YAML, hot-reload workflow, and how the YAML-to-ScriptableObject pipeline works
-- [YAML Format](https://docs.wolfstaginteractive.com/convocore/yaml-reference/yaml-format): Full field reference -- ConversationName, Participants, Dialogue entries, LocalizedDialogue, LineID, LineContinuation
-- [Line Continuation](https://docs.wolfstaginteractive.com/convocore/yaml-reference/line-continuation): Continue, EndConversation, ContainerBranch, and PlayerChoice modes
-- [YAML Loading](https://docs.wolfstaginteractive.com/convocore/yaml-reference/yaml-loading): Four load sources -- AssignedTextAsset, Persistent, Addressables, Resources -- and the load priority order
+- [YAML Overview](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-overview): Why YAML, hot-reload workflow, and how the YAML-to-ScriptableObject pipeline works
+- [YAML Format](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-format): Full field reference -- ConversationName, Participants, Dialogue entries, LocalizedDialogue, LineID, LineContinuation
+- [Line Continuation](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/line-continuation): Continue, EndConversation, ContainerBranch, and PlayerChoice modes
+- [YAML Loading](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-loading): Four load sources -- AssignedTextAsset, Persistent, Addressables, Resources -- and the load priority order
 
 ## Characters
 
-- [Character Profiles](https://docs.wolfstaginteractive.com/convocore/characters/character-profiles): CharacterID, CharacterName, IsPlayerCharacter, and the Representations list
-- [Character Representations](https://docs.wolfstaginteractive.com/convocore/characters/character-representations): SpriteCharacterRepresentationData, PrefabCharacterRepresentationData, and custom CharacterRepresentationBase subclasses
-- [Expressions](https://docs.wolfstaginteractive.com/convocore/characters/expressions): Named emotion assets (ConvoCoreCharacterExpression) -- how expressions map to sprites, animations, or custom logic via BaseExpressionAction
+- [Character Profiles](https://docs.wolfstaginteractive.com/witweaver/characters/character-profiles): CharacterID, CharacterName, IsPlayerCharacter, and the Representations list
+- [Character Representations](https://docs.wolfstaginteractive.com/witweaver/characters/character-representations): SpriteCharacterRepresentationData, PrefabCharacterRepresentationData, and custom CharacterRepresentationBase subclasses
+- [Expressions](https://docs.wolfstaginteractive.com/witweaver/characters/expressions): Named emotion assets (WitWeaverCharacterExpression) -- how expressions map to sprites, animations, or custom logic via BaseExpressionAction
 
 ## UI
 
-- [UI Foundation](https://docs.wolfstaginteractive.com/convocore/ui/ui-foundation): The ConvoCoreUIFoundation abstract base class -- UpdateDialogueUI, WaitForUserInput, PresentChoices, HideDialogue
-- [Sample UI](https://docs.wolfstaginteractive.com/convocore/ui/sample-ui): The ready-made dialogue UI prefab included in the Samples package -- how to import and use it as a starting point
-- [Building a Custom UI](https://docs.wolfstaginteractive.com/convocore/ui/building-a-ui): Step-by-step guide to implementing a ConvoCoreUIFoundation subclass
-- [Dialogue History](https://docs.wolfstaginteractive.com/convocore/ui/dialogue-history): ConvoCoreDialogueHistoryUI -- displaying a scrollable log of past dialogue lines
+- [UI Foundation](https://docs.wolfstaginteractive.com/witweaver/ui/ui-foundation): The WitWeaverUIFoundation abstract base class -- UpdateDialogueUI, WaitForUserInput, PresentChoices, HideDialogue
+- [Sample UI](https://docs.wolfstaginteractive.com/witweaver/ui/sample-ui): The ready-made dialogue UI prefab included in the Samples package -- how to import and use it as a starting point
+- [Building a Custom UI](https://docs.wolfstaginteractive.com/witweaver/ui/building-a-ui): Step-by-step guide to implementing a WitWeaverUIFoundation subclass
+- [Dialogue History](https://docs.wolfstaginteractive.com/witweaver/ui/dialogue-history): WitWeaverDialogueHistoryUI -- displaying a scrollable log of past dialogue lines
 
 ## Dialogue Actions
 
-- [Actions Overview](https://docs.wolfstaginteractive.com/convocore/dialogue-actions/actions-overview): What dialogue actions are -- before/after line hooks, RunOnlyOncePerConversation, reversal behavior, and execution order
-- [Built-in Actions](https://docs.wolfstaginteractive.com/convocore/dialogue-actions/built-in-actions): Enable/Disable GameObject, Fade Sprite, Instantiate Prefab, Modify Transform, Play Audio, Action Group
-- [Custom Actions](https://docs.wolfstaginteractive.com/convocore/dialogue-actions/custom-actions): Extending BaseDialogueLineAction -- ExecuteLineAction coroutine, ExecuteOnReversedLineAction, CreateAssetMenu, instance vs asset state, BaseExpressionAction
+- [Actions Overview](https://docs.wolfstaginteractive.com/witweaver/dialogue-actions/actions-overview): What dialogue actions are -- before/after line hooks, RunOnlyOncePerConversation, reversal behavior, and execution order
+- [Built-in Actions](https://docs.wolfstaginteractive.com/witweaver/dialogue-actions/built-in-actions): Enable/Disable GameObject, Fade Sprite, Instantiate Prefab, Modify Transform, Play Audio, Action Group
+- [Custom Actions](https://docs.wolfstaginteractive.com/witweaver/dialogue-actions/custom-actions): Extending BaseDialogueLineAction -- ExecuteLineAction coroutine, ExecuteOnReversedLineAction, CreateAssetMenu, instance vs asset state, BaseExpressionAction
 
 ## Localization
 
-- [Localization Overview](https://docs.wolfstaginteractive.com/convocore/localization/localization-overview): ConvoCoreLanguageManager -- CurrentLanguage, SetLanguage, OnLanguageChanged, and the fallback chain
-- [Adding Languages](https://docs.wolfstaginteractive.com/convocore/localization/adding-languages): Step-by-step -- SupportedLanguages, YAML keys, runtime switching
+- [Localization Overview](https://docs.wolfstaginteractive.com/witweaver/localization/localization-overview): WitWeaverLanguageManager -- CurrentLanguage, SetLanguage, OnLanguageChanged, and the fallback chain
+- [Adding Languages](https://docs.wolfstaginteractive.com/witweaver/localization/adding-languages): Step-by-step -- SupportedLanguages, YAML keys, runtime switching
 
 ## Save System
 
-- [Save System Overview](https://docs.wolfstaginteractive.com/convocore/save-system/save-system-overview): Architecture -- ConvoCoreSaveManager, ConvoCoreConversationSaveManager, ConvoVariableStore -- and the GameSnapshot data model
-- [Save Manager](https://docs.wolfstaginteractive.com/convocore/save-system/save-manager): ConvoCoreSaveManager asset -- Initialize, Save, Load, Delete, settings storage, OnSaveCompleted event
-- [Conversation Save Manager](https://docs.wolfstaginteractive.com/convocore/save-system/conversation-save-manager): Per-conversation component -- auto-commit flags, auto-restore flags, IConvoStartContextProvider integration
-- [Variable Store](https://docs.wolfstaginteractive.com/convocore/save-system/variable-store): ConvoVariableStore -- Global/Conversation/Session scopes, Set/Get API, OnVariableChanged event, live diff inspector
-- [Save Providers](https://docs.wolfstaginteractive.com/convocore/save-system/save-providers): IConvoSaveProvider -- JSON and YAML built-in providers, custom provider skeleton for cloud saves
-- [Snapshot Migration](https://docs.wolfstaginteractive.com/convocore/save-system/snapshot-migration): ConvoCoreSnapshotMigrator -- SchemaVersion, registering migration steps
+- [Save System Overview](https://docs.wolfstaginteractive.com/witweaver/save-system/save-system-overview): Architecture -- WitWeaverSaveManager, WitWeaverConversationSaveManager, WitWeaverVariableStore -- and the GameSnapshot data model
+- [Save Manager](https://docs.wolfstaginteractive.com/witweaver/save-system/save-manager): WitWeaverSaveManager asset -- Initialize, Save, Load, Delete, settings storage, OnSaveCompleted event
+- [Conversation Save Manager](https://docs.wolfstaginteractive.com/witweaver/save-system/conversation-save-manager): Per-conversation component -- auto-commit flags, auto-restore flags, IWitWeaverStartContextProvider integration
+- [Variable Store](https://docs.wolfstaginteractive.com/witweaver/save-system/variable-store): WitWeaverVariableStore -- Global/Conversation/Session scopes, Set/Get API, OnVariableChanged event, live diff inspector
+- [Save Providers](https://docs.wolfstaginteractive.com/witweaver/save-system/save-providers): IWitWeaverSaveProvider -- JSON and YAML built-in providers, custom provider skeleton for cloud saves
+- [Snapshot Migration](https://docs.wolfstaginteractive.com/witweaver/save-system/snapshot-migration): WitWeaverSnapshotMigrator -- SchemaVersion, registering migration steps
 
-## Extending ConvoCore
+## Extending WitWeaver
 
-- [Extending ConvoCore](https://docs.wolfstaginteractive.com/convocore/extending-convocore): All extension points in one place -- custom actions, custom representations, custom UI, custom save providers, expression actions
+- [Extending WitWeaver](https://docs.wolfstaginteractive.com/witweaver/extending-witweaver): All extension points in one place -- custom actions, custom representations, custom UI, custom save providers, expression actions
 
 ## Settings
 
-- [ConvoCore Settings](https://docs.wolfstaginteractive.com/convocore/settings/convocore-settings): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, Addressables toggle, VerboseLogs, SaveKeyPrefix
+- [WitWeaver Settings](https://docs.wolfstaginteractive.com/witweaver/settings/witweaver-settings): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, Addressables toggle, VerboseLogs, SaveKeyPrefix
 
 ## C# API Reference
 
 The full Doxygen-generated C# API is at:
-- [API Root](https://docs.wolfstaginteractive.com/convocore/api/): Entry point for the generated API documentation
-- [All Classes (annotated)](https://docs.wolfstaginteractive.com/convocore/api/annotated.html): Annotated class list with one-line descriptions for every class, struct, and interface
-- [Class Index (A-Z)](https://docs.wolfstaginteractive.com/convocore/api/classes.html): Alphabetical index of all public types
-- [Namespace Members](https://docs.wolfstaginteractive.com/convocore/api/namespacemembers.html): All members grouped by namespace
-- [File List](https://docs.wolfstaginteractive.com/convocore/api/files.html): All source files with links to their documentation
-- [Full Sitemap](https://docs.wolfstaginteractive.com/convocore/api/sitemap.xml): Machine-readable XML list of every API page
+- [API Root](https://docs.wolfstaginteractive.com/witweaver/api/): Entry point for the generated API documentation
+- [All Classes (annotated)](https://docs.wolfstaginteractive.com/witweaver/api/annotated.html): Annotated class list with one-line descriptions for every class, struct, and interface
+- [Class Index (A-Z)](https://docs.wolfstaginteractive.com/witweaver/api/classes.html): Alphabetical index of all public types
+- [Namespace Members](https://docs.wolfstaginteractive.com/witweaver/api/namespacemembers.html): All members grouped by namespace
+- [File List](https://docs.wolfstaginteractive.com/witweaver/api/files.html): All source files with links to their documentation
+- [Full Sitemap](https://docs.wolfstaginteractive.com/witweaver/api/sitemap.xml): Machine-readable XML list of every API page
 
 ### Key Runtime Classes
 
-- [ConvoCore](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCore.html): Main MonoBehaviour conversation runner -- PlayConversation, StopConversation, ReverseOneLine, CurrentDialogueState, all events
-- [ConvoCoreConversationData](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData.html): ScriptableObject holding compiled dialogue lines, participants, and YAML references -- ConversationGuid, DialogueLines, ResolveCharacterProfile
-- [ConvoCoreUIFoundation](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUIFoundation.html): Abstract UI base class -- override UpdateDialogueUI, WaitForUserInput, PresentChoices, HideDialogue
-- [BaseDialogueLineAction](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseDialogueLineAction.html): Base class for custom dialogue actions -- ExecuteLineAction (coroutine), ExecuteOnReversedLineAction, RunOnlyOncePerConversation
-- [CharacterRepresentationBase](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html): Abstract base for character visual representations -- ApplyExpression, GetExpressionMappingByGuid
-- [BaseExpressionAction](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1BaseExpressionAction.html): Base for per-expression synchronous actions -- ExecuteAction(ExpressionActionContext)
-- [ConvoCoreLanguageManager](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreLanguageManager.html): Singleton for runtime language management -- CurrentLanguage, SetLanguage, OnLanguageChanged
-- [ConversationContainer](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConversationContainer.html): ScriptableObject grouping multiple conversations -- Playlist and Selector modes, GetByGuid, IndexOf
-- [ConvoCoreSettings](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, AddressablesEnabled, VerboseLogs
-- [ConvoCoreCharacterExpression](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterExpression.html): Named expression asset with stable GUID -- maps an emotion name to visual data in a representation
+- [WitWeaver](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html): Main MonoBehaviour conversation runner -- PlayConversation, StopConversation, ReverseOneLine, CurrentDialogueState, all events
+- [WitWeaverConversationData](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html): ScriptableObject holding compiled dialogue lines, participants, and YAML references -- ConversationGuid, DialogueLines, ResolveCharacterProfile
+- [WitWeaverUIFoundation](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html): Abstract UI base class -- override UpdateDialogueUI, WaitForUserInput, PresentChoices, HideDialogue
+- [BaseDialogueLineAction](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseDialogueLineAction.html): Base class for custom dialogue actions -- ExecuteLineAction (coroutine), ExecuteOnReversedLineAction, RunOnlyOncePerConversation
+- [CharacterRepresentationBase](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html): Abstract base for character visual representations -- ApplyExpression, GetExpressionMappingByGuid
+- [BaseExpressionAction](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html): Base for per-expression synchronous actions -- ExecuteAction(ExpressionActionContext)
+- [WitWeaverLanguageManager](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLanguageManager.html): Singleton for runtime language management -- CurrentLanguage, SetLanguage, OnLanguageChanged
+- [ConversationContainer](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html): ScriptableObject grouping multiple conversations -- Playlist and Selector modes, GetByGuid, IndexOf
+- [WitWeaverSettings](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, AddressablesEnabled, VerboseLogs
+- [WitWeaverCharacterExpression](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterExpression.html): Named expression asset with stable GUID -- maps an emotion name to visual data in a representation
 
 ### Key Interfaces
 
-- [IConvoCoreRunner](https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreRunner.html): Contract implemented by ConvoCore -- used for loose coupling in actions and UI
-- [IConvoInput](https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoInput.html): Resolves which conversation to play -- implemented by SingleConversationInput and ContainerInput
-- [IConvoStartContextProvider](https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoStartContextProvider.html): Supplies start line index and visited lines before a conversation begins -- used by the save system
+- [IWitWeaverRunner](https://docs.wolfstaginteractive.com/witweaver/api/interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverRunner.html): Contract implemented by WitWeaver -- used for loose coupling in actions and UI
+- [IWitWeaverInput](https://docs.wolfstaginteractive.com/witweaver/api/interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverInput.html): Resolves which conversation to play -- implemented by SingleConversationInput and ContainerInput
+- [IWitWeaverStartContextProvider](https://docs.wolfstaginteractive.com/witweaver/api/interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverStartContextProvider.html): Supplies start line index and visited lines before a conversation begins -- used by the save system
 
 ### Save System Classes
 
-- [ConvoCoreSaveManager](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSaveManager.html): Save system entry point ScriptableObject -- Initialize, Save, Load, Delete, OnSaveCompleted, OnLoadCompleted
-- [ConvoCoreConversationSaveManager](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreConversationSaveManager.html): Per-conversation MonoBehaviour -- auto-commit, auto-restore, TryAutoRestore, CommitSnapshot
-- [ConvoVariableStore](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoVariableStore.html): Scoped variable storage -- Global, Conversation, Session scopes; Set/Get for String/Int/Float/Bool; OnVariableChanged
-- [IConvoSaveProvider](https://docs.wolfstaginteractive.com/convocore/api/interfaceWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1IConvoSaveProvider.html): Interface for custom save backends -- Load, Save, Delete, SlotExists, GetAllSlots
-- [ConvoCoreSnapshotMigrator](https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSnapshotMigrator.html): Schema migration utility -- Register migration steps, auto-called on Load
+- [WitWeaverSaveManager](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSaveManager.html): Save system entry point ScriptableObject -- Initialize, Save, Load, Delete, OnSaveCompleted, OnLoadCompleted
+- [WitWeaverConversationSaveManager](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverConversationSaveManager.html): Per-conversation MonoBehaviour -- auto-commit, auto-restore, TryAutoRestore, CommitSnapshot
+- [WitWeaverVariableStore](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverVariableStore.html): Scoped variable storage -- Global, Conversation, Session scopes; Set/Get for String/Int/Float/Bool; OnVariableChanged
+- [IWitWeaverSaveProvider](https://docs.wolfstaginteractive.com/witweaver/api/interfaceWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1IWitWeaverSaveProvider.html): Interface for custom save backends -- Load, Save, Delete, SlotExists, GetAllSlots
+- [WitWeaverSnapshotMigrator](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSnapshotMigrator.html): Schema migration utility -- Register migration steps, auto-called on Load

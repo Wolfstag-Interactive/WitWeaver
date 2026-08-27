@@ -1,17 +1,17 @@
 ---
 sidebar_position: 11
-title: Extending ConvoCore
+title: Extending WitWeaver
 ---
 
-# Extending ConvoCore
+# Extending WitWeaver
 
-ConvoCore is built top-to-bottom for extensibility. Every layer — dialogue actions, character visuals, character placement, UI display, and save storage — uses abstract base classes or interfaces that you replace or extend without touching the core package. This page maps every extension point and links to the detailed guide for each one.
+WitWeaver is built top-to-bottom for extensibility. Every layer — dialogue actions, character visuals, character placement, UI display, and save storage — uses abstract base classes or interfaces that you replace or extend without touching the core package. This page maps every extension point and links to the detailed guide for each one.
 
 ---
 
 ## Why This Matters
 
-Out of the box, ConvoCore plays dialogue. What it does *with* that dialogue — what appears on screen, which game systems react, how character visuals update, where characters stand in the world — is entirely your code. This is intentional: ConvoCore does not know or care whether you are making a visual novel, a 3D RPG cutscene, an interactive museum exhibit, or a procedurally generated story. The extension points below are where your game logic plugs in.
+Out of the box, WitWeaver plays dialogue. What it does *with* that dialogue — what appears on screen, which game systems react, how character visuals update, where characters stand in the world — is entirely your code. This is intentional: WitWeaver does not know or care whether you are making a visual novel, a 3D RPG cutscene, an interactive museum exhibit, or a procedurally generated story. The extension points below are where your game logic plugs in.
 
 ---
 
@@ -48,7 +48,7 @@ Dialogue actions are ScriptableObject assets that fire custom coroutines before 
 A single action asset can be reused across dozens of conversations. Create an `EnableNPC` action once, configure it per-scene, and assign it wherever you need an NPC to appear mid-dialogue.
 
 ```csharp
-[CreateAssetMenu(menuName = "ConvoCore/Actions/My Custom Action")]
+[CreateAssetMenu(menuName = "WitWeaver/Actions/My Custom Action")]
 public class MyCustomAction : BaseDialogueLineAction
 {
     [SerializeField] private GameObject _target;
@@ -76,15 +76,15 @@ public class MyCustomAction : BaseDialogueLineAction
 The built-in representation types (Sprite, Prefab, and Animated) cover most 2D and 3D setups. For anything else — Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters — extend `CharacterRepresentationBase`:
 
 ```csharp
-[CreateAssetMenu(menuName = "ConvoCore/Character Representation/My Representation")]
+[CreateAssetMenu(menuName = "WitWeaver/Character Representation/My Representation")]
 public class MyRepresentationData : CharacterRepresentationBase
 {
     public override void ApplyExpression(
         string expressionId,
-        ConvoCore runner,
-        ConvoCoreConversationData data,
+        WitWeaver runner,
+        WitWeaverConversationData data,
         int lineIndex,
-        ConvoCoreCharacterDisplayBase display)
+        WitWeaverCharacterDisplayBase display)
     {
         // Apply the correct visual state for this expression.
         // For example: trigger an animation, update a material, swap a texture.
@@ -101,30 +101,30 @@ One profile can hold multiple representation variants — a character can have a
 
 ## Character Behaviours — Custom Conversation Lifecycle Hooks
 
-`ConvoCoreCharacterBehaviour` is a ScriptableObject with three override points that span the entire conversation lifecycle. Extending it is not limited to placement — it is the right hook for any logic that needs to run alongside a character's involvement in a conversation: setting up animator state, registering audio listeners, enabling VFX, driving IK targets, or anything else that needs to react when a conversation begins, resolves a character per line, or ends.
+`WitWeaverCharacterBehaviour` is a ScriptableObject with three override points that span the entire conversation lifecycle. Extending it is not limited to placement — it is the right hook for any logic that needs to run alongside a character's involvement in a conversation: setting up animator state, registering audio listeners, enabling VFX, driving IK targets, or anything else that needs to react when a conversation begins, resolves a character per line, or ends.
 
 The three methods are:
 
 | Method | When it is called | What it is for |
 |---|---|---|
 | `OnConversationBegin()` | Once when the conversation starts, before any line is shown | Pre-compute positions, cache scene references, transition Animator state, enable components |
-| `ResolvePresence(rep, context, spawner)` | Once per character per dialogue line | Return the `IConvoCoreCharacterDisplay` to use for this line — or `null` to skip expression application |
+| `ResolvePresence(rep, context, spawner)` | Once per character per dialogue line | Return the `IWitWeaverCharacterDisplay` to use for this line — or `null` to skip expression application |
 | `OnConversationEnd()` | Once when the conversation ends | Release spawned instances, restore Animator state, clean up any scene changes |
 
 You can implement any combination of these. A behaviour that only drives an Animator at conversation boundaries doesn't need to touch `ResolvePresence` beyond returning the scene character. A behaviour that only controls placement doesn't need to interact with the Animator at all.
 
 ```csharp
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ConvoCore/Character Behaviour/My Custom Behaviour")]
-public class MyCustomBehaviour : ConvoCoreCharacterBehaviour
+[CreateAssetMenu(menuName = "WitWeaver/Character Behaviour/My Custom Behaviour")]
+public class MyCustomBehaviour : WitWeaverCharacterBehaviour
 {
     [SerializeField] private string _sceneCharacterId;
     [SerializeField] private string _talkingAnimParam = "IsTalking";
 
     // Runtime-only — not serialized, resolved fresh each conversation.
-    [System.NonSerialized] private IConvoCoreCharacterDisplay _cachedDisplay;
+    [System.NonSerialized] private IWitWeaverCharacterDisplay _cachedDisplay;
 
     public override void OnConversationBegin()
     {
@@ -133,10 +133,10 @@ public class MyCustomBehaviour : ConvoCoreCharacterBehaviour
         _cachedDisplay = null;
     }
 
-    public override IConvoCoreCharacterDisplay ResolvePresence(
+    public override IWitWeaverCharacterDisplay ResolvePresence(
         PrefabCharacterRepresentationData representation,
         CharacterBehaviourContext context,
-        ConvoCorePrefabRepresentationSpawner spawner)
+        WitWeaverPrefabRepresentationSpawner spawner)
     {
         // Return the same cached display on every line for scene-resident characters.
         if (_cachedDisplay != null) return _cachedDisplay;
@@ -170,7 +170,7 @@ public class MyCustomBehaviour : ConvoCoreCharacterBehaviour
 }
 ```
 
-Because character behaviours are ScriptableObjects, they cannot hold direct serialized references to scene objects. Use `ConvoCoreSceneCharacterRegistry` or `ConvoCoreSpawnPointRegistry` to resolve scene objects by ID at runtime, and cache live references in `[System.NonSerialized]` fields that are cleared in `OnConversationEnd()`.
+Because character behaviours are ScriptableObjects, they cannot hold direct serialized references to scene objects. Use `WitWeaverSceneCharacterRegistry` or `WitWeaverSpawnPointRegistry` to resolve scene objects by ID at runtime, and cache live references in `[System.NonSerialized]` fields that are cleared in `OnConversationEnd()`.
 
 Behaviours are assigned per **configuration entry** on each character's `PrefabCharacterRepresentationData` asset. Each entry holds a list of behaviours that all run together — the first one that returns a non-null display drives expression application for that character on that line. A single entry might pair a placement behaviour with a separate animator-hook behaviour, keeping each asset focused on one concern.
 
@@ -180,9 +180,9 @@ Behaviours are assigned per **configuration entry** on each character's `PrefabC
 
 ## UI Layer — Build Any Display
 
-`ConvoCoreUIFoundation` is an abstract MonoBehaviour with six virtual methods. Override the ones you need and ConvoCore calls them at the right moment:
+`WitWeaverUIFoundation` is an abstract MonoBehaviour with six virtual methods. Override the ones you need and WitWeaver calls them at the right moment:
 
-| Method | When ConvoCore calls it |
+| Method | When WitWeaver calls it |
 |---|---|
 | `InitializeUI(runner)` | Once when the conversation starts |
 | `UpdateDialogueUI(line, text, speaker, representation, profile)` | Every time a new line is ready to display |
@@ -191,7 +191,7 @@ Behaviours are assigned per **configuration entry** on each character's `PrefabC
 | `HideDialogue()` | When the conversation ends |
 | `UpdateForLanguageChange(text, code)` | When the player switches language mid-conversation |
 
-You can use Unity UI (uGUI), UI Toolkit, TextMeshPro, a custom renderer, a 3D world-space panel, or any combination. ConvoCore does not know or care what system you use.
+You can use Unity UI (uGUI), UI Toolkit, TextMeshPro, a custom renderer, a 3D world-space panel, or any combination. WitWeaver does not know or care what system you use.
 
 [Full guide: Building a Custom UI](ui/building-a-ui) | [Sample UI](ui/sample-ui)
 
@@ -199,20 +199,20 @@ You can use Unity UI (uGUI), UI Toolkit, TextMeshPro, a custom renderer, a 3D wo
 
 ## Save Provider — Store Data Anywhere
 
-The save system ships with JSON and YAML file providers. For cloud saves, PlayerPrefs, or encrypted storage, implement `IConvoSaveProvider`:
+The save system ships with JSON and YAML file providers. For cloud saves, PlayerPrefs, or encrypted storage, implement `IWitWeaverSaveProvider`:
 
 ```csharp
-public class MyCloudSaveProvider : IConvoSaveProvider
+public class MyCloudSaveProvider : IWitWeaverSaveProvider
 {
-    public ConvoCoreGameSnapshot Load(string slot) { /* ... */ }
-    public void Save(string slot, ConvoCoreGameSnapshot snapshot) { /* ... */ }
+    public WitWeaverGameSnapshot Load(string slot) { /* ... */ }
+    public void Save(string slot, WitWeaverGameSnapshot snapshot) { /* ... */ }
     public void Delete(string slot) { /* ... */ }
     public bool SlotExists(string slot) { /* ... */ }
     public List<string> GetAllSlots() { /* ... */ }
 }
 ```
 
-Assign your custom provider to the `ConvoCoreSaveManager` asset in the Inspector.
+Assign your custom provider to the `WitWeaverSaveManager` asset in the Inspector.
 
 [Full guide: Save Providers](save-system/save-providers)
 
@@ -223,14 +223,14 @@ Assign your custom provider to the `ConvoCoreSaveManager` asset in the Inspector
 For logic that should trigger specifically when a character's expression changes — updating an animator, blending facial shapes, switching materials — extend `BaseExpressionAction` instead of `BaseDialogueLineAction`. It is synchronous (no coroutine) and receives the full expression context:
 
 ```csharp
-[CreateAssetMenu(menuName = "ConvoCore/Expressions/My Expression Action")]
+[CreateAssetMenu(menuName = "WitWeaver/Expressions/My Expression Action")]
 public class MyExpressionAction : BaseExpressionAction
 {
     public override void ExecuteAction(ExpressionActionContext context)
     {
         // context.Representation — the character's representation
         // context.ExpressionId   — the GUID of the expression being applied
-        // context.Runtime        — the ConvoCore runner
+        // context.Runtime        — the WitWeaver runner
     }
 }
 ```
@@ -241,7 +241,7 @@ public class MyExpressionAction : BaseExpressionAction
 
 ## Best Practices — Choosing the Right Extension Point
 
-The most common design question when adding new logic to ConvoCore is whether it belongs in a **dialogue action** or a **character behaviour**. They overlap in capability — both are ScriptableObjects, both fire at conversation time — but they have fundamentally different scopes.
+The most common design question when adding new logic to WitWeaver is whether it belongs in a **dialogue action** or a **character behaviour**. They overlap in capability — both are ScriptableObjects, both fire at conversation time — but they have fundamentally different scopes.
 
 ### The core distinction
 

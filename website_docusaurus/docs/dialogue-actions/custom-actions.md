@@ -11,17 +11,17 @@ Custom dialogue actions let you run any game logic you want in sync with individ
 
 ## Step 1: Create the Script
 
-Create a new C# script in your project (outside the ConvoCore package folder). Extend `BaseDialogueLineAction`, add a `[CreateAssetMenu]` attribute, and override the two action methods.
+Create a new C# script in your project (outside the WitWeaver package folder). Extend `BaseDialogueLineAction`, add a `[CreateAssetMenu]` attribute, and override the two action methods.
 
 The simplest possible custom action looks like this:
 
 ```csharp
 using System.Collections;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
 [CreateAssetMenu(
-    menuName = "ConvoCore/Actions/Log Message",
+    menuName = "WitWeaver/Actions/Log Message",
     fileName = "LogMessageAction")]
 public class LogMessageAction : BaseDialogueLineAction
 {
@@ -46,10 +46,10 @@ A more complete example that stores and restores state for reversal:
 ```csharp
 using System.Collections;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
 [CreateAssetMenu(
-    menuName = "ConvoCore/Actions/Flash Object Color",
+    menuName = "WitWeaver/Actions/Flash Object Color",
     fileName = "FlashObjectColorAction")]
 public class FlashObjectColorAction : BaseDialogueLineAction
 {
@@ -95,11 +95,11 @@ The `[CreateAssetMenu]` attribute registers your action in the Project panel's r
 
 ```csharp
 [CreateAssetMenu(
-    menuName = "ConvoCore/Actions/Flash Object Color",
+    menuName = "WitWeaver/Actions/Flash Object Color",
     fileName = "FlashObjectColorAction")]
 ```
 
-- **`menuName`** - the path in the right-click menu. Use `"ConvoCore/Actions/..."` so your custom actions appear alongside the built-in ones.
+- **`menuName`** - the path in the right-click menu. Use `"WitWeaver/Actions/..."` so your custom actions appear alongside the built-in ones.
 - **`fileName`** - the default file name when creating a new asset. Name it after the action.
 
 ---
@@ -143,7 +143,7 @@ If your action has no state to undo (logging, triggering analytics, etc.), just 
 
 ## Step 5: Configure RunOnlyOncePerConversation
 
-`RunOnlyOncePerConversation` is a serialized field on `BaseDialogueLineAction` that you set on the action asset in the inspector. When enabled, ConvoCore skips the action if the player reverses to the line and reaches it a second time during the same conversation session.
+`RunOnlyOncePerConversation` is a serialized field on `BaseDialogueLineAction` that you set on the action asset in the inspector. When enabled, WitWeaver skips the action if the player reverses to the line and reaches it a second time during the same conversation session.
 
 Enable it for:
 
@@ -164,7 +164,7 @@ Disable it (the default) for:
 
 Once your script compiles, right-click in the Project panel:
 
-**Create → ConvoCore → Actions → Flash Object Color**
+**Create → WitWeaver → Actions → Flash Object Color**
 
 This creates an asset instance. Select it to configure the serialized fields in the inspector (`_targetObject`, `_flashColor`, `_holdDuration`). Assign the asset to a dialogue line's **Actions Before Dialogue Line** or **Actions After Dialogue Line** list.
 
@@ -174,7 +174,7 @@ You can create multiple asset instances from the same script; each is independen
 
 ## Important: Instance vs Asset State
 
-At runtime, ConvoCore calls `ScriptableObject.Instantiate()` on each action asset before executing it. Every execution gets its own in-memory copy of the asset. This means:
+At runtime, WitWeaver calls `ScriptableObject.Instantiate()` on each action asset before executing it. Every execution gets its own in-memory copy of the asset. This means:
 
 - Fields you set in `ExecuteLineAction` (like `_originalColor` in the example above) are stored on the **instance**, not on the **asset**. The asset's serialized data is never modified at runtime.
 - If two dialogue lines reference the same action asset, each gets its own instance and they do not interfere with each other.
@@ -190,16 +190,16 @@ If your action should respond to the **expression system** rather than the line 
 
 ```csharp
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-[CreateAssetMenu(menuName = "ConvoCore/Expressions/My Expression Action")]
+[CreateAssetMenu(menuName = "WitWeaver/Expressions/My Expression Action")]
 public class MyExpressionAction : BaseExpressionAction
 {
     public override void ExecuteAction(ExpressionActionContext context)
     {
         // context.Representation - the CharacterRepresentationBase for the speaker.
         // context.ExpressionId   - the expression ID being applied.
-        // context.Runtime        - the ConvoCore runner.
+        // context.Runtime        - the WitWeaver runner.
         Debug.Log($"{context.ExpressionId} applied to {context.Representation.name}");
     }
 }
@@ -217,7 +217,7 @@ public class MyExpressionAction : BaseExpressionAction
 
 Before shipping a custom action, confirm the following:
 
-- `[CreateAssetMenu]` attribute is present and the `menuName` starts with `"ConvoCore/Actions/"`.
+- `[CreateAssetMenu]` attribute is present and the `menuName` starts with `"WitWeaver/Actions/"`.
 - `ExecuteLineAction` is marked `public override` and returns `IEnumerator`.
 - The coroutine has at least one `yield` statement. A coroutine with no yield never pauses and exits immediately - which is fine, but make sure it is intentional.
 - `ExecuteOnReversedLineAction` is overridden if the action changes any visible scene state.

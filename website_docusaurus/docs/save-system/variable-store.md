@@ -5,9 +5,9 @@ title: Variable Store
 
 # Variable Store
 
-`ConvoVariableStore` is a ScriptableObject that stores typed, scoped key-value pairs: a lightweight runtime database for gameplay state that dialogue can read and write. It is the bridge between what happens in a conversation and the rest of your game.
+`WitWeaverVariableStore` is a ScriptableObject that stores typed, scoped key-value pairs: a lightweight runtime database for gameplay state that dialogue can read and write. It is the bridge between what happens in a conversation and the rest of your game.
 
-**Create via**: Right-click in the Project window → **Create → ConvoCore → Runtime → Variable Store**
+**Create via**: Right-click in the Project window → **Create → WitWeaver → Runtime → Variable Store**
 
 One variable store asset can serve your entire project. Create additional stores only if you need strict isolation between unrelated systems (for example, a separate store for a mini-game).
 
@@ -19,7 +19,7 @@ Every variable has a scope that determines how it is persisted:
 
 | Scope | Persisted? | Where saved | Description |
 |---|---|---|---|
-| **Global** | Yes | `ConvoCoreGameSnapshot.GlobalVariables` | Shared across all conversations. Use for player-wide state: quest progress, relationship values, story flags that span scenes. |
+| **Global** | Yes | `WitWeaverGameSnapshot.GlobalVariables` | Shared across all conversations. Use for player-wide state: quest progress, relationship values, story flags that span scenes. |
 | **Conversation** | Yes | Inside each `ConversationSnapshot.Variables` | Belongs to one conversation. Use for per-NPC state: whether the player was rude, which branch they took, how many times they have spoken to this character. |
 | **Session** | No | Memory only | Reset when the application closes or Play Mode exits. Never written to disk. Use for temporary flags that exist only within a single play session. |
 
@@ -35,12 +35,12 @@ Variables are strongly typed. Supported types:
 
 | Enum value | C# type | Inspector label |
 |---|---|---|
-| `ConvoVariableType.Bool` | `bool` | Bool |
-| `ConvoVariableType.Int` | `int` | Int |
-| `ConvoVariableType.Float` | `float` | Float |
-| `ConvoVariableType.String` | `string` | String |
-| `ConvoVariableType.CollectionInt` | sub-entries of `string → int` | CollectionInt |
-| `ConvoVariableType.CollectionString` | sub-entries of `string → string` | CollectionString |
+| `WitWeaverVariableType.Bool` | `bool` | Bool |
+| `WitWeaverVariableType.Int` | `int` | Int |
+| `WitWeaverVariableType.Float` | `float` | Float |
+| `WitWeaverVariableType.String` | `string` | String |
+| `WitWeaverVariableType.CollectionInt` | sub-entries of `string → int` | CollectionInt |
+| `WitWeaverVariableType.CollectionString` | sub-entries of `string → string` | CollectionString |
 
 Attempting to read a variable as the wrong type returns the default value for that type (e.g. `0` for Int, `false` for Bool) rather than throwing. Use `TryGet` methods to distinguish between "variable not found" and "variable has the zero value".
 
@@ -51,39 +51,39 @@ The first four types hold a single value. The two Collection types instead hold 
 ## Writing variables
 
 ```csharp
-using WolfstagInteractive.ConvoCore.SaveSystem;
+using WolfstagInteractive.WitWeaver.SaveSystem;
 using UnityEngine;
 
 public class QuestSystem : MonoBehaviour
 {
-    [SerializeField] private ConvoVariableStore _store;
+    [SerializeField] private WitWeaverVariableStore _store;
 
     public void StartQuest()
     {
-        _store.SetBool("quest_started", true, ConvoVariableScope.Global);
-        _store.SetInt("quest_step", 1, ConvoVariableScope.Global);
-        _store.SetString("quest_giver", "Elder Morin", ConvoVariableScope.Global);
+        _store.SetBool("quest_started", true, WitWeaverVariableScope.Global);
+        _store.SetInt("quest_step", 1, WitWeaverVariableScope.Global);
+        _store.SetString("quest_giver", "Elder Morin", WitWeaverVariableScope.Global);
     }
 
     public void RecordDialogueChoice(string key, string choiceValue)
     {
-        _store.SetString(key, choiceValue, ConvoVariableScope.Conversation);
+        _store.SetString(key, choiceValue, WitWeaverVariableScope.Conversation);
     }
 
     public void SetSessionFlag(string key)
     {
-        _store.SetBool(key, true, ConvoVariableScope.Session);
+        _store.SetBool(key, true, WitWeaverVariableScope.Session);
     }
 
     public void AddGold(int amount)
     {
         _store.TryGetInt("player_gold", out int current);
-        _store.SetInt("player_gold", current + amount, ConvoVariableScope.Global);
+        _store.SetInt("player_gold", current + amount, WitWeaverVariableScope.Global);
     }
 }
 ```
 
-All `Set` methods overwrite any existing value for that key. They return `false` if the write was rejected, which happens when the entry is marked read-only or the key already belongs to a different kind of variable. If the key does not exist yet, a new entry is created automatically. `Session` variables live only in memory, while `Global` and `Conversation` variables go into the same list the save system writes to disk. If you leave out the `scope` parameter, it defaults to `ConvoVariableScope.Global`. To give a variable a default value, description, or tags that show up in the inspector, declare it up front (see [Inspector declaration](#declaring-variables-in-the-inspector)).
+All `Set` methods overwrite any existing value for that key. They return `false` if the write was rejected, which happens when the entry is marked read-only or the key already belongs to a different kind of variable. If the key does not exist yet, a new entry is created automatically. `Session` variables live only in memory, while `Global` and `Conversation` variables go into the same list the save system writes to disk. If you leave out the `scope` parameter, it defaults to `WitWeaverVariableScope.Global`. To give a variable a default value, description, or tags that show up in the inspector, declare it up front (see [Inspector declaration](#declaring-variables-in-the-inspector)).
 
 ---
 
@@ -116,9 +116,9 @@ if (_store.TryGetString("last_choice", out string choice))
     Debug.Log($"Last choice: {choice}");
 }
 
-// Direct access - retrieves the raw ConvoCoreVariable entry.
+// Direct access - retrieves the raw WitWeaverVariable entry.
 // Prefer TryGet for gameplay code; use this when you need the full entry metadata.
-ConvoCoreVariable variable = _store.GetVariable("player_gold");
+WitWeaverVariable variable = _store.GetVariable("player_gold");
 int directGold = variable.GetInt();
 ```
 
@@ -148,8 +148,8 @@ A **Collection** is a variable that holds a group of named values inside it. Eac
 ```csharp
 // Writes. Creates the Collection (in the session layer) if the top-level key
 // does not exist. The scope parameter is required.
-_store.SetCollectionInt("inventory", "sword", 2, ConvoVariableScope.Global);
-_store.SetCollectionString("relations", "elder", "friendly", ConvoVariableScope.Global);
+_store.SetCollectionInt("inventory", "sword", 2, WitWeaverVariableScope.Global);
+_store.SetCollectionString("relations", "elder", "friendly", WitWeaverVariableScope.Global);
 
 // Reads. Return false if the Collection is missing, the sub-key is missing,
 // or the variable is not a Collection of the requested type.
@@ -208,18 +208,18 @@ YAML condition expressions cannot look inside a Collection. If a dialogue branch
 
 ## Querying by scope or tag
 
-Both queries return `IReadOnlyList<ConvoVariableEntry>`. Each entry wraps the variable itself (`CoreVariable`) together with its `Scope` and `IsReadOnly` flag:
+Both queries return `IReadOnlyList<WitWeaverVariableEntry>`. Each entry wraps the variable itself (`CoreVariable`) together with its `Scope` and `IsReadOnly` flag:
 
 ```csharp
 // Get all variables in a specific scope
-IReadOnlyList<ConvoVariableEntry> globals  = _store.GetByScope(ConvoVariableScope.Global);
-IReadOnlyList<ConvoVariableEntry> convVars = _store.GetByScope(ConvoVariableScope.Conversation);
+IReadOnlyList<WitWeaverVariableEntry> globals  = _store.GetByScope(WitWeaverVariableScope.Global);
+IReadOnlyList<WitWeaverVariableEntry> convVars = _store.GetByScope(WitWeaverVariableScope.Conversation);
 
 // Get all variables that have a specific tag
-IReadOnlyList<ConvoVariableEntry> questVars = _store.GetByTag("quest");
+IReadOnlyList<WitWeaverVariableEntry> questVars = _store.GetByTag("quest");
 
 // Combine: all global quest variables
-var globalQuestVars = _store.GetByScope(ConvoVariableScope.Global)
+var globalQuestVars = _store.GetByScope(WitWeaverVariableScope.Global)
     .Where(e => e.CoreVariable.Tags != null && e.CoreVariable.Tags.Contains("quest"));
 ```
 
@@ -247,7 +247,7 @@ private void OnDisable()
     _store.OnVariableChanged -= OnAnyVariableChanged;
 }
 
-private void OnGoldChanged(ConvoCoreVariable variable)
+private void OnGoldChanged(WitWeaverVariable variable)
 {
     _goldDisplay.text = variable.GetInt().ToString();
 }
@@ -312,11 +312,11 @@ You can also use the editor's **scope filter** and **text filter toolbar** to qu
 ```csharp
 // Clear all Session-scoped variables. Global and Conversation variables are
 // not affected, and neither are the temporary copies of changed Collections.
-_store.ClearByScope(ConvoVariableScope.Session);
+_store.ClearByScope(WitWeaverVariableScope.Session);
 
 // Clear all variables of a specific scope. Single-value variables are removed;
 // authored Collections revert to their authored defaults instead of being deleted.
-_store.ClearByScope(ConvoVariableScope.Conversation);
+_store.ClearByScope(WitWeaverVariableScope.Conversation);
 
 // Reset a single Collection to its authored defaults, or remove it entirely if
 // it was created at runtime. Single-value variables are not supported and log
