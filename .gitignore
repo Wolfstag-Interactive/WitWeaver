@@ -1,2 +1,9 @@
 # Claude Code working directory (worktrees, settings)
 .claude/
+
+# Generated Doxygen/docs output (CI regenerates on every deploy; see .github/workflows/docs.yml)
+/Docs/
+/html/
+/latex/
+/website_docusaurus/build/
+/website_docusaurus/static/witweaver/api/

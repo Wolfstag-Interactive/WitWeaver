@@ -1,5 +1,0 @@
-var _character_representation_base_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.CharacterRepresentationBase", "class_wolfstag_interactive_1_1_convo_core_1_1_character_representation_base.html", "class_wolfstag_interactive_1_1_convo_core_1_1_character_representation_base" ],
-    [ "WolfstagInteractive.ConvoCore.IConvoCoreRepresentationInitializable", "interface_wolfstag_interactive_1_1_convo_core_1_1_i_convo_core_representation_initializable.html", "interface_wolfstag_interactive_1_1_convo_core_1_1_i_convo_core_representation_initializable" ]
-];

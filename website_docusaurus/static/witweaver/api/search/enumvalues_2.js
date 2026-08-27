@@ -1,8 +1,0 @@
-var searchData=
-[
-  ['center_0',['Center',['../class_wolfstag_interactive_1_1_convo_core_1_1_dialogue_line_display_options.html#adffa004212574b32622f09ae1c32c0c3a4f1f6016fc9f3f2353c0cc7c67b292bd',1,'WolfstagInteractive.ConvoCore.DialogueLineDisplayOptions.Center'],['../namespace_wolfstag_interactive_1_1_convo_core.html#a7672af973360b3e5b2b3259e3f6088aea4f1f6016fc9f3f2353c0cc7c67b292bd',1,'WolfstagInteractive.ConvoCore.Center'],['../namespace_wolfstag_interactive_1_1_convo_core.html#a641e3e9ced2cb6f0f0e0ccc6e90318caa4f1f6016fc9f3f2353c0cc7c67b292bd',1,'WolfstagInteractive.ConvoCore.Center']]],
-  ['completed_1',['Completed',['../class_wolfstag_interactive_1_1_convo_core_1_1_convo_core.html#a783c34858791c0cc16ae3fc36a7dfa82a07ca5050e697392c9ed47e6453f1453f',1,'WolfstagInteractive::ConvoCore::ConvoCore']]],
-  ['containerbranch_2',['ContainerBranch',['../class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data.html#a0aa0fdd4cefc8aad605fe6d59182a0d9ab90d1df99ef57685f3c6c686dee21d25',1,'WolfstagInteractive::ConvoCore::ConvoCoreConversationData']]],
-  ['continue_3',['Continue',['../class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data.html#a0aa0fdd4cefc8aad605fe6d59182a0d9aa0bfb8e59e6c13fc8d990781f77694fe',1,'WolfstagInteractive::ConvoCore::ConvoCoreConversationData']]],
-  ['custom_4',['Custom',['../class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_line_action_fade_in_out_sprite_renderer.html#a5ef0759b00fe79fc987ed07c3112aba7a90589c47f06eb971d548591f23c285af',1,'WolfstagInteractive::ConvoCore::ConvoCoreDialogueLineActionFadeInOutSpriteRenderer']]]
-];

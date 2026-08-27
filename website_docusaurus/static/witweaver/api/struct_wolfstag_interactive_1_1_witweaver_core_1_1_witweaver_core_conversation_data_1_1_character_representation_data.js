@@ -1,8 +1,0 @@
-var struct_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data_1_1_character_representation_data =
-[
-    [ "LineSpecificDisplayOptions", "struct_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data_1_1_character_representation_data.html#a28f3af4df7ea4c3fbef41c22be8ee351", null ],
-    [ "SelectedCharacterID", "struct_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data_1_1_character_representation_data.html#acd63b1e20645978b0bff59e20f8ff71a", null ],
-    [ "SelectedExpressionId", "struct_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data_1_1_character_representation_data.html#a85fa8651a009a0572e8baccc218569d9", null ],
-    [ "SelectedRepresentation", "struct_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data_1_1_character_representation_data.html#a8f1f001acebe682b050bb28bc19cac7f", null ],
-    [ "SelectedRepresentationName", "struct_wolfstag_interactive_1_1_convo_core_1_1_convo_core_conversation_data_1_1_character_representation_data.html#a45c8e73959701bf6f9652372b376ecb8", null ]
-];

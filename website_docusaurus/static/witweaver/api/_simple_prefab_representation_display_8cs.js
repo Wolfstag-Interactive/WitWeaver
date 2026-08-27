@@ -1,4 +1,0 @@
-var _simple_prefab_representation_display_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.SimplePrefabRepresentationDisplay", "class_wolfstag_interactive_1_1_convo_core_1_1_simple_prefab_representation_display.html", "class_wolfstag_interactive_1_1_convo_core_1_1_simple_prefab_representation_display" ]
-];

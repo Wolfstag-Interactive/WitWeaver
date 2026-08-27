@@ -1,4 +1,0 @@
-var _convo_core_dialogue_line_action_instantiate_prefab_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreDialogueLineActionInstantiatePrefab", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_line_action_instantiate_prefab.html", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_line_action_instantiate_prefab" ]
-];

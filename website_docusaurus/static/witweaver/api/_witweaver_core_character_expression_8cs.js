@@ -1,5 +1,0 @@
-var _convo_core_character_expression_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreCharacterExpression", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_character_expression.html", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_character_expression" ],
-    [ "WolfstagInteractive.ConvoCore.RepresentationExpressionOverride", "class_wolfstag_interactive_1_1_convo_core_1_1_representation_expression_override.html", "class_wolfstag_interactive_1_1_convo_core_1_1_representation_expression_override" ]
-];

@@ -1,5 +1,0 @@
-var _convo_core_language_settings_loader_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreLanguageSettingsLoader", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_language_settings_loader.html", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_language_settings_loader" ],
-    [ "WolfstagInteractive.ConvoCore.IConvoCoreLanguageSettingsLoader", "interface_wolfstag_interactive_1_1_convo_core_1_1_i_convo_core_language_settings_loader.html", "interface_wolfstag_interactive_1_1_convo_core_1_1_i_convo_core_language_settings_loader" ]
-];

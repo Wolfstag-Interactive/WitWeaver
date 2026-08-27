@@ -1,4 +1,0 @@
-var _i_dialogue_line_editor_customizable_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.IDialogueLineEditorCustomizable", "interface_wolfstag_interactive_1_1_convo_core_1_1_i_dialogue_line_editor_customizable.html", "interface_wolfstag_interactive_1_1_convo_core_1_1_i_dialogue_line_editor_customizable" ]
-];
