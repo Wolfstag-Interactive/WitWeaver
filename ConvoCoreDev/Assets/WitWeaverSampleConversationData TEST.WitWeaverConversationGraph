@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12501, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConvoCoreSampleConversationData TEST
+  m_Name: WitWeaverSampleConversationData TEST
   m_EditorClassIdentifier: UnityEditor.dll::Unity.GraphToolkit.Editor.Implementation.GraphObjectImp
   m_GraphModel:
     rid: 3902877104275456331
@@ -179,7 +179,7 @@ MonoBehaviour:
         m_Items: []
         m_Title: 
     - rid: 3902877104275456333
-      type: {class: ConvoCoreConversationGraph, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: WitWeaverConversationGraph, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data:
         m_Conversation: {fileID: 11400000, guid: 0a37cee1b6901ff4e8a11815f11e990c, type: 2}
         m_LastSyncedYamlHash: 596C9F218F97118F6F9020D5AC249CE63FF80F3AEC9C8156D8CD19564EF7BE1E
@@ -615,10 +615,10 @@ MonoBehaviour:
           m_PortOrientation: 0
           m_Title: In
     - rid: 3902877104275456526
-      type: {class: ConversationStartNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: ConversationStartNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data: 
     - rid: 3902877104275456527
-      type: {class: DialogueLineNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: DialogueLineNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data:
         m_LineId: L_de250d5f6295
         m_CharacterId: Ava
@@ -627,7 +627,7 @@ MonoBehaviour:
         m_TextValues:
         - Well, I got good news and bad news.
     - rid: 3902877104275456528
-      type: {class: DialogueLineNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: DialogueLineNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data:
         m_LineId: L_95abc946605d
         m_CharacterId: Fae
@@ -637,7 +637,7 @@ MonoBehaviour:
         - '*sigh*... Maybe you find something to activate the motors in the arm to
           let go.'
     - rid: 3902877104275456529
-      type: {class: DialogueLineNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: DialogueLineNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data:
         m_LineId: L_423f905b9953
         m_CharacterId: Player
@@ -646,7 +646,7 @@ MonoBehaviour:
         m_TextValues:
         - Got it.
     - rid: 3902877104275456530
-      type: {class: DialogueLineNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: DialogueLineNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data:
         m_LineId: L_daebc046eeb9
         m_CharacterId: Player
@@ -655,7 +655,7 @@ MonoBehaviour:
         m_TextValues:
         - Sooo uhhh... any ideas?
     - rid: 3902877104275456531
-      type: {class: DialogueLineNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: DialogueLineNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data:
         m_LineId: L_08ae1ae0db6b
         m_CharacterId: Player
@@ -665,5 +665,5 @@ MonoBehaviour:
         - Good news is, I found what might be the power switch to this place. Bad
           news is, it's being held down by this robot-hand thingy.
     - rid: 3902877104275456532
-      type: {class: EndConversationNode, ns: WolfstagInteractive.ConvoCore.GraphEditor, asm: ConvoCoreGraphEditor}
+      type: {class: EndConversationNode, ns: WolfstagInteractive.WitWeaver.GraphEditor, asm: WitWeaverGraphEditor}
       data: 

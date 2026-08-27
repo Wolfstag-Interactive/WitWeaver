@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 1896093986946830300}
   - component: {fileID: 174051852324576569}
   m_Layer: 0
-  m_Name: ConvoCore2DSampleUI
+  m_Name: WitWeaver2DSampleUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fbfce9141aed644b798172303d3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  convoCoreSettings: {fileID: 11400000, guid: 0fdc5f43fa7e2c7418c01c50ea88d5d4, type: 2}
+  witWeaverSettings: {fileID: 11400000, guid: 0fdc5f43fa7e2c7418c01c50ea88d5d4, type: 2}
   selectedProfileName: Plain
   maxEntries: 100
 --- !u!114 &1896093986946830300

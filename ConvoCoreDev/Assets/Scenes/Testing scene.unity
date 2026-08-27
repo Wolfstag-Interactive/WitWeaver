@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 436209673}
   - component: {fileID: 436209672}
   m_Layer: 0
-  m_Name: 'ConvoCore Conversation '
+  m_Name: 'WitWeaver Conversation '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,7 +417,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 8883873189358993408
-      type: {class: SingleConversationInput, ns: WolfstagInteractive.ConvoCore, asm: ConvoCore}
+      type: {class: SingleConversationInput, ns: WolfstagInteractive.WitWeaver, asm: WitWeaver}
       data:
         Conversation: {fileID: 11400000, guid: 0a37cee1b6901ff4e8a11815f11e990c, type: 2}
 --- !u!4 &436209677
@@ -933,7 +933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5596723616945483292, guid: 02bc0ecb4db6aff4590106ee07697110, type: 3}
       propertyPath: m_Name
-      value: ConvoCoreSaveManager
+      value: WitWeaverSaveManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

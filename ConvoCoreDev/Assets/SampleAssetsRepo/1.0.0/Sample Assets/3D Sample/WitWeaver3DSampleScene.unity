@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 61876855}
   - component: {fileID: 61876854}
   m_Layer: 0
-  m_Name: ConvoCore Conversation
+  m_Name: WitWeaver Conversation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 7582114998217342976
-      type: {class: SingleConversationInput, ns: WolfstagInteractive.ConvoCore, asm: ConvoCore}
+      type: {class: SingleConversationInput, ns: WolfstagInteractive.WitWeaver, asm: WitWeaver}
       data:
         Conversation: {fileID: 11400000, guid: a6128cefee2e32d41a444826be70e968, type: 2}
 --- !u!4 &61876852
@@ -498,7 +498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 444105413700069326, guid: 37defd90b8cf4c644b832efe22df606d, type: 3}
       propertyPath: m_Name
-      value: ConvoCore2DSampleUI
+      value: WitWeaver2DSampleUI
       objectReference: {fileID: 0}
     - target: {fileID: 2475525088512401250, guid: 37defd90b8cf4c644b832efe22df606d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1139,7 +1139,7 @@ GameObject:
   - component: {fileID: 1292881818202986209}
   - component: {fileID: 9164900627007940733}
   m_Layer: 0
-  m_Name: ConvoCore3DSampleUI
+  m_Name: WitWeaver3DSampleUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2445,7 +2445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fbfce9141aed644b798172303d3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  convoCoreSettings: {fileID: 11400000, guid: 0fdc5f43fa7e2c7418c01c50ea88d5d4, type: 2}
+  witWeaverSettings: {fileID: 11400000, guid: 0fdc5f43fa7e2c7418c01c50ea88d5d4, type: 2}
   selectedProfileName: Plain
   maxEntries: 100
 --- !u!222 &5642013264793207123

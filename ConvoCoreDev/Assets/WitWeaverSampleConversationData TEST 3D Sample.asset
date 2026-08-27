@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458f605aa420aee44acb27c723607006, type: 3}
-  m_Name: ConvoCoreSampleConversationData TEST 3D Sample
+  m_Name: WitWeaverSampleConversationData TEST 3D Sample
   m_EditorClassIdentifier: 
   ConversationTitle: 3D Sample Conversation
   ConversationParticipantProfiles:
@@ -1642,7 +1642,7 @@ MonoBehaviour:
   AllowPersistentOverrides: 1
   FilePath: DialogueScriptSample.yml
   SourceYaml: {fileID: 102900000, guid: 24d61ad70f2f49441891f99c350c0620, type: 3}
-  SourceYamlAssetPath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/ConvoCore3DDialogueSampleConversation.yml
+  SourceYamlAssetPath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/WitWeaver3DDialogueSampleConversation.yml
   SourceExcelAsset: {fileID: 0}
   SourceExcelAssetPath: 
   ConversationKey: 3DSampleConversation
