@@ -125,16 +125,16 @@ namespace WolfstagInteractive.WitWeaver
         private void OnConversationStarted()
         {
             if (prefabRepresentationSpawner == null) return;
-            var convoData = WitWeaverInstance.GetCurrentConversationData();
-            if (convoData?.ParticipantConfigurationDefaults == null) return;
+            var conversationData = WitWeaverInstance.GetCurrentConversationData();
+            if (conversationData?.ParticipantConfigurationDefaults == null) return;
 
-            int total = convoData.ParticipantConfigurationDefaults.Count;
+            int total = conversationData.ParticipantConfigurationDefaults.Count;
             for (int idx = 0; idx < total; idx++)
             {
-                var slot = convoData.ParticipantConfigurationDefaults[idx];
+                var slot = conversationData.ParticipantConfigurationDefaults[idx];
                 if (slot.SpawnTiming != WitWeaverSpawnTiming.OnConversationBegin) continue;
 
-                var profile = convoData.ConversationParticipantProfiles
+                var profile = conversationData.ConversationParticipantProfiles
                     .FirstOrDefault(p => p.CharacterID == slot.CharacterID);
                 if (profile == null) continue;
 
@@ -207,12 +207,12 @@ namespace WolfstagInteractive.WitWeaver
 
             if (prefabRepresentationSpawner != null)
             {
-                var convoData = WitWeaverInstance.GetCurrentConversationData();
+                var conversationData = WitWeaverInstance.GetCurrentConversationData();
                 int count = lineInfo.CharacterRepresentations.Count;
                 for (int i = 0; i < count; i++)
                 {
                     var charData = lineInfo.CharacterRepresentations[i];
-                    var rep = GetRepresentationFromData(convoData, charData);
+                    var rep = GetRepresentationFromData(conversationData, charData);
 
                     if (rep is not PrefabCharacterRepresentationData prefabRep)
                         continue;
@@ -223,7 +223,7 @@ namespace WolfstagInteractive.WitWeaver
                         : rep.name;
 
                     // Resolve the configuration entry: per-line → participant default → asset default.
-                    var entryName = ResolveEntryName(convoData, charData, characterId);
+                    var entryName = ResolveEntryName(conversationData, charData, characterId);
                     var entry = prefabRep.GetEntry(entryName);
                     if (entry?.CharacterBehaviours == null || entry.CharacterBehaviours.Count == 0)
                     {
@@ -507,14 +507,14 @@ namespace WolfstagInteractive.WitWeaver
         /// Returns null to signal "use the asset default entry".
         /// </summary>
         private static string ResolveEntryName(
-            WitWeaverConversationData convoData,
+            WitWeaverConversationData conversationData,
             WitWeaverConversationData.CharacterRepresentationData charData,
             string characterId)
         {
             if (!string.IsNullOrEmpty(charData.SelectedConfigurationEntryName))
                 return charData.SelectedConfigurationEntryName;
 
-            var participantDefault = convoData?.GetParticipantDefaultEntry(characterId);
+            var participantDefault = conversationData?.GetParticipantDefaultEntry(characterId);
             if (!string.IsNullOrEmpty(participantDefault))
                 return participantDefault;
 
@@ -542,12 +542,12 @@ namespace WolfstagInteractive.WitWeaver
             return newBehaviours;
         }
 
-        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData convoData,
+        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData conversationData,
             WitWeaverConversationData.CharacterRepresentationData data)
         {
             if (!string.IsNullOrEmpty(data.SelectedCharacterID))
             {
-                var profile = convoData?.ConversationParticipantProfiles.FirstOrDefault(p =>
+                var profile = conversationData?.ConversationParticipantProfiles.FirstOrDefault(p =>
                     p.CharacterID == data.SelectedCharacterID);
                 return profile?.GetRepresentation(data.SelectedRepresentationName);
             }

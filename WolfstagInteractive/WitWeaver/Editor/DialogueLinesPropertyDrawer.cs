@@ -138,10 +138,10 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (EditorGUI.EndChangeCheck())
             {
                 so.ApplyModifiedProperties();
-                if (so.targetObject is WitWeaverConversationData convo)
+                if (so.targetObject is WitWeaverConversationData conversation)
                 {
-                    convo.ValidateAndFixDialogueLines();
-                    EditorUtility.SetDirty(convo);
+                    conversation.ValidateAndFixDialogueLines();
+                    EditorUtility.SetDirty(conversation);
                 }
             }
 
@@ -610,14 +610,14 @@ namespace WolfstagInteractive.WitWeaver.Editor
     {
         h += 1 + k_Spacing * 3; // separator
 
-        var convo = property.serializedObject.targetObject as WitWeaverConversationData;
-        if (convo == null)
+        var conversation = property.serializedObject.targetObject as WitWeaverConversationData;
+        if (conversation == null)
         {
             h += EditorGUIUtility.singleLineHeight + k_Spacing;
         }
         else
         {
-            var profiles = convo.ConversationParticipantProfiles?.Where(p => p != null).ToList();
+            var profiles = conversation.ConversationParticipantProfiles?.Where(p => p != null).ToList();
             if (profiles == null || profiles.Count == 0)
             {
                 h += EditorGUIUtility.singleLineHeight * 2.5f + k_Spacing;
@@ -696,11 +696,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
             // Section label: "Primary Character", "Secondary Character", etc
             h += line;
 
-            var convo = repProp.serializedObject.targetObject as WitWeaverConversationData;
-            if (convo == null)
+            var conversation = repProp.serializedObject.targetObject as WitWeaverConversationData;
+            if (conversation == null)
                 return h + line;
 
-            var profiles = convo.ConversationParticipantProfiles?.Where(p => p != null).ToList();
+            var profiles = conversation.ConversationParticipantProfiles?.Where(p => p != null).ToList();
             if (profiles == null || profiles.Count == 0)
                 return h + line;
 
@@ -1001,8 +1001,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
     EditorGUI.DrawRect(new Rect(rect.x, rect.y, rect.width, 1), new Color(0.5f, 0.5f, 0.5f, 1));
     rect.y += 1 + k_Spacing * 2;
 
-    var convo = property.serializedObject.targetObject as WitWeaverConversationData;
-    if (convo == null)
+    var conversation = property.serializedObject.targetObject as WitWeaverConversationData;
+    if (conversation == null)
     {
         EditorGUI.indentLevel++;
         EditorGUI.LabelField(rect, "Error: Conversation data is missing.");
@@ -1011,7 +1011,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
         return rect;
     }
 
-    var validProfiles = convo.ConversationParticipantProfiles.Where(p => p != null).ToList();
+    var validProfiles = conversation.ConversationParticipantProfiles.Where(p => p != null).ToList();
     if (validProfiles.Count == 0)
     {
         EditorGUI.indentLevel++;
@@ -1148,7 +1148,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     speakerIdProp,
                     k_Spacing,
                     useRepresentationNameInsteadOfID: false,
-                    convo);
+                    conversation);
             }
             else
             {
@@ -1159,7 +1159,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     repElement,
                     k_Spacing,
                     useRepresentationNameInsteadOfID: true,
-                    convo);
+                    conversation);
             }
         }
 
@@ -1226,9 +1226,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
         
         private static readonly Dictionary<EntityId, GUIContent[]> _profilePopupCache = new();
 
-        private static GUIContent[] GetCachedProfileNames(WitWeaverConversationData convo, List<WitWeaverCharacterProfileBaseData> profiles)
+        private static GUIContent[] GetCachedProfileNames(WitWeaverConversationData conversation, List<WitWeaverCharacterProfileBaseData> profiles)
         {
-            EntityId id = convo.GetEntityId();
+            EntityId id = conversation.GetEntityId();
             if (_profilePopupCache.TryGetValue(id, out var arr))
                 return arr;
 
@@ -1255,7 +1255,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             SerializedProperty identifierProp,
             float spacing,
             bool useRepresentationNameInsteadOfID,
-            WitWeaverConversationData convo)
+            WitWeaverConversationData conversation)
         {
             var so = representationProp.serializedObject;
 
@@ -1267,14 +1267,14 @@ namespace WolfstagInteractive.WitWeaver.Editor
             EditorGUI.LabelField(rect, $"{label}:",EditorStyles.boldLabel);
             rect.y += EditorGUIUtility.singleLineHeight + spacing;
 
-            if (convo == null)
+            if (conversation == null)
             {
                 EditorGUI.LabelField(rect, "Error: Conversation data is missing.");
                 rect.y += EditorGUIUtility.singleLineHeight + spacing;
                 return rect;
             }
 
-            var validProfiles = convo.ConversationParticipantProfiles.Where(p => p != null).ToList();
+            var validProfiles = conversation.ConversationParticipantProfiles.Where(p => p != null).ToList();
             if (validProfiles.Count == 0)
             {
                 EditorGUI.LabelField(rect, "No participants available.");
@@ -1294,7 +1294,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     ? validProfiles.FirstOrDefault(p => p.CharacterID == currentCharacterID)
                     : null;
 
-                var popupNames = GetCachedProfileNames(convo, validProfiles);
+                var popupNames = GetCachedProfileNames(conversation, validProfiles);
                 int currentIndex = 0;
                 if (currentProfile != null)
                 {

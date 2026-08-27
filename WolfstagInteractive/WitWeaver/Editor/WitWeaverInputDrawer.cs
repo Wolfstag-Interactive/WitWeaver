@@ -179,10 +179,10 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         Event.current.Use();
                         break;
                     }
-                    if (obj is WitWeaverConversationData convo)
+                    if (obj is WitWeaverConversationData conversation)
                     {
                         // Graph-authored conversations select the Graph tab; others go to Single.
-                        var inputType = convo.AuthoringMode ==
+                        var inputType = conversation.AuthoringMode ==
                                         WitWeaverConversationData.ConversationAuthoringMode.Graph
                             ? typeof(GraphConversationInput)
                             : typeof(SingleConversationInput);
@@ -193,7 +193,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         var convProp = root.FindPropertyRelative("Conversation");
                         if (convProp != null)
                         {
-                            convProp.objectReferenceValue = convo;
+                            convProp.objectReferenceValue = conversation;
                             root.serializedObject.ApplyModifiedProperties();
                         }
                         Event.current.Use();

@@ -203,15 +203,15 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
         private void DrawPresentationSection()
         {
-            var convo = (WitWeaverConversationData)target;
+            var conversation = (WitWeaverConversationData)target;
 
             EditorGUILayout.LabelField("Presentation", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultPresentationMode"),
                 new GUIContent("Default Presentation Mode",
                     "Default mode applied to new lines during YAML sync. Does not retroactively change existing lines."));
 
-            if (convo.DefaultPresentationMode == ConversationPresentationMode.AudioOnly &&
-                convo.AudioManifest == null)
+            if (conversation.DefaultPresentationMode == ConversationPresentationMode.AudioOnly &&
+                conversation.AudioManifest == null)
             {
                 EditorGUILayout.HelpBox(
                     "Presentation mode is AudioOnly but no Audio Manifest is assigned. " +
@@ -220,78 +220,78 @@ namespace WolfstagInteractive.WitWeaver.Editor
             }
 
             if (GUILayout.Button("Apply Default Mode to All Lines"))
-                ApplyDefaultModeToAllLines(convo);
+                ApplyDefaultModeToAllLines(conversation);
 
             EditorGUILayout.Space(6f);
         }
 
         private void DrawAudioSection()
         {
-            var convo = (WitWeaverConversationData)target;
+            var conversation = (WitWeaverConversationData)target;
 
             EditorGUILayout.LabelField("Audio", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("AudioManifest"),
                 new GUIContent("Audio Manifest",
                     "Optional. Assign to enable voice clip playback for this conversation."));
 
-            if (convo.AudioManifest == null)
+            if (conversation.AudioManifest == null)
             {
                 if (GUILayout.Button("Create Audio Manifest"))
-                    CreateAudioManifest(convo);
+                    CreateAudioManifest(conversation);
             }
 
             EditorGUILayout.Space(6f);
         }
 
-        private static void ApplyDefaultModeToAllLines(WitWeaverConversationData convo)
+        private static void ApplyDefaultModeToAllLines(WitWeaverConversationData conversation)
         {
-            if (convo.DialogueLines == null || convo.DialogueLines.Count == 0)
+            if (conversation.DialogueLines == null || conversation.DialogueLines.Count == 0)
             {
                 EditorUtility.DisplayDialog("Apply Mode", "No dialogue lines found.", "OK");
                 return;
             }
 
-            Undo.RecordObject(convo, "Apply Default Presentation Mode to All Lines");
-            foreach (var line in convo.DialogueLines)
+            Undo.RecordObject(conversation, "Apply Default Presentation Mode to All Lines");
+            foreach (var line in conversation.DialogueLines)
                 if (line != null)
-                    line.PresentationMode = convo.DefaultPresentationMode;
-            EditorUtility.SetDirty(convo);
-            Debug.Log($"[WitWeaver] Applied '{convo.DefaultPresentationMode}' to {convo.DialogueLines.Count} line(s) on '{convo.name}'.");
+                    line.PresentationMode = conversation.DefaultPresentationMode;
+            EditorUtility.SetDirty(conversation);
+            Debug.Log($"[WitWeaver] Applied '{conversation.DefaultPresentationMode}' to {conversation.DialogueLines.Count} line(s) on '{conversation.name}'.");
         }
 
-        private static void CreateAudioManifest(WitWeaverConversationData convo)
+        private static void CreateAudioManifest(WitWeaverConversationData conversation)
         {
-            string convoPath = AssetDatabase.GetAssetPath(convo);
-            string folder = Path.GetDirectoryName(convoPath)?.Replace('\\', '/') ?? "Assets";
-            string assetName = convo.name + "_AudioManifest";
+            string conversationPath = AssetDatabase.GetAssetPath(conversation);
+            string folder = Path.GetDirectoryName(conversationPath)?.Replace('\\', '/') ?? "Assets";
+            string assetName = conversation.name + "_AudioManifest";
             string assetPath = AssetDatabase.GenerateUniqueAssetPath($"{folder}/{assetName}.asset");
 
             var manifest = CreateInstance<WitWeaverAudioManifest>();
             manifest.Mode               = AudioManifestMode.ConversationDriven;
-            manifest.SourceConversation = convo;
+            manifest.SourceConversation = conversation;
 
             AssetDatabase.CreateAsset(manifest, assetPath);
 
             // Sync rows from the conversation
-            SyncManifestRows(manifest, convo);
+            SyncManifestRows(manifest, conversation);
 
             // Assign back to conversation
-            Undo.RecordObject(convo, "Create Audio Manifest");
-            convo.AudioManifest = manifest;
-            EditorUtility.SetDirty(convo);
+            Undo.RecordObject(conversation, "Create Audio Manifest");
+            conversation.AudioManifest = manifest;
+            EditorUtility.SetDirty(conversation);
 
             AssetDatabase.SaveAssets();
             EditorGUIUtility.PingObject(manifest);
             Debug.Log($"[WitWeaver] Created audio manifest at '{assetPath}'.");
         }
 
-        private static void SyncManifestRows(WitWeaverAudioManifest manifest, WitWeaverConversationData convo)
+        private static void SyncManifestRows(WitWeaverAudioManifest manifest, WitWeaverConversationData conversation)
         {
-            if (convo.DialogueLines == null) return;
+            if (conversation.DialogueLines == null) return;
 
             manifest.Entries = new List<WitWeaverAudioManifest.AudioEntry>();
 
-            foreach (var line in convo.DialogueLines)
+            foreach (var line in conversation.DialogueLines)
             {
                 if (line == null) continue;
 
@@ -390,9 +390,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
         /// </summary>
         private List<string> GetConfigurableParticipantIds()
         {
-            var convoData = (WitWeaverConversationData)target;
+            var conversationData = (WitWeaverConversationData)target;
             var ids = new List<string>();
-            foreach (var profile in convoData.ConversationParticipantProfiles)
+            foreach (var profile in conversationData.ConversationParticipantProfiles)
             {
                 if (profile == null || string.IsNullOrEmpty(profile.CharacterID)) continue;
                 bool hasEntries = profile.Representations.Any(p =>

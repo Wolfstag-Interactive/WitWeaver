@@ -165,10 +165,10 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 return false;
 
             // Remove any prior embedded subasset(s) named EmbeddedYaml
-            var convoAssetPath = AssetDatabase.GetAssetPath(data);
-            if (!string.IsNullOrEmpty(convoAssetPath))
+            var conversationAssetPath = AssetDatabase.GetAssetPath(data);
+            if (!string.IsNullOrEmpty(conversationAssetPath))
             {
-                var reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(convoAssetPath);
+                var reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(conversationAssetPath);
                 if (reps != null)
                 {
                     for (int i = 0; i < reps.Length; i++)
@@ -206,7 +206,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             foreach (var kv in dict)
             {
-                var convoKey = kv.Key;
+                var conversationKey = kv.Key;
                 var list = kv.Value;
                 if (list == null) continue;
 
@@ -217,7 +217,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                     if (string.IsNullOrWhiteSpace(cfg.LineID))
                     {
-                        details = $"Conversation '{convoKey}', index {i}.";
+                        details = $"Conversation '{conversationKey}', index {i}.";
                         return true;
                     }
                 }

@@ -493,8 +493,8 @@ namespace WolfstagInteractive.WitWeaver.GraphEditor
             if (data.ConversationYaml != null && data.ConversationYaml.text == yamlText)
                 return;
 
-            var convoAssetPath = AssetDatabase.GetAssetPath(data);
-            if (string.IsNullOrEmpty(convoAssetPath))
+            var conversationAssetPath = AssetDatabase.GetAssetPath(data);
+            if (string.IsNullOrEmpty(conversationAssetPath))
             {
                 Debug.LogError("[WitWeaver] Cannot embed YAML into an unsaved conversation asset.");
                 return;
@@ -506,7 +506,7 @@ namespace WolfstagInteractive.WitWeaver.GraphEditor
                 data.ConversationYaml = null;
             }
 
-            var reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(convoAssetPath);
+            var reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(conversationAssetPath);
             if (reps != null)
                 foreach (var rep in reps)
                     if (rep is TextAsset { name: "EmbeddedYaml" } stray)

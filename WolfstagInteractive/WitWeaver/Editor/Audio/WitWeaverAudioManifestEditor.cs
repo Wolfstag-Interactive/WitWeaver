@@ -449,11 +449,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
             string assetName    = Path.GetFileNameWithoutExtension(manifestPath) + "_Conversation";
             string assetPath    = AssetDatabase.GenerateUniqueAssetPath($"{folder}/{assetName}.asset");
 
-            var convo = CreateInstance<WitWeaverConversationData>();
-            convo.ConversationKey             = assetName;
-            convo.ConversationTitle           = assetName;
-            convo.DefaultPresentationMode     = ConversationPresentationMode.AudioOnly;
-            convo.DialogueLines               = new List<WitWeaverConversationData.DialogueLineInfo>();
+            var conversation = CreateInstance<WitWeaverConversationData>();
+            conversation.ConversationKey             = assetName;
+            conversation.ConversationTitle           = assetName;
+            conversation.DefaultPresentationMode     = ConversationPresentationMode.AudioOnly;
+            conversation.DialogueLines               = new List<WitWeaverConversationData.DialogueLineInfo>();
 
             // One DialogueLineInfo per unique LineID
             var seen = new HashSet<string>();
@@ -462,26 +462,26 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 foreach (var entry in manifest.Entries)
                 {
                     if (string.IsNullOrEmpty(entry.LineID) || !seen.Add(entry.LineID)) continue;
-                    var lineInfo = new WitWeaverConversationData.DialogueLineInfo(convo.ConversationKey)
+                    var lineInfo = new WitWeaverConversationData.DialogueLineInfo(conversation.ConversationKey)
                     {
                         LineID                = entry.LineID,
                         characterID           = entry.CharacterID,
                         PresentationMode      = ConversationPresentationMode.AudioOnly,
                         UserInputMethod       = WitWeaverConversationData.DialogueLineProgressionMethod.AudioComplete,
-                        ConversationLineIndex = convo.DialogueLines.Count
+                        ConversationLineIndex = conversation.DialogueLines.Count
                     };
-                    convo.DialogueLines.Add(lineInfo);
+                    conversation.DialogueLines.Add(lineInfo);
                 }
             }
 
-            AssetDatabase.CreateAsset(convo, assetPath);
+            AssetDatabase.CreateAsset(conversation, assetPath);
 
             Undo.RecordObject(manifest, "Generate Conversation Asset");
-            manifest.SourceConversation = convo;
+            manifest.SourceConversation = conversation;
             EditorUtility.SetDirty(manifest);
 
             AssetDatabase.SaveAssets();
-            EditorGUIUtility.PingObject(convo);
+            EditorGUIUtility.PingObject(conversation);
             Debug.Log($"[WitWeaverAudioManifest] Generated conversation asset at '{assetPath}'.");
         }
 

@@ -463,12 +463,12 @@ namespace WolfstagInteractive.WitWeaver
             }
         }
 
-        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData convoData,
+        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData conversationData,
             WitWeaverConversationData.CharacterRepresentationData data)
         {
             if (!string.IsNullOrEmpty(data.SelectedCharacterID))
             {
-                var profile = convoData.ConversationParticipantProfiles.FirstOrDefault(p =>
+                var profile = conversationData.ConversationParticipantProfiles.FirstOrDefault(p =>
                     p.CharacterID == data.SelectedCharacterID);
                 return profile?.GetRepresentation(data.SelectedRepresentationName);
             }

@@ -112,7 +112,7 @@ namespace WolfstagInteractive.WitWeaver.GraphEditor
                 WitWeaverGraphBridge.RefreshGraphFromYamlFor(data);
         }
 
-        /// <summary>Accepts either a selected conversation asset or a selected .convograph asset.</summary>
+        /// <summary>Accepts either a selected conversation asset or a selected graph asset.</summary>
         private static WitWeaverConversationData FindConversationForSelection()
         {
             if (Selection.activeObject is WitWeaverConversationData data)

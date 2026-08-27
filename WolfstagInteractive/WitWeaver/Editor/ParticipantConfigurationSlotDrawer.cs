@@ -95,13 +95,13 @@ namespace WolfstagInteractive.WitWeaver.Editor
         {
             if (string.IsNullOrEmpty(characterId)) return null;
 
-            if (!(slotProperty.serializedObject.targetObject is WitWeaverConversationData convoData))
+            if (!(slotProperty.serializedObject.targetObject is WitWeaverConversationData conversationData))
                 return null;
 
             var names = new List<string>();
             var seen  = new HashSet<string>();
 
-            foreach (var profile in convoData.ConversationParticipantProfiles)
+            foreach (var profile in conversationData.ConversationParticipantProfiles)
             {
                 if (profile == null || profile.CharacterID != characterId) continue;
 

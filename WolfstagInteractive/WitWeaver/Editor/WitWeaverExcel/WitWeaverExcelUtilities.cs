@@ -111,8 +111,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
             }
 
             // Step 8: Remove existing "EmbeddedYaml" subasset
-            var convoAssetPath = AssetDatabase.GetAssetPath(target);
-            var representations = AssetDatabase.LoadAllAssetRepresentationsAtPath(convoAssetPath);
+            var conversationAssetPath = AssetDatabase.GetAssetPath(target);
+            var representations = AssetDatabase.LoadAllAssetRepresentationsAtPath(conversationAssetPath);
             if (representations != null)
             {
                 foreach (var rep in representations)

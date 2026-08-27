@@ -71,7 +71,7 @@ namespace WolfstagInteractive.WitWeaver
             Paused,
             Completed
         }
-        private readonly Stack<(WitWeaverConversationData convo, int index)> _returnStack =
+        private readonly Stack<(WitWeaverConversationData conversation, int index)> _returnStack =
             new Stack<(WitWeaverConversationData, int)>();
 
         private readonly IConversationContext _context = DefaultConversationContext.Instance;
@@ -601,7 +601,7 @@ namespace WolfstagInteractive.WitWeaver
             if (_returnStack.Count > 0)
             {
                 var rp = _returnStack.Pop();
-                SwitchConversation(rp.convo, rp.index);
+                SwitchConversation(rp.conversation, rp.index);
                 return true;
             }
 

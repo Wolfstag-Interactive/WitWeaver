@@ -190,7 +190,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         float space = Spacing;
 
                         var aliasProp = element.FindPropertyRelative("Alias");
-                        var convoProp = element.FindPropertyRelative("ConversationData");
+                        var conversationProp = element.FindPropertyRelative("ConversationData");
                         var enabledProp = element.FindPropertyRelative("Enabled");
                         var delayProp = element.FindPropertyRelative("DelayAfterEndSeconds");
                         var startIndexProp = element.FindPropertyRelative("StartLineIndex");
@@ -198,7 +198,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         var tagsProp = element.FindPropertyRelative("Tags");
 
                         h += EditorGUI.GetPropertyHeight(aliasProp, true) + space;
-                        h += EditorGUI.GetPropertyHeight(convoProp, true) + space;
+                        h += EditorGUI.GetPropertyHeight(conversationProp, true) + space;
                         h += EditorGUI.GetPropertyHeight(enabledProp, true) + space;
 
                         if (mode == ConversationContainerMode.Playlist)
@@ -229,7 +229,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         var sel = (ConversationSelectionMode)_selectionModeProp.enumValueIndex;
 
                         var aliasProp = element.FindPropertyRelative("Alias");
-                        var convoProp = element.FindPropertyRelative("ConversationData");
+                        var conversationProp = element.FindPropertyRelative("ConversationData");
                         var enabledProp = element.FindPropertyRelative("Enabled");
                         var delayProp = element.FindPropertyRelative("DelayAfterEndSeconds");
                         var startIndexProp = element.FindPropertyRelative("StartLineIndex");
@@ -239,7 +239,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         rect.height = EditorGUIUtility.singleLineHeight;
 
                         DrawProperty(ref rect, aliasProp, "Alias");
-                        DrawProperty(ref rect, convoProp, "Conversation");
+                        DrawProperty(ref rect, conversationProp, "Conversation");
                         DrawProperty(ref rect, enabledProp, "Enabled");
 
                         if (mode == ConversationContainerMode.Playlist)
@@ -282,12 +282,12 @@ namespace WolfstagInteractive.WitWeaver.Editor
         /// </summary>
         private static void DrawStartLinePopup(ref Rect rect, SerializedProperty element)
         {
-            var convoProp = element.FindPropertyRelative("ConversationData");
+            var conversationProp = element.FindPropertyRelative("ConversationData");
             var idProp = element.FindPropertyRelative("StartLineID");
             var legacyProp = element.FindPropertyRelative("StartLineIndex");
             rect.height = EditorGUIUtility.singleLineHeight;
 
-            var data = convoProp?.objectReferenceValue as WitWeaverConversationData;
+            var data = conversationProp?.objectReferenceValue as WitWeaverConversationData;
             if (idProp == null || data?.DialogueLines == null || data.DialogueLines.Count == 0)
             {
                 using (new EditorGUI.DisabledScope(true))
@@ -368,11 +368,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 if (e == null) continue;
 
                 var enabledProp = e.FindPropertyRelative("Enabled");
-                var convoProp = e.FindPropertyRelative("ConversationData");
+                var conversationProp = e.FindPropertyRelative("ConversationData");
 
                 if (enabledProp is { boolValue: true } &&
-                    convoProp != null &&
-                    convoProp.objectReferenceValue != null)
+                    conversationProp != null &&
+                    conversationProp.objectReferenceValue != null)
                 {
                     anyValidEnabled = true;
                     break;

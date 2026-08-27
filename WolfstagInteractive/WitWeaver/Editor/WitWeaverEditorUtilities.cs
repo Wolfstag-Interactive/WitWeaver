@@ -51,9 +51,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
         public static void CreateWitWeaverConversationGameObject()
         {
             // Create a new GameObject with the specified name
-            GameObject convoObject = new GameObject("WitWeaver Conversation");
+            GameObject conversationObject = new GameObject("WitWeaver Conversation");
             Debug.Log("Created GameObject: WitWeaver Conversation");
-            WitWeaver witWeaverComponent = convoObject.AddComponent<WitWeaver>();
+            WitWeaver witWeaverComponent = conversationObject.AddComponent<WitWeaver>();
             if (witWeaverComponent != null)
             {
                 Debug.Log("WitWeaver component was successfully added.");
@@ -62,7 +62,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             {
                 Debug.LogError("Failed to add WitWeaver component. Please ensure the WitWeaver script exists.");
             }
-            Selection.activeGameObject = convoObject;
+            Selection.activeGameObject = conversationObject;
         }
     }
 }
