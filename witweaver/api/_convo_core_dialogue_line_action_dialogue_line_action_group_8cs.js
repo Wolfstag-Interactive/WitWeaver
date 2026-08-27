@@ -1,4 +1,0 @@
-var _convo_core_dialogue_line_action_dialogue_line_action_group_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreDialogueLineActionDialogueLineActionGroup", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_line_action_dialogue_line_action_group.html", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_line_action_dialogue_line_action_group" ]
-];

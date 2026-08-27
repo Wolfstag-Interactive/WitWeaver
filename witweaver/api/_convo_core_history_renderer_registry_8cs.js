@@ -1,4 +1,0 @@
-var _convo_core_history_renderer_registry_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreHistoryRendererRegistry", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_history_renderer_registry.html", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_history_renderer_registry" ]
-];

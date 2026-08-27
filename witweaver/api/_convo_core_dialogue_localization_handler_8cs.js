@@ -1,5 +1,0 @@
-var _convo_core_dialogue_localization_handler_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreDialogueLocalizationHandler", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_localization_handler.html", "class_wolfstag_interactive_1_1_convo_core_1_1_convo_core_dialogue_localization_handler" ],
-    [ "WolfstagInteractive.ConvoCore.LocalizedDialogueResult", "class_wolfstag_interactive_1_1_convo_core_1_1_localized_dialogue_result.html", "class_wolfstag_interactive_1_1_convo_core_1_1_localized_dialogue_result" ]
-];
