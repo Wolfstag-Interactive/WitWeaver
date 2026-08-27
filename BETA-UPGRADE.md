@@ -1,110 +1,81 @@
-# Upgrading a project from ConvoCore to WitWeaver
+# Migrating a beta project from ConvoCore to WitWeaver
 
-The plugin has been renamed from ConvoCore to WitWeaver. This guide walks an existing project through the update with the least disruption. Follow the steps in order. The order matters.
+Operator checklist for performing the rename migration on a consumer project (written for the plugin author doing the migration on the beta tester's project, not for the tester). Follow the steps in order.
 
-**The one rule that protects your data: do not open Unity until step 8.** If the project opens halfway through, Unity can quietly reset some component data (details in step 5) without showing any error.
+**The one hard rule: Unity stays closed from step 2 until step 9.** Opening the project in a half-migrated state lets the input property drawer silently reset stale SerializeReference data (the runner's Input field) to defaults with no warning.
 
-Good news up front: your conversation assets, character profiles, custom actions, and YAML/Excel files all survive this untouched. Conversation ScriptableObjects link to the plugin's scripts by internal file IDs that did not change in the rename, and the YAML format is exactly the same.
+What survives with zero action: conversation ScriptableObjects, character profiles, custom action assets, and all YAML/Excel content. Package script GUIDs did not change in the rename, so every `m_Script` reference in their scenes, prefabs, and assets still binds, and the YAML schema is unchanged.
 
-## 1. Back up first
+## 1. Get the project and make it recoverable
 
-Commit your project to version control, or copy the whole project folder. Every step below is safe, but a backup makes it free to retry.
+Work on a copy or a fresh branch of the tester's project. Commit the untouched state first so every later step is diffable and reversible.
 
 ## 2. Close Unity
 
-Close the Unity editor for this project and keep it closed until step 8.
+And keep it closed until step 9. Also confirm the project uses text serialization (`ProjectSettings/EditorSettings.asset` → `m_SerializationMode: 2`, or just check that a `.unity` file opens as readable YAML) — steps 4–5 depend on it.
 
-## 3. Check text serialization
+## 3. Discovery scan
 
-You need your assets stored as text for step 5. In most projects this is already the case. To confirm: the setting lives in **Edit > Project Settings > Editor > Asset Serialization**, and it should say **Force Text**. If you cannot check without opening Unity, open any `.unity` scene file in a text editor: if it starts with readable YAML (`%YAML 1.1`), you are set.
+Before changing anything, inventory the work:
 
-## 4. Update the package entry
+```bash
+grep -ri --include="*.cs" --include="*.asmdef" --include="*.unity" --include="*.asset" --include="*.prefab" --include="*.json" "convocore" Assets/ Packages/ ProjectSettings/
+```
 
-Open `Packages/manifest.json` in a text editor.
+This tells you: which of their scripts reference the plugin, whether any of their asmdefs reference `ConvoCore`/`ConvoCoreEditor` by name, whether `CONVOCORE_*` defines are set, and which serialized files carry branded strings. Also check specifically for the silent-failure case:
 
-Delete this line:
+```bash
+grep -rn "ns: WolfstagInteractive.ConvoCore" Assets/
+```
+
+Expected hit sites: scenes with a runner component (the Input field) and animated character representation assets. Conversation data assets will produce no hits — they contain no SerializeReference data.
+
+## 4. Swap the package entry
+
+In `Packages/manifest.json`, remove the old line and add the new one (the id and the in-repo path both changed, so this is a replace, not an edit):
 
 ```json
-"com.wolfstaginteractive.convocore": "https://github.com/Wolfstag-Interactive/ConvoCore.git?path=WolfstagInteractive/ConvoCore",
+"com.wolfstaginteractive.witweaver": "https://github.com/Wolfstag-Interactive/WitWeaver.git?path=WolfstagInteractive/WitWeaver"
 ```
 
-Add this line in its place:
+Delete `Packages/packages-lock.json`'s old `com.wolfstaginteractive.convocore` entry too, or just delete the lock file and let Unity regenerate it.
 
-```json
-"com.wolfstaginteractive.witweaver": "https://github.com/Wolfstag-Interactive/WitWeaver.git?path=WolfstagInteractive/WitWeaver",
-```
+## 5. Fix serialized type-name references
 
-The package id and the folder path inside the repository both changed, so the old entry cannot simply be updated. It has to be replaced.
+On every `ns: WolfstagInteractive.ConvoCore` hit from step 3:
 
-## 5. Fix the type references stored inside your scenes and assets
+- `ns: WolfstagInteractive.ConvoCore` → `ns: WolfstagInteractive.WitWeaver`
+- `asm: ConvoCore` → `asm: WitWeaver`
 
-This is the step that protects your configured data. A few fields (the **Input** field on the ConvoCore runner component in your scenes, and animation payloads on animated character representation assets) store the plugin's old type names as plain text inside the file. Unity cannot fix these on its own. If they are left stale, those fields come back empty, and the inspector will then quietly replace them with defaults.
+Leave `class:` values and the YAML keys alone. This is the step that preserves configured Input fields (especially any `ContainerInput`) and animation payloads. It must land before Unity opens.
 
-With Unity still closed, search your `Assets` folder (all `.unity`, `.asset`, and `.prefab` files) for:
+## 6. Rename the settings asset, drop stale samples
 
-```
-ns: WolfstagInteractive.ConvoCore
-```
+- `Assets/Resources/ConvoCoreSettings.asset` → `WitWeaverSettings.asset`, **renaming the `.meta` alongside it** (preserves the GUID; the runtime now loads it by the new name). Do not recreate it — rename the pair.
+- Delete `Assets/Samples/ConvoCore/` entirely (with its `.meta`). Re-import fresh samples from the package later if wanted.
+- If they have a `Resources/ConvoCore/Dialogue/` folder: either rename it to `WitWeaver/Dialogue` **or** leave it and keep the serialized `resourcesRoot` value pointing at the old name — both work; renaming matches the new defaults.
 
-On every line found, make these two changes:
+## 7. Migrate their code, asmdefs, and defines
 
-- `ns: WolfstagInteractive.ConvoCore` becomes `ns: WolfstagInteractive.WitWeaver`
-- `asm: ConvoCore` becomes `asm: WitWeaver`
+- Their scripts: `ConvoCore` → `WitWeaver` (namespaces and type names), and bare `Convo`-stem types if used: `IConvoInput` → `IWitWeaverInput`, `ConvoVariableStore` → `WitWeaverVariableStore`, etc. The step-3 scan is the worklist.
+- Their asmdefs: name-based references `"ConvoCore"` → `"WitWeaver"`, `"ConvoCoreEditor"` → `"WitWeaverEditor"`. GUID references need nothing.
+- `ProjectSettings/ProjectSettings.asset`: `CONVOCORE_FMOD`/`_WWISE`/`_ADDRESSABLES` → `WITWEAVER_*`. Skipping this doesn't error — those integrations just silently compile out — so verify it explicitly.
 
-A typical line looks like this before:
+## 8. Zero-hit check
 
-```
-type: {class: SingleConversationInput, ns: WolfstagInteractive.ConvoCore, asm: ConvoCore}
-```
+Re-run the step-3 grep. It should return nothing (apart from their own project/folder names if they happen to contain the string). Any remaining hit is unfinished work.
 
-and like this after:
+## 9. Open Unity once and verify
 
-```
-type: {class: SingleConversationInput, ns: WolfstagInteractive.WitWeaver, asm: WitWeaver}
-```
+Let it resolve the package and recompile, then:
 
-Change only the `ns:` and `asm:` values. Leave the `class:` names and everything else on the line alone.
+1. Console: no missing-script warnings, no `Unknown managed type referenced`.
+2. A conversation ScriptableObject: lines, participants, and settings intact.
+3. A scene runner's **Input** field: still shows the configured input (confirms step 5).
+4. Play one conversation end to end.
+5. If they use FMOD/Wwise/Addressables: confirm the integration is active (confirms step 7).
+6. HelpURL buttons resolve (docs are live at `docs.wolfstaginteractive.com/witweaver/`).
 
-Your conversation ScriptableObjects do not contain any of these lines, which is why they need nothing here.
+## 10. Hand back
 
-## 6. Rename the settings asset and remove old samples
-
-**Settings asset.** The plugin now looks for its settings by the name `WitWeaverSettings`. In your file explorer (not in Unity), go to `Assets/Resources/` and rename both files as a pair:
-
-- `ConvoCoreSettings.asset` becomes `WitWeaverSettings.asset`
-- `ConvoCoreSettings.asset.meta` becomes `WitWeaverSettings.asset.meta`
-
-Rename the existing files. Do not delete and recreate them, and do not touch what is inside them. Renaming both together keeps the asset's identity, so anything referencing it stays connected.
-
-**Old samples.** Delete the folder `Assets/Samples/ConvoCore/` completely (with its `.meta` file). These are stale copies with old names. You can re-import fresh samples from the package later if you want them.
-
-## 7. Update your own scripts and defines
-
-**Your scripts.** In any code you wrote that uses the plugin, find and replace:
-
-- `ConvoCore` with `WitWeaver` (covers namespaces like `WolfstagInteractive.ConvoCore` and type names like `ConvoCoreConversationData`)
-- Types starting with a bare `Convo` also changed, for example `IConvoInput` is now `IWitWeaverInput`, and `ConvoVariableStore` is now `WitWeaverVariableStore`
-
-**Your asmdefs.** If any of your assembly definition files list `ConvoCore` or `ConvoCoreEditor` by name in their references, change them to `WitWeaver` and `WitWeaverEditor`. References shown as GUIDs need no change.
-
-**Scripting defines.** If you use the FMOD, Wwise, or Addressables integrations, your Player Settings contain defines like `CONVOCORE_FMOD`. Replace each with the `WITWEAVER_` version (`WITWEAVER_FMOD`, `WITWEAVER_WWISE`, `WITWEAVER_ADDRESSABLES`). You can edit these as text in `ProjectSettings/ProjectSettings.asset` while Unity is closed, or in **Player Settings** right after opening. If you skip this, those integrations silently turn off rather than erroring, so it is easy to miss.
-
-## 8. Open Unity and verify
-
-Open the project and let it resolve the new package and recompile. Then check:
-
-1. The Console shows no missing script warnings.
-2. Open one of your conversation ScriptableObjects in the inspector: all dialogue lines, participants, and settings are intact.
-3. Select a runner component in one of your scenes: its **Input** field still shows your configuration (this confirms step 5 worked).
-4. Play a conversation end to end.
-5. If you use the integrations, confirm audio still fires (this confirms the defines from step 7).
-
-As a final check, a case-insensitive search for `convocore` across your `Assets` folder should find nothing.
-
-## What you do not need to do
-
-- **YAML and Excel files**: no changes. The dialogue format is identical.
-- **Saves and editor preferences**: the save keys and folders changed name, so old ones are simply ignored. If you never shipped saves, nothing to do.
-- **Anything inside your conversation assets**: they carry over as they are.
-
-If anything looks wrong after step 8, close Unity, restore the backup from step 1, and go through the steps again in order.
+Deliver the migrated project with a short note: package is now `com.wolfstaginteractive.witweaver`; all `ConvoCore*`/`Convo*` API names are now `WitWeaver*`; menus live under `WitWeaver/`; if they add integrations later the defines are `WITWEAVER_*`; saves/prefs were not carried over (they had none). Their authoring workflow — YAML, Excel, conversation assets — is unchanged.
