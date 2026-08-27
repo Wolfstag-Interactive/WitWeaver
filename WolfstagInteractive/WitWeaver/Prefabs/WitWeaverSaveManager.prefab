@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5596723616945483290}
   - component: {fileID: 5596723616945483293}
   m_Layer: 0
-  m_Name: ConvoCoreSaveManager
+  m_Name: WitWeaverSaveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
