@@ -35,6 +35,31 @@ namespace WolfstagInteractive.ConvoCore
 
     
     /// <summary>
+    /// Plays a conversation authored as a node graph. You assign the conversation asset only —
+    /// its companion graph is an editor-only authoring artifact (stripped from builds), managed
+    /// automatically alongside the conversation. At runtime the baked conversation plays.
+    /// </summary>
+    [System.Serializable]
+    public sealed class GraphConversationInput : IConvoInput
+    {
+        [Tooltip("A graph-authored conversation. Use 'Open Graph' below (or double-click the asset) to edit it.")]
+        public ConvoCoreConversationData Conversation;
+
+        public void Play(MonoBehaviour host, IConvoCoreRunner runner)
+        {
+            if (Conversation == null)
+            {
+                Debug.LogWarning("[ConvoCore] GraphConversationInput: no conversation assigned.");
+                return;
+            }
+            if (Conversation.AuthoringMode != ConvoCoreConversationData.ConversationAuthoringMode.Graph)
+                Debug.LogWarning($"[ConvoCore] GraphConversationInput: '{Conversation.name}' is not graph-authored. " +
+                                 "It will play, but consider using the Single input mode instead.");
+            runner.PlayConversation(Conversation);
+        }
+    }
+
+    /// <summary>
     /// Plays one or more conversations from a <see cref="ConversationContainer"/> asset.
     /// Use this strategy when you want to pick a conversation by alias, play a playlist,
     /// or use random or weighted selection.

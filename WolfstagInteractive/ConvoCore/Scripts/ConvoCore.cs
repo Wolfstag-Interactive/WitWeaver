@@ -98,14 +98,12 @@ namespace WolfstagInteractive.ConvoCore
         /// <summary>Sets the current line index to the line matching <paramref name="lineId"/>.</summary>
         internal void BeginFromLine(string lineId)
         {
-            if (ConversationData?.DialogueLines == null || string.IsNullOrEmpty(lineId)) return;
-            for (int i = 0; i < ConversationData.DialogueLines.Count; i++)
+            if (ConversationData == null || string.IsNullOrEmpty(lineId)) return;
+            int index = ConversationData.GetLineIndexById(lineId);
+            if (index >= 0)
             {
-                if (ConversationData.DialogueLines[i].LineID == lineId)
-                {
-                    _currentLineIndex = i;
-                    return;
-                }
+                _currentLineIndex = index;
+                return;
             }
             Debug.LogWarning($"[ConvoCore] BeginFromLine: LineID '{lineId}' not found. Starting from beginning.");
         }
@@ -484,6 +482,10 @@ namespace WolfstagInteractive.ConvoCore
 
         private bool HandleChoiceBranch(ConvoCoreConversationData.ChoiceOption choice)
         {
+            // Intra-conversation jump takes priority over container branching.
+            if (!string.IsNullOrEmpty(choice.TargetLineID))
+                return JumpToLineId(choice.TargetLineID, choice.PushReturnPoint);
+
             if (choice.TargetContainer == null)
             {
                 Debug.LogWarning("[ConvoCore] Selected choice has no TargetContainer. Ending conversation.");
@@ -520,10 +522,50 @@ namespace WolfstagInteractive.ConvoCore
                 case ConvoCoreConversationData.LineContinuationMode.ContainerBranch:
                     return HandleContainerBranch(cont);
 
+                case ConvoCoreConversationData.LineContinuationMode.GoToLine:
+                    return JumpToLineId(cont.TargetLineID, cont.PushReturnPoint);
+
                 default:
                     _currentLineIndex++;
                     return _currentLineIndex < ConversationData.DialogueLines.Count;
             }
+        }
+
+        /// <summary>
+        /// Jumps to another line in the current conversation by its stable LineID.
+        /// Reverse history is positionally indexed, so a backward jump keeps the still-valid
+        /// prefix (frames before the target) — reverse keeps working through hub loops — while
+        /// a forward jump resets it (intermediate frames would be holes), matching
+        /// <see cref="SwitchConversation"/>.
+        /// </summary>
+        private bool JumpToLineId(string targetLineId, bool pushReturnPoint)
+        {
+            int index = ConversationData != null ? ConversationData.GetLineIndexById(targetLineId) : -1;
+            if (index < 0)
+            {
+                Debug.LogWarning(
+                    $"[ConvoCore] GoToLine target '{targetLineId}' not found in '{ConversationData?.name}'.");
+                return TryReturnOrEnd();
+            }
+
+            if (pushReturnPoint)
+                _returnStack.Push((ConversationData, _currentLineIndex + 1));
+
+            if (index <= _currentLineIndex)
+            {
+                // Backward jump (or self-loop): frames 0..index-1 stay positionally valid;
+                // drop the rest — they are re-recorded in place as lines replay.
+                if (_history.Count > index)
+                    _history.RemoveRange(index, _history.Count - index);
+            }
+            else
+            {
+                // Forward jump: positional holes are undefined; reset.
+                _history.Clear();
+            }
+
+            _currentLineIndex = index;
+            return true;
         }
 
         private bool HandleContainerBranch(ConvoCoreConversationData.LineContinuation cont)

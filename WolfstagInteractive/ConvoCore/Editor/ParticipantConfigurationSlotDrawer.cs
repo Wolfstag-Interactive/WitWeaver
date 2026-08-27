@@ -35,7 +35,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             float line  = EditorGUIUtility.singleLineHeight;
             float y     = position.y;
 
-            // Row 1 — CharacterID (read-only; auto-managed by CharacterConversationObjectEditor)
+            // Row 1 — CharacterID (read-only; auto-managed by ConvoCoreConversationDataEditor)
             var charIdRect = new Rect(position.x, y, position.width, line);
             using (new EditorGUI.DisabledScope(true))
                 EditorGUI.PropertyField(charIdRect, charIdProp, new GUIContent("Character ID"));

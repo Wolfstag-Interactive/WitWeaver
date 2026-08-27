@@ -11,9 +11,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private static readonly System.Type[] s_Types =
         {
             typeof(SingleConversationInput),
-            typeof(ContainerInput)
+            typeof(ContainerInput),
+            typeof(GraphConversationInput)
         };
-        private static readonly string[] s_Tabs = { "Single", "Container" };
+        private static readonly string[] s_Tabs = { "Single", "Container", "Graph" };
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -29,6 +30,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     continue;
                 h += EditorGUI.GetPropertyHeight(copy, true) + 2f;
             }
+
+            // Graph tab: extra rows for the graph asset field and the Open Graph button.
+            if (GetManagedType(property) == typeof(GraphConversationInput))
+                h += (EditorGUIUtility.singleLineHeight + 2f) * 2;
+
             return h + 2f;
         }
 
@@ -54,14 +60,16 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             // Draw children inline
             EditorGUI.indentLevel++;
-            DrawChildrenInline(body, property);
+            float bodyEnd = DrawChildrenInline(body, property);
+            if (GetManagedType(property) == typeof(GraphConversationInput))
+                DrawGraphInputExtras(new Rect(body.x, bodyEnd, body.width, position.yMax - bodyEnd), property);
             EditorGUI.indentLevel--;
 
             // Handle drag-and-drop onto the whole drawer
             HandleDragAndDrop(position, property);
         }
 
-        private static void DrawChildrenInline(Rect rect, SerializedProperty property)
+        private static float DrawChildrenInline(Rect rect, SerializedProperty property)
         {
             var copy = property.Copy();
             var end  = copy.GetEndProperty();
@@ -76,6 +84,42 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var line = new Rect(rect.x, y, rect.width, h);
                 EditorGUI.PropertyField(line, copy, true);
                 y += h + 2f;
+            }
+            return y;
+        }
+
+        /// <summary>
+        /// Graph tab extras below the Conversation field: a status hint and an Open Graph button.
+        /// The user assigns only the conversation asset — its companion graph is resolved and
+        /// managed automatically by the graph tooling.
+        /// </summary>
+        private static void DrawGraphInputExtras(Rect rect, SerializedProperty root)
+        {
+            float line = EditorGUIUtility.singleLineHeight;
+            var convProp = root.FindPropertyRelative("Conversation");
+            if (convProp == null) return;
+
+            bool toolingAvailable = !string.IsNullOrEmpty(ConvoCoreConversationInspectorHooks.GraphAssetExtension);
+            var data = convProp.objectReferenceValue as ConvoCoreConversationData;
+
+            // Row 1: status hint.
+            var hintRect = new Rect(rect.x, rect.y, rect.width, line);
+            if (!toolingAvailable)
+                EditorGUI.LabelField(hintRect, "Graph tooling unavailable (requires Unity 6000.4+).", EditorStyles.miniLabel);
+            else if (data != null &&
+                     data.AuthoringMode != ConvoCoreConversationData.ConversationAuthoringMode.Graph)
+                EditorGUI.LabelField(hintRect,
+                    "This conversation is not graph-authored — convert it from its inspector.",
+                    EditorStyles.miniLabel);
+            else if (data == null)
+                EditorGUI.LabelField(hintRect, "Assign a graph-authored conversation asset.", EditorStyles.miniLabel);
+
+            // Row 2: open button.
+            var buttonRect = new Rect(rect.x, rect.y + line + 2f, rect.width, line);
+            using (new EditorGUI.DisabledScope(!toolingAvailable || data == null))
+            {
+                if (GUI.Button(buttonRect, "Open Graph") && data != null)
+                    ConvoCoreConversationInspectorHooks.OpenGraphForConversation?.Invoke(data);
             }
         }
 
@@ -119,10 +163,30 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 DragAndDrop.AcceptDrag();
                 foreach (var obj in DragAndDrop.objectReferences)
                 {
+                    var draggedPath = AssetDatabase.GetAssetPath(obj);
+                    if (ConvoCoreConversationInspectorHooks.IsGraphAssetPath(draggedPath))
+                    {
+                        // Switch to Graph and resolve the bound conversation
+                        SetManagedReferenceType(root, typeof(GraphConversationInput));
+                        root.serializedObject.ApplyModifiedProperties();
+                        root.serializedObject.Update();
+
+                        var convProp = root.FindPropertyRelative("Conversation");
+                        if (convProp != null)
+                            convProp.objectReferenceValue =
+                                ConvoCoreConversationInspectorHooks.ResolveGraphConversationByPath?.Invoke(draggedPath);
+                        root.serializedObject.ApplyModifiedProperties();
+                        Event.current.Use();
+                        break;
+                    }
                     if (obj is ConvoCoreConversationData convo)
                     {
-                        // Switch to Single and assign Conversation
-                        SetManagedReferenceType(root, typeof(SingleConversationInput));
+                        // Graph-authored conversations select the Graph tab; others go to Single.
+                        var inputType = convo.AuthoringMode ==
+                                        ConvoCoreConversationData.ConversationAuthoringMode.Graph
+                            ? typeof(GraphConversationInput)
+                            : typeof(SingleConversationInput);
+                        SetManagedReferenceType(root, inputType);
                         root.serializedObject.ApplyModifiedProperties();
                         root.serializedObject.Update();
 
@@ -157,8 +221,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
             static bool CanAcceptDrag()
             {
                 foreach (var o in DragAndDrop.objectReferences)
+                {
                     if (o is ConvoCoreConversationData || o is ConversationContainer)
                         return true;
+                    if (ConvoCoreConversationInspectorHooks.IsGraphAssetPath(AssetDatabase.GetAssetPath(o)))
+                        return true;
+                }
                 return false;
             }
         }

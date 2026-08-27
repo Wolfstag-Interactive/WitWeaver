@@ -1733,22 +1733,10 @@ LabIntroPart1:
   LocalizedDialogue:
     en: I roll my eyes and we all split up.
 LabIntroPart2:
-- CharacterID: Player
+- CharacterID: Ava
   LineID: L_de250d5f6295
   LocalizedDialogue:
     en: Well, I got good news and bad news.
-- CharacterID: Fae
-  LineID: L_79a74b9db137
-  LocalizedDialogue:
-    en: What is it?
-- CharacterID: Player
-  LineID: L_08ae1ae0db6b
-  LocalizedDialogue:
-    en: Good news is, I found what might be the power switch to this place. Bad news is, it's being held down by this robot-hand thingy.
-- CharacterID: Player
-  LineID: L_daebc046eeb9
-  LocalizedDialogue:
-    en: Sooo uhhh... any ideas?
 - CharacterID: Fae
   LineID: L_95abc946605d
   LocalizedDialogue:
@@ -1757,6 +1745,14 @@ LabIntroPart2:
   LineID: L_423f905b9953
   LocalizedDialogue:
     en: Got it.
+- CharacterID: Player
+  LineID: L_daebc046eeb9
+  LocalizedDialogue:
+    en: Sooo uhhh... any ideas?
+- CharacterID: Player
+  LineID: L_08ae1ae0db6b
+  LocalizedDialogue:
+    en: Good news is, I found what might be the power switch to this place. Bad news is, it's being held down by this robot-hand thingy.
 LabIntroPart3:
 - CharacterID: Player
   LineID: L_4788612099fe

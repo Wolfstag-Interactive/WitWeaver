@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ConvoCoreEditor")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ConvoCoreGraphEditor")]
 
 namespace WolfstagInteractive.ConvoCore.Editor
 {

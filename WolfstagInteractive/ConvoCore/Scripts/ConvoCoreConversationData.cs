@@ -85,6 +85,19 @@ namespace WolfstagInteractive.ConvoCore
         [SerializeField, HideInInspector] private string _conversationGuid;
 
         /// <summary>
+        /// Asset GUID of this conversation's editor-only node graph companion asset, when one
+        /// exists. Managed by the graph editor tooling; empty for conversations without a graph.
+        /// </summary>
+        [HideInInspector] public string GraphAssetGuid;
+
+        /// <summary>
+        /// How this conversation is authored. In <see cref="ConversationAuthoringMode.Graph"/>
+        /// mode the node graph is the sole editing surface: the inspector hides direct line
+        /// editing and all changes flow through the graph's bake. Managed by the editor tooling.
+        /// </summary>
+        [HideInInspector] public ConversationAuthoringMode AuthoringMode = ConversationAuthoringMode.LinearList;
+
+        /// <summary>
         /// Stable unique identifier for this conversation. Generated automatically on first access
         /// and persisted via <see cref="_conversationGuid"/>. Use for save-system keying.
         /// </summary>
@@ -108,6 +121,28 @@ namespace WolfstagInteractive.ConvoCore
 #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
 #endif
+        }
+
+        /// <summary>
+        /// Returns the index of the dialogue line with the given stable <c>LineID</c>, or -1 when
+        /// the id is empty or no line matches. Used for intra-conversation jumps and save resume.
+        /// </summary>
+        public int GetLineIndexById(string lineId)
+        {
+            if (DialogueLines == null || string.IsNullOrEmpty(lineId)) return -1;
+            for (int i = 0; i < DialogueLines.Count; i++)
+            {
+                if (DialogueLines[i]?.LineID == lineId)
+                    return i;
+            }
+            return -1;
+        }
+
+        /// <summary>Authoring surface for a conversation: the classic inspector line list, or the node graph.</summary>
+        public enum ConversationAuthoringMode
+        {
+            LinearList = 0,
+            Graph = 1
         }
 
         private Dictionary<string, List<DialogueYamlConfig>> _dialogueDataByKey; // Stored YAML data at runtime

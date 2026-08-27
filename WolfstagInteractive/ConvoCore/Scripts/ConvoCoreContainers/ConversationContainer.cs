@@ -58,8 +58,13 @@ namespace WolfstagInteractive.ConvoCore
             public float Weight = 1f;
 
             [Min(0)]
-            [Tooltip("Only used when this container is used as a Selector branch target.")]
+            [Tooltip("Legacy start line by list index. Superseded by StartLineID; only used when StartLineID is empty.")]
             public int StartLineIndex = 0;
+
+            [Tooltip("Stable LineID of the line to start from when this entry is chosen as a branch target. " +
+                     "Survives line reordering and YAML reimports. Empty = start from the first line " +
+                     "(or the legacy StartLineIndex when set).")]
+            public string StartLineID;
         }
 
         [Header("Common")]
@@ -139,14 +144,30 @@ namespace WolfstagInteractive.ConvoCore
             if (chosen == null || chosen.ConversationData == null)
                 return default;
 
-            int startIndex = Mathf.Max(0, chosen.StartLineIndex);
-
-            // Clamp against actual line count when possible
-            var lines = chosen.ConversationData.DialogueLines;
-            if (lines != null && lines.Count > 0)
-                startIndex = Mathf.Clamp(startIndex, 0, lines.Count - 1);
+            int startIndex;
+            if (!string.IsNullOrEmpty(chosen.StartLineID))
+            {
+                // Stable LineID target — immune to line reordering and YAML reimports.
+                startIndex = chosen.ConversationData.GetLineIndexById(chosen.StartLineID);
+                if (startIndex < 0)
+                {
+                    Debug.LogWarning(
+                        $"[ConvoCore] Container '{name}': StartLineID '{chosen.StartLineID}' not found in " +
+                        $"'{chosen.ConversationData.name}'. Starting from the beginning.");
+                    startIndex = 0;
+                }
+            }
             else
-                startIndex = 0;
+            {
+                startIndex = Mathf.Max(0, chosen.StartLineIndex);
+
+                // Clamp against actual line count when possible
+                var lines = chosen.ConversationData.DialogueLines;
+                if (lines != null && lines.Count > 0)
+                    startIndex = Mathf.Clamp(startIndex, 0, lines.Count - 1);
+                else
+                    startIndex = 0;
+            }
 
             return new ConversationBranchResult(chosen.ConversationData, startIndex);
         }

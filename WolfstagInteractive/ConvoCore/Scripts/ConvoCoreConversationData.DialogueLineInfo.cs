@@ -93,16 +93,25 @@ public partial class ConvoCoreConversationData
         [Serializable]
         public enum LineContinuationMode
         {
-            Continue,
-            EndConversation,
-            ContainerBranch,
-            PlayerChoice
+            Continue = 0,
+            EndConversation = 1,
+            ContainerBranch = 2,
+            PlayerChoice = 3,
+
+            /// <summary>
+            /// Jump to another line within the same conversation, identified by its stable
+            /// <see cref="DialogueLineInfo.LineID"/> in <see cref="LineContinuation.TargetLineID"/>.
+            /// Enables nonlinear conversation flow (loops, skips, hubs).
+            /// </summary>
+            GoToLine = 4
         }
 
         /// <summary>
         /// Represents a single selectable option in a <see cref="LineContinuationMode.PlayerChoice"/> line.
-        /// Holds the localized label text, the target <see cref="ConversationContainer"/> to branch into,
-        /// the alias or name of the entry to start from, and whether to push a return point onto the stack.
+        /// Holds the localized label text and the branch target. Target resolution priority:
+        /// a non-empty <see cref="TargetLineID"/> jumps to that line within the current conversation;
+        /// otherwise a non-null <see cref="TargetContainer"/> branches to another conversation;
+        /// otherwise the conversation ends with a warning.
         /// </summary>
         [Serializable]
         public struct ChoiceOption
@@ -110,8 +119,14 @@ public partial class ConvoCoreConversationData
             [Tooltip("Localized display text for this choice option.")]
             public List<LocalizedDialogue> Labels;
             public ConversationContainer TargetContainer;
+            [ContainerAliasSelector(nameof(TargetContainer))]
             public string TargetAliasOrName;
             public bool PushReturnPoint;
+
+            [Tooltip("LineID of a line in this conversation to jump to when selected. " +
+                     "When non-empty this takes priority over Target Container.")]
+            [LineIDSelector]
+            public string TargetLineID;
         }
 
         [Serializable]
@@ -119,6 +134,7 @@ public partial class ConvoCoreConversationData
         {
             public LineContinuationMode Mode;
             public ConversationContainer TargetContainer;
+            [ContainerAliasSelector(nameof(TargetContainer))]
             public string TargetAliasOrName;
             public bool PushReturnPoint;
             /// <summary>Only populated when Mode == PlayerChoice.</summary>
@@ -129,6 +145,10 @@ public partial class ConvoCoreConversationData
             /// dialogue line, allowing the player to re-read it before committing to a choice.
             /// </summary>
             public bool AllowGoBack;
+
+            [Tooltip("LineID of the line in this conversation to jump to when Mode == GoToLine.")]
+            [LineIDSelector]
+            public string TargetLineID;
         }
 
     }
