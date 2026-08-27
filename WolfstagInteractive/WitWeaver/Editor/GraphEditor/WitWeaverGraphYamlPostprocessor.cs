@@ -2,16 +2,16 @@ using UnityEngine;
 using System;
 using UnityEditor;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
     /// Stateless import hook: when a YAML file linked to a graph-authored conversation is
     /// (re)imported, repaint open editor windows so the stale banner (driven purely by the
-    /// hash comparison in <see cref="ConvoCoreGraphSync.IsYamlStale"/>) appears promptly.
+    /// hash comparison in <see cref="WitWeaverGraphSync.IsYamlStale"/>) appears promptly.
     /// No stale flag is stored anywhere — the hash comparison is the single source of truth.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphYamlPostprocessor.html")]
-    internal sealed class ConvoCoreGraphYamlPostprocessor : AssetPostprocessor
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphYamlPostprocessor.html")]
+    internal sealed class WitWeaverGraphYamlPostprocessor : AssetPostprocessor
     {
         private static void OnPostprocessAllAssets(
             string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
@@ -19,12 +19,12 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             if (!AnyYaml(importedAssets) && !AnyYaml(deletedAssets) && !AnyYaml(movedAssets))
                 return;
 
-            foreach (var guid in AssetDatabase.FindAssets("t:ConvoCoreConversationData"))
+            foreach (var guid in AssetDatabase.FindAssets("t:WitWeaverConversationData"))
             {
-                var data = AssetDatabase.LoadAssetAtPath<ConvoCoreConversationData>(
+                var data = AssetDatabase.LoadAssetAtPath<WitWeaverConversationData>(
                     AssetDatabase.GUIDToAssetPath(guid));
                 if (data == null ||
-                    data.AuthoringMode != ConvoCoreConversationData.ConversationAuthoringMode.Graph ||
+                    data.AuthoringMode != WitWeaverConversationData.ConversationAuthoringMode.Graph ||
                     string.IsNullOrEmpty(data.SourceYamlAssetPath))
                     continue;
 

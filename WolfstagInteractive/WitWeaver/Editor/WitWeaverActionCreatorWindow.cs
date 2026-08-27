@@ -2,17 +2,17 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreActionCreatorWindow.html")]
-    public class ConvoCoreActionCreatorWindow : EditorWindow
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverActionCreatorWindow.html")]
+    public class WitWeaverActionCreatorWindow : EditorWindow
     {
         private string actionName = "NewAction";
 
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Create New Dialogue Action")]
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Create New Dialogue Action")]
         public static void ShowWindow()
         {
-            GetWindow<ConvoCoreActionCreatorWindow>("New Dialogue Action");
+            GetWindow<WitWeaverActionCreatorWindow>("New Dialogue Action");
         }
 
         void OnGUI()
@@ -28,9 +28,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         void CreateActionScript(string name)
         {
-            string scriptFolder = "Assets/Scripts/ConvoCoreCustomActions";
+            string scriptFolder = "Assets/Scripts/WitWeaverCustomActions";
             string scriptPath = $"{scriptFolder}/{name}.cs";
-            string assetFolder = "Assets/ConvoCoreCustomActions";
+            string assetFolder = "Assets/WitWeaverCustomActions";
 
             // Create folders if they don't exist
             if (!Directory.Exists(scriptFolder))
@@ -48,8 +48,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
             string template = GetTemplate().Replace("#NAME#", name);
             File.WriteAllText(scriptPath, template);
 
-            EditorPrefs.SetString("ConvoCore_PendingActionName", name);
-            EditorPrefs.SetString("ConvoCore_PendingAssetPath", assetFolder);
+            EditorPrefs.SetString("WitWeaver_PendingActionName", name);
+            EditorPrefs.SetString("WitWeaver_PendingAssetPath", assetFolder);
 
             AssetDatabase.Refresh();
             Debug.Log($"Created script for {name}. Waiting for Unity to compile before asset is created.");
@@ -60,9 +60,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 
 @"using UnityEngine;
 using System.Collections;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-[CreateAssetMenu(menuName = ""ConvoCore/Actions/#NAME#"")] [System.Serializable]
+[CreateAssetMenu(menuName = ""WitWeaver/Actions/#NAME#"")] [System.Serializable]
 public class #NAME# : BaseAction
 {
 

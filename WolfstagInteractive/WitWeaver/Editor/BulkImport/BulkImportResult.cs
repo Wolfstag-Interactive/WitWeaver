@@ -1,4 +1,4 @@
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     internal enum BulkImportOutcome
     {

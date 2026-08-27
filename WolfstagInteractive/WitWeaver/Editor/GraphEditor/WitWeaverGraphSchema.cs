@@ -2,15 +2,15 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
     /// Shared port-name constants and helpers for the conversation graph. Sync and bake code
     /// address ports by these names, so they must stay stable across versions — renaming one
     /// orphans the serialized values on existing graph assets.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphSchema.html")]
-    internal static class ConvoCoreGraphSchema
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphSchema.html")]
+    internal static class WitWeaverGraphSchema
     {
         // Execution-flow ports (untyped, connection-only).
         public const string InPort = "In";
@@ -31,7 +31,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
         /// <summary>
         /// The languages the graph exposes one text/label port for. Sourced from
-        /// <see cref="ConvoCoreSettings.SupportedLanguages"/>, cleaned and de-duplicated,
+        /// <see cref="WitWeaverSettings.SupportedLanguages"/>, cleaned and de-duplicated,
         /// falling back to "en" when settings are missing or empty.
         /// </summary>
         public static List<string> GetLanguages()
@@ -39,7 +39,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             var result = new List<string>();
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            var supported = ConvoCoreSettings.Instance?.SupportedLanguages;
+            var supported = WitWeaverSettings.Instance?.SupportedLanguages;
             if (supported != null)
             {
                 foreach (var lang in supported)

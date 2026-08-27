@@ -2,11 +2,11 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoInputPropertyDrawer.html")]
-[CustomPropertyDrawer(typeof(IConvoInput), true)]
-    public class ConvoInputPropertyDrawer : PropertyDrawer
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverInputPropertyDrawer.html")]
+[CustomPropertyDrawer(typeof(IWitWeaverInput), true)]
+    public class WitWeaverInputPropertyDrawer : PropertyDrawer
     {
         private static readonly System.Type[] s_Types =
         {
@@ -99,15 +99,15 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var convProp = root.FindPropertyRelative("Conversation");
             if (convProp == null) return;
 
-            bool toolingAvailable = !string.IsNullOrEmpty(ConvoCoreConversationInspectorHooks.GraphAssetExtension);
-            var data = convProp.objectReferenceValue as ConvoCoreConversationData;
+            bool toolingAvailable = !string.IsNullOrEmpty(WitWeaverConversationInspectorHooks.GraphAssetExtension);
+            var data = convProp.objectReferenceValue as WitWeaverConversationData;
 
             // Row 1: status hint.
             var hintRect = new Rect(rect.x, rect.y, rect.width, line);
             if (!toolingAvailable)
                 EditorGUI.LabelField(hintRect, "Graph tooling unavailable (requires Unity 6000.4+).", EditorStyles.miniLabel);
             else if (data != null &&
-                     data.AuthoringMode != ConvoCoreConversationData.ConversationAuthoringMode.Graph)
+                     data.AuthoringMode != WitWeaverConversationData.ConversationAuthoringMode.Graph)
                 EditorGUI.LabelField(hintRect,
                     "This conversation is not graph-authored — convert it from its inspector.",
                     EditorStyles.miniLabel);
@@ -119,7 +119,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             using (new EditorGUI.DisabledScope(!toolingAvailable || data == null))
             {
                 if (GUI.Button(buttonRect, "Open Graph") && data != null)
-                    ConvoCoreConversationInspectorHooks.OpenGraphForConversation?.Invoke(data);
+                    WitWeaverConversationInspectorHooks.OpenGraphForConversation?.Invoke(data);
             }
         }
 
@@ -164,7 +164,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 foreach (var obj in DragAndDrop.objectReferences)
                 {
                     var draggedPath = AssetDatabase.GetAssetPath(obj);
-                    if (ConvoCoreConversationInspectorHooks.IsGraphAssetPath(draggedPath))
+                    if (WitWeaverConversationInspectorHooks.IsGraphAssetPath(draggedPath))
                     {
                         // Switch to Graph and resolve the bound conversation
                         SetManagedReferenceType(root, typeof(GraphConversationInput));
@@ -174,16 +174,16 @@ namespace WolfstagInteractive.ConvoCore.Editor
                         var convProp = root.FindPropertyRelative("Conversation");
                         if (convProp != null)
                             convProp.objectReferenceValue =
-                                ConvoCoreConversationInspectorHooks.ResolveGraphConversationByPath?.Invoke(draggedPath);
+                                WitWeaverConversationInspectorHooks.ResolveGraphConversationByPath?.Invoke(draggedPath);
                         root.serializedObject.ApplyModifiedProperties();
                         Event.current.Use();
                         break;
                     }
-                    if (obj is ConvoCoreConversationData convo)
+                    if (obj is WitWeaverConversationData convo)
                     {
                         // Graph-authored conversations select the Graph tab; others go to Single.
                         var inputType = convo.AuthoringMode ==
-                                        ConvoCoreConversationData.ConversationAuthoringMode.Graph
+                                        WitWeaverConversationData.ConversationAuthoringMode.Graph
                             ? typeof(GraphConversationInput)
                             : typeof(SingleConversationInput);
                         SetManagedReferenceType(root, inputType);
@@ -222,9 +222,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
             {
                 foreach (var o in DragAndDrop.objectReferences)
                 {
-                    if (o is ConvoCoreConversationData || o is ConversationContainer)
+                    if (o is WitWeaverConversationData || o is ConversationContainer)
                         return true;
-                    if (ConvoCoreConversationInspectorHooks.IsGraphAssetPath(AssetDatabase.GetAssetPath(o)))
+                    if (WitWeaverConversationInspectorHooks.IsGraphAssetPath(AssetDatabase.GetAssetPath(o)))
                         return true;
                 }
                 return false;

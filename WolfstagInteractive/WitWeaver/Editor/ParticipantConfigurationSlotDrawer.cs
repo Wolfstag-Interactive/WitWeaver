@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
     /// Property drawer for <see cref="ParticipantConfigurationSlot"/>.
     ///
     /// Shows a CharacterID text field and a dropdown for DefaultConfigurationEntryName.
     /// The dropdown is populated from the <see cref="PrefabCharacterRepresentationData"/> assets
-    /// assigned to the matching participant profile on the parent <see cref="ConvoCoreConversationData"/>.
+    /// assigned to the matching participant profile on the parent <see cref="WitWeaverConversationData"/>.
     /// When no PrefabCharacterRepresentationData is found for the participant, the dropdown falls
     /// back to a plain text field.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ParticipantConfigurationSlotDrawer.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1ParticipantConfigurationSlotDrawer.html")]
 [CustomPropertyDrawer(typeof(ParticipantConfigurationSlot))]
     public class ParticipantConfigurationSlotDrawer : PropertyDrawer
     {
@@ -35,7 +35,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             float line  = EditorGUIUtility.singleLineHeight;
             float y     = position.y;
 
-            // Row 1 — CharacterID (read-only; auto-managed by ConvoCoreConversationDataEditor)
+            // Row 1 — CharacterID (read-only; auto-managed by WitWeaverConversationDataEditor)
             var charIdRect = new Rect(position.x, y, position.width, line);
             using (new EditorGUI.DisabledScope(true))
                 EditorGUI.PropertyField(charIdRect, charIdProp, new GUIContent("Character ID"));
@@ -87,7 +87,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         }
 
         /// <summary>
-        /// Walks up from the slot property to find the parent ConvoCoreConversationData,
+        /// Walks up from the slot property to find the parent WitWeaverConversationData,
         /// then collects all entry names from any representation that opts in via
         /// <see cref="CharacterRepresentationBase.GetConfigurationEntryNames"/>.
         /// </summary>
@@ -95,7 +95,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         {
             if (string.IsNullOrEmpty(characterId)) return null;
 
-            if (!(slotProperty.serializedObject.targetObject is ConvoCoreConversationData convoData))
+            if (!(slotProperty.serializedObject.targetObject is WitWeaverConversationData convoData))
                 return null;
 
             var names = new List<string>();

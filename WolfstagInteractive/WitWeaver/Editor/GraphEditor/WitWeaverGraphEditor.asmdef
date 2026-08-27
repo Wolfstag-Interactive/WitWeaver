@@ -1,9 +1,9 @@
 {
-    "name": "ConvoCoreGraphEditor",
+    "name": "WitWeaverGraphEditor",
     "rootNamespace": "",
     "references": [
-        "ConvoCore",
-        "ConvoCoreEditor"
+        "WitWeaver",
+        "WitWeaverEditor"
     ],
     "includePlatforms": [
         "Editor"
@@ -14,13 +14,13 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "CONVOCORE_GRAPHTOOLKIT"
+        "WITWEAVER_GRAPHTOOLKIT"
     ],
     "versionDefines": [
         {
             "name": "Unity",
             "expression": "[6000.4,9999.9.9]",
-            "define": "CONVOCORE_GRAPHTOOLKIT"
+            "define": "WITWEAVER_GRAPHTOOLKIT"
         }
     ],
     "noEngineReferences": false

@@ -1,37 +1,37 @@
 using UnityEditor;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore.Editor;
+using WolfstagInteractive.WitWeaver.Editor;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
     /// Registers the "Conversation Graph" section into the conversation inspector via
-    /// <see cref="ConvoCoreConversationInspectorHooks"/>.
+    /// <see cref="WitWeaverConversationInspectorHooks"/>.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphInspectorSection.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphInspectorSection.html")]
 [InitializeOnLoad]
-    internal static class ConvoCoreGraphInspectorSection
+    internal static class WitWeaverGraphInspectorSection
     {
-        static ConvoCoreGraphInspectorSection()
+        static WitWeaverGraphInspectorSection()
         {
-            ConvoCoreConversationInspectorHooks.DrawExtraSection += Draw;
+            WitWeaverConversationInspectorHooks.DrawExtraSection += Draw;
 
             // Advertise graph tooling to the core editor assembly (Graph input tab, drag-and-drop).
-            ConvoCoreConversationInspectorHooks.GraphAssetExtension = ConvoCoreConversationGraph.AssetExtension;
-            ConvoCoreConversationInspectorHooks.ResolveGraphConversationByPath = path =>
+            WitWeaverConversationInspectorHooks.GraphAssetExtension = WitWeaverConversationGraph.AssetExtension;
+            WitWeaverConversationInspectorHooks.ResolveGraphConversationByPath = path =>
                 Unity.GraphToolkit.Editor.GraphDatabase
-                    .LoadGraph<ConvoCoreConversationGraph>(path)?.Conversation;
-            ConvoCoreConversationInspectorHooks.OpenGraphForConversation = ConvoCoreGraphBridge.OpenGraphFor;
+                    .LoadGraph<WitWeaverConversationGraph>(path)?.Conversation;
+            WitWeaverConversationInspectorHooks.OpenGraphForConversation = WitWeaverGraphBridge.OpenGraphFor;
         }
 
-        private static void Draw(ConvoCoreConversationData data)
+        private static void Draw(WitWeaverConversationData data)
         {
             if (data == null) return;
 
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField("Conversation Graph (Experimental)", EditorStyles.boldLabel);
 
-            if (data.AuthoringMode != ConvoCoreConversationData.ConversationAuthoringMode.Graph)
+            if (data.AuthoringMode != WitWeaverConversationData.ConversationAuthoringMode.Graph)
             {
                 EditorGUILayout.HelpBox(
                     "Author this conversation visually as a node graph: lines, choices, jumps and " +
@@ -49,12 +49,12 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                         "YAML linking) stays in this inspector. You can revert at any time.",
                         "Convert", "Cancel"))
                 {
-                    ConvoCoreGraphBridge.OpenGraphFor(data);
+                    WitWeaverGraphBridge.OpenGraphFor(data);
                 }
             }
             else
             {
-                if (ConvoCoreGraphBridge.IsGraphStaleRelativeToYaml(data))
+                if (WitWeaverGraphBridge.IsGraphStaleRelativeToYaml(data))
                 {
                     EditorGUILayout.HelpBox(
                         "The YAML changed after the graph was last synced — baking is blocked until you " +
@@ -62,7 +62,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                         MessageType.Warning);
                 }
 
-                if (ConvoCoreGraphBridge.IsGraphDirtyRelativeToConversation(data))
+                if (WitWeaverGraphBridge.IsGraphDirtyRelativeToConversation(data))
                 {
                     EditorGUILayout.HelpBox(
                         "The graph has unbaked changes. Bake to apply them to this conversation (and its YAML).",
@@ -71,20 +71,20 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Open Graph", GUILayout.Height(24)))
-                    ConvoCoreGraphBridge.OpenGraphFor(data);
+                    WitWeaverGraphBridge.OpenGraphFor(data);
                 if (GUILayout.Button("Bake Graph → Conversation", GUILayout.Height(24)))
-                    ConvoCoreGraphBridge.BakeGraphFor(data, interactive: true);
+                    WitWeaverGraphBridge.BakeGraphFor(data, interactive: true);
                 EditorGUILayout.EndHorizontal();
 
                 // Always available: pulls YAML edits into the graph and restores deleted line
                 // nodes (the fix the missing-node bake error points users at).
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Refresh Graph From YAML", GUILayout.Height(22)))
-                    ConvoCoreGraphBridge.RefreshGraphFromYamlFor(data);
+                    WitWeaverGraphBridge.RefreshGraphFromYamlFor(data);
                 if (GUILayout.Button(new GUIContent("Rebuild Graph",
                         "Regenerate every node and wire from the last-baked flow and current YAML. " +
                         "Repairs fragmented graphs; node positions reset."), GUILayout.Height(22)))
-                    ConvoCoreGraphBridge.RebuildGraphFor(data, interactive: true);
+                    WitWeaverGraphBridge.RebuildGraphFor(data, interactive: true);
                 EditorGUILayout.EndHorizontal();
 
                 if (GUILayout.Button("Revert to Linear Authoring", GUILayout.Height(18)))
@@ -96,9 +96,9 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                         "You can keep the graph asset (to convert back later) or delete it.",
                         "Revert, Keep Graph", "Cancel", "Revert, Delete Graph");
                     if (choice == 0)
-                        ConvoCoreGraphBridge.ConvertToLinear(data, deleteGraphAsset: false);
+                        WitWeaverGraphBridge.ConvertToLinear(data, deleteGraphAsset: false);
                     else if (choice == 2)
-                        ConvoCoreGraphBridge.ConvertToLinear(data, deleteGraphAsset: true);
+                        WitWeaverGraphBridge.ConvertToLinear(data, deleteGraphAsset: true);
                 }
             }
 

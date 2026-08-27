@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
     /// Draws a [LineIDSelector] string field as a dropdown of the dialogue lines in the
-    /// inspected <see cref="ConvoCoreConversationData"/> asset. Entries are labeled
+    /// inspected <see cref="WitWeaverConversationData"/> asset. Entries are labeled
     /// "{index}: {characterID} — {text preview}". A "(None)" entry clears the field, and a
     /// value that no longer matches any line is surfaced as a "Missing: ..." entry so the
     /// stale id is visible instead of silently discarded.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1LineIDSelectorDrawer.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1LineIDSelectorDrawer.html")]
 [CustomPropertyDrawer(typeof(LineIDSelectorAttribute))]
     public class LineIDSelectorDrawer : PropertyDrawer
     {
@@ -25,7 +25,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 return;
             }
 
-            var conversation = property.serializedObject.targetObject as ConvoCoreConversationData;
+            var conversation = property.serializedObject.targetObject as WitWeaverConversationData;
             if (conversation?.DialogueLines == null || conversation.DialogueLines.Count == 0)
             {
                 // Not inspecting a conversation asset (or it has no lines) — plain text field.
@@ -71,7 +71,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             return EditorGUIUtility.singleLineHeight;
         }
 
-        private static string GetPreviewText(ConvoCoreConversationData.DialogueLineInfo line)
+        private static string GetPreviewText(WitWeaverConversationData.DialogueLineInfo line)
         {
             if (line.LocalizedDialogues != null)
             {

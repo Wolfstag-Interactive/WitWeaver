@@ -3,39 +3,39 @@ using Unity.GraphToolkit.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
     /// Entry points for working with a conversation's graph asset: locating it, creating it
     /// beside the conversation asset, and opening it in the Graph window. The conversation
-    /// stores the graph's asset GUID (<see cref="ConvoCoreConversationData.GraphAssetGuid"/>);
+    /// stores the graph's asset GUID (<see cref="WitWeaverConversationData.GraphAssetGuid"/>);
     /// a project-wide scan repairs that link when it goes stale.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphBridge.html")]
-    public static class ConvoCoreGraphBridge
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphBridge.html")]
+    public static class WitWeaverGraphBridge
     {
-        public static bool HasGraph(ConvoCoreConversationData data) => ResolveGraphPath(data) != null;
+        public static bool HasGraph(WitWeaverConversationData data) => ResolveGraphPath(data) != null;
 
         /// <summary>
         /// Returns the asset path of the conversation's graph, repairing the stored GUID link if
         /// needed, or null when no graph asset exists for it.
         /// </summary>
-        public static string ResolveGraphPath(ConvoCoreConversationData data)
+        public static string ResolveGraphPath(WitWeaverConversationData data)
         {
             if (data == null) return null;
 
             if (!string.IsNullOrEmpty(data.GraphAssetGuid))
             {
                 var path = AssetDatabase.GUIDToAssetPath(data.GraphAssetGuid);
-                if (!string.IsNullOrEmpty(path) && path.EndsWith("." + ConvoCoreConversationGraph.AssetExtension))
+                if (!string.IsNullOrEmpty(path) && path.EndsWith("." + WitWeaverConversationGraph.AssetExtension))
                     return path;
             }
 
             // Fallback: scan graph assets for one bound to this conversation, then repair the link.
-            foreach (var guid in AssetDatabase.FindAssets("glob:\"*." + ConvoCoreConversationGraph.AssetExtension + "\""))
+            foreach (var guid in AssetDatabase.FindAssets("glob:\"*." + WitWeaverConversationGraph.AssetExtension + "\""))
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                var graph = GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(path);
+                var graph = GraphDatabase.LoadGraph<WitWeaverConversationGraph>(path);
                 if (graph != null && graph.Conversation == data)
                 {
                     data.GraphAssetGuid = guid;
@@ -51,44 +51,44 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// Loads the conversation's graph, creating and populating a new one beside the
         /// conversation asset when none exists yet.
         /// </summary>
-        public static ConvoCoreConversationGraph GetOrCreateGraphFor(ConvoCoreConversationData data)
+        public static WitWeaverConversationGraph GetOrCreateGraphFor(WitWeaverConversationData data)
         {
             if (data == null) return null;
 
             var existingPath = ResolveGraphPath(data);
             if (existingPath != null)
-                return GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(existingPath);
+                return GraphDatabase.LoadGraph<WitWeaverConversationGraph>(existingPath);
 
             var conversationPath = AssetDatabase.GetAssetPath(data);
             if (string.IsNullOrEmpty(conversationPath))
             {
-                Debug.LogError("[ConvoCore] Cannot create a graph for an unsaved conversation asset.");
+                Debug.LogError("[WitWeaver] Cannot create a graph for an unsaved conversation asset.");
                 return null;
             }
 
             var folder = Path.GetDirectoryName(conversationPath)?.Replace('\\', '/') ?? "Assets";
             var graphPath = AssetDatabase.GenerateUniqueAssetPath(
-                $"{folder}/{data.name}.{ConvoCoreConversationGraph.AssetExtension}");
+                $"{folder}/{data.name}.{WitWeaverConversationGraph.AssetExtension}");
 
-            var graph = GraphDatabase.CreateGraph<ConvoCoreConversationGraph>(graphPath);
+            var graph = GraphDatabase.CreateGraph<WitWeaverConversationGraph>(graphPath);
             if (graph == null)
             {
-                Debug.LogError($"[ConvoCore] Failed to create graph asset at '{graphPath}'.");
+                Debug.LogError($"[WitWeaver] Failed to create graph asset at '{graphPath}'.");
                 return null;
             }
 
             graph.Conversation = data;
-            ConvoCoreGraphSync.PopulateFromConversation(graph, data);
+            WitWeaverGraphSync.PopulateFromConversation(graph, data);
             GraphDatabase.SaveGraph(graph);
 
             // Creating a graph switches the conversation to graph authoring: the graph becomes
             // the sole editing surface until the user reverts to linear authoring.
             data.GraphAssetGuid = AssetDatabase.AssetPathToGUID(graphPath);
-            data.AuthoringMode = ConvoCoreConversationData.ConversationAuthoringMode.Graph;
+            data.AuthoringMode = WitWeaverConversationData.ConversationAuthoringMode.Graph;
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssetIfDirty(data);
 
-            Debug.Log($"[ConvoCore] Created conversation graph at '{graphPath}'.");
+            Debug.Log($"[WitWeaver] Created conversation graph at '{graphPath}'.");
             return graph;
         }
 
@@ -96,11 +96,11 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// Switches the conversation back to linear-list authoring. The baked lines stay intact.
         /// Optionally deletes the companion graph asset.
         /// </summary>
-        public static void ConvertToLinear(ConvoCoreConversationData data, bool deleteGraphAsset)
+        public static void ConvertToLinear(WitWeaverConversationData data, bool deleteGraphAsset)
         {
             if (data == null) return;
 
-            data.AuthoringMode = ConvoCoreConversationData.ConversationAuthoringMode.LinearList;
+            data.AuthoringMode = WitWeaverConversationData.ConversationAuthoringMode.LinearList;
 
             if (deleteGraphAsset)
             {
@@ -115,7 +115,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         }
 
         /// <summary>Opens the conversation's graph in the Graph window, creating it if missing.</summary>
-        public static void OpenGraphFor(ConvoCoreConversationData data)
+        public static void OpenGraphFor(WitWeaverConversationData data)
         {
             var graph = GetOrCreateGraphFor(data);
             if (graph == null) return;
@@ -125,36 +125,36 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             if (asset != null)
                 AssetDatabase.OpenAsset(asset);
             else
-                Debug.LogError($"[ConvoCore] Could not load graph asset at '{path}'.");
+                Debug.LogError($"[WitWeaver] Could not load graph asset at '{path}'.");
         }
 
         /// <summary>
         /// True when the conversation's YAML section changed after the graph was last synced —
         /// the graph's view of the lines is stale and baking is blocked until a refresh.
         /// </summary>
-        public static bool IsGraphStaleRelativeToYaml(ConvoCoreConversationData data)
+        public static bool IsGraphStaleRelativeToYaml(WitWeaverConversationData data)
         {
             var path = ResolveGraphPath(data);
             if (path == null) return false;
 
-            var graph = GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(path);
-            return graph != null && ConvoCoreGraphSync.IsYamlStale(graph, data);
+            var graph = GraphDatabase.LoadGraph<WitWeaverConversationGraph>(path);
+            return graph != null && WitWeaverGraphSync.IsYamlStale(graph, data);
         }
 
         /// <summary>Pulls YAML text/character changes into the graph's nodes (matched by LineID).</summary>
-        public static void RefreshGraphFromYamlFor(ConvoCoreConversationData data)
+        public static void RefreshGraphFromYamlFor(WitWeaverConversationData data)
         {
             var path = ResolveGraphPath(data);
             if (path == null)
             {
-                Debug.LogWarning($"[ConvoCore] '{data?.name}' has no conversation graph to refresh.");
+                Debug.LogWarning($"[WitWeaver] '{data?.name}' has no conversation graph to refresh.");
                 return;
             }
 
-            var graph = GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(path);
+            var graph = GraphDatabase.LoadGraph<WitWeaverConversationGraph>(path);
             if (graph == null) return;
 
-            ConvoCoreGraphSync.RefreshFromYaml(graph, data);
+            WitWeaverGraphSync.RefreshFromYaml(graph, data);
             ReloadOpenGraphWindows(path);
         }
 
@@ -163,12 +163,12 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// current YAML text — every node and wire is rebuilt (positions reset). This is the
         /// repair action for fragmented or damaged graphs.
         /// </summary>
-        public static void RebuildGraphFor(ConvoCoreConversationData data, bool interactive = true)
+        public static void RebuildGraphFor(WitWeaverConversationData data, bool interactive = true)
         {
             var path = ResolveGraphPath(data);
             if (path == null)
             {
-                Debug.LogWarning($"[ConvoCore] '{data?.name}' has no conversation graph to rebuild.");
+                Debug.LogWarning($"[WitWeaver] '{data?.name}' has no conversation graph to rebuild.");
                 return;
             }
 
@@ -180,10 +180,10 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     "Rebuild", "Cancel"))
                 return;
 
-            var graph = GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(path);
+            var graph = GraphDatabase.LoadGraph<WitWeaverConversationGraph>(path);
             if (graph == null) return;
 
-            ConvoCoreGraphSync.RebuildFromConversation(graph, data);
+            WitWeaverGraphSync.RebuildFromConversation(graph, data);
             ReloadOpenGraphWindows(path);
         }
 
@@ -198,7 +198,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         {
             // Stamp first: any window instance this pass fails to close will notice the newer
             // stamp in its OnGraphChanged and schedule its own reload on first interaction.
-            ConvoCoreGraphSync.BumpMutationStamp(graphPath);
+            WitWeaverGraphSync.BumpMutationStamp(graphPath);
 
             if (!CloseOpenGraphWindows(graphPath))
                 return;
@@ -245,20 +245,20 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             var toClose = matches.Count > 0 ? matches : gtkWindows;
             foreach (var window in toClose)
             {
-                Debug.Log($"[ConvoCore] Closing graph window '{window.titleContent?.text}' to apply external changes.");
+                Debug.Log($"[WitWeaver] Closing graph window '{window.titleContent?.text}' to apply external changes.");
                 window.Close();
             }
             return true;
         }
 
         /// <summary>True when the graph has bake-relevant changes not yet applied to the conversation.</summary>
-        public static bool IsGraphDirtyRelativeToConversation(ConvoCoreConversationData data)
+        public static bool IsGraphDirtyRelativeToConversation(WitWeaverConversationData data)
         {
             var path = ResolveGraphPath(data);
             if (path == null) return false;
 
-            var graph = GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(path);
-            return graph != null && ConvoCoreGraphBake.IsDirty(graph);
+            var graph = GraphDatabase.LoadGraph<WitWeaverConversationGraph>(path);
+            return graph != null && WitWeaverGraphBake.IsDirty(graph);
         }
 
         /// <summary>
@@ -266,29 +266,29 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// <paramref name="interactive"/>, asks for confirmation (the YAML file is rewritten —
         /// comments and custom formatting outside the schema are not preserved).
         /// </summary>
-        public static bool BakeGraphFor(ConvoCoreConversationData data, bool interactive = false)
+        public static bool BakeGraphFor(WitWeaverConversationData data, bool interactive = false)
         {
             var path = ResolveGraphPath(data);
             if (path == null)
             {
-                Debug.LogWarning($"[ConvoCore] '{data?.name}' has no conversation graph to bake.");
+                Debug.LogWarning($"[WitWeaver] '{data?.name}' has no conversation graph to bake.");
                 return false;
             }
 
-            var graph = GraphDatabase.LoadGraph<ConvoCoreConversationGraph>(path);
+            var graph = GraphDatabase.LoadGraph<WitWeaverConversationGraph>(path);
             if (graph == null)
             {
-                Debug.LogError($"[ConvoCore] Could not load graph at '{path}'.");
+                Debug.LogError($"[WitWeaver] Could not load graph at '{path}'.");
                 return false;
             }
 
             // Stale gate (mirrors the refusal inside Bake): the only offered action is the
             // refresh — there is no "bake anyway".
-            if (ConvoCoreGraphSync.IsYamlStale(graph, data, out bool sectionMissing))
+            if (WitWeaverGraphSync.IsYamlStale(graph, data, out bool sectionMissing))
             {
                 if (!interactive)
                 {
-                    Debug.LogError($"[ConvoCore] Bake refused for '{data.name}': YAML is stale" +
+                    Debug.LogError($"[WitWeaver] Bake refused for '{data.name}': YAML is stale" +
                                    (sectionMissing ? " (section not found)." : " — refresh the graph first."));
                     return false;
                 }
@@ -322,9 +322,9 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     "Bake", "Cancel"))
                 return false;
 
-            bool ok = ConvoCoreGraphBake.Bake(graph, data, out var report);
-            if (ok) Debug.Log($"[ConvoCore] {report}", data);
-            else Debug.LogError($"[ConvoCore] {report}", data);
+            bool ok = WitWeaverGraphBake.Bake(graph, data, out var report);
+            if (ok) Debug.Log($"[WitWeaver] {report}", data);
+            else Debug.LogError($"[WitWeaver] {report}", data);
 
             // Push the saved state (updated hashes) into any open window so its private model
             // does not later overwrite the bake results.

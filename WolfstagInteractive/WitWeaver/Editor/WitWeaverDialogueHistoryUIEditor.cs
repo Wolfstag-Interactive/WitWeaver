@@ -3,12 +3,12 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     [CanEditMultipleObjects]
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreDialogueHistoryUIEditor.html")]
-[CustomEditor(typeof(ConvoCoreDialogueHistoryUI))]
-    public class ConvoCoreDialogueHistoryUIEditor : UnityEditor.Editor
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverDialogueHistoryUIEditor.html")]
+[CustomEditor(typeof(WitWeaverDialogueHistoryUI))]
+    public class WitWeaverDialogueHistoryUIEditor : UnityEditor.Editor
     {
         private SerializedProperty _settingsProp;
         private SerializedProperty _selectedProfileNameProp;
@@ -21,7 +21,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         private void OnEnable()
         {
-            _settingsProp            = serializedObject.FindProperty("convoCoreSettings");
+            _settingsProp            = serializedObject.FindProperty("witWeaverSettings");
             _selectedProfileNameProp = serializedObject.FindProperty("selectedProfileName");
             _maxEntriesProp          = serializedObject.FindProperty("maxEntries");
             _uiReferenceProp         = serializedObject.FindProperty("uiReference");
@@ -30,16 +30,16 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Auto-link the settings asset if missing
             if (_settingsProp.objectReferenceValue == null)
             {
-                var guid = AssetDatabase.FindAssets("t:ConvoCoreSettings").FirstOrDefault();
+                var guid = AssetDatabase.FindAssets("t:WitWeaverSettings").FirstOrDefault();
                 if (!string.IsNullOrEmpty(guid))
                 {
                     string path = AssetDatabase.GUIDToAssetPath(guid);
-                    var settings = AssetDatabase.LoadAssetAtPath<ConvoCoreSettings>(path);
+                    var settings = AssetDatabase.LoadAssetAtPath<WitWeaverSettings>(path);
                     if (settings != null)
                     {
                         _settingsProp.objectReferenceValue = settings;
                         serializedObject.ApplyModifiedPropertiesWithoutUndo();
-                        Debug.Log($"[ConvoCore] Auto-linked settings: {path}");
+                        Debug.Log($"[WitWeaver] Auto-linked settings: {path}");
                     }
                 }
             }
@@ -63,10 +63,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             // Settings field (read-only)
             using (new EditorGUI.DisabledScope(true))
-                EditorGUILayout.PropertyField(_settingsProp, new GUIContent("ConvoCore Settings"));
+                EditorGUILayout.PropertyField(_settingsProp, new GUIContent("WitWeaver Settings"));
 
-            var settings = _settingsProp.objectReferenceValue as ConvoCoreSettings;
-            ConvoCoreHistoryRendererProfile selectedProfile = null;
+            var settings = _settingsProp.objectReferenceValue as WitWeaverSettings;
+            WitWeaverHistoryRendererProfile selectedProfile = null;
 
             // ------------------------------------------------------------------
             // Renderer Profile Dropdown
@@ -104,7 +104,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             else
             {
                 EditorGUILayout.HelpBox(
-                    "No renderer profiles found. Open your ConvoCoreSettings asset and click 'Auto-Populate Renderer Profiles'.",
+                    "No renderer profiles found. Open your WitWeaverSettings asset and click 'Auto-Populate Renderer Profiles'.",
                     MessageType.Info);
             }
 
@@ -132,7 +132,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         // ------------------------------------------------------------------
         // Draw inline inspector for selected profile
         // ------------------------------------------------------------------
-        private void DrawInlineProfileEditor(ConvoCoreHistoryRendererProfile profile)
+        private void DrawInlineProfileEditor(WitWeaverHistoryRendererProfile profile)
         {
             if (_profileEditor == null || _profileEditor.target != profile)
             {

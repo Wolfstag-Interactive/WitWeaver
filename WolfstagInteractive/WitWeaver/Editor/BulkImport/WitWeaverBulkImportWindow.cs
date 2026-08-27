@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    internal sealed class ConvoCoreBulkImportWindow : EditorWindow
+    internal sealed class WitWeaverBulkImportWindow : EditorWindow
     {
         // ---- Window state ----
 
@@ -45,15 +45,15 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         // ---- EditorPrefs keys ----
 
-        private const string PrefInputKey = "ConvoCore_BulkImport_InputFolder";
-        private const string PrefOutputKey = "ConvoCore_BulkImport_OutputFolder";
+        private const string PrefInputKey = "WitWeaver_BulkImport_InputFolder";
+        private const string PrefOutputKey = "WitWeaver_BulkImport_OutputFolder";
 
         // ---- Menu item ----
 
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Bulk Import", priority = 200)]
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Bulk Import", priority = 200)]
         public static void ShowWindow()
         {
-            GetWindow<ConvoCoreBulkImportWindow>("ConvoCore Bulk Import");
+            GetWindow<WitWeaverBulkImportWindow>("WitWeaver Bulk Import");
         }
 
         // ---- Unity callbacks ----
@@ -367,7 +367,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     {
                         current = i;
                         EditorUtility.DisplayProgressBar(
-                            "ConvoCore Bulk Import",
+                            "WitWeaver Bulk Import",
                             $"Importing conversation {i + 1} of {count}: {key}",
                             count > 0 ? (float)i / count : 1f);
                     });

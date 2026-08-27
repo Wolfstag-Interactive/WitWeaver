@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1PagedListUtility.html")]
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1PagedListUtility.html")]
     public static class PagedListUtility
     {
         private const string PREF_KEY_PREFIX = "PagedListUtility_";
@@ -174,7 +174,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (locProp == null || !locProp.isArray || locProp.arraySize == 0)
                 return "(no text)";
 
-            string lang = ConvoCoreLanguageManager.Instance?.CurrentLanguage ?? "EN";
+            string lang = WitWeaverLanguageManager.Instance?.CurrentLanguage ?? "EN";
             for (int i = 0; i < locProp.arraySize; i++)
             {
                 var el = locProp.GetArrayElementAtIndex(i);

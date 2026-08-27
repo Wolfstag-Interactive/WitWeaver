@@ -5,36 +5,36 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Entry point for the ConvoCore Excel round-trip pipeline.
-    /// Converts an .xlsx file into a fully populated <see cref="ConvoCoreConversationData"/> ScriptableObject
+    /// Entry point for the WitWeaver Excel round-trip pipeline.
+    /// Converts an .xlsx file into a fully populated <see cref="WitWeaverConversationData"/> ScriptableObject
     /// by parsing the spreadsheet, generating LineIDs, writing them back to the .xlsx,
-    /// serializing to YAML, and calling <see cref="ConvoCoreYamlUtilities.ImportFromYamlForKey"/> for each key.
+    /// serializing to YAML, and calling <see cref="WitWeaverYamlUtilities.ImportFromYamlForKey"/> for each key.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreExcelUtilities.html")]
-    public static class ConvoCoreExcelUtilities
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelUtilities.html")]
+    public static class WitWeaverExcelUtilities
     {
         /// <summary>
         /// Runs the full Excel-to-ScriptableObject pipeline for the given conversation data asset.
         /// </summary>
-        /// <param name="target">The ConvoCoreConversationData asset to populate.</param>
+        /// <param name="target">The WitWeaverConversationData asset to populate.</param>
         /// <param name="excelAssetPath">Unity asset-relative path to the .xlsx file (e.g. "Assets/Dialogue/Forest.xlsx").</param>
         /// <param name="diagnosticMessage">Human-readable result message (success summary or error).</param>
         /// <returns>True on success, false on any failure.</returns>
         public static bool RunFullPipeline(
-            ConvoCoreConversationData target,
+            WitWeaverConversationData target,
             string excelAssetPath,
             out string diagnosticMessage)
         {
             // Step 1: Load settings
-            var settings = ConvoCoreSettings.Instance;
+            var settings = WitWeaverSettings.Instance;
             if (settings == null)
             {
                 diagnosticMessage =
-                    "ConvoCore Excel: Could not load ConvoCoreSettings. " +
-                    "Create one via Assets > Create > ConvoCore > Settings.";
+                    "WitWeaver Excel: Could not load WitWeaverSettings. " +
+                    "Create one via Assets > Create > WitWeaver > Settings.";
                 return false;
             }
 
@@ -43,7 +43,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var fileName = Path.GetFileName(absolutePath);
 
             // Step 3: Parse Excel — returns SpreadsheetRowConfig (row number + DialogueYamlConfig)
-            var parser = new ConvoCoreExcelParser();
+            var parser = new WitWeaverExcelParser();
             if (!parser.TryRead(absolutePath, settings, out var rowConfigDict, out var parseError))
             {
                 diagnosticMessage = parseError;
@@ -53,7 +53,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (rowConfigDict == null || rowConfigDict.Count == 0)
             {
                 diagnosticMessage =
-                    $"ConvoCore Excel: No conversation data found in '{fileName}'. " +
+                    $"WitWeaver Excel: No conversation data found in '{fileName}'. " +
                     $"Ensure sheet tab names correspond to ConversationKeys and that each sheet has " +
                     $"a '{settings.ExcelCharacterIDHeader}' column and at least one language code column.";
                 return false;
@@ -66,11 +66,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 kv => kv.Value.ConvertAll(src => src.Config));
 
             // Step 5: Ensure LineIDs
-            bool idsGenerated = ConvoCoreLineIDUtility.EnsureLineIds(configDict, out var idError);
+            bool idsGenerated = WitWeaverLineIDUtility.EnsureLineIds(configDict, out var idError);
             if (idError != null)
             {
                 diagnosticMessage =
-                    $"ConvoCore Excel: LineID validation failed in '{fileName}'. {idError}";
+                    $"WitWeaver Excel: LineID validation failed in '{fileName}'. {idError}";
                 return false;
             }
 
@@ -78,10 +78,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
             bool writebackWarned = false;
             if (idsGenerated)
             {
-                if (!ConvoCoreExcelWriter.TryWriteLineIDs(absolutePath, settings, rowConfigDict, out var writeError))
+                if (!WitWeaverExcelWriter.TryWriteLineIDs(absolutePath, settings, rowConfigDict, out var writeError))
                 {
                     Debug.LogWarning(
-                        $"ConvoCore Excel: LineIDs were generated but could not be written back to '{fileName}'. " +
+                        $"WitWeaver Excel: LineIDs were generated but could not be written back to '{fileName}'. " +
                         $"{writeError} — The file is now out of sync. " +
                         $"Save the .xlsx again to trigger a fresh import.");
                     writebackWarned = true;
@@ -93,18 +93,18 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 }
             }
 
-            // ConvoCoreYamlSerializer (YamlDotNet) may produce single-quoted or folded scalars for
+            // WitWeaverYamlSerializer (YamlDotNet) may produce single-quoted or folded scalars for
             // strings that start with '*', '...', or are very long. Those are then corrupted by
-            // ConvoCoreYamlParser.EnsureQuotesOnLocalizedValues (a \s* backtracking bug causes the
+            // WitWeaverYamlParser.EnsureQuotesOnLocalizedValues (a \s* backtracking bug causes the
             // space before a single-quote to be captured). By generating YAML with all localized
             // values pre-double-quoted on a single line we sidestep the issue entirely.
             var yamlText = BuildSafeYaml(configDict);
 
             // Validate that the generated YAML round-trips through the parser before embedding it.
-            if (!ConvoCoreYamlParser.TryParse(yamlText, out _, out string yamlValidationError))
+            if (!WitWeaverYamlParser.TryParse(yamlText, out _, out string yamlValidationError))
             {
                 diagnosticMessage =
-                    $"ConvoCore Excel: Internal YAML generation error for '{fileName}'. " +
+                    $"WitWeaver Excel: Internal YAML generation error for '{fileName}'. " +
                     $"The generated YAML could not be parsed: {yamlValidationError} — " +
                     $"Please report this as a bug with your spreadsheet content.";
                 return false;
@@ -131,11 +131,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (string.IsNullOrEmpty(target.FilePath))
             {
                 var baseName = Path.GetFileNameWithoutExtension(excelAssetPath);
-                target.FilePath = $"ConvoCore/Dialogue/{baseName}";
+                target.FilePath = $"WitWeaver/Dialogue/{baseName}";
             }
 
             // Step 11: ImportFromYamlForKey for each conversation key
-            var utils = new ConvoCoreYamlUtilities(target);
+            var utils = new WitWeaverYamlUtilities(target);
             foreach (var key in configDict.Keys)
                 utils.ImportFromYamlForKey(key);
 
@@ -153,7 +153,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 : "";
 
             diagnosticMessage =
-                $"ConvoCore Excel: Import successful from '{fileName}'. " +
+                $"WitWeaver Excel: Import successful from '{fileName}'. " +
                 $"{configDict.Count} conversation key(s), {totalLines} total line(s){idInfo}.";
 
             return true;
@@ -162,9 +162,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
         // ── YAML generation ─────────────────────────────────────────────────────────
 
         /// <summary>
-        /// Generates YAML that is safe to round-trip through <see cref="ConvoCoreYamlParser.Parse"/>.
+        /// Generates YAML that is safe to round-trip through <see cref="WitWeaverYamlParser.Parse"/>.
         ///
-        /// <c>ConvoCoreYamlParser.EnsureQuotesOnLocalizedValues</c> has a <c>\s*</c> backtracking
+        /// <c>WitWeaverYamlParser.EnsureQuotesOnLocalizedValues</c> has a <c>\s*</c> backtracking
         /// bug: when a value starts with <c>"</c> or <c>'</c>, the regex gives up the leading
         /// space and instead captures it inside group 3, then double-wraps the already-quoted value —
         /// producing invalid YAML. The root cause cannot be fixed here without modifying the parser.

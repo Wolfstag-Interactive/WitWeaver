@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreAboutWindow.html")]
-    public class ConvoCoreAboutWindow : EditorWindow
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverAboutWindow.html")]
+    public class WitWeaverAboutWindow : EditorWindow
     {
-        private const string MenuPath = "Tools/Wolfstag Interactive/ConvoCore/About";
+        private const string MenuPath = "Tools/Wolfstag Interactive/WitWeaver/About";
 
-        private const string LogoSearchFilter = "t:Texture2D ConvoCoreLogo";
+        private const string LogoSearchFilter = "t:Texture2D WitWeaverLogo";
         private const string PackageJsonSearchFilter = "package t:TextAsset";
 
         private Texture2D _logo;
@@ -23,7 +23,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         [MenuItem(MenuPath, priority = 2000)]
         public static void Open()
         {
-            var w = GetWindow<ConvoCoreAboutWindow>(true, "About ConvoCore", true);
+            var w = GetWindow<WitWeaverAboutWindow>(true, "About WitWeaver", true);
             w.minSize = MinWindowSize;
             w.ShowUtility();
         }
@@ -64,7 +64,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
                 DrawSection("Version", () =>
                 {
-                    DrawCopyRow("ConvoCore Version:", _version);
+                    DrawCopyRow("WitWeaver Version:", _version);
                     DrawCopyRow("Unity Version:", Application.unityVersion);
                 });
 
@@ -72,18 +72,18 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
                 DrawSection("Credits", () =>
                 {
-                    EditorGUILayout.LabelField(ConvoCoreVersion.Credits, EditorStyles.wordWrappedLabel);
+                    EditorGUILayout.LabelField(WitWeaverVersion.Credits, EditorStyles.wordWrappedLabel);
                 });
 
                 EditorGUILayout.Space(8);
 
                 DrawSection("Links", () =>
                 {
-                    DrawLinkRow("Docs:", ConvoCoreVersion.DocsUrl);
-                    DrawLinkRow("Website:", ConvoCoreVersion.WebsiteUrl);
+                    DrawLinkRow("Docs:", WitWeaverVersion.DocsUrl);
+                    DrawLinkRow("Website:", WitWeaverVersion.WebsiteUrl);
                     EditorGUILayout.Space(6);
-                    DrawLinkRow("Support Discord:", ConvoCoreVersion.SupportDiscordUrl);
-                    DrawLinkRow("Support Email:", ConvoCoreVersion.SupportEmail);
+                    DrawLinkRow("Support Discord:", WitWeaverVersion.SupportDiscordUrl);
+                    DrawLinkRow("Support Email:", WitWeaverVersion.SupportEmail);
                 });
                 EditorGUILayout.EndScrollView();
             }
@@ -132,8 +132,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 EditorGUILayout.Space(8);
             }
 
-            EditorGUILayout.LabelField(ConvoCoreVersion.AssetName, titleStyle);
-            EditorGUILayout.LabelField(ConvoCoreVersion.PublisherName, subStyle);
+            EditorGUILayout.LabelField(WitWeaverVersion.AssetName, titleStyle);
+            EditorGUILayout.LabelField(WitWeaverVersion.PublisherName, subStyle);
         }
         private static void DrawSection(string title, Action content)
         {
@@ -186,7 +186,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var fromPackageJson = TryGetVersionFromPackageJson();
             if (!string.IsNullOrEmpty(fromPackageJson)) return fromPackageJson;
 
-            return ConvoCoreVersion.VersionFallback;
+            return WitWeaverVersion.VersionFallback;
         }
         private static string TryGetVersionFromPackageJson()
         {
@@ -207,7 +207,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     if (string.IsNullOrWhiteSpace(version)) continue;
 
                     if (!string.IsNullOrWhiteSpace(name) &&
-                        name.IndexOf("convocore", StringComparison.OrdinalIgnoreCase) >= 0)
+                        name.IndexOf("witweaver", StringComparison.OrdinalIgnoreCase) >= 0)
                         return version;
                 }
             }
@@ -230,9 +230,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
         }
     }
     
-    public static class ConvoCoreVersion
+    public static class WitWeaverVersion
     {
-        public const string AssetName = "ConvoCore";
+        public const string AssetName = "WitWeaver";
         public const string VersionFallback = "0.0.0";
 
         public const string PublisherName = "Wolfstag Interactive";

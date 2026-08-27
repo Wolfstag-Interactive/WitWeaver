@@ -1,11 +1,11 @@
 {
-    "name": "WolfstagInteractive.ConvoCore.SaveSystem.Editor",
-    "rootNamespace": "WolfstagInteractive.ConvoCore.SaveSystem.Editor",
+    "name": "WolfstagInteractive.WitWeaver.SaveSystem.Editor",
+    "rootNamespace": "WolfstagInteractive.WitWeaver.SaveSystem.Editor",
     "references": [
         "GUID:de62e13e66fc2a3428f2c4f7d71e24eb",
         "GUID:b3f49edfedc855a48aa1a9e5d3cba438",
-        "WolfstagInteractive.ConvoCore.SaveSystem",
-        "ConvoCoreEditor"
+        "WolfstagInteractive.WitWeaver.SaveSystem",
+        "WitWeaverEditor"
     ],
     "includePlatforms": [
         "Editor"

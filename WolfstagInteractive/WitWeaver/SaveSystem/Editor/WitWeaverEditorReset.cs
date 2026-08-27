@@ -3,12 +3,12 @@ using UnityEditor;
 using System.Reflection;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
+namespace WolfstagInteractive.WitWeaver.SaveSystem.Editor
 {
     [InitializeOnLoad]
-    public static class ConvoCoreEditorReset
+    public static class WitWeaverEditorReset
     {
-        static ConvoCoreEditorReset()
+        static WitWeaverEditorReset()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
@@ -23,8 +23,8 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
         private static void ResetStaticState()
         {
-            // Reset ConvoCoreLanguageManager singleton instance
-            var langManagerType = typeof(ConvoCoreLanguageManager);
+            // Reset WitWeaverLanguageManager singleton instance
+            var langManagerType = typeof(WitWeaverLanguageManager);
             var instanceField = langManagerType.GetField("_instance", BindingFlags.Static | BindingFlags.NonPublic);
             if (instanceField != null)
                 instanceField.SetValue(null, null);

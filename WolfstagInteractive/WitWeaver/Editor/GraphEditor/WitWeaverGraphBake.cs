@@ -8,18 +8,18 @@ using Unity.GraphToolkit.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
-    /// Bakes a conversation graph into its bound <see cref="ConvoCoreConversationData"/>: the
+    /// Bakes a conversation graph into its bound <see cref="WitWeaverConversationData"/>: the
     /// YAML section is rewritten in the baked order — <b>preserving each existing line's text and
     /// character untouched</b> (the YAML owns them; the graph only displays them) and appending
     /// empty stubs for canvas-created lines — then reimported, and topology is written into each
     /// line's <c>LineContinuationSettings</c>. Per-line data that is not graph-authored
     /// (representations, actions, audio, progression) is preserved across the reimport by LineID.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphBake.html")]
-    internal static class ConvoCoreGraphBake
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphBake.html")]
+    internal static class WitWeaverGraphBake
     {
         /// <summary>Bake-relevant extraction of the graph: deterministic line order + diagnostics.</summary>
         internal sealed class BakeModel
@@ -34,7 +34,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// Builds the deterministic bake order (DFS from Start, choice blocks in block order,
         /// unreachable lines appended by canvas position) and a content hash for dirty checks.
         /// </summary>
-        public static BakeModel BuildModel(ConvoCoreConversationGraph graph)
+        public static BakeModel BuildModel(WitWeaverConversationGraph graph)
         {
             var model = new BakeModel();
             var nodes = graph.GetNodes().ToList();
@@ -54,7 +54,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
             // Every YAML line must have a node: a node deleted on the canvas would otherwise
             // silently drop its line from the YAML on bake. Refresh From YAML restores nodes.
-            var yamlConfigs = ConvoCoreGraphSync.GetYamlLineConfigs(graph.Conversation);
+            var yamlConfigs = WitWeaverGraphSync.GetYamlLineConfigs(graph.Conversation);
             if (yamlConfigs != null)
             {
                 int missingNodes = yamlConfigs.Count(c =>
@@ -80,7 +80,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             var stack = new Stack<Node>();
             if (starts.Count == 1)
             {
-                var first = GetSingleTarget(starts[0], ConvoCoreGraphSchema.NextPort, model);
+                var first = GetSingleTarget(starts[0], WitWeaverGraphSchema.NextPort, model);
                 if (first != null) stack.Push(first);
             }
 
@@ -92,7 +92,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     case DialogueLineNode line:
                         if (!visited.Add(line)) break;
                         model.Order.Add(line);
-                        var next = GetSingleTarget(line, ConvoCoreGraphSchema.NextPort, model);
+                        var next = GetSingleTarget(line, WitWeaverGraphSchema.NextPort, model);
                         if (next != null) stack.Push(next);
                         break;
 
@@ -102,7 +102,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                         foreach (var blockNode in choice.BlockNodes)
                             if (blockNode is ChoiceOptionBlock block)
                             {
-                                var target = GetSingleTarget(block, ConvoCoreGraphSchema.TargetPort, model);
+                                var target = GetSingleTarget(block, WitWeaverGraphSchema.TargetPort, model);
                                 if (target != null) targets.Add(target);
                             }
                         for (int i = targets.Count - 1; i >= 0; i--)
@@ -127,7 +127,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         }
 
         /// <summary>True when the graph's bake-relevant content differs from its last bake.</summary>
-        public static bool IsDirty(ConvoCoreConversationGraph graph)
+        public static bool IsDirty(WitWeaverConversationGraph graph)
         {
             if (string.IsNullOrEmpty(graph.LastBakedGraphHash)) return graph.NodeCount > 0;
             var model = BuildModel(graph);
@@ -138,7 +138,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// Runs the full bake. Returns false (with <paramref name="report"/> explaining why)
         /// when validation fails or a pipeline step cannot complete.
         /// </summary>
-        public static bool Bake(ConvoCoreConversationGraph graph, ConvoCoreConversationData data, out string report)
+        public static bool Bake(WitWeaverConversationGraph graph, WitWeaverConversationData data, out string report)
         {
             if (graph == null || data == null) { report = "Graph or conversation is missing."; return false; }
             if (string.IsNullOrEmpty(data.ConversationKey))
@@ -150,7 +150,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             // Stale gate: when the YAML changed after the last sync (or its section cannot be
             // found), baking is refused unconditionally — the user must Refresh From YAML and
             // review first. There is no override; YAML is text truth.
-            if (ConvoCoreGraphSync.IsYamlStale(graph, data, out bool sectionMissing))
+            if (WitWeaverGraphSync.IsYamlStale(graph, data, out bool sectionMissing))
             {
                 report = sectionMissing
                     ? $"Bake refused: the source YAML section for key '{data.ConversationKey}' was not found " +
@@ -198,13 +198,13 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     "in the YAML source, then Refresh Graph From YAML.");
 
             fullDict[data.ConversationKey] = configs;
-            var newYamlText = ConvoCoreYamlSerializer.Serialize(fullDict);
+            var newYamlText = WitWeaverYamlSerializer.Serialize(fullDict);
 
             WriteYaml(data, newYamlText, model.Warnings);
 
             // 2) Rebuild DialogueLines from the new YAML (preserves non-graph data by LineID).
             Undo.RecordObject(data, "Bake Conversation Graph");
-            data.ConvoCoreYamlUtilities.ImportFromYamlForKey(data.ConversationKey);
+            data.WitWeaverYamlUtilities.ImportFromYamlForKey(data.ConversationKey);
 
             // Sanity: every baked line must now exist on the asset.
             var lineByIndex = new Dictionary<string, int>();
@@ -234,7 +234,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
             // 4) Mark the graph as in-sync: first the section hash of the YAML just written,
             //    then the graph content hash — an immediate re-bake must be clean and gate-free.
-            graph.LastSyncedYamlHash = ConvoCoreGraphSync.ComputeYamlSectionHash(data);
+            graph.LastSyncedYamlHash = WitWeaverGraphSync.ComputeYamlSectionHash(data);
             graph.LastBakedGraphHash = model.ContentHash;
             GraphDatabase.SaveGraph(graph);
 
@@ -260,55 +260,55 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                 LineID = node.LineId,
                 LocalizedDialogue = new Dictionary<string, string>()
             };
-            foreach (var language in ConvoCoreGraphSchema.GetLanguages())
+            foreach (var language in WitWeaverGraphSchema.GetLanguages())
                 config.LocalizedDialogue[language] = node.GetText(language);
             return config;
         }
 
-        private static ConvoCoreConversationData.LineContinuation BuildContinuation(
+        private static WitWeaverConversationData.LineContinuation BuildContinuation(
             DialogueLineNode node, int bakedIndex, BakeModel model, Dictionary<string, int> lineByIndex)
         {
-            var target = GetSingleTarget(node, ConvoCoreGraphSchema.NextPort, model);
+            var target = GetSingleTarget(node, WitWeaverGraphSchema.NextPort, model);
             switch (target)
             {
                 case null:
                     // Sequential default: an unwired line continues to the next line in bake
                     // order. Ending mid-flow requires explicitly wiring an End node. Only the
                     // final line falls back to ending the conversation.
-                    return new ConvoCoreConversationData.LineContinuation
+                    return new WitWeaverConversationData.LineContinuation
                     {
                         Mode = bakedIndex + 1 < lineByIndex.Count
-                            ? ConvoCoreConversationData.LineContinuationMode.Continue
-                            : ConvoCoreConversationData.LineContinuationMode.EndConversation
+                            ? WitWeaverConversationData.LineContinuationMode.Continue
+                            : WitWeaverConversationData.LineContinuationMode.EndConversation
                     };
 
                 case EndConversationNode:
-                    return new ConvoCoreConversationData.LineContinuation
+                    return new WitWeaverConversationData.LineContinuation
                     {
-                        Mode = ConvoCoreConversationData.LineContinuationMode.EndConversation
+                        Mode = WitWeaverConversationData.LineContinuationMode.EndConversation
                     };
 
                 case DialogueLineNode nextLine:
                     // Adjacent in baked order stays a plain Continue — keeps assets close to
                     // hand-authored ones and reverse/history working on the linear spine.
                     if (lineByIndex.TryGetValue(nextLine.LineId, out var idx) && idx == bakedIndex + 1)
-                        return new ConvoCoreConversationData.LineContinuation
+                        return new WitWeaverConversationData.LineContinuation
                         {
-                            Mode = ConvoCoreConversationData.LineContinuationMode.Continue
+                            Mode = WitWeaverConversationData.LineContinuationMode.Continue
                         };
-                    return new ConvoCoreConversationData.LineContinuation
+                    return new WitWeaverConversationData.LineContinuation
                     {
-                        Mode = ConvoCoreConversationData.LineContinuationMode.GoToLine,
+                        Mode = WitWeaverConversationData.LineContinuationMode.GoToLine,
                         TargetLineID = nextLine.LineId
                     };
 
                 case ContainerBranchNode branch:
-                    return new ConvoCoreConversationData.LineContinuation
+                    return new WitWeaverConversationData.LineContinuation
                     {
-                        Mode = ConvoCoreConversationData.LineContinuationMode.ContainerBranch,
-                        TargetContainer = GetPortValue<ConversationContainer>(branch, ConvoCoreGraphSchema.ContainerPort),
-                        TargetAliasOrName = GetStringPort(branch, ConvoCoreGraphSchema.AliasOrNamePort),
-                        PushReturnPoint = GetPortValue<bool>(branch, ConvoCoreGraphSchema.PushReturnPort)
+                        Mode = WitWeaverConversationData.LineContinuationMode.ContainerBranch,
+                        TargetContainer = GetPortValue<ConversationContainer>(branch, WitWeaverGraphSchema.ContainerPort),
+                        TargetAliasOrName = GetStringPort(branch, WitWeaverGraphSchema.AliasOrNamePort),
+                        PushReturnPoint = GetPortValue<bool>(branch, WitWeaverGraphSchema.PushReturnPort)
                     };
 
                 case PlayerChoiceNode choice:
@@ -316,42 +316,42 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
                 default:
                     model.Warnings.Add($"Line '{node.LineId}' connects to unsupported node '{target.GetType().Name}'; baked as End.");
-                    return new ConvoCoreConversationData.LineContinuation
+                    return new WitWeaverConversationData.LineContinuation
                     {
-                        Mode = ConvoCoreConversationData.LineContinuationMode.EndConversation
+                        Mode = WitWeaverConversationData.LineContinuationMode.EndConversation
                     };
             }
         }
 
-        private static ConvoCoreConversationData.LineContinuation BuildChoiceContinuation(
+        private static WitWeaverConversationData.LineContinuation BuildChoiceContinuation(
             PlayerChoiceNode choice, BakeModel model)
         {
-            var choices = new List<ConvoCoreConversationData.ChoiceOption>();
+            var choices = new List<WitWeaverConversationData.ChoiceOption>();
             foreach (var blockNode in choice.BlockNodes)
             {
                 if (blockNode is not ChoiceOptionBlock block) continue;
 
-                var option = new ConvoCoreConversationData.ChoiceOption
+                var option = new WitWeaverConversationData.ChoiceOption
                 {
-                    Labels = new List<ConvoCoreConversationData.LocalizedDialogue>(),
-                    PushReturnPoint = GetPortValue<bool>(block, ConvoCoreGraphSchema.PushReturnPort)
+                    Labels = new List<WitWeaverConversationData.LocalizedDialogue>(),
+                    PushReturnPoint = GetPortValue<bool>(block, WitWeaverGraphSchema.PushReturnPort)
                 };
-                foreach (var language in ConvoCoreGraphSchema.GetLanguages())
-                    option.Labels.Add(new ConvoCoreConversationData.LocalizedDialogue
+                foreach (var language in WitWeaverGraphSchema.GetLanguages())
+                    option.Labels.Add(new WitWeaverConversationData.LocalizedDialogue
                     {
                         Language = language,
-                        Text = GetStringPort(block, ConvoCoreGraphSchema.LabelPortName(language))
+                        Text = GetStringPort(block, WitWeaverGraphSchema.LabelPortName(language))
                     });
 
-                var target = GetSingleTarget(block, ConvoCoreGraphSchema.TargetPort, model);
+                var target = GetSingleTarget(block, WitWeaverGraphSchema.TargetPort, model);
                 switch (target)
                 {
                     case DialogueLineNode targetLine:
                         option.TargetLineID = targetLine.LineId;
                         break;
                     case ContainerBranchNode branch:
-                        option.TargetContainer = GetPortValue<ConversationContainer>(branch, ConvoCoreGraphSchema.ContainerPort);
-                        option.TargetAliasOrName = GetStringPort(branch, ConvoCoreGraphSchema.AliasOrNamePort);
+                        option.TargetContainer = GetPortValue<ConversationContainer>(branch, WitWeaverGraphSchema.ContainerPort);
+                        option.TargetAliasOrName = GetStringPort(branch, WitWeaverGraphSchema.AliasOrNamePort);
                         break;
                     case EndConversationNode:
                     case null:
@@ -364,10 +364,10 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                 choices.Add(option);
             }
 
-            return new ConvoCoreConversationData.LineContinuation
+            return new WitWeaverConversationData.LineContinuation
             {
-                Mode = ConvoCoreConversationData.LineContinuationMode.PlayerChoice,
-                AllowGoBack = GetPortValue<bool>(choice, ConvoCoreGraphSchema.AllowGoBackPort),
+                Mode = WitWeaverConversationData.LineContinuationMode.PlayerChoice,
+                AllowGoBack = GetPortValue<bool>(choice, WitWeaverGraphSchema.AllowGoBackPort),
                 Choices = choices
             };
         }
@@ -446,7 +446,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         // YAML pipeline
         // ------------------------------------------------------------------
 
-        private static Dictionary<string, List<DialogueYamlConfig>> LoadFullYamlDict(ConvoCoreConversationData data)
+        private static Dictionary<string, List<DialogueYamlConfig>> LoadFullYamlDict(WitWeaverConversationData data)
         {
             // Same source priority as ImportFromYamlForKey: embedded text first, then linked file.
             string text = null;
@@ -456,13 +456,13 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                 text = File.ReadAllText(Path.GetFullPath(data.SourceYamlAssetPath));
 
             if (!string.IsNullOrEmpty(text) &&
-                ConvoCoreYamlParser.TryParse(text, out var dict, out string _) && dict != null)
+                WitWeaverYamlParser.TryParse(text, out var dict, out string _) && dict != null)
                 return dict;
 
             return new Dictionary<string, List<DialogueYamlConfig>>();
         }
 
-        private static void WriteYaml(ConvoCoreConversationData data, string yamlText, List<string> warnings)
+        private static void WriteYaml(WitWeaverConversationData data, string yamlText, List<string> warnings)
         {
             // Write the linked source file when it is a writable project asset (never Packages).
             var sourcePath = data.SourceYamlAssetPath;
@@ -488,7 +488,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         }
 
         /// <summary>Replaces the conversation's embedded YAML sub-asset with the given text.</summary>
-        private static void EmbedYamlText(ConvoCoreConversationData data, string yamlText)
+        private static void EmbedYamlText(WitWeaverConversationData data, string yamlText)
         {
             if (data.ConversationYaml != null && data.ConversationYaml.text == yamlText)
                 return;
@@ -496,7 +496,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             var convoAssetPath = AssetDatabase.GetAssetPath(data);
             if (string.IsNullOrEmpty(convoAssetPath))
             {
-                Debug.LogError("[ConvoCore] Cannot embed YAML into an unsaved conversation asset.");
+                Debug.LogError("[WitWeaver] Cannot embed YAML into an unsaved conversation asset.");
                 return;
             }
 

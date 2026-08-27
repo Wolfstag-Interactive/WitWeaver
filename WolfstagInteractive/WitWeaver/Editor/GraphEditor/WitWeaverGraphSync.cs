@@ -6,15 +6,15 @@ using System.Text;
 using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
-    /// Sync between a <see cref="ConvoCoreConversationGraph"/> and its bound
-    /// <see cref="ConvoCoreConversationData"/>: generating a graph from existing conversation
+    /// Sync between a <see cref="WitWeaverConversationGraph"/> and its bound
+    /// <see cref="WitWeaverConversationData"/>: generating a graph from existing conversation
     /// data (this file) and, in later phases, baking the graph back into the asset.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphSync.html")]
-    internal static class ConvoCoreGraphSync
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphSync.html")]
+    internal static class WitWeaverGraphSync
     {
         internal const float ColumnWidth = 380f;
         internal const float RowHeight = 260f;
@@ -54,7 +54,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// The conversation's current YAML line configs (from the embedded copy), or null when
         /// unavailable. Cached by YAML content hash.
         /// </summary>
-        public static List<DialogueYamlConfig> GetYamlLineConfigs(ConvoCoreConversationData data)
+        public static List<DialogueYamlConfig> GetYamlLineConfigs(WitWeaverConversationData data)
         {
             var text = data != null && data.ConversationYaml != null ? data.ConversationYaml.text : null;
             if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(data.ConversationKey)) return null;
@@ -65,7 +65,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                 return cached.configs;
 
             List<DialogueYamlConfig> configs = null;
-            if (ConvoCoreYamlParser.TryParse(text, out var dict, out string _))
+            if (WitWeaverYamlParser.TryParse(text, out var dict, out string _))
                 dict.TryGetValue(data.ConversationKey, out configs);
 
             _yamlSectionCache[key] = (hash, configs);
@@ -77,7 +77,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// <c>LineContinuationSettings</c>. Existing graph content is discarded — this is the
         /// "generate/refresh from conversation" direction, used on first creation.
         /// </summary>
-        public static void PopulateFromConversation(ConvoCoreConversationGraph graph, ConvoCoreConversationData data)
+        public static void PopulateFromConversation(WitWeaverConversationGraph graph, WitWeaverConversationData data)
         {
             if (graph == null || data == null) return;
 
@@ -92,7 +92,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             }
         }
 
-        private static void PopulateFromConversationInternal(ConvoCoreConversationGraph graph, ConvoCoreConversationData data)
+        private static void PopulateFromConversationInternal(WitWeaverConversationGraph graph, WitWeaverConversationData data)
         {
             foreach (var node in graph.GetNodes().ToList())
                 graph.RemoveNode(node);
@@ -124,7 +124,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
                 node.SetCharacterId(line.characterID);
                 node.ClearTexts();
-                foreach (var language in ConvoCoreGraphSchema.GetLanguages())
+                foreach (var language in WitWeaverGraphSchema.GetLanguages())
                     node.SetText(language, FindLocalizedText(line.LocalizedDialogues, language));
 
                 nodeByIndex[i] = node;
@@ -132,7 +132,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     lineNodes[node.LineId] = node;
             }
 
-            Connect(graph, start, ConvoCoreGraphSchema.NextPort, nodeByIndex[0]);
+            Connect(graph, start, WitWeaverGraphSchema.NextPort, nodeByIndex[0]);
 
             // Degenerate-topology repair: every line marked EndConversation is not authorable
             // intent (the conversation would end on line one) — it is the residue of baking a
@@ -143,13 +143,13 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             {
                 if (line == null) continue;
                 lineCount++;
-                if (line.LineContinuationSettings.Mode == ConvoCoreConversationData.LineContinuationMode.EndConversation)
+                if (line.LineContinuationSettings.Mode == WitWeaverConversationData.LineContinuationMode.EndConversation)
                     endCount++;
             }
             bool repairAllEnd = lineCount > 1 && endCount == lineCount;
             if (repairAllEnd)
                 Debug.LogWarning(
-                    "[ConvoCore] Graph rebuild: every line was marked 'End Conversation' (residue of an unwired " +
+                    "[WitWeaver] Graph rebuild: every line was marked 'End Conversation' (residue of an unwired " +
                     "bake) — restoring sequential start-to-end flow instead.", data);
 
             // Pass 2 — wire continuations.
@@ -161,16 +161,16 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
                 var cont = line.LineContinuationSettings;
                 if (repairAllEnd)
-                    cont.Mode = ConvoCoreConversationData.LineContinuationMode.Continue;
+                    cont.Mode = WitWeaverConversationData.LineContinuationMode.Continue;
                 var satellitePosition = new Vector2(i * ColumnWidth, RowHeight);
 
                 switch (cont.Mode)
                 {
-                    case ConvoCoreConversationData.LineContinuationMode.Continue:
+                    case WitWeaverConversationData.LineContinuationMode.Continue:
                         var nextNode = FindNextLineNode(nodeByIndex, i);
                         if (nextNode != null)
                         {
-                            Connect(graph, node, ConvoCoreGraphSchema.NextPort, nextNode);
+                            Connect(graph, node, WitWeaverGraphSchema.NextPort, nextNode);
                         }
                         else
                         {
@@ -178,33 +178,33 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                             var end = new EndConversationNode();
                             graph.AddNode(end);
                             end.Position = new Vector2((i + 1) * ColumnWidth, 0f);
-                            Connect(graph, node, ConvoCoreGraphSchema.NextPort, end);
+                            Connect(graph, node, WitWeaverGraphSchema.NextPort, end);
                         }
                         break;
 
-                    case ConvoCoreConversationData.LineContinuationMode.EndConversation:
+                    case WitWeaverConversationData.LineContinuationMode.EndConversation:
                         var endNode = new EndConversationNode();
                         graph.AddNode(endNode);
                         endNode.Position = satellitePosition;
-                        Connect(graph, node, ConvoCoreGraphSchema.NextPort, endNode);
+                        Connect(graph, node, WitWeaverGraphSchema.NextPort, endNode);
                         break;
 
-                    case ConvoCoreConversationData.LineContinuationMode.GoToLine:
+                    case WitWeaverConversationData.LineContinuationMode.GoToLine:
                         if (!string.IsNullOrEmpty(cont.TargetLineID) &&
                             lineNodes.TryGetValue(cont.TargetLineID, out var jumpTarget))
-                            Connect(graph, node, ConvoCoreGraphSchema.NextPort, jumpTarget);
+                            Connect(graph, node, WitWeaverGraphSchema.NextPort, jumpTarget);
                         else
                             Debug.LogWarning(
-                                $"[ConvoCore] Graph sync: GoToLine target '{cont.TargetLineID}' not found in '{data.name}'; left unconnected.");
+                                $"[WitWeaver] Graph sync: GoToLine target '{cont.TargetLineID}' not found in '{data.name}'; left unconnected.");
                         break;
 
-                    case ConvoCoreConversationData.LineContinuationMode.ContainerBranch:
+                    case WitWeaverConversationData.LineContinuationMode.ContainerBranch:
                         var branch = CreateContainerBranchNode(graph, satellitePosition,
                             cont.TargetContainer, cont.TargetAliasOrName, cont.PushReturnPoint);
-                        Connect(graph, node, ConvoCoreGraphSchema.NextPort, branch);
+                        Connect(graph, node, WitWeaverGraphSchema.NextPort, branch);
                         break;
 
-                    case ConvoCoreConversationData.LineContinuationMode.PlayerChoice:
+                    case WitWeaverConversationData.LineContinuationMode.PlayerChoice:
                         WirePlayerChoice(graph, data, node, cont, lineNodes, satellitePosition);
                         break;
                 }
@@ -214,18 +214,18 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         }
 
         private static void WirePlayerChoice(
-            ConvoCoreConversationGraph graph,
-            ConvoCoreConversationData data,
+            WitWeaverConversationGraph graph,
+            WitWeaverConversationData data,
             DialogueLineNode sourceLine,
-            ConvoCoreConversationData.LineContinuation cont,
+            WitWeaverConversationData.LineContinuation cont,
             Dictionary<string, DialogueLineNode> lineNodes,
             Vector2 position)
         {
             var choiceNode = new PlayerChoiceNode();
             graph.AddNode(choiceNode);
             choiceNode.Position = position;
-            SetPortValue(choiceNode, ConvoCoreGraphSchema.AllowGoBackPort, cont.AllowGoBack);
-            Connect(graph, sourceLine, ConvoCoreGraphSchema.NextPort, choiceNode);
+            SetPortValue(choiceNode, WitWeaverGraphSchema.AllowGoBackPort, cont.AllowGoBack);
+            Connect(graph, sourceLine, WitWeaverGraphSchema.NextPort, choiceNode);
 
             if (cont.Choices == null) return;
 
@@ -235,18 +235,18 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                 var block = new ChoiceOptionBlock();
                 choiceNode.AddBlockNode(block);
 
-                foreach (var language in ConvoCoreGraphSchema.GetLanguages())
-                    SetPortValue(block, ConvoCoreGraphSchema.LabelPortName(language),
+                foreach (var language in WitWeaverGraphSchema.GetLanguages())
+                    SetPortValue(block, WitWeaverGraphSchema.LabelPortName(language),
                         FindLocalizedText(choice.Labels, language));
-                SetPortValue(block, ConvoCoreGraphSchema.PushReturnPort, choice.PushReturnPoint);
+                SetPortValue(block, WitWeaverGraphSchema.PushReturnPort, choice.PushReturnPoint);
 
-                var targetPort = block.GetOutputPortByName(ConvoCoreGraphSchema.TargetPort);
+                var targetPort = block.GetOutputPortByName(WitWeaverGraphSchema.TargetPort);
                 if (targetPort == null) continue;
 
                 if (!string.IsNullOrEmpty(choice.TargetLineID) &&
                     lineNodes.TryGetValue(choice.TargetLineID, out var targetLine))
                 {
-                    var inPort = targetLine.GetInputPortByName(ConvoCoreGraphSchema.InPort);
+                    var inPort = targetLine.GetInputPortByName(WitWeaverGraphSchema.InPort);
                     if (inPort != null) graph.Connect(targetPort, inPort);
                 }
                 else if (choice.TargetContainer != null)
@@ -256,27 +256,27 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     var branch = CreateContainerBranchNode(graph,
                         position + new Vector2(0f, RowHeight * (j + 1)),
                         choice.TargetContainer, choice.TargetAliasOrName, pushReturnPoint: false);
-                    var inPort = branch.GetInputPortByName(ConvoCoreGraphSchema.InPort);
+                    var inPort = branch.GetInputPortByName(WitWeaverGraphSchema.InPort);
                     if (inPort != null) graph.Connect(targetPort, inPort);
                 }
                 else if (!string.IsNullOrEmpty(choice.TargetLineID))
                 {
                     Debug.LogWarning(
-                        $"[ConvoCore] Graph sync: choice target LineID '{choice.TargetLineID}' not found in '{data.name}'; left unconnected.");
+                        $"[WitWeaver] Graph sync: choice target LineID '{choice.TargetLineID}' not found in '{data.name}'; left unconnected.");
                 }
             }
         }
 
         private static ContainerBranchNode CreateContainerBranchNode(
-            ConvoCoreConversationGraph graph, Vector2 position,
+            WitWeaverConversationGraph graph, Vector2 position,
             ConversationContainer container, string aliasOrName, bool pushReturnPoint)
         {
             var branch = new ContainerBranchNode();
             graph.AddNode(branch);
             branch.Position = position;
-            SetPortValue(branch, ConvoCoreGraphSchema.ContainerPort, container);
-            SetPortValue(branch, ConvoCoreGraphSchema.AliasOrNamePort, aliasOrName ?? "");
-            SetPortValue(branch, ConvoCoreGraphSchema.PushReturnPort, pushReturnPoint);
+            SetPortValue(branch, WitWeaverGraphSchema.ContainerPort, container);
+            SetPortValue(branch, WitWeaverGraphSchema.AliasOrNamePort, aliasOrName ?? "");
+            SetPortValue(branch, WitWeaverGraphSchema.PushReturnPort, pushReturnPoint);
             return branch;
         }
 
@@ -288,10 +288,10 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             return null;
         }
 
-        private static void Connect(ConvoCoreConversationGraph graph, Node from, string outputPortName, Node to)
+        private static void Connect(WitWeaverConversationGraph graph, Node from, string outputPortName, Node to)
         {
             var output = from?.GetOutputPortByName(outputPortName);
-            var input = to?.GetInputPortByName(ConvoCoreGraphSchema.InPort);
+            var input = to?.GetInputPortByName(WitWeaverGraphSchema.InPort);
             if (output != null && input != null)
                 graph.Connect(output, input);
         }
@@ -300,11 +300,11 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         {
             var port = node.GetInputPortByName(portName);
             if (port == null || !port.TrySetValue(value))
-                Debug.LogWarning($"[ConvoCore] Graph sync: could not set port '{portName}' on {node?.GetType().Name}.");
+                Debug.LogWarning($"[WitWeaver] Graph sync: could not set port '{portName}' on {node?.GetType().Name}.");
         }
 
         private static string FindLocalizedText(
-            List<ConvoCoreConversationData.LocalizedDialogue> localized, string language)
+            List<WitWeaverConversationData.LocalizedDialogue> localized, string language)
         {
             if (localized == null) return "";
             for (int i = 0; i < localized.Count; i++)
@@ -322,7 +322,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// as unreachable until the user wires them in), and removes nodes whose line was removed
         /// from the YAML (the YAML owns line lifecycle; nodes cannot be deleted on the canvas).
         /// </summary>
-        public static void RefreshFromYaml(ConvoCoreConversationGraph graph, ConvoCoreConversationData data)
+        public static void RefreshFromYaml(WitWeaverConversationGraph graph, WitWeaverConversationData data)
         {
             if (graph == null || data == null) return;
 
@@ -342,7 +342,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// topology (including the all-EndConversation repair), then applies the YAML text pass
         /// on top. Node positions reset to the generated layout.
         /// </summary>
-        public static void RebuildFromConversation(ConvoCoreConversationGraph graph, ConvoCoreConversationData data)
+        public static void RebuildFromConversation(WitWeaverConversationGraph graph, WitWeaverConversationData data)
         {
             if (graph == null || data == null) return;
 
@@ -358,24 +358,24 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             }
         }
 
-        private static void RefreshFromYamlInternal(ConvoCoreConversationGraph graph, ConvoCoreConversationData data)
+        private static void RefreshFromYamlInternal(WitWeaverConversationGraph graph, WitWeaverConversationData data)
         {
             var yamlText = data.ConversationYaml != null ? data.ConversationYaml.text : null;
             if (string.IsNullOrEmpty(yamlText))
             {
-                Debug.LogError("[ConvoCore] Refresh From YAML failed: the conversation has no embedded YAML.", data);
+                Debug.LogError("[WitWeaver] Refresh From YAML failed: the conversation has no embedded YAML.", data);
                 return;
             }
-            if (!ConvoCoreYamlParser.TryParse(yamlText, out var dict, out string parseError))
+            if (!WitWeaverYamlParser.TryParse(yamlText, out var dict, out string parseError))
             {
-                Debug.LogError($"[ConvoCore] Refresh From YAML failed: could not parse YAML. {parseError}", data);
+                Debug.LogError($"[WitWeaver] Refresh From YAML failed: could not parse YAML. {parseError}", data);
                 return;
             }
 
             if (!dict.TryGetValue(data.ConversationKey ?? "", out var configs) || configs == null)
             {
                 Debug.LogError(
-                    $"[ConvoCore] Refresh From YAML failed: key '{data.ConversationKey}' not found in YAML.", data);
+                    $"[WitWeaver] Refresh From YAML failed: key '{data.ConversationKey}' not found in YAML.", data);
                 return;
             }
 
@@ -405,7 +405,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             if (startMissing || deletedLineNodes)
             {
                 Debug.LogWarning(
-                    "[ConvoCore] Refresh From YAML: deleted node(s) detected — the graph was rebuilt from the " +
+                    "[WitWeaver] Refresh From YAML: deleted node(s) detected — the graph was rebuilt from the " +
                     "conversation's last-baked topology (node positions were reset). Line nodes cannot be " +
                     "deleted; remove lines from the YAML source instead.", data);
                 PopulateFromConversationInternal(graph, data);
@@ -459,7 +459,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             graph.LastSyncedYamlHash = ComputeYamlSectionHash(data);
             GraphDatabase.SaveGraph(graph);
             Debug.Log(
-                $"[ConvoCore] Refresh From YAML: updated {updated}, added {added}, removed {removed} line node(s)"
+                $"[WitWeaver] Refresh From YAML: updated {updated}, added {added}, removed {removed} line node(s)"
                 + (added > 0 ? " — wire the new node(s) into the flow before baking." : "."), data);
         }
 
@@ -468,7 +468,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         {
             node.SetCharacterId(config.CharacterID);
             node.ClearTexts();
-            foreach (var language in ConvoCoreGraphSchema.GetLanguages())
+            foreach (var language in WitWeaverGraphSchema.GetLanguages())
                 node.SetText(language, FindYamlText(config, language));
         }
 
@@ -486,7 +486,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// change-detection key for the parsed-section cache. Staleness decisions use
         /// <see cref="ComputeYamlSectionHash"/> instead.
         /// </summary>
-        private static string ComputeYamlHash(ConvoCoreConversationData data)
+        private static string ComputeYamlHash(WitWeaverConversationData data)
         {
             var text = data?.ConversationYaml != null ? data.ConversationYaml.text : "";
             if (string.IsNullOrEmpty(text)) return "";
@@ -501,7 +501,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// file changes therefore do not read as stale. Returns null when the YAML is missing,
         /// unparseable, or has no section for the conversation's key.
         /// </summary>
-        internal static string ComputeYamlSectionHash(ConvoCoreConversationData data)
+        internal static string ComputeYamlSectionHash(WitWeaverConversationData data)
         {
             if (data == null || string.IsNullOrEmpty(data.ConversationKey)) return null;
 
@@ -516,12 +516,12 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             }
             if (string.IsNullOrEmpty(text)) return null;
 
-            if (!ConvoCoreYamlParser.TryParse(text, out var dict, out string _) || dict == null)
+            if (!WitWeaverYamlParser.TryParse(text, out var dict, out string _) || dict == null)
                 return null;
             if (!dict.TryGetValue(data.ConversationKey, out var section) || section == null)
                 return null;
 
-            var canonical = ConvoCoreYamlSerializer.Serialize(
+            var canonical = WitWeaverYamlSerializer.Serialize(
                 new Dictionary<string, List<DialogueYamlConfig>> { [data.ConversationKey] = section });
 
             using var sha = SHA256.Create();
@@ -534,7 +534,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         /// all — <paramref name="sectionMissing"/> distinguishes that case). The hash comparison
         /// is the single source of truth; no stale flag is persisted anywhere.
         /// </summary>
-        internal static bool IsYamlStale(ConvoCoreConversationGraph graph, ConvoCoreConversationData data,
+        internal static bool IsYamlStale(WitWeaverConversationGraph graph, WitWeaverConversationData data,
             out bool sectionMissing)
         {
             sectionMissing = false;
@@ -551,7 +551,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             return !string.IsNullOrEmpty(graph.LastSyncedYamlHash) && graph.LastSyncedYamlHash != currentHash;
         }
 
-        internal static bool IsYamlStale(ConvoCoreConversationGraph graph, ConvoCoreConversationData data)
+        internal static bool IsYamlStale(WitWeaverConversationGraph graph, WitWeaverConversationData data)
             => IsYamlStale(graph, data, out _);
     }
 }

@@ -8,20 +8,20 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Parses Excel (.xlsx) workbooks into ConvoCore's internal dialogue configuration format.
-    /// Implements <see cref="IConvoCoreSpreadsheetReader"/> using built-in System.IO.Compression
+    /// Parses Excel (.xlsx) workbooks into WitWeaver's internal dialogue configuration format.
+    /// Implements <see cref="IWitWeaverSpreadsheetReader"/> using built-in System.IO.Compression
     /// and System.Xml.Linq — no external NuGet dependencies.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreExcelParser.html")]
-    public class ConvoCoreExcelParser : IConvoCoreSpreadsheetReader
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelParser.html")]
+    public class WitWeaverExcelParser : IWitWeaverSpreadsheetReader
     {
         // Explicit interface implementation
-        bool IConvoCoreSpreadsheetReader.TryRead(
+        bool IWitWeaverSpreadsheetReader.TryRead(
             string absolutePath,
-            ConvoCoreSettings settings,
+            WitWeaverSettings settings,
             out Dictionary<string, List<SpreadsheetRowConfig>> result,
             out string error)
             => TryRead(absolutePath, settings, out result, out error);
@@ -48,7 +48,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         /// </summary>
         public bool TryRead(
             string absolutePath,
-            ConvoCoreSettings settings,
+            WitWeaverSettings settings,
             out Dictionary<string, List<SpreadsheetRowConfig>> result,
             out string error)
         {
@@ -80,7 +80,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             catch (Exception ex)
             {
                 result = null;
-                error  = $"ConvoCore Excel: Failed to read '{Path.GetFileName(absolutePath)}'. {ex.Message} " +
+                error  = $"WitWeaver Excel: Failed to read '{Path.GetFileName(absolutePath)}'. {ex.Message} " +
                          $"Ensure the file is a valid .xlsx workbook and is not open in another application.";
                 return false;
             }
@@ -180,14 +180,14 @@ namespace WolfstagInteractive.ConvoCore.Editor
             string entryPath,
             string sheetName,
             List<string> sharedStrings,
-            ConvoCoreSettings settings,
+            WitWeaverSettings settings,
             string absolutePath)
         {
             var entry = zip.GetEntry(entryPath);
             if (entry == null)
             {
                 Debug.LogError(
-                    $"ConvoCore Excel: Worksheet entry '{entryPath}' not found in " +
+                    $"WitWeaver Excel: Worksheet entry '{entryPath}' not found in " +
                     $"'{Path.GetFileName(absolutePath)}'. The workbook may be corrupt.");
                 return null;
             }
@@ -202,9 +202,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (rowList.Count <= settings.ExcelHeaderRowIndex)
             {
                 Debug.LogError(
-                    $"ConvoCore Excel: Sheet '{sheetName}' in '{fileName}' " +
+                    $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
                     $"does not have a row at header index {settings.ExcelHeaderRowIndex}. " +
-                    $"Check ExcelHeaderRowIndex in ConvoCoreSettings > Spreadsheet.");
+                    $"Check ExcelHeaderRowIndex in WitWeaverSettings > Spreadsheet.");
                 return null;
             }
 
@@ -233,17 +233,17 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (charIdCol == null)
             {
                 Debug.LogError(
-                    $"ConvoCore Excel: Sheet '{sheetName}' in '{fileName}' " +
+                    $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
                     $"is missing the required '{settings.ExcelCharacterIDHeader}' column. " +
                     $"Check your header row and confirm the column is spelled exactly as configured in " +
-                    $"ConvoCoreSettings > Spreadsheet > Character ID Header.");
+                    $"WitWeaverSettings > Spreadsheet > Character ID Header.");
                 return null;
             }
 
             if (langCols.Count == 0)
             {
                 Debug.LogError(
-                    $"ConvoCore Excel: Sheet '{sheetName}' in '{fileName}' " +
+                    $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
                     $"has no language code columns (e.g. 'en', 'fr', 'zh-CN'). " +
                     $"Add at least one language column to the header row.");
                 return null;
@@ -252,7 +252,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (settings.ExcelWarnOnUnrecognizedColumns)
                 foreach (var col in unrecognized)
                     Debug.LogWarning(
-                        $"ConvoCore Excel: Sheet '{sheetName}' in '{fileName}' " +
+                        $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
                         $"has unrecognized column header '{col}'. " +
                         $"It is not the CharacterID header, LineID header, or a recognized language code " +
                         $"(2-5 letter ISO code). This column will be ignored during import.");
@@ -275,10 +275,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
                             var colName = colToName.TryGetValue(rd.FormulaCols.First(), out var cn)
                                 ? cn : ColIndexToLetters(rd.FormulaCols.First());
                             Debug.LogError(
-                                $"ConvoCore Excel: Sheet '{sheetName}' in '{fileName}' " +
+                                $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
                                 $"contains a formula cell at row {spreadsheetRowNo}, column '{colName}'. " +
                                 $"Set ExcelFormulaCellBehavior to UseCachedValue or SkipRow in " +
-                                $"ConvoCoreSettings > Spreadsheet, or remove formulas from the spreadsheet.");
+                                $"WitWeaverSettings > Spreadsheet, or remove formulas from the spreadsheet.");
                             return null;
                         }
                         case ExcelFormulaCellBehavior.SkipRow:
@@ -286,9 +286,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
                             var colName = colToName.TryGetValue(rd.FormulaCols.First(), out var cn)
                                 ? cn : ColIndexToLetters(rd.FormulaCols.First());
                             Debug.LogWarning(
-                                $"ConvoCore Excel: Skipping row {spreadsheetRowNo} in sheet '{sheetName}' " +
+                                $"WitWeaver Excel: Skipping row {spreadsheetRowNo} in sheet '{sheetName}' " +
                                 $"in '{fileName}' because column '{colName}' contains a formula. " +
-                                $"To suppress this warning, use UseCachedValue in ConvoCoreSettings > Spreadsheet.");
+                                $"To suppress this warning, use UseCachedValue in WitWeaverSettings > Spreadsheet.");
                             continue;
                         }
                         // UseCachedValue: use the <v> cached value — already done
@@ -328,7 +328,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             return true;
         }
 
-        // ── Column index utilities (also used by ConvoCoreExcelWriter) ───────────────
+        // ── Column index utilities (also used by WitWeaverExcelWriter) ───────────────
 
         /// <summary>Converts a cell reference like "A1" or "AA12" to a 0-based column index.</summary>
         public static int CellRefToColIndex(string cellRef)

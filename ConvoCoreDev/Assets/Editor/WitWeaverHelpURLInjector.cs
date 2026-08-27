@@ -8,19 +8,19 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Editor-only utility to add [HelpURL] to ConvoCore scripts:
+/// Editor-only utility to add [HelpURL] to WitWeaver scripts:
 /// 1) On new script creation (automatic)
-/// 2) Retroactively via menu: ConvoCore → Scan & Add HelpURLs
+/// 2) Retroactively via menu: WitWeaver → Scan & Add HelpURLs
 /// 
 /// - Handles class/struct/interface/enum with any modifiers
 /// - Inserts above existing attributes if present
 /// - Uses fully-qualified UnityEngine.HelpURL to avoid needing usings
 /// - Produces a clear breakdown of what happened
 /// </summary>
-public class ConvoCoreHelpURLInjector : AssetModificationProcessor
+public class WitWeaverHelpURLInjector : AssetModificationProcessor
 {
-    private const string DocsBaseUrl = "https://docs.wolfstaginteractive.com/convocore/api";
-    private const string RootFolder  = "Packages/com.wolfstaginteractive.convocore/";
+    private const string DocsBaseUrl = "https://docs.wolfstaginteractive.com/witweaver/api";
+    private const string RootFolder  = "Packages/com.wolfstaginteractive.witweaver/";
     private static readonly Regex HelpUrlAttrRegex =
         new Regex(@"\[\s*(?:UnityEngine\.)?HelpURL\s*\(", RegexOptions.Multiline);
 
@@ -46,13 +46,13 @@ public class ConvoCoreHelpURLInjector : AssetModificationProcessor
 
    // ---------------- RETROACTIVE SCAN ----------------
 [MenuItem("ConvoCoreDevHelpers/Scan & Add HelpURLs")]
-public static void ScanAllConvoCoreScripts()
+public static void ScanAllWitWeaverScripts()
 {
     // Detect the package folder dynamically
-    string pkgPath = Path.GetFullPath("Packages/com.wolfstaginteractive.convocore");
+    string pkgPath = Path.GetFullPath("Packages/com.wolfstaginteractive.witweaver");
     if (!Directory.Exists(pkgPath))
     {
-        Debug.LogError("[ConvoCoreHelpURLInjector] Could not find package folder: " + pkgPath);
+        Debug.LogError("[WitWeaverHelpURLInjector] Could not find package folder: " + pkgPath);
         return;
     }
 
@@ -64,7 +64,7 @@ public static void ScanAllConvoCoreScripts()
         if (!File.Exists(path)) continue;
 
         string norm = path.Replace('\\', '/').ToLowerInvariant();
-        if (!norm.Contains("convocore")) continue;
+        if (!norm.Contains("witweaver")) continue;
 
         string text = File.ReadAllText(path);
         if (HelpUrlAttrRegex.IsMatch(text))
@@ -76,7 +76,7 @@ public static void ScanAllConvoCoreScripts()
         if (TryInjectHelpUrl(path, out var reason))
         {
             added++;
-            Debug.Log($"[ConvoCoreHelpURLInjector] Injected HelpURL → {Path.GetFileName(path)}");
+            Debug.Log($"[WitWeaverHelpURLInjector] Injected HelpURL → {Path.GetFileName(path)}");
         }
         else
         {
@@ -84,17 +84,17 @@ public static void ScanAllConvoCoreScripts()
         }
     }
 
-    Debug.Log($"[ConvoCoreHelpURLInjector] Scan complete:\n" +
+    Debug.Log($"[WitWeaverHelpURLInjector] Scan complete:\n" +
               $"  Added: {added}\n  Already: {already}\n  Skipped: {skipped}");
 }
 [MenuItem("ConvoCoreDevHelpers/Update Existing HelpURLs")]
 public static void UpdateExistingHelpUrls()
 {
     // Locate your package folder dynamically
-    string pkgPath = Path.GetFullPath("Packages/com.wolfstaginteractive.convocore");
+    string pkgPath = Path.GetFullPath("Packages/com.wolfstaginteractive.witweaver");
     if (!Directory.Exists(pkgPath))
     {
-        Debug.LogError("[ConvoCoreHelpURLInjector] Package folder not found: " + pkgPath);
+        Debug.LogError("[WitWeaverHelpURLInjector] Package folder not found: " + pkgPath);
         return;
     }
 
@@ -111,7 +111,7 @@ public static void UpdateExistingHelpUrls()
         string norm = path.Replace('\\', '/').ToLowerInvariant();
 
         // 🧹 Skip ThirdParty files
-        if (norm.Contains("/convocore/thirdparty/"))
+        if (norm.Contains("/witweaver/thirdparty/"))
         {
             thirdParty++;
             continue;
@@ -136,7 +136,7 @@ public static void UpdateExistingHelpUrls()
 
         string kind = m.Groups["kind"].Value.ToLowerInvariant();
         string typeName = m.Groups["name"].Value;
-        string ns = ExtractNamespace(text) ?? "WolfstagInteractive.ConvoCore";
+        string ns = ExtractNamespace(text) ?? "WolfstagInteractive.WitWeaver";
 
         // 🚫 HelpURL not valid on enums/interfaces/delegates
         if (kind is "enum" or "interface" or "delegate")
@@ -161,11 +161,11 @@ public static void UpdateExistingHelpUrls()
             {
                 File.WriteAllText(path, updatedText);
                 updated++;
-                Debug.Log($"[ConvoCoreHelpURLInjector] Updated HelpURL → {Path.GetFileName(path)}");
+                Debug.Log($"[WitWeaverHelpURLInjector] Updated HelpURL → {Path.GetFileName(path)}");
             }
             catch (IOException ex)
             {
-                Debug.LogWarning($"[ConvoCoreHelpURLInjector] Failed to write {path}: {ex.Message}");
+                Debug.LogWarning($"[WitWeaverHelpURLInjector] Failed to write {path}: {ex.Message}");
             }
         }
         else
@@ -177,7 +177,7 @@ public static void UpdateExistingHelpUrls()
     AssetDatabase.Refresh();
 
     Debug.Log(
-        $"[ConvoCoreHelpURLInjector] Update Existing HelpURLs complete:\n" +
+        $"[WitWeaverHelpURLInjector] Update Existing HelpURLs complete:\n" +
         $"  Updated: {updated}\n" +
         $"  Skipped (no change or invalid): {skipped}\n" +
         $"  Ignored ThirdParty: {thirdParty}"
@@ -196,7 +196,7 @@ private static bool TryInjectHelpUrl(string scriptPath, out FailReason failReaso
     string norm = scriptPath.Replace('\\', '/').ToLowerInvariant();
 
     // 🧹 Skip any vendor code
-    if (norm.Contains("/convocore/thirdparty/"))
+    if (norm.Contains("/witweaver/thirdparty/"))
         return false;
 
     string text = File.ReadAllText(scriptPath);
@@ -228,7 +228,7 @@ private static bool TryInjectHelpUrl(string scriptPath, out FailReason failReaso
     if (kind is "enum" or "interface" or "delegate")
         return false;
 
-    string ns = ExtractNamespace(text) ?? "WolfstagInteractive.ConvoCore";
+    string ns = ExtractNamespace(text) ?? "WolfstagInteractive.WitWeaver";
     string url = BuildDoxygenUrl(ns, kind, typeName);
 
     // Find the actual declaration line in the original file (including modifiers)
@@ -240,7 +240,7 @@ private static bool TryInjectHelpUrl(string scriptPath, out FailReason failReaso
 
     if (!declMatch.Success)
     {
-        Debug.LogWarning($"[ConvoCoreHelpURLInjector] Could not find declaration line for {typeName}");
+        Debug.LogWarning($"[WitWeaverHelpURLInjector] Could not find declaration line for {typeName}");
         failReason = FailReason.NoTopLevelType;
         return false;
     }
@@ -278,7 +278,7 @@ private static bool TryInjectHelpUrl(string scriptPath, out FailReason failReaso
     }
     catch (Exception ex)
     {
-        Debug.LogWarning($"[ConvoCoreHelpURLInjector] Failed to update {scriptPath}: {ex.Message}");
+        Debug.LogWarning($"[WitWeaverHelpURLInjector] Failed to update {scriptPath}: {ex.Message}");
         failReason = FailReason.WriteFailed;
         return false;
     }

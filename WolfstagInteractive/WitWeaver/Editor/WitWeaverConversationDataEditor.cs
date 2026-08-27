@@ -7,16 +7,16 @@ using Object = UnityEngine.Object;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// The single custom inspector for <see cref="ConvoCoreConversationData"/>.
+    /// The single custom inspector for <see cref="WitWeaverConversationData"/>.
     /// Combines YAML/Excel linking and import, participant configuration, dialogue line
     /// rendering and validation tooling with the presentation-mode and audio-manifest sections.
     /// </summary>
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreConversationDataEditor.html")]
-    [CustomEditor(typeof(ConvoCoreConversationData))]
-    public class ConvoCoreConversationDataEditor : UnityEditor.Editor
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverConversationDataEditor.html")]
+    [CustomEditor(typeof(WitWeaverConversationData))]
+    public class WitWeaverConversationDataEditor : UnityEditor.Editor
     {
         private SerializedProperty _conversationKey;
         private SerializedProperty _filePath;
@@ -39,12 +39,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private ReorderableList _participantConfigList;
         private void OnEnable()
         {
-            _excelFoldout = EditorPrefs.GetBool("ConvoCore.ExcelSourceFoldout." + target.GetEntityId(), false);
+            _excelFoldout = EditorPrefs.GetBool("WitWeaver.ExcelSourceFoldout." + target.GetEntityId(), false);
             CacheLanguageSettings();
         }
         private void CacheLanguageSettings()
         {
-            var loader = new ConvoCoreLanguageSettingsLoader();
+            var loader = new WitWeaverLanguageSettingsLoader();
             var settings = loader.LoadLanguageSettings();
 
             var supported = settings?.SupportedLanguages;
@@ -84,7 +84,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             SyncParticipantConfigurationDefaults();
 
             // Optional sections contributed by other editor assemblies (e.g. the graph editor).
-            ConvoCoreConversationInspectorHooks.InvokeDrawExtraSection((ConvoCoreConversationData)target);
+            WitWeaverConversationInspectorHooks.InvokeDrawExtraSection((WitWeaverConversationData)target);
 
             // Presentation & audio sections (drawn up top; their properties are
             // skipped in the generic iteration below so they are not drawn twice).
@@ -140,7 +140,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
-                var conversationData = (ConvoCoreConversationData)target;
+                var conversationData = (WitWeaverConversationData)target;
                 conversationData.ValidateAndFixDialogueLines();
                 EditorUtility.SetDirty(target);
             }
@@ -166,8 +166,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
         }
 
         private bool IsGraphAuthored() =>
-            target is ConvoCoreConversationData data &&
-            data.AuthoringMode == ConvoCoreConversationData.ConversationAuthoringMode.Graph;
+            target is WitWeaverConversationData data &&
+            data.AuthoringMode == WitWeaverConversationData.ConversationAuthoringMode.Graph;
 
         /// <summary>Replaces the editable line list while the conversation is graph-authored.</summary>
         private static void DrawGraphModeLinesSummary(SerializedProperty linesProp)
@@ -203,7 +203,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         private void DrawPresentationSection()
         {
-            var convo = (ConvoCoreConversationData)target;
+            var convo = (WitWeaverConversationData)target;
 
             EditorGUILayout.LabelField("Presentation", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultPresentationMode"),
@@ -227,7 +227,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         private void DrawAudioSection()
         {
-            var convo = (ConvoCoreConversationData)target;
+            var convo = (WitWeaverConversationData)target;
 
             EditorGUILayout.LabelField("Audio", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("AudioManifest"),
@@ -243,7 +243,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUILayout.Space(6f);
         }
 
-        private static void ApplyDefaultModeToAllLines(ConvoCoreConversationData convo)
+        private static void ApplyDefaultModeToAllLines(WitWeaverConversationData convo)
         {
             if (convo.DialogueLines == null || convo.DialogueLines.Count == 0)
             {
@@ -256,17 +256,17 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 if (line != null)
                     line.PresentationMode = convo.DefaultPresentationMode;
             EditorUtility.SetDirty(convo);
-            Debug.Log($"[ConvoCore] Applied '{convo.DefaultPresentationMode}' to {convo.DialogueLines.Count} line(s) on '{convo.name}'.");
+            Debug.Log($"[WitWeaver] Applied '{convo.DefaultPresentationMode}' to {convo.DialogueLines.Count} line(s) on '{convo.name}'.");
         }
 
-        private static void CreateAudioManifest(ConvoCoreConversationData convo)
+        private static void CreateAudioManifest(WitWeaverConversationData convo)
         {
             string convoPath = AssetDatabase.GetAssetPath(convo);
             string folder = Path.GetDirectoryName(convoPath)?.Replace('\\', '/') ?? "Assets";
             string assetName = convo.name + "_AudioManifest";
             string assetPath = AssetDatabase.GenerateUniqueAssetPath($"{folder}/{assetName}.asset");
 
-            var manifest = CreateInstance<ConvoCoreAudioManifest>();
+            var manifest = CreateInstance<WitWeaverAudioManifest>();
             manifest.Mode               = AudioManifestMode.ConversationDriven;
             manifest.SourceConversation = convo;
 
@@ -282,14 +282,14 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             AssetDatabase.SaveAssets();
             EditorGUIUtility.PingObject(manifest);
-            Debug.Log($"[ConvoCore] Created audio manifest at '{assetPath}'.");
+            Debug.Log($"[WitWeaver] Created audio manifest at '{assetPath}'.");
         }
 
-        private static void SyncManifestRows(ConvoCoreAudioManifest manifest, ConvoCoreConversationData convo)
+        private static void SyncManifestRows(WitWeaverAudioManifest manifest, WitWeaverConversationData convo)
         {
             if (convo.DialogueLines == null) return;
 
-            manifest.Entries = new List<ConvoCoreAudioManifest.AudioEntry>();
+            manifest.Entries = new List<WitWeaverAudioManifest.AudioEntry>();
 
             foreach (var line in convo.DialogueLines)
             {
@@ -299,7 +299,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 {
                     foreach (var ld in line.LocalizedDialogues)
                     {
-                        manifest.Entries.Add(new ConvoCoreAudioManifest.AudioEntry
+                        manifest.Entries.Add(new WitWeaverAudioManifest.AudioEntry
                         {
                             LineID      = line.LineID,
                             CharacterID = line.characterID,
@@ -309,7 +309,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 }
                 else
                 {
-                    manifest.Entries.Add(new ConvoCoreAudioManifest.AudioEntry
+                    manifest.Entries.Add(new WitWeaverAudioManifest.AudioEntry
                     {
                         LineID      = line.LineID,
                         CharacterID = line.characterID,
@@ -352,7 +352,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 );
                 if (confirm)
                 {
-                    var conversationData = (ConvoCoreConversationData)target;
+                    var conversationData = (WitWeaverConversationData)target;
                     try
                     {
                         // Clear commonly used field names for lines
@@ -390,7 +390,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         /// </summary>
         private List<string> GetConfigurableParticipantIds()
         {
-            var convoData = (ConvoCoreConversationData)target;
+            var convoData = (WitWeaverConversationData)target;
             var ids = new List<string>();
             foreach (var profile in convoData.ConversationParticipantProfiles)
             {
@@ -501,7 +501,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var supported = LocaleSettingsCache.Get();
             if (supported.Length == 0)
             {
-                EditorGUILayout.HelpBox("No supported locales configured in ConvoCore Settings.", MessageType.Warning);
+                EditorGUILayout.HelpBox("No supported locales configured in WitWeaver Settings.", MessageType.Warning);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.Space();
                 return;
@@ -515,7 +515,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
 
             // 2) LanguageManager current
-            var lm = ConvoCoreLanguageManager.Instance;
+            var lm = WitWeaverLanguageManager.Instance;
             var current = lm.CurrentLanguage ?? "en";
 
             int idx = 0;
@@ -530,7 +530,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
 
             // 3) YAML validation (lightweight due to memoization)
-            var data = (ConvoCoreConversationData)target;
+            var data = (WitWeaverConversationData)target;
 
             // Only recompute when repainting layout (optional micro-opt)
             if (Event.current.type == EventType.Layout ||
@@ -590,7 +590,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             public static string[] Get()
             {
-                var settings = ConvoCoreSettings.Instance;
+                var settings = WitWeaverSettings.Instance;
                 if (settings == null || settings.SupportedLanguages == null) return Array.Empty<string>();
 
                 // Hash the array contents to detect changes
@@ -633,7 +633,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         }
 
         // Parse the embedded YAML to list locale keys present (case-insensitive, de-duplicated)
-        private static List<string> TryGetLocalesFromEmbedded(ConvoCoreConversationData data)
+        private static List<string> TryGetLocalesFromEmbedded(WitWeaverConversationData data)
         {
             try
             {
@@ -644,10 +644,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 // Uses the runtime parser (already normalizes keys to case-insensitive dictionary).
                 // TryParse is used here so a broken YAML file surfaces a warning rather than
                 // silently returning null and leaving the inspector with no locale options.
-                if (!ConvoCoreYamlParser.TryParse(yamlText, out var dict, out string parseErr))
+                if (!WitWeaverYamlParser.TryParse(yamlText, out var dict, out string parseErr))
                 {
                     UnityEngine.Debug.LogWarning(
-                        $"[ConvoCore] Could not read locales from embedded YAML:\n{parseErr}", data);
+                        $"[WitWeaver] Could not read locales from embedded YAML:\n{parseErr}", data);
                     return null;
                 }
                 var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -674,7 +674,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             {
                 // Keep the inspector resilient against unexpected runtime errors.
                 UnityEngine.Debug.LogWarning(
-                    $"[ConvoCore] Unexpected error reading locale keys from embedded YAML: {ex.Message}", data);
+                    $"[WitWeaver] Unexpected error reading locale keys from embedded YAML: {ex.Message}", data);
                 return null;
             }
         }
@@ -687,7 +687,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical("box");
 
-            var foldoutKey = "ConvoCore.ExcelSourceFoldout." + target.GetEntityId();
+            var foldoutKey = "WitWeaver.ExcelSourceFoldout." + target.GetEntityId();
             _excelFoldout = EditorGUILayout.Foldout(_excelFoldout, "Excel Source", true, EditorStyles.foldoutHeader);
             EditorPrefs.SetBool(foldoutKey, _excelFoldout);
 
@@ -701,7 +701,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     EditorGUILayout.HelpBox(
                         "Link an .xlsx file to enable spreadsheet-driven dialogue authoring. " +
                         "Each sheet tab name must match a ConversationKey. " +
-                        "Configure expected column headers in ConvoCoreSettings under the Spreadsheet tab.",
+                        "Configure expected column headers in WitWeaverSettings under the Spreadsheet tab.",
                         MessageType.Info);
                 }
 
@@ -744,8 +744,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
                         // Import button
                         if (GUILayout.Button("Import from Excel", GUILayout.Height(24)))
                         {
-                            var data = (ConvoCoreConversationData)target;
-                            bool ok = ConvoCoreExcelUtilities.RunFullPipeline(data, assignedPath, out var msg);
+                            var data = (WitWeaverConversationData)target;
+                            bool ok = WitWeaverExcelUtilities.RunFullPipeline(data, assignedPath, out var msg);
                             _lastExcelImportMessage = msg;
                             _lastExcelImportSuccess = ok;
                         }
@@ -775,7 +775,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField("YAML Linking (Recommended)", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "Link a plain .yaml file you edit normally. ConvoCore will embed its text as a sub-asset used at runtime. " +
+                "Link a plain .yaml file you edit normally. WitWeaver will embed its text as a sub-asset used at runtime. " +
                 "This avoids StreamingAssets/Resources requirements and won’t conflict with other YAML tools.",
                 MessageType.Info);
 
@@ -802,7 +802,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (GUILayout.Button(_conversationYaml.objectReferenceValue == null ? "Link & Embed" : "Sync From Source", GUILayout.Height(22),
                     GUILayout.Width(buttonWidth)))
             {
-                var data = (ConvoCoreConversationData)target;
+                var data = (WitWeaverConversationData)target;
                 if (_sourceYaml.objectReferenceValue == null)
                 {
                     Debug.LogError("Please assign a Source .yaml asset to link.");
@@ -835,7 +835,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                             // Apply all changes
                             serializedObject.ApplyModifiedProperties();
 
-                            Debug.Log($"ConvoCore: Embedded YAML text from '{srcPath}' into '{AssetDatabase.GetAssetPath(data)}'.");
+                            Debug.Log($"WitWeaver: Embedded YAML text from '{srcPath}' into '{AssetDatabase.GetAssetPath(data)}'.");
                         }
                     }
                 }
@@ -874,14 +874,14 @@ namespace WolfstagInteractive.ConvoCore.Editor
                         "Are you sure you want to remove the embedded YAML? This will delete the embedded TextAsset permanently.",
                         "Yes, Remove", "Cancel"))
                     {
-                        var data = (ConvoCoreConversationData)target;
+                        var data = (WitWeaverConversationData)target;
                         ClearEmbeddedYaml(data);
 
                         // Update the SerializedProperty to reflect the change
                         _conversationYaml.objectReferenceValue = null;
                         serializedObject.ApplyModifiedProperties();
 
-                        Debug.Log("ConvoCore: Cleared embedded YAML.");
+                        Debug.Log("WitWeaver: Cleared embedded YAML.");
                     }
                 }
             }
@@ -892,13 +892,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
         }
 
 
-        private static void ClearEmbeddedYaml(ConvoCoreConversationData data)
+        private static void ClearEmbeddedYaml(WitWeaverConversationData data)
         {
             // Path of the Conversation asset
             var convPath = AssetDatabase.GetAssetPath(data);
             if (string.IsNullOrEmpty(convPath))
             {
-                Debug.LogError("ConvoCore: Could not resolve asset path for Conversation asset.");
+                Debug.LogError("WitWeaver: Could not resolve asset path for Conversation asset.");
                 return;
             }
 
@@ -930,7 +930,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             AssetDatabase.ImportAsset(convPath, ImportAssetOptions.ForceUpdate);
         }
 
-        private static TextAsset TryEmbedFromPath(ConvoCoreConversationData data, string sourcePath)
+        private static TextAsset TryEmbedFromPath(WitWeaverConversationData data, string sourcePath)
         {
             if (string.IsNullOrEmpty(sourcePath)) return null;
 
@@ -945,7 +945,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var convPath = AssetDatabase.GetAssetPath(data);
             if (string.IsNullOrEmpty(convPath))
             {
-                Debug.LogError("ConvoCore: Could not resolve asset path for Conversation asset.");
+                Debug.LogError("WitWeaver: Could not resolve asset path for Conversation asset.");
                 return null;
             }
 
@@ -983,7 +983,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (string.IsNullOrEmpty(data.FilePath))
             {
                 var baseName = Path.GetFileNameWithoutExtension(sourcePath);
-                data.FilePath = $"ConvoCore/Dialogue/{baseName}";
+                data.FilePath = $"WitWeaver/Dialogue/{baseName}";
             }
 
             // Mark dirty and save
@@ -1015,7 +1015,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Validate and Fix button
             if (GUILayout.Button("Validate & Fix All Dialogue Lines", GUILayout.Height(25)))
             {
-                var conversationData = (ConvoCoreConversationData)target;
+                var conversationData = (WitWeaverConversationData)target;
                 conversationData.ValidateAndFixDialogueLines();
                 EditorUtility.SetDirty(target);
                 Debug.Log($"Manual validation completed for {conversationData.name}");
@@ -1024,7 +1024,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Debug profiles button
             if (GUILayout.Button("Debug Character Profiles", GUILayout.Height(25)))
             {
-                var conversationData = (ConvoCoreConversationData)target;
+                var conversationData = (WitWeaverConversationData)target;
                 conversationData.DebugCharacterProfiles();
             }
 
@@ -1034,7 +1034,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Reload YAML Now",GUILayout.Height(25)))
             {
-                var data = (ConvoCoreConversationData)target;
+                var data = (WitWeaverConversationData)target;
                 data.InitializeDialogueData();           // uses the embedded TextAsset first
                 EditorUtility.SetDirty(target);
                 Debug.Log($"Reloaded YAML for '{data.name}'.");
@@ -1042,7 +1042,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Sync object references button
             if (GUILayout.Button("Sync Object References", GUILayout.Height(25)))
             {
-                var conversationData = (ConvoCoreConversationData)target;
+                var conversationData = (WitWeaverConversationData)target;
                 conversationData.SyncAllRepresentationObjectReferences();
                 EditorUtility.SetDirty(target);
                 Debug.Log($"Object reference sync completed for {conversationData.name}");
@@ -1132,8 +1132,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 else
                 {
                     // Safely import the conversation using the provided key
-                    ConvoCoreConversationData obj = (ConvoCoreConversationData)target;
-                    obj.ConvoCoreYamlUtilities.ImportFromYamlForKey(_conversationKey.stringValue);
+                    WitWeaverConversationData obj = (WitWeaverConversationData)target;
+                    obj.WitWeaverYamlUtilities.ImportFromYamlForKey(_conversationKey.stringValue);
 
                     // After import, validate the data
                     obj.ValidateAndFixDialogueLines();
@@ -1174,7 +1174,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
     /// <summary>
     /// Returns cached locales for this TextAsset, recomputing only if the YAML text changed.
     /// </summary>
-    public static List<string> GetLocales(ConvoCoreConversationData data)
+    public static List<string> GetLocales(WitWeaverConversationData data)
     {
         if (data == null) return null;
         var ta = data.ConversationYaml;
@@ -1214,7 +1214,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         try
         {
             // Uses your runtime parser (assumed to normalize keys case-insensitively)
-            var dict = ConvoCoreYamlParser.Parse(yamlText);
+            var dict = WitWeaverYamlParser.Parse(yamlText);
             if (dict == null) return null;
 
             var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Renders the <see cref="ConvoCoreConversationData.ChoiceOption.Labels"/> list as one editable
-    /// text row per language in <see cref="ConvoCoreSettings.SupportedLanguages"/>, so each choice
+    /// Renders the <see cref="WitWeaverConversationData.ChoiceOption.Labels"/> list as one editable
+    /// text row per language in <see cref="WitWeaverSettings.SupportedLanguages"/>, so each choice
     /// gets one button string per locale.
     ///
     /// Choice labels are inspector-owned text and never live in YAML. Entries whose language is no
@@ -17,8 +17,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
     /// All mutation goes through <see cref="SerializedProperty"/> so Undo works without the drawer
     /// touching the managed list on the target object.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreChoiceLabelsDrawer.html")]
-    public static class ConvoCoreChoiceLabelsDrawer
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverChoiceLabelsDrawer.html")]
+    public static class WitWeaverChoiceLabelsDrawer
     {
         private const float k_Spacing        = 2f;
         private const float k_LangLabelWidth = 52f;
@@ -29,12 +29,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private static readonly GUIContent GC_LabelsHeader = new("Labels");
         private static readonly GUIContent GC_OrphanHeader = new("Unused Languages",
             "These entries are stored on the choice but their language is not listed in " +
-            "ConvoCore settings. They are kept until removed explicitly.");
+            "WitWeaver settings. They are kept until removed explicitly.");
         private static readonly GUIContent GC_OrphanIcon = new(string.Empty,
-            "Language not listed in ConvoCore settings");
+            "Language not listed in WitWeaver settings");
         private static readonly GUIContent GC_Remove = new("x", "Remove this label entry");
         private static readonly GUIContent GC_NoLanguages = new(
-            "No supported languages configured. Add them under ConvoCore settings to get one label field per locale.");
+            "No supported languages configured. Add them under WitWeaver settings to get one label field per locale.");
         private static readonly GUIContent GC_MultiEdit = new("Labels",
             "Per-locale choice labels cannot be edited while multiple values are selected.");
 
@@ -44,7 +44,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         /// </summary>
         public static IList<string> GetSupportedLanguages()
         {
-            return ConvoCoreSettings.Instance?.SupportedLanguages;
+            return WitWeaverSettings.Instance?.SupportedLanguages;
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUI.LabelField(iconRect, GC_OrphanIcon);
 
             string code = string.IsNullOrEmpty(langProp?.stringValue) ? "(none)" : langProp.stringValue;
-            EditorGUI.LabelField(labelRect, new GUIContent(code, "Language not listed in ConvoCore settings"));
+            EditorGUI.LabelField(labelRect, new GUIContent(code, "Language not listed in WitWeaver settings"));
 
             if (textProp != null) textProp.stringValue = EditorGUI.TextField(fieldRect, textProp.stringValue);
             EditorGUI.indentLevel = prevIndent;

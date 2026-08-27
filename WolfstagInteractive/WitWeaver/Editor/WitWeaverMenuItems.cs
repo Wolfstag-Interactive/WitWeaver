@@ -2,15 +2,15 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreMenuItems.html")]
-    public static class ConvoCoreMenuItems
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverMenuItems.html")]
+    public static class WitWeaverMenuItems
     {
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Open Settings", false, 1)]
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Open Settings", false, 1)]
         public static void OpenSettings()
         {
-            ConvoCoreSettings settings = FindOrCreateSettings();
+            WitWeaverSettings settings = FindOrCreateSettings();
             
             if (settings != null)
             {
@@ -19,13 +19,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
         }
 
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Create Settings (if missing)", false, 2)]
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Create Settings (if missing)", false, 2)]
         public static void CreateSettingsIfMissing()
         {
             var existing = FindSettings();
             if (existing != null)
             {
-                Debug.Log($"ConvoCoreSettings already exists at: {AssetDatabase.GetAssetPath(existing)}");
+                Debug.Log($"WitWeaverSettings already exists at: {AssetDatabase.GetAssetPath(existing)}");
                 Selection.activeObject = existing;
                 EditorGUIUtility.PingObject(existing);
                 return;
@@ -34,37 +34,37 @@ namespace WolfstagInteractive.ConvoCore.Editor
             CreateNewSettings();
         }
 
-        private static ConvoCoreSettings FindSettings()
+        private static WitWeaverSettings FindSettings()
         {
             // First check if already assigned to loader
-            if (ConvoCoreYamlLoader.Settings != null)
-                return ConvoCoreYamlLoader.Settings;
+            if (WitWeaverYamlLoader.Settings != null)
+                return WitWeaverYamlLoader.Settings;
 
             // Try Resources folder
-            var resourceSettings = Resources.Load<ConvoCoreSettings>("ConvoCoreSettings");
+            var resourceSettings = Resources.Load<WitWeaverSettings>("WitWeaverSettings");
             if (resourceSettings != null)
                 return resourceSettings;
 
             // Search entire project
-            var guids = AssetDatabase.FindAssets("t:ConvoCoreSettings");
+            var guids = AssetDatabase.FindAssets("t:WitWeaverSettings");
             if (guids.Length > 0)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guids[0]);
-                return AssetDatabase.LoadAssetAtPath<ConvoCoreSettings>(path);
+                return AssetDatabase.LoadAssetAtPath<WitWeaverSettings>(path);
             }
 
             return null;
         }
 
-        private static ConvoCoreSettings FindOrCreateSettings()
+        private static WitWeaverSettings FindOrCreateSettings()
         {
             var existing = FindSettings();
             if (existing != null)
             {
                 // Auto-assign to loader if not already
-                if (ConvoCoreYamlLoader.Settings == null)
+                if (WitWeaverYamlLoader.Settings == null)
                 {
-                    ConvoCoreYamlLoader.Settings = existing;
+                    WitWeaverYamlLoader.Settings = existing;
                 }
                 return existing;
             }
@@ -72,9 +72,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
             return CreateNewSettings();
         }
 
-        private static ConvoCoreSettings CreateNewSettings()
+        private static WitWeaverSettings CreateNewSettings()
         {
-            var settings = ScriptableObject.CreateInstance<ConvoCoreSettings>();
+            var settings = ScriptableObject.CreateInstance<WitWeaverSettings>();
             
             // Ensure Resources folder exists
             string resourcesPath = "Assets/Resources";
@@ -83,10 +83,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 AssetDatabase.CreateFolder("Assets", "Resources");
             }
 
-            string assetPath = "Assets/Resources/ConvoCoreSettings.asset";
+            string assetPath = "Assets/Resources/WitWeaverSettings.asset";
             
             // If file exists at this path, find alternative name
-            if (AssetDatabase.LoadAssetAtPath<ConvoCoreSettings>(assetPath) != null)
+            if (AssetDatabase.LoadAssetAtPath<WitWeaverSettings>(assetPath) != null)
             {
                 assetPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
             }
@@ -95,10 +95,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Debug.Log($"Created ConvoCoreSettings at: {assetPath}");
+            Debug.Log($"Created WitWeaverSettings at: {assetPath}");
 
             // Auto-assign to loader
-            ConvoCoreYamlLoader.Settings = settings;
+            WitWeaverYamlLoader.Settings = settings;
 
             Selection.activeObject = settings;
             EditorGUIUtility.PingObject(settings);

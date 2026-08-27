@@ -3,15 +3,15 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreAudioManifestEditor.html")]
-    [CustomEditor(typeof(ConvoCoreAudioManifest))]
-    public class ConvoCoreAudioManifestEditor : UnityEditor.Editor
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverAudioManifestEditor.html")]
+    [CustomEditor(typeof(WitWeaverAudioManifest))]
+    public class WitWeaverAudioManifestEditor : UnityEditor.Editor
     {
         // ── Pagination state ──────────────────────────────────────────────────
-        private const string k_PageKey    = "ConvoCoreAudioManifest_Page_";
-        private const string k_SizeKey    = "ConvoCoreAudioManifest_Size_";
+        private const string k_PageKey    = "WitWeaverAudioManifest_Page_";
+        private const string k_SizeKey    = "WitWeaverAudioManifest_Size_";
         private const int    k_DefaultPageSize = 10;
 
         private static readonly Dictionary<string, bool> s_LineFoldouts = new();
@@ -21,7 +21,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         {
             serializedObject.Update();
 
-            var manifest    = (ConvoCoreAudioManifest)target;
+            var manifest    = (WitWeaverAudioManifest)target;
             var entriesProp = serializedObject.FindProperty("Entries");
             var backend     = manifest.Backend;
 
@@ -34,7 +34,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (backend != AudioBackend.UnityAudioSource)
             {
                 EditorGUILayout.HelpBox(
-                    $"Backend is '{backend}'. Assign a MonoBehaviour implementing IConvoAudioProvider to the ConvoCore runner's Audio Provider field.",
+                    $"Backend is '{backend}'. Assign a MonoBehaviour implementing IWitWeaverAudioProvider to the WitWeaver runner's Audio Provider field.",
                     MessageType.Info);
             }
 
@@ -98,7 +98,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         // ── ConversationDriven mode ───────────────────────────────────────────
 
-        private void DrawConversationDrivenMode(ConvoCoreAudioManifest manifest, SerializedProperty entriesProp)
+        private void DrawConversationDrivenMode(WitWeaverAudioManifest manifest, SerializedProperty entriesProp)
         {
             if (GUILayout.Button("Sync Rows From Conversation"))
             {
@@ -120,7 +120,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         // ── Standalone mode ───────────────────────────────────────────────────
 
-        private void DrawStandaloneMode(ConvoCoreAudioManifest manifest, SerializedProperty entriesProp)
+        private void DrawStandaloneMode(WitWeaverAudioManifest manifest, SerializedProperty entriesProp)
         {
             EditorGUILayout.BeginHorizontal();
 
@@ -152,7 +152,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         // Entries in the flat list are grouped by LineID. Each group is one "line" in the
         // paginated display. Within a group the user sees all locale → reference slots.
 
-        private void DrawLineGroups(ConvoCoreAudioManifest manifest, SerializedProperty entriesProp, bool showLineText)
+        private void DrawLineGroups(WitWeaverAudioManifest manifest, SerializedProperty entriesProp, bool showLineText)
         {
             // Build ordered groups: preserve insertion order of first-seen LineID
             var orderedLineIds = new List<string>();
@@ -303,7 +303,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                                     new GUIContent("Key", "Arbitrary event key string for custom providers."),
                                     GUILayout.MaxWidth(110));
                                 EditorGUILayout.PropertyField(refProp,
-                                    new GUIContent("Ref", "ConvoAudioReference ScriptableObject for custom middleware."));
+                                    new GUIContent("Ref", "WitWeaverAudioReference ScriptableObject for custom middleware."));
                                 break;
                         }
 
@@ -353,7 +353,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         // ── Bulk operations ───────────────────────────────────────────────────
 
-        private static void SyncFromConversation(ConvoCoreAudioManifest manifest)
+        private static void SyncFromConversation(WitWeaverAudioManifest manifest)
         {
             if (manifest.SourceConversation == null)
             {
@@ -364,17 +364,17 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var conversation = manifest.SourceConversation;
             if (conversation.DialogueLines == null || conversation.DialogueLines.Count == 0)
             {
-                Debug.LogWarning("[ConvoCoreAudioManifest] Source conversation has no dialogue lines.");
+                Debug.LogWarning("[WitWeaverAudioManifest] Source conversation has no dialogue lines.");
                 return;
             }
 
             // Build lookup of existing entries: (LineID, Language) -> existing entry (preserves Clip + Reference)
-            var existing = new Dictionary<(string, string), ConvoCoreAudioManifest.AudioEntry>();
+            var existing = new Dictionary<(string, string), WitWeaverAudioManifest.AudioEntry>();
             if (manifest.Entries != null)
                 foreach (var e in manifest.Entries)
                     existing[(e.LineID ?? "", e.Language ?? "")] = e;
 
-            var updated = new List<ConvoCoreAudioManifest.AudioEntry>();
+            var updated = new List<WitWeaverAudioManifest.AudioEntry>();
 
             foreach (var line in conversation.DialogueLines)
             {
@@ -386,7 +386,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     foreach (var ld in line.LocalizedDialogues)
                     {
                         var key = (line.LineID ?? "", ld.Language ?? "");
-                        var entry = new ConvoCoreAudioManifest.AudioEntry
+                        var entry = new WitWeaverAudioManifest.AudioEntry
                         {
                             LineID      = line.LineID,
                             CharacterID = line.characterID,
@@ -406,7 +406,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 if (!addedAny)
                 {
                     var key = (line.LineID ?? "", "");
-                    var entry = new ConvoCoreAudioManifest.AudioEntry
+                    var entry = new WitWeaverAudioManifest.AudioEntry
                     {
                         LineID      = line.LineID,
                         CharacterID = line.characterID,
@@ -425,16 +425,16 @@ namespace WolfstagInteractive.ConvoCore.Editor
             Undo.RecordObject(manifest, "Sync Audio Manifest Rows");
             manifest.Entries = updated;
             EditorUtility.SetDirty(manifest);
-            Debug.Log($"[ConvoCoreAudioManifest] Synced {updated.Count} entries for {conversation.DialogueLines.Count} lines from '{conversation.name}'.");
+            Debug.Log($"[WitWeaverAudioManifest] Synced {updated.Count} entries for {conversation.DialogueLines.Count} lines from '{conversation.name}'.");
         }
 
-        private static void AddStandaloneLine(ConvoCoreAudioManifest manifest)
+        private static void AddStandaloneLine(WitWeaverAudioManifest manifest)
         {
             Undo.RecordObject(manifest, "Add Audio Manifest Line");
-            manifest.Entries ??= new List<ConvoCoreAudioManifest.AudioEntry>();
-            manifest.Entries.Add(new ConvoCoreAudioManifest.AudioEntry
+            manifest.Entries ??= new List<WitWeaverAudioManifest.AudioEntry>();
+            manifest.Entries.Add(new WitWeaverAudioManifest.AudioEntry
             {
-                LineID      = ConvoCoreLineID.NewLineID(),
+                LineID      = WitWeaverLineID.NewLineID(),
                 CharacterID = "",
                 Language    = "",
                 Reference   = null
@@ -442,18 +442,18 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorUtility.SetDirty(manifest);
         }
 
-        private static void GenerateConversationAsset(ConvoCoreAudioManifest manifest)
+        private static void GenerateConversationAsset(WitWeaverAudioManifest manifest)
         {
             string manifestPath = AssetDatabase.GetAssetPath(manifest);
             string folder       = Path.GetDirectoryName(manifestPath)?.Replace('\\', '/') ?? "Assets";
             string assetName    = Path.GetFileNameWithoutExtension(manifestPath) + "_Conversation";
             string assetPath    = AssetDatabase.GenerateUniqueAssetPath($"{folder}/{assetName}.asset");
 
-            var convo = CreateInstance<ConvoCoreConversationData>();
+            var convo = CreateInstance<WitWeaverConversationData>();
             convo.ConversationKey             = assetName;
             convo.ConversationTitle           = assetName;
             convo.DefaultPresentationMode     = ConversationPresentationMode.AudioOnly;
-            convo.DialogueLines               = new List<ConvoCoreConversationData.DialogueLineInfo>();
+            convo.DialogueLines               = new List<WitWeaverConversationData.DialogueLineInfo>();
 
             // One DialogueLineInfo per unique LineID
             var seen = new HashSet<string>();
@@ -462,12 +462,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 foreach (var entry in manifest.Entries)
                 {
                     if (string.IsNullOrEmpty(entry.LineID) || !seen.Add(entry.LineID)) continue;
-                    var lineInfo = new ConvoCoreConversationData.DialogueLineInfo(convo.ConversationKey)
+                    var lineInfo = new WitWeaverConversationData.DialogueLineInfo(convo.ConversationKey)
                     {
                         LineID                = entry.LineID,
                         characterID           = entry.CharacterID,
                         PresentationMode      = ConversationPresentationMode.AudioOnly,
-                        UserInputMethod       = ConvoCoreConversationData.DialogueLineProgressionMethod.AudioComplete,
+                        UserInputMethod       = WitWeaverConversationData.DialogueLineProgressionMethod.AudioComplete,
                         ConversationLineIndex = convo.DialogueLines.Count
                     };
                     convo.DialogueLines.Add(lineInfo);
@@ -482,12 +482,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             AssetDatabase.SaveAssets();
             EditorGUIUtility.PingObject(convo);
-            Debug.Log($"[ConvoCoreAudioManifest] Generated conversation asset at '{assetPath}'.");
+            Debug.Log($"[WitWeaverAudioManifest] Generated conversation asset at '{assetPath}'.");
         }
 
         // ── Helpers ───────────────────────────────────────────────────────────
 
-        private static string GetLinePreview(ConvoCoreConversationData conversation, string lineID)
+        private static string GetLinePreview(WitWeaverConversationData conversation, string lineID)
         {
             if (conversation?.DialogueLines == null) return null;
             foreach (var line in conversation.DialogueLines)

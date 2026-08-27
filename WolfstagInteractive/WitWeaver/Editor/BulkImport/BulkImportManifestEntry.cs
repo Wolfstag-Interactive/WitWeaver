@@ -1,6 +1,6 @@
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     internal enum BulkImportEntryStatus
     {
@@ -19,6 +19,6 @@ namespace WolfstagInteractive.ConvoCore.Editor
         public BulkImportEntryStatus Status;
         public string StatusDetail;
         public bool Selected;
-        public ConvoCoreConversationData ExistingAsset;
+        public WitWeaverConversationData ExistingAsset;
     }
 }

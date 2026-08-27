@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     internal enum AssetNamingMode
     {
@@ -76,10 +76,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     }
                 }
 
-                if (!ConvoCoreYamlParser.TryParse(yamlText, out var dict,
-                        out IReadOnlyList<ConvoCoreYamlDiagnostic> diagnostics))
+                if (!WitWeaverYamlParser.TryParse(yamlText, out var dict,
+                        out IReadOnlyList<WitWeaverYamlDiagnostic> diagnostics))
                 {
-                    var errDetail = ConvoCoreYamlDiagnostic.Format(yamlPath, diagnostics);
+                    var errDetail = WitWeaverYamlDiagnostic.Format(yamlPath, diagnostics);
                     manifest.Add(new BulkImportManifestEntry
                     {
                         ConversationKey = Path.GetFileNameWithoutExtension(yamlPath),
@@ -94,7 +94,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
                 if (dict == null || dict.Count == 0)
                 {
-                    Debug.Log($"ConvoCore Bulk Import: '{yamlPath}' parsed successfully but contains no conversation keys. Skipping.");
+                    Debug.Log($"WitWeaver Bulk Import: '{yamlPath}' parsed successfully but contains no conversation keys. Skipping.");
                     continue;
                 }
 
@@ -217,7 +217,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             {
                 outputPath = BuildOutputPath(entry, outputFolderPath, namingMode);
 
-                var data = ScriptableObject.CreateInstance<ConvoCoreConversationData>();
+                var data = ScriptableObject.CreateInstance<WitWeaverConversationData>();
                 data.ConversationKey = entry.ConversationKey;
                 data.ConversationTitle = entry.ConversationKey;
 
@@ -228,8 +228,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 // TryEmbedFromPath writes the YAML text into ConversationYaml (subasset).
                 // ImportFromYamlForKey reads it back and creates the DialogueLineInfo objects.
                 // Both calls are required: embed first so the text is available to import.
-                ConvoCoreYamlWatcher.TryEmbedFromPath(data, entry.YamlAssetPath);
-                new ConvoCoreYamlUtilities(data).ImportFromYamlForKey(entry.ConversationKey);
+                WitWeaverYamlWatcher.TryEmbedFromPath(data, entry.YamlAssetPath);
+                new WitWeaverYamlUtilities(data).ImportFromYamlForKey(entry.ConversationKey);
 
                 data.SourceYamlAssetPath = entry.YamlAssetPath;
                 EditorUtility.SetDirty(data);
@@ -263,16 +263,16 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var assetPath = AssetDatabase.GetAssetPath(data);
 
             var backup = data.DialogueLines != null
-                ? new List<ConvoCoreConversationData.DialogueLineInfo>(data.DialogueLines)
-                : new List<ConvoCoreConversationData.DialogueLineInfo>();
+                ? new List<WitWeaverConversationData.DialogueLineInfo>(data.DialogueLines)
+                : new List<WitWeaverConversationData.DialogueLineInfo>();
             try
             {
-                ConvoCoreYamlWatcher.TryEmbedFromPath(data, entry.YamlAssetPath);
-                new ConvoCoreYamlUtilities(data).ImportFromYamlForKey(entry.ConversationKey);
+                WitWeaverYamlWatcher.TryEmbedFromPath(data, entry.YamlAssetPath);
+                new WitWeaverYamlUtilities(data).ImportFromYamlForKey(entry.ConversationKey);
 
                 if (data.SourceYamlAssetPath != entry.YamlAssetPath)
                 {
-                    Debug.Log($"ConvoCore Bulk Import: YAML source changed for '{entry.ConversationKey}': '{data.SourceYamlAssetPath}' → '{entry.YamlAssetPath}'.");
+                    Debug.Log($"WitWeaver Bulk Import: YAML source changed for '{entry.ConversationKey}': '{data.SourceYamlAssetPath}' → '{entry.YamlAssetPath}'.");
                     data.SourceYamlAssetPath = entry.YamlAssetPath;
                 }
 
@@ -300,16 +300,16 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
         }
 
-        private static Dictionary<string, ConvoCoreConversationData> BuildExistingAssetMap()
+        private static Dictionary<string, WitWeaverConversationData> BuildExistingAssetMap()
         {
-            var map = new Dictionary<string, ConvoCoreConversationData>(StringComparer.Ordinal);
-            var guids = AssetDatabase.FindAssets("t:ConvoCoreConversationData");
+            var map = new Dictionary<string, WitWeaverConversationData>(StringComparer.Ordinal);
+            var guids = AssetDatabase.FindAssets("t:WitWeaverConversationData");
             if (guids == null) return map;
 
             foreach (var guid in guids)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                var so = AssetDatabase.LoadAssetAtPath<ConvoCoreConversationData>(path);
+                var so = AssetDatabase.LoadAssetAtPath<WitWeaverConversationData>(path);
                 if (so == null || string.IsNullOrEmpty(so.ConversationKey)) continue;
                 if (!map.ContainsKey(so.ConversationKey))
                     map[so.ConversationKey] = so;

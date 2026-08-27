@@ -10,21 +10,21 @@ using System.Xml;
 using System.Xml.Linq;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Converts a ConvoCore YAML dialogue file to a .xlsx spreadsheet.
+    /// Converts a WitWeaver YAML dialogue file to a .xlsx spreadsheet.
     ///
     /// Each conversation key in the YAML becomes one sheet in the workbook.
     /// Columns: LineID | CharacterID | [one column per language code] ...
     /// Row 1 is a frozen bold header row.
     ///
     /// Uses <see cref="System.IO.Compression.ZipArchive"/> and <see cref="System.Xml.Linq.XDocument"/>
-    /// — the same infrastructure as <see cref="ConvoCoreExcelParser"/> and
-    /// <see cref="ConvoCoreExcelWriter"/>. No external dependencies.
+    /// — the same infrastructure as <see cref="WitWeaverExcelParser"/> and
+    /// <see cref="WitWeaverExcelWriter"/>. No external dependencies.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreYamlToExcelExporter.html")]
-    public static class ConvoCoreYamlToExcelExporter
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverYamlToExcelExporter.html")]
+    public static class WitWeaverYamlToExcelExporter
     {
         private static readonly XNamespace Ns     = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
         private static readonly XNamespace RNs    = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -43,7 +43,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             try
             {
                 var yaml = File.ReadAllText(yamlPath, Encoding.UTF8);
-                var conversations = ConvoCoreYamlParser.Parse(yaml);
+                var conversations = WitWeaverYamlParser.Parse(yaml);
 
                 if (conversations == null || conversations.Count == 0)
                     return "YAML file contains no conversation data.";
@@ -271,7 +271,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var row = rows[r];
                 for (int c = 0; c < row.Count; c++)
                 {
-                    string cellRef = ConvoCoreExcelParser.ColIndexToLetters(c) + rowNum;
+                    string cellRef = WitWeaverExcelParser.ColIndexToLetters(c) + rowNum;
                     var cellEl = new XElement(Ns + "c",
                         new XAttribute("r", cellRef),
                         new XAttribute("t", "s"));                    // shared string type

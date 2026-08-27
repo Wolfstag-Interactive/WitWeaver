@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 using System.Collections.Generic;
-using WolfstagInteractive.ConvoCore.SaveSystem;
+using WolfstagInteractive.WitWeaver.SaveSystem;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
+namespace WolfstagInteractive.WitWeaver.SaveSystem.Editor
 {
-    [CustomEditor(typeof(ConvoVariableStore))]
-    public class ConvoVariableStoreEditor : UnityEditor.Editor
+    [CustomEditor(typeof(WitWeaverVariableStore))]
+    public class WitWeaverVariableStoreEditor : UnityEditor.Editor
     {
         // ── Authored list ──────────────────────────────────────────────────────
 
@@ -18,8 +18,8 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         private static readonly string[] k_AuthoredScopeNames  = { "Global", "Conversation" };
         private static readonly int[]    k_AuthoredScopeValues =
         {
-            (int)ConvoVariableScope.Global,
-            (int)ConvoVariableScope.Conversation
+            (int)WitWeaverVariableScope.Global,
+            (int)WitWeaverVariableScope.Conversation
         };
 
         // Column proportions — must sum to 1.0
@@ -86,7 +86,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         private void CaptureAuthoredDefaults()
         {
             _authoredDefaults = new Dictionary<string, string>();
-            var store   = (ConvoVariableStore)target;
+            var store   = (WitWeaverVariableStore)target;
             var entries = store.GetRawEntries();
             for (int i = 0; i < entries.Count; i++)
             {
@@ -100,14 +100,14 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             store.ClearAllCollectionDirtyFlags();
         }
 
-        private static bool IsCollectionType(ConvoVariableType type)
+        private static bool IsCollectionType(WitWeaverVariableType type)
         {
-            return type == ConvoVariableType.CollectionInt || type == ConvoVariableType.CollectionString;
+            return type == WitWeaverVariableType.CollectionInt || type == WitWeaverVariableType.CollectionString;
         }
 
-        private static string PairsPropertyName(ConvoVariableType type)
+        private static string PairsPropertyName(WitWeaverVariableType type)
         {
-            return type == ConvoVariableType.CollectionInt
+            return type == WitWeaverVariableType.CollectionInt
                 ? "CoreVariable.CollectionIntPairs"
                 : "CoreVariable.CollectionStringPairs";
         }
@@ -144,7 +144,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
             var element  = _persistentEntriesProp.GetArrayElementAtIndex(index);
             var typeProp = element.FindPropertyRelative("CoreVariable.Type");
-            var type     = (ConvoVariableType)typeProp.enumValueIndex;
+            var type     = (WitWeaverVariableType)typeProp.enumValueIndex;
 
             // In Play Mode Collection rows show a one-line summary (base height). In edit
             // mode the pairs list is drawn by Unity's default reorderable array field.
@@ -168,8 +168,8 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                 if (_scopeFilterIdx == 3) return false;
 
                 int target = _scopeFilterIdx == 1
-                    ? (int)ConvoVariableScope.Global
-                    : (int)ConvoVariableScope.Conversation;
+                    ? (int)WitWeaverVariableScope.Global
+                    : (int)WitWeaverVariableScope.Conversation;
                 var scopeProp = element.FindPropertyRelative("Scope");
                 if (scopeProp != null && scopeProp.enumValueIndex != target) return false;
             }
@@ -268,7 +268,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             // ── Row 2: Default value (edit mode) / authored → current (play mode) ─
             float y2 = rect.y + lineH + pad * 2f + 2f;
 
-            var type = (ConvoVariableType)typeProp.enumValueIndex;
+            var type = (WitWeaverVariableType)typeProp.enumValueIndex;
 
             if (IsCollectionType(type))
             {
@@ -322,7 +322,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         // while the entry's dirty flag is set — the flag is the diff, no content comparison.
         private void DrawCollectionRuntimeSummary(Rect rect, string key, int index)
         {
-            var store = (ConvoVariableStore)target;
+            var store = (WitWeaverVariableStore)target;
 
             bool dirty = false;
             var raw = store.GetRawEntries();
@@ -339,24 +339,24 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                     "Current runtime sub-entry count. Orange = modified this playthrough."));
         }
 
-        private static string GetCurrentValueString(SerializedProperty element, ConvoVariableType type)
+        private static string GetCurrentValueString(SerializedProperty element, WitWeaverVariableType type)
         {
             switch (type)
             {
-                case ConvoVariableType.String:
+                case WitWeaverVariableType.String:
                     return element.FindPropertyRelative("CoreVariable._stringValue")?.stringValue ?? string.Empty;
-                case ConvoVariableType.Int:
+                case WitWeaverVariableType.Int:
                     return (element.FindPropertyRelative("CoreVariable._intValue")?.intValue ?? 0).ToString();
-                case ConvoVariableType.Float:
+                case WitWeaverVariableType.Float:
                     return (element.FindPropertyRelative("CoreVariable._floatValue")?.floatValue ?? 0f).ToString();
-                case ConvoVariableType.Bool:
+                case WitWeaverVariableType.Bool:
                     return (element.FindPropertyRelative("CoreVariable._boolValue")?.boolValue ?? false).ToString();
                 default:
                     return string.Empty;
             }
         }
 
-        private static void DrawDefaultValueRow(Rect rect, SerializedProperty element, ConvoVariableType type)
+        private static void DrawDefaultValueRow(Rect rect, SerializedProperty element, WitWeaverVariableType type)
         {
             const float labelW = 54f;
             const float gap    = 3f;
@@ -369,16 +369,16 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
             switch (type)
             {
-                case ConvoVariableType.String:
+                case WitWeaverVariableType.String:
                     EditorGUI.PropertyField(fieldRect, element.FindPropertyRelative("CoreVariable._stringValue"), GUIContent.none);
                     break;
-                case ConvoVariableType.Int:
+                case WitWeaverVariableType.Int:
                     EditorGUI.PropertyField(fieldRect, element.FindPropertyRelative("CoreVariable._intValue"), GUIContent.none);
                     break;
-                case ConvoVariableType.Float:
+                case WitWeaverVariableType.Float:
                     EditorGUI.PropertyField(fieldRect, element.FindPropertyRelative("CoreVariable._floatValue"), GUIContent.none);
                     break;
-                case ConvoVariableType.Bool:
+                case WitWeaverVariableType.Bool:
                     EditorGUI.PropertyField(fieldRect, element.FindPropertyRelative("CoreVariable._boolValue"), GUIContent.none);
                     break;
             }
@@ -388,7 +388,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         {
             ReorderableList.defaultBehaviours.DoAddButton(list);
             var newElement = _persistentEntriesProp.GetArrayElementAtIndex(_persistentEntriesProp.arraySize - 1);
-            newElement.FindPropertyRelative("Scope").enumValueIndex = (int)ConvoVariableScope.Global;
+            newElement.FindPropertyRelative("Scope").enumValueIndex = (int)WitWeaverVariableScope.Global;
             var keyProp = newElement.FindPropertyRelative("CoreVariable.Key");
             if (keyProp != null) keyProp.stringValue = string.Empty;
         }
@@ -501,7 +501,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                 return;
             }
 
-            var store          = (ConvoVariableStore)target;
+            var store          = (WitWeaverVariableStore)target;
             var sessionEntries = store.GetSessionEntries();
 
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))

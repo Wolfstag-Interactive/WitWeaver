@@ -2,12 +2,12 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreEditorUtilities.html")]
-    public static class ConvoCoreEditorUtilities
+[UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverEditorUtilities.html")]
+    public static class WitWeaverEditorUtilities
     {
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Create LanguageSettings")]
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Create LanguageSettings")]
         public static void CreateLanguageSettingsAsset()
         {
             // Define the Resources folder path relative to the project root.
@@ -24,7 +24,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             string assetPath = Path.Combine(resourcesFolder, "LanguageSettings.asset");
 
             // Check if the asset already exists.
-            ConvoCoreLanguageSettings existingAsset = AssetDatabase.LoadAssetAtPath<ConvoCoreLanguageSettings>(assetPath);
+            WitWeaverLanguageSettings existingAsset = AssetDatabase.LoadAssetAtPath<WitWeaverLanguageSettings>(assetPath);
             if (existingAsset != null)
             {
                 Debug.LogWarning($"A LanguageSettings asset already exists at: {assetPath}");
@@ -34,7 +34,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
 
             // Create an instance of the ScriptableObject.
-            ConvoCoreLanguageSettings settings = ScriptableObject.CreateInstance<ConvoCoreLanguageSettings>();
+            WitWeaverLanguageSettings settings = ScriptableObject.CreateInstance<WitWeaverLanguageSettings>();
 
             // Create the asset at the defined path.
             AssetDatabase.CreateAsset(settings, assetPath);
@@ -47,20 +47,20 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             Debug.Log($"LanguageSettings asset was successfully created at: {assetPath}");
         }
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Create ConvoCore Conversation GameObject")]
-        public static void CreateConvoCoreConversationGameObject()
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Create WitWeaver Conversation GameObject")]
+        public static void CreateWitWeaverConversationGameObject()
         {
             // Create a new GameObject with the specified name
-            GameObject convoObject = new GameObject("ConvoCore Conversation");
-            Debug.Log("Created GameObject: ConvoCore Conversation");
-            ConvoCore convoCoreComponent = convoObject.AddComponent<ConvoCore>();
-            if (convoCoreComponent != null)
+            GameObject convoObject = new GameObject("WitWeaver Conversation");
+            Debug.Log("Created GameObject: WitWeaver Conversation");
+            WitWeaver witWeaverComponent = convoObject.AddComponent<WitWeaver>();
+            if (witWeaverComponent != null)
             {
-                Debug.Log("ConvoCore component was successfully added.");
+                Debug.Log("WitWeaver component was successfully added.");
             }
             else
             {
-                Debug.LogError("Failed to add ConvoCore component. Please ensure the ConvoCore script exists.");
+                Debug.LogError("Failed to add WitWeaver component. Please ensure the WitWeaver script exists.");
             }
             Selection.activeGameObject = convoObject;
         }

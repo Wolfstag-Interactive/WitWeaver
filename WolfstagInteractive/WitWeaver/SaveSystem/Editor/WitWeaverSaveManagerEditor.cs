@@ -1,14 +1,14 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using WolfstagInteractive.ConvoCore.SaveSystem;
+using WolfstagInteractive.WitWeaver.SaveSystem;
 using YamlDotNet.Serialization;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
+namespace WolfstagInteractive.WitWeaver.SaveSystem.Editor
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1Editor_1_1ConvoCoreSaveManagerEditor.html")]
-    [CustomEditor(typeof(ConvoCoreSaveManager))]
-    public class ConvoCoreSaveManagerEditor : UnityEditor.Editor
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1Editor_1_1WitWeaverSaveManagerEditor.html")]
+    [CustomEditor(typeof(WitWeaverSaveManager))]
+    public class WitWeaverSaveManagerEditor : UnityEditor.Editor
     {
         private SerializedProperty _variableStoreProp;
         private SerializedProperty _settingsStateProp;
@@ -27,7 +27,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         {
             serializedObject.Update();
 
-            var manager = (ConvoCoreSaveManager)target;
+            var manager = (WitWeaverSaveManager)target;
 
             // References
             EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
@@ -93,7 +93,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                     var snapshot = manager.GetGameSnapshot();
                     var serializer = new SerializerBuilder().Build();
                     var yaml = serializer.Serialize(snapshot);
-                    Debug.Log($"[ConvoCoreSaveManager] Full Snapshot Preview:\n{yaml}");
+                    Debug.Log($"[WitWeaverSaveManager] Full Snapshot Preview:\n{yaml}");
                 }
 
                 EditorGUILayout.Space();
@@ -106,11 +106,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                         "Are you sure you want to delete all save files? This cannot be undone.",
                         "Delete All", "Cancel"))
                     {
-                        var savePath = System.IO.Path.Combine(Application.persistentDataPath, "ConvoCoreSaves");
+                        var savePath = System.IO.Path.Combine(Application.persistentDataPath, "WitWeaverSaves");
                         if (System.IO.Directory.Exists(savePath))
                         {
                             System.IO.Directory.Delete(savePath, true);
-                            Debug.Log("[ConvoCoreSaveManager] All save files deleted.");
+                            Debug.Log("[WitWeaverSaveManager] All save files deleted.");
                         }
                     }
                 }

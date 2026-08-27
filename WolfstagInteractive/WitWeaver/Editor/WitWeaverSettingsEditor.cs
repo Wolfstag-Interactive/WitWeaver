@@ -4,13 +4,13 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreSettingsEditor.html")]
-    [CustomEditor(typeof(ConvoCoreSettings))]
-    public class ConvoCoreSettingsEditor : UnityEditor.Editor
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverSettingsEditor.html")]
+    [CustomEditor(typeof(WitWeaverSettings))]
+    public class WitWeaverSettingsEditor : UnityEditor.Editor
     {
-        private const string TAB_PREF_KEY = "ConvoCore.SettingsEditor.ActiveTab";
+        private const string TAB_PREF_KEY = "WitWeaver.SettingsEditor.ActiveTab";
         private static readonly string[] TAB_LABELS = { "General", "Language", "Save System", "Dialogue History Renderers", "Spreadsheet" };
 
         // Serialized properties
@@ -82,7 +82,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     rect.y += 2;
                     rect.height = EditorGUIUtility.singleLineHeight;
 
-                    var profile = element.objectReferenceValue as ConvoCoreHistoryRendererProfile;
+                    var profile = element.objectReferenceValue as WitWeaverHistoryRendererProfile;
                     var label = profile != null ? profile.RendererName : "(unnamed)";
 
                     EditorGUI.PropertyField(rect, element, new GUIContent(label));
@@ -94,7 +94,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            var settings = (ConvoCoreSettings)target;
+            var settings = (WitWeaverSettings)target;
 
             // Tab bar
             EditorGUI.BeginChangeCheck();
@@ -125,12 +125,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Always-visible Open About Window button
             EditorGUILayout.Space(8f);
             if (GUILayout.Button("Open About Window"))
-                ConvoCoreAboutWindow.Open();
+                WitWeaverAboutWindow.Open();
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawGeneralTab(ConvoCoreSettings settings)
+        private void DrawGeneralTab(WitWeaverSettings settings)
         {
             EditorGUILayout.LabelField("YAML Source Configuration", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_sourceOrderProp, true);
@@ -154,13 +154,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 EditorGUILayout.PropertyField(_addressablesKeyTemplateProp);
                 EditorGUI.indentLevel--;
                 EditorGUILayout.HelpBox(
-                    "The CONVOCORE_ADDRESSABLES scripting define symbol must be added to your project " +
+                    "The WITWEAVER_ADDRESSABLES scripting define symbol must be added to your project " +
                     "for Addressables support to activate.",
                     MessageType.Info);
             }
         }
 
-        private void DrawLanguageTab(ConvoCoreSettings settings)
+        private void DrawLanguageTab(WitWeaverSettings settings)
         {
             EditorGUILayout.LabelField("Language Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_supportedLanguagesProp, new GUIContent("Supported Languages"), true);
@@ -177,7 +177,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 if (EditorGUI.EndChangeCheck() && newIndex >= 0 && newIndex < settings.SupportedLanguages.Count)
                 {
                     _currentLanguageProp.stringValue = settings.SupportedLanguages[newIndex];
-                    ConvoCoreLanguageManager.Instance?.SetLanguage(settings.SupportedLanguages[newIndex]);
+                    WitWeaverLanguageManager.Instance?.SetLanguage(settings.SupportedLanguages[newIndex]);
                 }
             }
             else
@@ -193,7 +193,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 "Shown as the last option on player choice lines that have Allow Go Back enabled."));
 
             if (_goBackLabelProp != null)
-                ConvoCoreChoiceLabelsDrawer.DrawLayout(_goBackLabelProp, settings.SupportedLanguages,
+                WitWeaverChoiceLabelsDrawer.DrawLayout(_goBackLabelProp, settings.SupportedLanguages,
                     drawHeader: false);
         }
 
@@ -206,7 +206,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUILayout.PropertyField(_enableLanguageSystemProp);
         }
 
-        private void DrawHistoryRenderersTab(ConvoCoreSettings settings)
+        private void DrawHistoryRenderersTab(WitWeaverSettings settings)
         {
             EditorGUILayout.LabelField("Dialogue History Renderers", EditorStyles.boldLabel);
 
@@ -225,12 +225,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             EditorGUILayout.HelpBox(
                 "Renderer Profiles define which dialogue history renderers are available. " +
-                "Click 'Auto-Populate' to discover and generate profiles for all IConvoCoreHistoryRenderer " +
+                "Click 'Auto-Populate' to discover and generate profiles for all IWitWeaverHistoryRenderer " +
                 "implementations in your project.",
                 MessageType.Info);
         }
 
-        private void DrawSpreadsheetTab(ConvoCoreSettings settings)
+        private void DrawSpreadsheetTab(WitWeaverSettings settings)
         {
             EditorGUILayout.HelpBox(
                 "These settings apply to all Excel spreadsheet imports project-wide. " +
@@ -267,18 +267,18 @@ namespace WolfstagInteractive.ConvoCore.Editor
             GUILayout.Space(margin);
         }
 
-        private void PopulateRendererProfiles(ConvoCoreSettings settings)
+        private void PopulateRendererProfiles(WitWeaverSettings settings)
         {
-            ConvoCoreHistoryRendererRegistry.DiscoverRenderers();
-            var names = ConvoCoreHistoryRendererRegistry.GetRendererNames();
+            WitWeaverHistoryRendererRegistry.DiscoverRenderers();
+            var names = WitWeaverHistoryRendererRegistry.GetRendererNames();
 
             if (names == null || names.Length == 0)
             {
-                Debug.LogWarning("[ConvoCoreSettings] No IConvoCoreHistoryRenderer implementations found.");
+                Debug.LogWarning("[WitWeaverSettings] No IWitWeaverHistoryRenderer implementations found.");
                 return;
             }
 
-            string folder = "Assets/ConvoCore/Generated/RendererProfiles";
+            string folder = "Assets/WitWeaver/Generated/RendererProfiles";
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
@@ -295,7 +295,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     if (exists) continue;
                 }
 
-                var profile = ScriptableObject.CreateInstance<ConvoCoreHistoryRendererProfile>();
+                var profile = ScriptableObject.CreateInstance<WitWeaverHistoryRendererProfile>();
                 profile.UpdateFromDiscovered(name);
 
                 string assetPath = Path.Combine(folder, $"{name}RendererProfile.asset");
@@ -309,7 +309,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorUtility.SetDirty(settings);
             AssetDatabase.SaveAssets();
 
-            Debug.Log($"[ConvoCoreSettings] Added {created} new renderer profile(s) to settings.");
+            Debug.Log($"[WitWeaverSettings] Added {created} new renderer profile(s) to settings.");
         }
     }
 }

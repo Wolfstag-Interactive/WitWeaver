@@ -3,9 +3,9 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1PostCompileActionAssetCreator.html")]
+    [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1PostCompileActionAssetCreator.html")]
 [InitializeOnLoad]
     public static class PostCompileActionAssetCreator 
     {
@@ -16,11 +16,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
         private static void TryCreatePendingAsset()
         {
-            if (!EditorPrefs.HasKey("ConvoCore_PendingActionName"))
+            if (!EditorPrefs.HasKey("WitWeaver_PendingActionName"))
                 return;
 
-            string actionName = EditorPrefs.GetString("ConvoCore_PendingActionName");
-            string assetPath = EditorPrefs.GetString("ConvoCore_PendingAssetPath", "Assets/DialogueActions");
+            string actionName = EditorPrefs.GetString("WitWeaver_PendingActionName");
+            string assetPath = EditorPrefs.GetString("WitWeaver_PendingAssetPath", "Assets/DialogueActions");
             string fullPath = $"{assetPath}/{actionName}.asset";
 
             Type type = GetTypeByName(actionName);
@@ -38,8 +38,8 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             Debug.Log($"Created ScriptableObject asset: {fullPath}");
 
-            EditorPrefs.DeleteKey("ConvoCore_PendingActionName");
-            EditorPrefs.DeleteKey("ConvoCore_PendingAssetPath");
+            EditorPrefs.DeleteKey("WitWeaver_PendingActionName");
+            EditorPrefs.DeleteKey("WitWeaver_PendingAssetPath");
 
             EditorApplication.update -= TryCreatePendingAsset;
         }

@@ -3,22 +3,22 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Provides menu items for exporting ConvoCore YAML dialogue files to .xlsx spreadsheets.
+    /// Provides menu items for exporting WitWeaver YAML dialogue files to .xlsx spreadsheets.
     ///
     /// Two entry points:
     /// <list type="bullet">
-    ///   <item>Right-click a .yml asset in the Project window → ConvoCore / Export to Excel…</item>
-    ///   <item>Tools → ConvoCore → Export YAML to Excel… (file picker)</item>
+    ///   <item>Right-click a .yml asset in the Project window → WitWeaver / Export to Excel…</item>
+    ///   <item>Tools → WitWeaver → Export YAML to Excel… (file picker)</item>
     /// </list>
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreExcelExportMenuItems.html")]
-    public static class ConvoCoreExcelExportMenuItems
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelExportMenuItems.html")]
+    public static class WitWeaverExcelExportMenuItems
     {
 
-        [MenuItem("Assets/ConvoCore/Export to Excel\u2026", false, 1200)]
+        [MenuItem("Assets/WitWeaver/Export to Excel\u2026", false, 1200)]
         private static void ExportSelectedYaml()
         {
             var assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
@@ -33,7 +33,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             RunExport(absolutePath, outputPath);
         }
 
-        [MenuItem("Assets/ConvoCore/Export to Excel\u2026", true)]
+        [MenuItem("Assets/WitWeaver/Export to Excel\u2026", true)]
         private static bool ExportSelectedYamlValidate()
         {
             if (Selection.activeObject == null) return false;
@@ -44,13 +44,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
         }
 
         /// <summary>
-        /// Opens a file picker to select a ConvoCore YAML file and an output location,
+        /// Opens a file picker to select a WitWeaver YAML file and an output location,
         /// then exports the YAML file to an Excel (.xlsx) spreadsheet.
         /// </summary>
-        [MenuItem("Tools/Wolfstag Interactive/ConvoCore/Export YAML to Excel\u2026", false, 200)]
+        [MenuItem("Tools/Wolfstag Interactive/WitWeaver/Export YAML to Excel\u2026", false, 200)]
         private static void ExportYamlFromToolsMenu()
         {
-            var yamlPath = EditorUtility.OpenFilePanel("Select ConvoCore YAML file", Application.dataPath, "yml,yaml");
+            var yamlPath = EditorUtility.OpenFilePanel("Select WitWeaver YAML file", Application.dataPath, "yml,yaml");
             if (string.IsNullOrEmpty(yamlPath)) return;
 
             var defaultName = Path.GetFileNameWithoutExtension(yamlPath) + ".xlsx";
@@ -69,7 +69,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         /// <param name="outputPath">The destination file path where the converted Excel file will be saved.</param>
         private static void RunExport(string yamlPath, string outputPath)
         {
-            var error = ConvoCoreYamlToExcelExporter.Export(yamlPath, outputPath);
+            var error = WitWeaverYamlToExcelExporter.Export(yamlPath, outputPath);
 
             if (error != null)
             {
@@ -82,7 +82,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (outputPath.StartsWith(projectRoot, System.StringComparison.OrdinalIgnoreCase))
                 AssetDatabase.Refresh();
 
-            Debug.Log($"[ConvoCore] Exported YAML to Excel: {outputPath}");
+            Debug.Log($"[WitWeaver] Exported YAML to Excel: {outputPath}");
             EditorUtility.RevealInFinder(outputPath);
         }
     }

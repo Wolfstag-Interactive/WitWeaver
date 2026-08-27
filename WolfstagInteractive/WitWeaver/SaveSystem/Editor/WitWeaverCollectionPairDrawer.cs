@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEditor;
-using WolfstagInteractive.ConvoCore.SaveSystem;
+using WolfstagInteractive.WitWeaver.SaveSystem;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
+namespace WolfstagInteractive.WitWeaver.SaveSystem.Editor
 {
     /// <summary>
     /// Draws a Collection sub-entry as a single row (sub-key field + typed value field).
@@ -11,9 +11,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
     /// first occurrence wins when the runtime dictionary is rebuilt.
     /// </summary>
     [CustomPropertyDrawer(typeof(CollectionIntPair))]
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1Editor_1_1ConvoCoreCollectionPairDrawer.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1Editor_1_1WitWeaverCollectionPairDrawer.html")]
 [CustomPropertyDrawer(typeof(CollectionStringPair))]
-    public class ConvoCoreCollectionPairDrawer : PropertyDrawer
+    public class WitWeaverCollectionPairDrawer : PropertyDrawer
     {
         private static readonly Color k_ErrorTint = new Color(1f, 0.25f, 0.25f, 0.18f);
 

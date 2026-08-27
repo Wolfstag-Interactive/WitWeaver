@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using WolfstagInteractive.ConvoCore.Editor;
+using WolfstagInteractive.WitWeaver.Editor;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
-[HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1GraphEditor_1_1ConvoCoreGraphMenuItems.html")]
-    internal static class ConvoCoreGraphMenuItems
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1GraphEditor_1_1WitWeaverGraphMenuItems.html")]
+    internal static class WitWeaverGraphMenuItems
     {
-        private const string OpenGraphMenu = "Assets/ConvoCore/Open Conversation Graph";
-        private const string BakeGraphMenu = "Assets/ConvoCore/Bake Conversation Graph";
-        private const string CreateWithGraphMenu = "Assets/Create/ConvoCore/Conversation With Graph";
+        private const string OpenGraphMenu = "Assets/WitWeaver/Open Conversation Graph";
+        private const string BakeGraphMenu = "Assets/WitWeaver/Bake Conversation Graph";
+        private const string CreateWithGraphMenu = "Assets/Create/WitWeaver/Conversation With Graph";
 
         /// <summary>
         /// One-step setup for graph-first authoring: creates a starter YAML file and a linked
@@ -25,7 +25,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             var key = Path.GetFileNameWithoutExtension(yamlPath);
 
             // Starter YAML: one line, LineID pre-assigned so no writeback churn on first import.
-            var languages = ConvoCoreGraphSchema.GetLanguages();
+            var languages = WitWeaverGraphSchema.GetLanguages();
             var localized = new Dictionary<string, string>();
             foreach (var language in languages)
                 localized[language] = "New line";
@@ -36,24 +36,24 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
                     new DialogueYamlConfig
                     {
                         CharacterID = "Speaker",
-                        LineID = ConvoCoreLineID.NewLineID(),
+                        LineID = WitWeaverLineID.NewLineID(),
                         LocalizedDialogue = localized
                     }
                 }
             };
-            File.WriteAllText(Path.GetFullPath(yamlPath), ConvoCoreYamlSerializer.Serialize(dict));
+            File.WriteAllText(Path.GetFullPath(yamlPath), WitWeaverYamlSerializer.Serialize(dict));
             AssetDatabase.ImportAsset(yamlPath);
 
             var dataPath = AssetDatabase.GenerateUniqueAssetPath($"{folder}/{key}.asset");
-            var data = ScriptableObject.CreateInstance<ConvoCoreConversationData>();
+            var data = ScriptableObject.CreateInstance<WitWeaverConversationData>();
             data.ConversationKey = key;
             data.ConversationTitle = key;
             AssetDatabase.CreateAsset(data, dataPath);
 
             data.SourceYaml = AssetDatabase.LoadAssetAtPath<Object>(yamlPath);
             data.SourceYamlAssetPath = yamlPath;
-            ConvoCoreYamlWatcher.TryEmbedFromPath(data, yamlPath);
-            data.ConvoCoreYamlUtilities.ImportFromYamlForKey(key);
+            WitWeaverYamlWatcher.TryEmbedFromPath(data, yamlPath);
+            data.WitWeaverYamlUtilities.ImportFromYamlForKey(key);
             data.ValidateAndFixDialogueLines();
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -61,7 +61,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
             Selection.activeObject = data;
             EditorGUIUtility.PingObject(data);
             // OpenGraphFor creates the companion graph and switches the asset to graph authoring.
-            ConvoCoreGraphBridge.OpenGraphFor(data);
+            WitWeaverGraphBridge.OpenGraphFor(data);
         }
 
         private static string GetTargetFolder()
@@ -76,14 +76,14 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
         [MenuItem(OpenGraphMenu, isValidateFunction: true)]
         private static bool ValidateOpenGraph()
-            => Selection.activeObject is ConvoCoreConversationData data &&
-               data.AuthoringMode == ConvoCoreConversationData.ConversationAuthoringMode.Graph;
+            => Selection.activeObject is WitWeaverConversationData data &&
+               data.AuthoringMode == WitWeaverConversationData.ConversationAuthoringMode.Graph;
 
         [MenuItem(OpenGraphMenu)]
         private static void OpenGraph()
         {
-            if (Selection.activeObject is ConvoCoreConversationData data)
-                ConvoCoreGraphBridge.OpenGraphFor(data);
+            if (Selection.activeObject is WitWeaverConversationData data)
+                WitWeaverGraphBridge.OpenGraphFor(data);
         }
 
         [MenuItem(BakeGraphMenu, isValidateFunction: true)]
@@ -95,10 +95,10 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         {
             var data = FindConversationForSelection();
             if (data != null)
-                ConvoCoreGraphBridge.BakeGraphFor(data, interactive: true);
+                WitWeaverGraphBridge.BakeGraphFor(data, interactive: true);
         }
 
-        private const string RefreshGraphMenu = "Assets/ConvoCore/Refresh Graph From YAML";
+        private const string RefreshGraphMenu = "Assets/WitWeaver/Refresh Graph From YAML";
 
         [MenuItem(RefreshGraphMenu, isValidateFunction: true)]
         private static bool ValidateRefreshGraph()
@@ -109,22 +109,22 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         {
             var data = FindConversationForSelection();
             if (data != null)
-                ConvoCoreGraphBridge.RefreshGraphFromYamlFor(data);
+                WitWeaverGraphBridge.RefreshGraphFromYamlFor(data);
         }
 
         /// <summary>Accepts either a selected conversation asset or a selected .convograph asset.</summary>
-        private static ConvoCoreConversationData FindConversationForSelection()
+        private static WitWeaverConversationData FindConversationForSelection()
         {
-            if (Selection.activeObject is ConvoCoreConversationData data)
+            if (Selection.activeObject is WitWeaverConversationData data)
                 return data;
 
             var path = Selection.activeObject != null
                 ? AssetDatabase.GetAssetPath(Selection.activeObject)
                 : null;
             if (!string.IsNullOrEmpty(path) &&
-                path.EndsWith("." + ConvoCoreConversationGraph.AssetExtension, System.StringComparison.OrdinalIgnoreCase))
+                path.EndsWith("." + WitWeaverConversationGraph.AssetExtension, System.StringComparison.OrdinalIgnoreCase))
                 return Unity.GraphToolkit.Editor.GraphDatabase
-                    .LoadGraph<ConvoCoreConversationGraph>(path)?.Conversation;
+                    .LoadGraph<WitWeaverConversationGraph>(path)?.Conversation;
 
             return null;
         }

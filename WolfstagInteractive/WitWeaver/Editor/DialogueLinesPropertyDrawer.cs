@@ -4,11 +4,11 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     [HelpURL(
-        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1DialogueLinesPropertyDrawer.html")]
-    [CustomPropertyDrawer(typeof(ConvoCoreConversationData.DialogueLineInfo))]
+        "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1DialogueLinesPropertyDrawer.html")]
+    [CustomPropertyDrawer(typeof(WitWeaverConversationData.DialogueLineInfo))]
     public class DialogueLinesPropertyDrawer : PropertyDrawer
     {
         // ──────────────────────────────────────────────
@@ -138,7 +138,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (EditorGUI.EndChangeCheck())
             {
                 so.ApplyModifiedProperties();
-                if (so.targetObject is ConvoCoreConversationData convo)
+                if (so.targetObject is WitWeaverConversationData convo)
                 {
                     convo.ValidateAndFixDialogueLines();
                     EditorUtility.SetDirty(convo);
@@ -173,12 +173,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
             EditorGUI.LabelField(rect, GC_ContinuationHeader, EditorStyles.boldLabel);
             rect.y += line + k_Spacing;
 
-            var mode = (ConvoCoreConversationData.LineContinuationMode)modeProp.enumValueIndex;
-            mode = (ConvoCoreConversationData.LineContinuationMode)EditorGUI.EnumPopup(rect, GC_ContinuationMode, mode);
+            var mode = (WitWeaverConversationData.LineContinuationMode)modeProp.enumValueIndex;
+            mode = (WitWeaverConversationData.LineContinuationMode)EditorGUI.EnumPopup(rect, GC_ContinuationMode, mode);
             modeProp.enumValueIndex = (int)mode;
             rect.y += line + k_Spacing;
 
-            if (mode == ConvoCoreConversationData.LineContinuationMode.ContainerBranch)
+            if (mode == WitWeaverConversationData.LineContinuationMode.ContainerBranch)
             {
                 if (containerProp != null)
                 {
@@ -207,7 +207,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     rect.y += EditorGUI.GetPropertyHeight(pushReturnProp, true) + k_Spacing;
                 }
             }
-            else if (mode == ConvoCoreConversationData.LineContinuationMode.PlayerChoice)
+            else if (mode == WitWeaverConversationData.LineContinuationMode.PlayerChoice)
             {
                 var allowGoBackProp = contProp.FindPropertyRelative("AllowGoBack");
                 if (allowGoBackProp != null)
@@ -222,7 +222,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                     rect = DrawChoicesArray(rect, choicesProp);
                 }
             }
-            else if (mode == ConvoCoreConversationData.LineContinuationMode.GoToLine)
+            else if (mode == WitWeaverConversationData.LineContinuationMode.GoToLine)
             {
                 var targetLineProp = contProp.FindPropertyRelative("TargetLineID");
                 if (targetLineProp != null)
@@ -266,7 +266,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 choicesProp.arraySize = newSize;
             rect.y += line + k_Spacing;
 
-            var supported = ConvoCoreChoiceLabelsDrawer.GetSupportedLanguages();
+            var supported = WitWeaverChoiceLabelsDrawer.GetSupportedLanguages();
 
             for (int i = 0; i < choicesProp.arraySize; i++)
             {
@@ -299,7 +299,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             EditorGUI.indentLevel++;
 
-            rect = ConvoCoreChoiceLabelsDrawer.Draw(rect, element.FindPropertyRelative("Labels"), supported);
+            rect = WitWeaverChoiceLabelsDrawer.Draw(rect, element.FindPropertyRelative("Labels"), supported);
 
             rect = DrawChoiceField(rect, element, "TargetContainer", GC_ChoiceTargetContainer);
             rect = DrawChoiceField(rect, element, "TargetAliasOrName", GC_ChoiceTargetAlias);
@@ -331,7 +331,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             if (!element.isExpanded) return h;
 
-            h += ConvoCoreChoiceLabelsDrawer.GetHeight(element.FindPropertyRelative("Labels"), supported);
+            h += WitWeaverChoiceLabelsDrawer.GetHeight(element.FindPropertyRelative("Labels"), supported);
             h += GetChoiceFieldHeight(element, "TargetContainer");
             h += GetChoiceFieldHeight(element, "TargetAliasOrName");
             h += GetChoiceFieldHeight(element, "PushReturnPoint");
@@ -357,7 +357,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             h += line + k_Spacing; // Size field
 
-            var supported = ConvoCoreChoiceLabelsDrawer.GetSupportedLanguages();
+            var supported = WitWeaverChoiceLabelsDrawer.GetSupportedLanguages();
 
             for (int i = 0; i < choicesProp.arraySize; i++)
             {
@@ -425,9 +425,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
             h += EditorGUIUtility.singleLineHeight + k_Spacing; // header
             h += EditorGUIUtility.singleLineHeight + k_Spacing; // enum popup
 
-            var mode = (ConvoCoreConversationData.LineContinuationMode)modeProp.enumValueIndex;
+            var mode = (WitWeaverConversationData.LineContinuationMode)modeProp.enumValueIndex;
 
-            if (mode == ConvoCoreConversationData.LineContinuationMode.ContainerBranch)
+            if (mode == WitWeaverConversationData.LineContinuationMode.ContainerBranch)
             {
                 var containerProp  = contProp.FindPropertyRelative("TargetContainer");
                 var aliasProp      = contProp.FindPropertyRelative("TargetAliasOrName");
@@ -447,7 +447,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 if (pushReturnProp != null)
                     h += EditorGUI.GetPropertyHeight(pushReturnProp, true) + k_Spacing;
             }
-            else if (mode == ConvoCoreConversationData.LineContinuationMode.PlayerChoice)
+            else if (mode == WitWeaverConversationData.LineContinuationMode.PlayerChoice)
             {
                 var allowGoBackProp = contProp.FindPropertyRelative("AllowGoBack");
                 if (allowGoBackProp != null)
@@ -457,7 +457,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 if (choicesProp != null)
                     h += GetChoicesArrayHeight(choicesProp);
             }
-            else if (mode == ConvoCoreConversationData.LineContinuationMode.GoToLine)
+            else if (mode == WitWeaverConversationData.LineContinuationMode.GoToLine)
             {
                 var targetLineProp  = contProp.FindPropertyRelative("TargetLineID");
                 var pushReturnProp  = contProp.FindPropertyRelative("PushReturnPoint");
@@ -478,9 +478,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private float GetInputMethodHeight(SerializedProperty property)
         {
             var methodProp = property.FindPropertyRelative("UserInputMethod");
-            var method = (ConvoCoreConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
+            var method = (WitWeaverConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
             float h = EditorGUIUtility.singleLineHeight + k_Spacing;
-            if (method == ConvoCoreConversationData.DialogueLineProgressionMethod.Timed)
+            if (method == WitWeaverConversationData.DialogueLineProgressionMethod.Timed)
                 h += EditorGUIUtility.singleLineHeight + k_Spacing;
             return h;
         }
@@ -494,9 +494,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (modeProp != null && methodProp != null)
             {
                 var mode   = (ConversationPresentationMode)modeProp.enumValueIndex;
-                var method = (ConvoCoreConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
+                var method = (WitWeaverConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
                 if (mode == ConversationPresentationMode.AudioOnly &&
-                    method == ConvoCoreConversationData.DialogueLineProgressionMethod.UserInput)
+                    method == WitWeaverConversationData.DialogueLineProgressionMethod.UserInput)
                     h += EditorStyles.helpBox.CalcHeight(
                              new GUIContent("UserInput progression on an AudioOnly line will stall the conversation. The runner will auto-coerce this to AudioComplete at runtime, but consider setting it explicitly."),
                              EditorGUIUtility.currentViewWidth - 40f) + k_Spacing;
@@ -525,7 +525,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             float height = EditorGUIUtility.singleLineHeight + k_Spacing; // label
 
-            string lang = ConvoCoreLanguageManager.Instance?.CurrentLanguage ?? "EN";
+            string lang = WitWeaverLanguageManager.Instance?.CurrentLanguage ?? "EN";
             SerializedProperty match = null;
 
             for (int i = 0; i < localizedDialoguesProp.arraySize; i++)
@@ -610,7 +610,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
     {
         h += 1 + k_Spacing * 3; // separator
 
-        var convo = property.serializedObject.targetObject as ConvoCoreConversationData;
+        var convo = property.serializedObject.targetObject as WitWeaverConversationData;
         if (convo == null)
         {
             h += EditorGUIUtility.singleLineHeight + k_Spacing;
@@ -696,7 +696,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Section label: "Primary Character", "Secondary Character", etc
             h += line;
 
-            var convo = repProp.serializedObject.targetObject as ConvoCoreConversationData;
+            var convo = repProp.serializedObject.targetObject as WitWeaverConversationData;
             if (convo == null)
                 return h + line;
 
@@ -801,13 +801,13 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var methodProp = property.FindPropertyRelative("UserInputMethod");
             var timedValueProp = property.FindPropertyRelative("TimeBeforeNextLine");
 
-            var method = (ConvoCoreConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
-            method = (ConvoCoreConversationData.DialogueLineProgressionMethod)EditorGUI.EnumPopup(rect, GC_InputMethod,
+            var method = (WitWeaverConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
+            method = (WitWeaverConversationData.DialogueLineProgressionMethod)EditorGUI.EnumPopup(rect, GC_InputMethod,
                 method);
             methodProp.enumValueIndex = (int)method;
             rect.y += EditorGUIUtility.singleLineHeight + k_Spacing;
 
-            if (method == ConvoCoreConversationData.DialogueLineProgressionMethod.Timed)
+            if (method == WitWeaverConversationData.DialogueLineProgressionMethod.Timed)
             {
                 EditorGUI.DelayedFloatField(rect, timedValueProp, GC_DisplayDuration);
                 rect.y += EditorGUIUtility.singleLineHeight + k_Spacing;
@@ -830,9 +830,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (methodProp != null)
             {
                 var mode   = (ConversationPresentationMode)modeProp.enumValueIndex;
-                var method = (ConvoCoreConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
+                var method = (WitWeaverConversationData.DialogueLineProgressionMethod)methodProp.enumValueIndex;
                 if (mode == ConversationPresentationMode.AudioOnly &&
-                    method == ConvoCoreConversationData.DialogueLineProgressionMethod.UserInput)
+                    method == WitWeaverConversationData.DialogueLineProgressionMethod.UserInput)
                 {
                     const string msg = "UserInput progression on an AudioOnly line will stall the conversation. " +
                                        "The runner will auto-coerce this to AudioComplete at runtime, but consider setting it explicitly.";
@@ -861,7 +861,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 return rect;
             }
 
-            string lang = ConvoCoreLanguageManager.Instance?.CurrentLanguage ?? "EN";
+            string lang = WitWeaverLanguageManager.Instance?.CurrentLanguage ?? "EN";
             SerializedProperty match = null;
 
             for (int i = 0; i < localizedDialoguesProp.arraySize; i++)
@@ -1001,7 +1001,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
     EditorGUI.DrawRect(new Rect(rect.x, rect.y, rect.width, 1), new Color(0.5f, 0.5f, 0.5f, 1));
     rect.y += 1 + k_Spacing * 2;
 
-    var convo = property.serializedObject.targetObject as ConvoCoreConversationData;
+    var convo = property.serializedObject.targetObject as WitWeaverConversationData;
     if (convo == null)
     {
         EditorGUI.indentLevel++;
@@ -1185,7 +1185,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         // Helper used by DrawCharacterRepresentation
         private static int GetMaxSlotsForEditor()
         {
-            int v = ConvoCoreEditorPresentationContext.MaxVisibleCharacterSlotsOverride ?? 3;
+            int v = WitWeaverEditorPresentationContext.MaxVisibleCharacterSlotsOverride ?? 3;
             return Mathf.Clamp(v, 1, 32);
         }
         
@@ -1226,7 +1226,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         
         private static readonly Dictionary<EntityId, GUIContent[]> _profilePopupCache = new();
 
-        private static GUIContent[] GetCachedProfileNames(ConvoCoreConversationData convo, List<ConvoCoreCharacterProfileBaseData> profiles)
+        private static GUIContent[] GetCachedProfileNames(WitWeaverConversationData convo, List<WitWeaverCharacterProfileBaseData> profiles)
         {
             EntityId id = convo.GetEntityId();
             if (_profilePopupCache.TryGetValue(id, out var arr))
@@ -1255,7 +1255,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             SerializedProperty identifierProp,
             float spacing,
             bool useRepresentationNameInsteadOfID,
-            ConvoCoreConversationData convo)
+            WitWeaverConversationData convo)
         {
             var so = representationProp.serializedObject;
 
@@ -1586,7 +1586,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 outer.width - k_Pad * 2f,
                 outer.height - k_Pad * 2f);
 
-            int id = GUIUtility.GetControlID("ConvoCoreEmotionHover".GetHashCode(), FocusType.Passive);
+            int id = GUIUtility.GetControlID("WitWeaverEmotionHover".GetHashCode(), FocusType.Passive);
 
             // Opaque outer background
             Color outerBg = EditorGUIUtility.isProSkin ? s_TooltipBgPro : s_TooltipBgLight;
@@ -1646,7 +1646,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (localizedDialoguesProp == null || !localizedDialoguesProp.isArray || localizedDialoguesProp.arraySize == 0)
                 return "(No dialogue text)";
 
-            string lang = ConvoCoreLanguageManager.Instance?.CurrentLanguage ?? "EN";
+            string lang = WitWeaverLanguageManager.Instance?.CurrentLanguage ?? "EN";
             for (int i = 0; i < localizedDialoguesProp.arraySize; i++)
             {
                 var el = localizedDialoguesProp.GetArrayElementAtIndex(i);

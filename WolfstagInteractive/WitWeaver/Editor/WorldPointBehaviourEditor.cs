@@ -4,9 +4,9 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1WorldPointBehaviourEditor.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WorldPointBehaviourEditor.html")]
     [CustomEditor(typeof(WorldPointBehaviour))]
     public class WorldPointBehaviourEditor : UnityEditor.Editor
     {
@@ -48,12 +48,12 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             _list.DoLayoutList();
 
-            // Validation: collect IDs that have no matching ConvoCoreSpawnPoint in the scene.
+            // Validation: collect IDs that have no matching WitWeaverSpawnPoint in the scene.
             var worldPointsProp = serializedObject.FindProperty("_worldPoints");
             if (worldPointsProp != null && worldPointsProp.isArray)
             {
                 var missing = new List<string>();
-                var registry = FindAnyObjectByType<ConvoCoreSpawnPointRegistry>();
+                var registry = FindAnyObjectByType<WitWeaverSpawnPointRegistry>();
 
                 for (int i = 0; i < worldPointsProp.arraySize; i++)
                 {
@@ -69,9 +69,9 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 {
                     EditorGUILayout.Space(4f);
                     EditorGUILayout.HelpBox(
-                        "The following Spawn Point ID(s) have no matching ConvoCoreSpawnPoint in the scene:\n" +
+                        "The following Spawn Point ID(s) have no matching WitWeaverSpawnPoint in the scene:\n" +
                         string.Join("\n", missing) +
-                        "\n\nAdd ConvoCoreSpawnPoint components to scene GameObjects and set their Spawn Point ID to match.",
+                        "\n\nAdd WitWeaverSpawnPoint components to scene GameObjects and set their Spawn Point ID to match.",
                         MessageType.Warning);
                 }
             }

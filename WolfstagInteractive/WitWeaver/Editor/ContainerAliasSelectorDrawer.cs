@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
     /// Draws a [ContainerAliasSelector] string field as a dropdown of the entries in the sibling
@@ -12,7 +12,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
     /// as a "Missing: ..." entry instead of being silently discarded. Falls back to a plain text
     /// field when no container is assigned.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ContainerAliasSelectorDrawer.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1ContainerAliasSelectorDrawer.html")]
 [CustomPropertyDrawer(typeof(ContainerAliasSelectorAttribute))]
     public class ContainerAliasSelectorDrawer : PropertyDrawer
     {

@@ -9,20 +9,20 @@ using System.Xml.Linq;
 using UnityEngine;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
     /// Writes generated LineID values back into the source .xlsx file after
-    /// <see cref="ConvoCoreLineIDUtility.EnsureLineIds"/> populates them.
+    /// <see cref="WitWeaverLineIDUtility.EnsureLineIds"/> populates them.
     /// All sheets (including non-dialogue sheets like _README) are preserved.
     /// Uses System.IO.Compression and System.Xml.Linq — no external NuGet dependencies.
     ///
     /// Each <see cref="SpreadsheetRowConfig"/> carries the 1-based xlsx row number stamped
-    /// by <see cref="ConvoCoreExcelParser"/> at parse time, so writeback is keyed directly
+    /// by <see cref="WitWeaverExcelParser"/> at parse time, so writeback is keyed directly
     /// by row number — no skip-logic duplication, no index drift.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreExcelWriter.html")]
-    public static class ConvoCoreExcelWriter
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelWriter.html")]
+    public static class WitWeaverExcelWriter
     {
         private static readonly XNamespace Ns     = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
         private static readonly XNamespace RNs    = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -36,7 +36,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         /// </summary>
         public static bool TryWriteLineIDs(
             string absolutePath,
-            ConvoCoreSettings settings,
+            WitWeaverSettings settings,
             Dictionary<string, List<SpreadsheetRowConfig>> data,
             out string error)
         {
@@ -74,7 +74,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             }
             catch (Exception ex)
             {
-                error = $"ConvoCore Excel: Failed to write LineIDs back to '{fileName}'. {ex.Message} — " +
+                error = $"WitWeaver Excel: Failed to write LineIDs back to '{fileName}'. {ex.Message} — " +
                         $"The file may be open in another application or marked read-only.";
                 return false;
             }
@@ -183,7 +183,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             byte[] wsBytes,
             List<string> sharedStrings,
             string sheetName,
-            ConvoCoreSettings settings,
+            WitWeaverSettings settings,
             List<SpreadsheetRowConfig> rowConfigs,
             string fileName)
         {
@@ -202,7 +202,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (sortedRowNumbers.Count <= settings.ExcelHeaderRowIndex)
             {
                 Debug.LogWarning(
-                    $"ConvoCore Excel: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}': " +
+                    $"WitWeaver Excel: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}': " +
                     $"no row at header index {settings.ExcelHeaderRowIndex}.");
                 return null;
             }
@@ -216,7 +216,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 var cellRef = cell.Attribute("r")?.Value;
                 if (string.IsNullOrEmpty(cellRef)) continue;
                 var val    = GetCellValue(cell, sharedStrings)?.Trim();
-                var colIdx = ConvoCoreExcelParser.CellRefToColIndex(cellRef);
+                var colIdx = WitWeaverExcelParser.CellRefToColIndex(cellRef);
 
                 if (string.Equals(val, settings.ExcelLineIDHeader, StringComparison.OrdinalIgnoreCase))
                 {
@@ -228,10 +228,10 @@ namespace WolfstagInteractive.ConvoCore.Editor
             if (lineIdCol == null)
             {
                 Debug.LogWarning(
-                    $"ConvoCore Excel: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}' " +
+                    $"WitWeaver Excel: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}' " +
                     $"because the '{settings.ExcelLineIDHeader}' column was not found in the header row. " +
                     $"Add a '{settings.ExcelLineIDHeader}' column header or update ExcelLineIDHeader in " +
-                    $"ConvoCoreSettings > Spreadsheet.");
+                    $"WitWeaverSettings > Spreadsheet.");
                 return null;
             }
 
@@ -244,7 +244,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 {
                     var r = c.Attribute("r")?.Value;
                     return r != null
-                        && ConvoCoreExcelParser.CellRefToColIndex(r) == lineIdCol.Value
+                        && WitWeaverExcelParser.CellRefToColIndex(r) == lineIdCol.Value
                         && c.Attribute("s") != null;
                 });
                 if (styleCell != null)
@@ -295,7 +295,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
         private static void UpdateOrInsertCell(
             XElement rowEl, int rowNum, int colIndex, string value, string columnStyle = null)
         {
-            var colLetters = ConvoCoreExcelParser.ColIndexToLetters(colIndex);
+            var colLetters = WitWeaverExcelParser.ColIndexToLetters(colIndex);
             var cellRef    = $"{colLetters}{rowNum}";
 
             var existing = rowEl.Elements(Ns + "c").FirstOrDefault(c =>
@@ -321,7 +321,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
                 // Insert in column order
                 var insertBefore = rowEl.Elements(Ns + "c").FirstOrDefault(c =>
-                    ConvoCoreExcelParser.CellRefToColIndex(c.Attribute("r")?.Value ?? "") > colIndex);
+                    WitWeaverExcelParser.CellRefToColIndex(c.Attribute("r")?.Value ?? "") > colIndex);
 
                 if (insertBefore != null)
                     insertBefore.AddBeforeSelf(newCell);

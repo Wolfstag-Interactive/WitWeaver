@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConversationContainerEditor.html")]
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1ConversationContainerEditor.html")]
 [CustomEditor(typeof(ConversationContainer))]
     public sealed class ConversationContainerEditor : UnityEditor.Editor
     {
@@ -287,7 +287,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             var legacyProp = element.FindPropertyRelative("StartLineIndex");
             rect.height = EditorGUIUtility.singleLineHeight;
 
-            var data = convoProp?.objectReferenceValue as ConvoCoreConversationData;
+            var data = convoProp?.objectReferenceValue as WitWeaverConversationData;
             if (idProp == null || data?.DialogueLines == null || data.DialogueLines.Count == 0)
             {
                 using (new EditorGUI.DisabledScope(true))
@@ -336,7 +336,7 @@ namespace WolfstagInteractive.ConvoCore.Editor
             rect.y += rect.height + Spacing;
         }
 
-        private static string GetLinePreview(ConvoCoreConversationData.DialogueLineInfo line)
+        private static string GetLinePreview(WitWeaverConversationData.DialogueLineInfo line)
         {
             if (line.LocalizedDialogues != null)
             {

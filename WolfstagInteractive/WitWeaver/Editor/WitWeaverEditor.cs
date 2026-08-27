@@ -2,34 +2,34 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
-    [HelpURL("https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1Editor_1_1ConvoCoreEditor.html")]
-    [CustomEditor(typeof(ConvoCore))]
-    public class ConvoCoreEditor : UnityEditor.Editor
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverEditor.html")]
+    [CustomEditor(typeof(WitWeaver))]
+    public class WitWeaverEditor : UnityEditor.Editor
     {
-        private ConvoCoreLanguageManager _convoCoreLanguageManager;
+        private WitWeaverLanguageManager _witWeaverLanguageManager;
         private int _selectedLanguageIndex;
         private bool _indexInitialized;
 
         public override void OnInspectorGUI()
         {
             // Get the target object
-            ConvoCore convoCore = (ConvoCore)target;
+            WitWeaver witWeaver = (WitWeaver)target;
             // Access the LanguageManager Singleton instance
-            _convoCoreLanguageManager = ConvoCoreLanguageManager.Instance;
+            _witWeaverLanguageManager = WitWeaverLanguageManager.Instance;
 
             // Check if the LanguageManager is initialized
-            if (_convoCoreLanguageManager == null || _convoCoreLanguageManager.GetSupportedLanguages() == null)
+            if (_witWeaverLanguageManager == null || _witWeaverLanguageManager.GetSupportedLanguages() == null)
             {
                 EditorGUILayout.HelpBox(
-                    "ConvoCoreSettings not found or not configured properly. Please create and configure it using the menu.",
+                    "WitWeaverSettings not found or not configured properly. Please create and configure it using the menu.",
                     MessageType.Error);
                 EditorGUILayout.Space();
 
                 if (GUILayout.Button("Open Settings (or Create if Missing)"))
                 {
-                    ConvoCoreMenuItems.OpenSettings();
+                    WitWeaverMenuItems.OpenSettings();
                 }
 
                 return;
@@ -42,20 +42,20 @@ namespace WolfstagInteractive.ConvoCore.Editor
 
             // Info box about global language settings
             EditorGUILayout.HelpBox(
-                "Language is controlled globally in ConvoCoreSettings. Changes here affect all conversations.",
+                "Language is controlled globally in WitWeaverSettings. Changes here affect all conversations.",
                 MessageType.Info);
 
             // Display the current language
-            EditorGUILayout.LabelField("Current Language:", _convoCoreLanguageManager.CurrentLanguage);
+            EditorGUILayout.LabelField("Current Language:", _witWeaverLanguageManager.CurrentLanguage);
 
             // Display dropdown to select a language
-            var supportedLanguages = _convoCoreLanguageManager.GetSupportedLanguages();
+            var supportedLanguages = _witWeaverLanguageManager.GetSupportedLanguages();
             if (supportedLanguages is { Count: > 0 })
             {
                 // Initialize the dropdown index only once or when language changes externally
                 if (!_indexInitialized || !IsValidIndex(supportedLanguages))
                 {
-                    _selectedLanguageIndex = Mathf.Max(0, supportedLanguages.IndexOf(_convoCoreLanguageManager.CurrentLanguage));
+                    _selectedLanguageIndex = Mathf.Max(0, supportedLanguages.IndexOf(_witWeaverLanguageManager.CurrentLanguage));
                     _indexInitialized = true;
                 }
 
@@ -70,30 +70,30 @@ namespace WolfstagInteractive.ConvoCore.Editor
                 }
 
                 // Add a button to apply the selected language
-                EditorGUI.BeginDisabledGroup(supportedLanguages[_selectedLanguageIndex] == _convoCoreLanguageManager.CurrentLanguage);
+                EditorGUI.BeginDisabledGroup(supportedLanguages[_selectedLanguageIndex] == _witWeaverLanguageManager.CurrentLanguage);
                 if (GUILayout.Button("Apply Language"))
                 {
                     var selectedLanguage = supportedLanguages[_selectedLanguageIndex];
-                    _convoCoreLanguageManager.SetLanguage(selectedLanguage);
+                    _witWeaverLanguageManager.SetLanguage(selectedLanguage);
                     Debug.Log($"Language applied globally: {selectedLanguage}");
-                    convoCore.UpdateUIForLanguage(selectedLanguage);
+                    witWeaver.UpdateUIForLanguage(selectedLanguage);
                 }
                 EditorGUI.EndDisabledGroup();
 
                 // Button to open settings
-                if (GUILayout.Button("Open ConvoCoreSettings"))
+                if (GUILayout.Button("Open WitWeaverSettings"))
                 {
-                    ConvoCoreMenuItems.OpenSettings();
+                    WitWeaverMenuItems.OpenSettings();
                 }
             }
             else
             {
-                EditorGUILayout.HelpBox("No supported languages found! Please configure ConvoCoreSettings.",
+                EditorGUILayout.HelpBox("No supported languages found! Please configure WitWeaverSettings.",
                     MessageType.Warning);
 
                 if (GUILayout.Button("Open Settings"))
                 {
-                    ConvoCoreMenuItems.OpenSettings();
+                    WitWeaverMenuItems.OpenSettings();
                 }
             }
 
@@ -103,11 +103,11 @@ namespace WolfstagInteractive.ConvoCore.Editor
             // Add a button to start the conversation
             if (GUILayout.Button("Start Conversation"))
             {
-                convoCore.PlayConversation();
+                witWeaver.PlayConversation();
             }
 
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Current Conversation State:", convoCore.CurrentDialogueState.ToString());
+            EditorGUILayout.LabelField("Current Conversation State:", witWeaver.CurrentDialogueState.ToString());
         }
 
         private bool IsValidIndex(List<string> supportedLanguages)

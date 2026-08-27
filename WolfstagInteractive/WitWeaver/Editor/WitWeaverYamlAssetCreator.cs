@@ -4,23 +4,23 @@ using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.Editor
+namespace WolfstagInteractive.WitWeaver.Editor
 {
 
 
     [HelpURL(
-        "https://docs.wolfstaginteractive.com/convocore/api/classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreYamlAssetCreator.html")]
+        "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlAssetCreator.html")]
     /// <summary>
     /// Creates a new .yml file in the Project window from the Assets/Create menu,
     /// similar to how Unity creates a new C# script.
     /// </summary>
-    public static class ConvoCoreYamlAssetCreator
+    public static class WitWeaverYamlAssetCreator
     {
-        private const string MenuPath = "Assets/Create/ConvoCore/Conversation YAML";
+        private const string MenuPath = "Assets/Create/WitWeaver/Conversation YAML";
         private const string DefaultFileName = "NewConversation.yml";
 
         private const string DefaultYamlTemplate =
-            @"# ConvoCore Conversation YAML Dialogue Line Format
+            @"# WitWeaver Conversation YAML Dialogue Line Format
 # ConversationID: The top-level key identifying this dialogue sequence. 
 There can be multiple conversations within a single file but they must be uniquely identifiable keys.
 # CharacterID: The ID of the speaker. Character profiles in the editor will use this to decide who is speaking the line.

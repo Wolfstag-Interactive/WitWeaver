@@ -1,14 +1,14 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using WolfstagInteractive.ConvoCore.SaveSystem;
-using WolfstagInteractive.ConvoCore;
+using WolfstagInteractive.WitWeaver.SaveSystem;
+using WolfstagInteractive.WitWeaver;
 using YamlDotNet.Serialization;
 
-namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
+namespace WolfstagInteractive.WitWeaver.SaveSystem.Editor
 {
-    [CustomEditor(typeof(ConvoCoreConversationSaveManager))]
-    public class ConvoCoreConversationSaveManagerEditor : UnityEditor.Editor
+    [CustomEditor(typeof(WitWeaverConversationSaveManager))]
+    public class WitWeaverConversationSaveManagerEditor : UnityEditor.Editor
     {
         // ── Serialized properties ─────────────────────────────────────────────
 
@@ -73,7 +73,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
         {
             serializedObject.Update();
 
-            var manager = (ConvoCoreConversationSaveManager)target;
+            var manager = (WitWeaverConversationSaveManager)target;
             bool hasDirect    = _directConversationProp.objectReferenceValue != null;
             bool hasContainer = _conversationContainerProp.objectReferenceValue != null;
 
@@ -82,7 +82,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
             EditorGUILayout.PropertyField(_directConversationProp,
                 new GUIContent("Direct Conversation",
-                    "A single ConvoCoreConversationData. Takes priority over Conversation Container."));
+                    "A single WitWeaverConversationData. Takes priority over Conversation Container."));
 
             EditorGUILayout.PropertyField(_conversationContainerProp,
                 new GUIContent("Conversation Container",
@@ -104,9 +104,9 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
             // === References ===
             EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_saveManagerProp,
-                new GUIContent("Save Manager", "The ConvoCoreSaveManager ScriptableObject used to persist snapshots."));
+                new GUIContent("Save Manager", "The WitWeaverSaveManager ScriptableObject used to persist snapshots."));
             EditorGUILayout.PropertyField(_variableStoreProp,
-                new GUIContent("Variable Store", "The ConvoVariableStore holding conversation-scoped variables."));
+                new GUIContent("Variable Store", "The WitWeaverVariableStore holding conversation-scoped variables."));
 
             // Validation warnings
             if (!hasDirect && !hasContainer)
@@ -168,11 +168,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
         private void DrawIdentityPanel(bool hasDirect, bool hasContainer)
         {
-            ConvoCoreConversationData data = null;
+            WitWeaverConversationData data = null;
 
             if (hasDirect)
             {
-                data = (ConvoCoreConversationData)_directConversationProp.objectReferenceValue;
+                data = (WitWeaverConversationData)_directConversationProp.objectReferenceValue;
             }
             else if (hasContainer)
             {
@@ -205,7 +205,7 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
 
         // ── Play-mode section ─────────────────────────────────────────────────
 
-        private void DrawPlayModeSection(ConvoCoreConversationSaveManager manager)
+        private void DrawPlayModeSection(WitWeaverConversationSaveManager manager)
         {
             EditorGUILayout.LabelField("Play Mode State", EditorStyles.boldLabel);
 
@@ -234,11 +234,11 @@ namespace WolfstagInteractive.ConvoCore.SaveSystem.Editor
                     if (snapshot != null)
                     {
                         var serializer = new SerializerBuilder().Build();
-                        Debug.Log($"[ConvoCoreConversationSaveManager] Snapshot:\n{serializer.Serialize(snapshot)}");
+                        Debug.Log($"[WitWeaverConversationSaveManager] Snapshot:\n{serializer.Serialize(snapshot)}");
                     }
                     else
                     {
-                        Debug.Log("[ConvoCoreConversationSaveManager] No active conversation — snapshot unavailable.");
+                        Debug.Log("[WitWeaverConversationSaveManager] No active conversation — snapshot unavailable.");
                     }
                 }
 

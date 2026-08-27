@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
-namespace WolfstagInteractive.ConvoCore.GraphEditor
+namespace WolfstagInteractive.WitWeaver.GraphEditor
 {
     /// <summary>
     /// One dialogue line. Identity is the hidden serialized LineID (stable across bakes and
@@ -16,7 +16,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
     /// and Refresh From YAML removes its node.
     /// </summary>
     [Serializable]
-    [UseWithGraph(typeof(ConvoCoreConversationGraph))]
+    [UseWithGraph(typeof(WitWeaverConversationGraph))]
     public class DialogueLineNode : Node
     {
         [SerializeField, HideInInspector] private string m_LineId;
@@ -33,7 +33,7 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
         internal void EnsureLineId()
         {
             if (string.IsNullOrEmpty(m_LineId))
-                m_LineId = ConvoCoreLineID.NewLineID();
+                m_LineId = WitWeaverLineID.NewLineID();
         }
 
         internal void SetCharacterId(string characterId) => m_CharacterId = characterId ?? "";
@@ -81,11 +81,11 @@ namespace WolfstagInteractive.ConvoCore.GraphEditor
 
         protected override void OnDefinePorts(IPortDefinitionContext context)
         {
-            context.AddInputPort(ConvoCoreGraphSchema.InPort)
+            context.AddInputPort(WitWeaverGraphSchema.InPort)
                 .WithConnectorUI(PortConnectorUI.Arrowhead)
                 .Build();
 
-            context.AddOutputPort(ConvoCoreGraphSchema.NextPort)
+            context.AddOutputPort(WitWeaverGraphSchema.NextPort)
                 .WithConnectorUI(PortConnectorUI.Arrowhead)
                 .WithTooltip("Next step: a dialogue line, a Player Choice, a Container Branch, or an End node.")
                 .Build();
