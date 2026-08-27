@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.IWitWeaverInput" name="WolfstagInteractive.WitWeaver.IWitWeaverInput">
+<area shape="rect" id="Node000001" title="Input strategy interface." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1ContainerInput.html" title="Plays one or more conversations from a ConversationContainer asset." alt="" coords="280,5,507,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,64,306,43,308,48,219,69"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1GraphConversationInput.html" title="Plays a conversation authored as a node graph." alt="" coords="280,69,507,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,87,280,87,280,92,246,92"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1SingleConversationInput.html" title="Plays a single WitWeaverConversationData asset directly." alt="" coords="280,133,507,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="219,110,308,131,306,136,218,115"/>
+</map>

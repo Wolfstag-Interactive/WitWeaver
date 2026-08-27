@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.AnimatedPlaybackContext" name="WolfstagInteractive.WitWeaver.AnimatedPlaybackContext">
+<area shape="rect" id="Node000001" title="Everything a payload needs to create playback." alt="" coords="5,108,232,148"/>
+<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IAnimatedPortraitSurface.html" title="UI&#45;agnostic render target for animated portrait playback." alt="" coords="5,5,232,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,59,121,108,116,108,116,59"/>
+</map>

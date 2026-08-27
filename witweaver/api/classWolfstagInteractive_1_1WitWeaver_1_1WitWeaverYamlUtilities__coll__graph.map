@@ -1,0 +1,11 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverYamlUtilities" name="WolfstagInteractive.WitWeaver.WitWeaverYamlUtilities">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,183,232,223"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html" title=" " alt="" coords="300,80,527,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,110,196,123,160,133,136,146,126,163,121,183,116,182,121,161,133,142,158,128,195,118,286,105"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioManifest.html" title="Maps dialogue line IDs to audio clips or middleware references, supporting Unity AudioSource,..." alt="" coords="399,183,625,223"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="355,129,342,143,341,150,345,157,365,170,399,181,398,186,363,175,341,160,336,150,337,141,351,125"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="490,5,619,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="524,40,448,82,445,78,521,35"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="574,41,590,66,603,96,607,129,605,145,598,160,586,174,572,185,569,180,583,170,594,157,600,143,602,129,597,98,585,68,570,43"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="497,171,481,146,450,122,454,118,485,142,502,168"/>
+</map>

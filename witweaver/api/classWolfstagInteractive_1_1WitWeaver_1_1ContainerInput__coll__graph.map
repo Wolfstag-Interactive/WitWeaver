@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.ContainerInput" name="WolfstagInteractive.WitWeaver.ContainerInput">
+<area shape="rect" id="Node000001" title="Plays one or more conversations from a ConversationContainer asset." alt="" coords="19,183,245,223"/>
+<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverInput.html" title="Input strategy interface." alt="" coords="5,87,136,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,123,123,181,118,184,82,126"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html" title="ScriptableObject that groups one or more WitWeaverConversationData assets into a single addressable u..." alt="" coords="160,80,387,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,130,160,185,157,180,234,126"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="209,5,338,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="276,44,276,80,271,80,271,44"/>
+</map>

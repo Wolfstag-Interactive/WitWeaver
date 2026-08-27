@@ -1,4 +1,0 @@
-var ConvoCoreCharacterProfileExtensions_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.SaveSystem.ConvoCoreCharacterProfileExtensions", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreCharacterProfileExtensions.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreCharacterProfileExtensions" ]
-];

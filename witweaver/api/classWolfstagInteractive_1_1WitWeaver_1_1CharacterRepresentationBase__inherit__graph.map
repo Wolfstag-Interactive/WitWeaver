@@ -1,0 +1,11 @@
+<map id="WolfstagInteractive.WitWeaver.CharacterRepresentationBase" name="WolfstagInteractive.WitWeaver.CharacterRepresentationBase">
+<area shape="rect" id="Node000001" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="183,69,409,109"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1AnimatedCharacterRepresentationData.html" title=" " alt="" coords="457,5,736,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="403,64,502,43,503,48,404,69"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData.html" title="Defines how a prefab&#45;based character is displayed in a WitWeaver conversation." alt="" coords="468,69,725,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="423,87,468,87,468,92,423,92"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1SpriteCharacterRepresentationData.html" title=" " alt="" coords="470,133,723,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="404,110,503,131,502,136,403,115"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,77,135,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,87,182,87,182,92,148,92"/>
+</map>

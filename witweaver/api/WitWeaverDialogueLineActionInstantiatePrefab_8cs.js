@@ -1,0 +1,4 @@
+var WitWeaverDialogueLineActionInstantiatePrefab_8cs =
+[
+    [ "WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionInstantiatePrefab", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionInstantiatePrefab.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionInstantiatePrefab" ]
+];

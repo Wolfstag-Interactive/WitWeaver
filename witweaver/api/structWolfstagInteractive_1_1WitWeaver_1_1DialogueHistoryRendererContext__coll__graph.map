@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.DialogueHistoryRendererContext" name="WolfstagInteractive.WitWeaver.DialogueHistoryRendererContext">
+<area shape="rect" id="Node000001" title="Context container passed to renderers on initialization." alt="" coords="5,108,243,148"/>
+<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IDialogueHistoryOutput.html" title=" " alt="" coords="11,5,237,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,59,127,108,121,108,121,59"/>
+</map>

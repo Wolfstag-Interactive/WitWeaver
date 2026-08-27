@@ -1,0 +1,17 @@
+<map id="WolfstagInteractive.WitWeaver.BaseDialogueLineAction" name="WolfstagInteractive.WitWeaver.BaseDialogueLineAction">
+<area shape="rect" id="Node000001" title="Base ScriptableObject class for all WitWeaver dialogue line actions." alt="" coords="183,210,409,250"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionDialogueLineActionGroup.html" title=" " alt="" coords="473,5,751,60"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="318,197,376,132,414,98,456,69,480,58,482,62,459,74,417,102,380,135,322,200"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionEnableDisableGameObject.html" title=" " alt="" coords="481,84,743,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="343,201,396,173,456,148,491,136,492,141,458,152,399,178,345,206"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionFadeInOutSpriteRenderer.html" title=" " alt="" coords="481,163,743,217"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="423,211,481,204,481,209,424,217"/>
+<area shape="rect" id="Node000006" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionInstantiatePrefab.html" title=" " alt="" coords="467,241,757,296"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="424,243,467,248,467,254,423,248"/>
+<area shape="rect" id="Node000007" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionModifyTransform.html" title=" " alt="" coords="481,320,743,375"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="346,254,399,281,458,306,492,317,491,322,456,311,397,286,343,259"/>
+<area shape="rect" id="Node000008" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionPlayAudioClip.html" title=" " alt="" coords="457,399,767,439"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="322,259,379,324,417,357,459,385,486,397,484,402,456,390,414,362,375,328,318,263"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,217,135,243"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,227,182,227,182,233,148,233"/>
+</map>

@@ -1,4 +1,0 @@
-var ConvoCoreDialogueLineActionFadeInOutSpriteRenderer_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreDialogueLineActionFadeInOutSpriteRenderer", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionFadeInOutSpriteRenderer.html", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionFadeInOutSpriteRenderer" ]
-];

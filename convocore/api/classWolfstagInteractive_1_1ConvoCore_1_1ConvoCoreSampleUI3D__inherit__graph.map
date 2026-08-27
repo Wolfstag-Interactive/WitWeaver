@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoCoreSampleUI3D" name="WolfstagInteractive.ConvoCore.ConvoCoreSampleUI3D">
-<area shape="rect" id="Node000001" title="World&#45;space dialogue UI for 3D character conversations." alt="" coords="34,152,242,192"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUIFoundation.html" title="Used as a basis of any UI that can be assigned in the inspector that includes all the base functions ..." alt="" coords="49,79,227,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,118,141,152,135,152,135,118"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,129,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,39,128,77,125,80,87,43"/>
-<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IUIFoundation.html" title="Contract between the ConvoCore runner and a dialogue UI implementation." alt="" coords="154,5,266,31"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="190,43,152,80,148,77,186,39"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoAudioReference" name="WolfstagInteractive.ConvoCore.ConvoAudioReference">
-<area shape="rect" id="Node000001" title="Abstract base for audio references used in ConvoCore&#39;s audio manifest." alt="" coords="269,37,469,77"/>
-<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreAudioEventKeyReference.html" title="Passes a middleware event key (FMOD event path, Wwise event name, etc.) through the IConvoAudioProvid..." alt="" coords="517,5,808,45"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="483,42,517,39,517,44,483,48"/>
-<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreUnityAudioReference.html" title="Built&#45;in Unity AudioClip&#45;based audio reference." alt="" coords="530,69,795,109"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="483,67,530,72,530,78,483,72"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,45,221,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,55,269,55,269,60,235,60"/>
-</map>

@@ -1,0 +1,15 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverDialogueHistoryUI" name="WolfstagInteractive.WitWeaver.WitWeaverDialogueHistoryUI">
+<area shape="rect" id="Node000001" title=" " alt="" coords="599,122,825,162"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="242,5,366,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="380,30,425,41,552,81,659,119,658,124,550,86,423,46,379,35"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html" title="Global runtime settings ScriptableObject for WitWeaver." alt="" coords="191,94,417,134"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="431,120,599,132,598,137,431,125"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="277,78,287,70,304,67,319,69,329,75,334,84,332,94,327,93,328,85,325,79,317,74,304,73,289,75,280,82"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,135,135,160"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="148,134,190,127,191,133,149,139"/>
+<area shape="rect" id="Node000006" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverHistoryRendererProfile.html" title=" " alt="" coords="184,158,424,198"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="149,155,184,160,183,165,148,160"/>
+<area shape="rect" id="Node000005" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="191,222,417,262"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="428,217,574,183,653,159,654,165,575,189,429,222"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="438,164,598,149,599,155,438,169"/>
+</map>

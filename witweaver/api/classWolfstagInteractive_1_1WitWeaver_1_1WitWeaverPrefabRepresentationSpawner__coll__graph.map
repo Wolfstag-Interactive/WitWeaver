@@ -1,0 +1,8 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverPrefabRepresentationSpawner" name="WolfstagInteractive.WitWeaver.WitWeaverPrefabRepresentationSpawner">
+<area shape="rect" id="Node000001" title="Resolves, tracks, and releases prefab&#45;based character displays for a single UI instance." alt="" coords="5,183,296,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="83,5,207,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,44,153,183,147,183,143,45"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSceneCharacterRegistry.html" title="Scene&#45;level registry that maps developer&#45;assigned string IDs to IWitWeaverCharacterDisplay instances ..." alt="" coords="166,80,415,120"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="179,35,258,78,255,82,177,40"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,130,178,185,175,180,252,126"/>
+</map>

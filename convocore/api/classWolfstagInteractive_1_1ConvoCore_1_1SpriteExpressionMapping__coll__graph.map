@@ -1,7 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.SpriteExpressionMapping" name="WolfstagInteractive.ConvoCore.SpriteExpressionMapping">
-<area shape="rect" id="Node000001" title=" " alt="" coords="15,183,236,223"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1DialogueLineDisplayOptions.html" title=" " alt="" coords="5,80,245,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,134,128,183,123,183,123,134"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="15,5,235,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="128,44,128,80,123,80,123,44"/>
-</map>

@@ -1,0 +1,13 @@
+<map id="WolfstagInteractive.WitWeaver.IWitWeaverCharacterDisplay" name="WolfstagInteractive.WitWeaver.IWitWeaverCharacterDisplay">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,101,232,141"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterDisplayBase.html" title="Generic base class for all prefab&#45;based character displays." alt="" coords="280,101,517,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,119,280,119,280,124,245,124"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1SimplePrefabRepresentationDisplay.html" title=" " alt="" coords="565,5,823,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="459,94,565,55,606,43,607,48,566,60,461,99"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverActionOnlyDisplay.html" title="Minimal prefab display component." alt="" coords="581,69,807,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="530,104,580,99,581,104,531,110"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorDisplay.html" title="Prefab display component that maps expression display names to Animator parameters." alt="" coords="581,133,807,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="531,133,581,138,580,144,530,138"/>
+<area shape="rect" id="Node000006" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverBlendShapeDisplay.html" title="Prefab display component that maps expression display names to SkinnedMeshRenderer blend shape indice..." alt="" coords="581,197,807,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="461,144,566,183,607,195,606,200,565,188,459,149"/>
+</map>

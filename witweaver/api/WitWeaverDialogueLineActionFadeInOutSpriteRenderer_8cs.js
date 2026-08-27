@@ -1,0 +1,4 @@
+var WitWeaverDialogueLineActionFadeInOutSpriteRenderer_8cs =
+[
+    [ "WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionFadeInOutSpriteRenderer", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionFadeInOutSpriteRenderer.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionFadeInOutSpriteRenderer" ]
+];

@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,45,225,70"/>
+<area shape="rect" id="Node000001" href="$classWolfstagInteractive_1_1WitWeaver_1_1DialogueLineDisplayOptions.html" title=" " alt="" coords="275,5,502,45"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="237,40,275,36,276,41,238,46"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverVariable.html" title="A strongly&#45;typed named variable that can hold a string, int, float, or bool value." alt="" coords="273,69,504,109"/>
+<area shape="poly" id="edge3_Node000000_Node000002" title=" " alt="" coords="238,69,273,73,273,78,237,74"/>
+</map>

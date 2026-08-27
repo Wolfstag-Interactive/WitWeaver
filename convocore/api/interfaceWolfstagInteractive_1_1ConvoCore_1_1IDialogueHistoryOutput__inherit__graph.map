@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.IDialogueHistoryOutput" name="WolfstagInteractive.ConvoCore.IDialogueHistoryOutput">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,215,77"/>
-<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutputPrefab.html" title=" " alt="" coords="263,5,513,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,41,262,37,263,42,229,46"/>
-<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1ConvoCore_1_1TMPDialogueHistoryOutput.html" title=" " alt="" coords="271,69,505,109"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,68,271,73,271,79,228,74"/>
-<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1PrefabDialogueHistoryOutput.html" title=" " alt="" coords="561,5,808,45"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="527,23,561,23,561,28,527,28"/>
-</map>

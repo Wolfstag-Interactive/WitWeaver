@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.AnimatorPrefabAnimationPayload" name="WolfstagInteractive.WitWeaver.AnimatorPrefabAnimationPayload">
+<area shape="rect" id="Node000001" title="Animator&#45;driven animation: a prefab containing an Animator is hosted on the surface and a state or tr..." alt="" coords="5,79,248,119"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1AnimatedExpressionPayload.html" title="Base class for animation payloads authored on an AnimatedCharacterRepresentationData expression." alt="" coords="23,5,230,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,44,129,79,124,79,124,44"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionEnableDisableGameObject" name="WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionEnableDisableGameObject">
+<area shape="rect" id="Node000001" title=" " alt="" coords="77,183,340,237"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1BaseDialogueLineAction.html" title="Base ScriptableObject class for all WitWeaver dialogue line actions." alt="" coords="5,87,185,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,120,183,181,179,185,115,124"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="31,5,160,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,44,98,87,93,87,93,44"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1GameObjectReference.html" title=" " alt="" coords="210,80,437,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="295,131,238,184,235,181,292,127"/>
+</map>

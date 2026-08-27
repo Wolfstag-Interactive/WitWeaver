@@ -1,0 +1,4 @@
+var WitWeaverConversationSaveManager_8cs =
+[
+    [ "WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverConversationSaveManager", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverConversationSaveManager.html", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverConversationSaveManager" ]
+];

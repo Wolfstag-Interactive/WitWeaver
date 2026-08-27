@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite_docusaurus=globalThis.webpackChunkwebsite_docusaurus||[]).push([[4583],{6866(e,u,s){s.r(u),s.d(u,{default:()=>c});var a=s(6540),t=s(6347);function c(){const e=(0,t.W6)();return(0,a.useEffect)(()=>{e.replace("/witweaver/")},[e]),null}}}]);

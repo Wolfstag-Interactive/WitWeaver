@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoCoreConversationData.DialogueLineInfo" name="WolfstagInteractive.ConvoCore.ConvoCoreConversationData.DialogueLineInfo">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,300,253,355"/>
-<area shape="rect" id="Node000002" href="$structWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreConversationData_1_1LineContinuation.html" title=" " alt="" coords="5,183,253,237"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,251,132,300,127,300,127,251"/>
-<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConversationContainer.html" title="ScriptableObject that groups one or more ConvoCoreConversationData assets into a single addressable u..." alt="" coords="27,80,232,120"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,133,132,183,127,183,127,133"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="65,5,194,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,44,132,80,127,80,127,44"/>
-</map>

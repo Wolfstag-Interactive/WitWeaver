@@ -1,4 +1,0 @@
-var ConvoCoreSaveManagerBootstrapper_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.SaveSystem.ConvoCoreSaveManagerBootstrapper", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSaveManagerBootstrapper.html", "classWolfstagInteractive_1_1ConvoCore_1_1SaveSystem_1_1ConvoCoreSaveManagerBootstrapper" ]
-];

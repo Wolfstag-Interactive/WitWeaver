@@ -1,5 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoCoreCameraRelativePosition" name="WolfstagInteractive.ConvoCore.ConvoCoreCameraRelativePosition">
-<area shape="rect" id="Node000001" title="Added at runtime to spawned characters by CameraRelativeBehaviour when using CameraRelativeBehaviour...." alt="" coords="5,79,289,119"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="85,5,209,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,44,150,79,145,79,145,44"/>
-</map>

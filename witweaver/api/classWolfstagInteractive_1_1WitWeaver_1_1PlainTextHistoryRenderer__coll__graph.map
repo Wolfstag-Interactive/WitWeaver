@@ -1,0 +1,7 @@
+<map id="WolfstagInteractive.WitWeaver.PlainTextHistoryRenderer" name="WolfstagInteractive.WitWeaver.PlainTextHistoryRenderer">
+<area shape="rect" id="Node000001" title="Simple dialogue history renderer that appends plain text lines to a TMP_Text component with no markup..." alt="" coords="112,108,339,148"/>
+<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="5,13,208,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,45,205,106,201,110,129,49"/>
+<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IDialogueHistoryOutput.html" title=" " alt="" coords="232,5,459,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="314,56,250,110,246,106,310,52"/>
+</map>

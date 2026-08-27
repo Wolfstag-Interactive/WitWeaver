@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.IWitWeaverBranchCondition" name="WolfstagInteractive.WitWeaver.IWitWeaverBranchCondition">
+<area shape="rect" id="Node000001" title="Contract for gating a branch or choice on runtime state (e.g." alt="" coords="8,5,235,45"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1BaseWitWeaverBranchCondition.html" title="Serializable base for IWitWeaverBranchCondition implementations so conditions can be authored as [Ser..." alt="" coords="5,93,237,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,59,124,93,119,93,119,59"/>
+</map>

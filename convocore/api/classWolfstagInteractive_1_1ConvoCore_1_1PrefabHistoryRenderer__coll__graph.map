@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.PrefabHistoryRenderer" name="WolfstagInteractive.ConvoCore.PrefabHistoryRenderer">
-<area shape="rect" id="Node000001" title="Renderer that requests prefab&#45;based dialogue entry creation via IDialogueHistoryOutputPrefab." alt="" coords="581,26,785,66"/>
-<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="253,5,456,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="470,25,581,35,581,40,469,30"/>
-<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutputPrefab.html" title=" " alt="" coords="229,55,480,95"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="493,60,581,52,581,58,494,66"/>
-<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutput.html" title=" " alt="" coords="5,63,180,88"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="194,73,229,73,229,78,194,78"/>
-</map>

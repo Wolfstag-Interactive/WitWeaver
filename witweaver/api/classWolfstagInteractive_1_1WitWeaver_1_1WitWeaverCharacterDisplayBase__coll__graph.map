@@ -1,0 +1,7 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverCharacterDisplayBase" name="WolfstagInteractive.WitWeaver.WitWeaverCharacterDisplayBase">
+<area shape="rect" id="Node000001" title="Generic base class for all prefab&#45;based character displays." alt="" coords="43,79,281,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,129,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,37,141,76,137,81,90,41"/>
+<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverCharacterDisplay.html" title=" " alt="" coords="153,5,363,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="235,41,187,81,183,76,232,37"/>
+</map>

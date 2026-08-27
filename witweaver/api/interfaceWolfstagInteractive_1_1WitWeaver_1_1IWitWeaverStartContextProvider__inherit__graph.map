@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.IWitWeaverStartContextProvider" name="WolfstagInteractive.WitWeaver.IWitWeaverStartContextProvider">
+<area shape="rect" id="Node000001" title="Implement on a component alongside WitWeaver to control how a conversation is started." alt="" coords="21,5,254,45"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverConversationSaveManager.html" title="Attach alongside a WitWeaver component to persist and restore conversation state (active line,..." alt="" coords="5,93,269,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,59,140,93,135,93,135,59"/>
+</map>

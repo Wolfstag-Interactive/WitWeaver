@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.IExpressionCatalogProvider" name="WolfstagInteractive.WitWeaver.IExpressionCatalogProvider">
+<area shape="rect" id="Node000001" title="Implemented by character representations that expose a list of expressions (stable GUID + human&#45;reada..." alt="" coords="5,69,232,109"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1AnimatedCharacterRepresentationData.html" title=" " alt="" coords="280,5,559,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,64,324,43,325,48,227,69"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData.html" title="Defines how a prefab&#45;based character is displayed in a WitWeaver conversation." alt="" coords="291,69,548,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,87,290,87,290,92,246,92"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1SpriteCharacterRepresentationData.html" title=" " alt="" coords="293,133,546,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,110,325,131,324,136,226,115"/>
+</map>

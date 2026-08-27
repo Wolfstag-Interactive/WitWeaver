@@ -1,7 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoCoreAudioManifest.AudioEntry" name="WolfstagInteractive.ConvoCore.ConvoCoreAudioManifest.AudioEntry">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,183,301,223"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoAudioReference.html" title="Abstract base for audio references used in ConvoCore&#39;s audio manifest." alt="" coords="53,80,253,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,134,156,183,151,183,151,134"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="45,5,261,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="156,44,156,80,151,80,151,44"/>
-</map>

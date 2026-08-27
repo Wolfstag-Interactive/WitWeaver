@@ -1,0 +1,4 @@
+var WitWeaverSaveManagerBootstrapper_8cs =
+[
+    [ "WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverSaveManagerBootstrapper", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSaveManagerBootstrapper.html", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSaveManagerBootstrapper" ]
+];

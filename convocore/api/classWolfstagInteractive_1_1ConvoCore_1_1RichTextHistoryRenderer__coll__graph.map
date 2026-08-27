@@ -1,7 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.RichTextHistoryRenderer" name="WolfstagInteractive.ConvoCore.RichTextHistoryRenderer">
-<area shape="rect" id="Node000001" title="History renderer that outputs formatted text (e.g., color and bold speaker names) using a generic IDi..." alt="" coords="113,108,330,148"/>
-<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="5,13,208,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,45,202,106,198,110,128,49"/>
-<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IDialogueHistoryOutput.html" title=" " alt="" coords="233,5,442,45"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="307,56,245,110,241,106,303,52"/>
-</map>

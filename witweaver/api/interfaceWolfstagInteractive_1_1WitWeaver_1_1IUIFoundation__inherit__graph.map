@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.IUIFoundation" name="WolfstagInteractive.WitWeaver.IUIFoundation">
+<area shape="rect" id="Node000001" title="Contract between the WitWeaver runner and a dialogue UI implementation." alt="" coords="5,37,232,77"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html" title="Used as a basis of any UI that can be assigned in the inspector that includes all the base functions ..." alt="" coords="280,37,507,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,55,280,55,280,60,246,60"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html" title="World&#45;space dialogue UI for 3D character conversations." alt="" coords="555,5,781,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="520,40,554,36,555,41,520,45"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUICanvas.html" title="Canvas&#45;space dialogue UI supporting both sprite and prefab&#45;in&#45;canvas character representations." alt="" coords="555,69,781,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="520,69,555,73,554,79,520,75"/>
+</map>

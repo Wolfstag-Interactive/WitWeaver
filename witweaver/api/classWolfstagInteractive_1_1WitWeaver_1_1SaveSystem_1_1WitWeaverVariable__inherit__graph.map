@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverVariable" name="WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverVariable">
+<area shape="rect" id="Node000001" title="A strongly&#45;typed named variable that can hold a string, int, float, or bool value." alt="" coords="5,79,236,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="11,5,231,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,44,123,79,118,79,118,44"/>
+</map>

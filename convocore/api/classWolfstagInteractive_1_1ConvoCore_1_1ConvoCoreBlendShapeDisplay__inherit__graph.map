@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoCoreBlendShapeDisplay" name="WolfstagInteractive.ConvoCore.ConvoCoreBlendShapeDisplay">
-<area shape="rect" id="Node000001" title="Prefab display component that maps expression display names to SkinnedMeshRenderer blend shape indice..." alt="" coords="35,152,289,192"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterDisplayBase.html" title="Generic base class for all prefab&#45;based character displays." alt="" coords="43,79,281,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,118,165,152,159,152,159,118"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,129,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,37,148,76,145,81,92,41"/>
-<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoCoreCharacterDisplay.html" title=" " alt="" coords="153,5,363,31"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="233,41,179,81,176,76,230,37"/>
-</map>

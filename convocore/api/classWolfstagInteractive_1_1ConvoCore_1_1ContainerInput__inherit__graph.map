@@ -1,5 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ContainerInput" name="WolfstagInteractive.ConvoCore.ContainerInput">
-<area shape="rect" id="Node000001" title="Plays one or more conversations from a ConversationContainer asset." alt="" coords="5,79,200,119"/>
-<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConvoInput.html" title="Input strategy interface." alt="" coords="53,5,153,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,44,105,79,100,79,100,44"/>
-</map>

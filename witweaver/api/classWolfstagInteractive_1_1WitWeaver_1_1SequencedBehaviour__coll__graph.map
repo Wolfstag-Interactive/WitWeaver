@@ -1,0 +1,10 @@
+<map id="WolfstagInteractive.WitWeaver.SequencedBehaviour" name="WolfstagInteractive.WitWeaver.SequencedBehaviour">
+<area shape="rect" id="Node000001" title="Character behaviour type that wraps a list of other behaviour types and selects between them based on..." alt="" coords="511,25,737,65"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterBehaviour.html" title="Abstract ScriptableObject base for all character behaviour types." alt="" coords="186,5,409,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="423,26,511,33,510,38,422,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,35,135,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="148,35,199,28,199,33,149,40"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterBehaviour.html" title="Abstract ScriptableObject base for all character behaviour types." alt="" coords="184,55,411,95"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="149,54,184,59,183,64,148,60"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="424,61,510,53,511,58,425,66"/>
+</map>

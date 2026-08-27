@@ -1,0 +1,7 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverUnityAudioReference" name="WolfstagInteractive.WitWeaver.WitWeaverUnityAudioReference">
+<area shape="rect" id="Node000001" title="Built&#45;in Unity AudioClip&#45;based audio reference." alt="" coords="5,152,236,192"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioReference.html" title="Abstract base for audio references used in WitWeaver&#39;s audio manifest." alt="" coords="23,79,219,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,118,123,152,118,152,118,118"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="13,5,229,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="123,44,123,79,118,79,118,44"/>
+</map>

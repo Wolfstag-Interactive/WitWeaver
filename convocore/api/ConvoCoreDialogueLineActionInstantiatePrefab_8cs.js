@@ -1,4 +1,0 @@
-var ConvoCoreDialogueLineActionInstantiatePrefab_8cs =
-[
-    [ "WolfstagInteractive.ConvoCore.ConvoCoreDialogueLineActionInstantiatePrefab", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionInstantiatePrefab.html", "classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreDialogueLineActionInstantiatePrefab" ]
-];

@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverConversationData.DialogueLineInfo" name="WolfstagInteractive.WitWeaver.WitWeaverConversationData.DialogueLineInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="31,285,303,340"/>
+<area shape="rect" id="Node000002" href="$structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1LineContinuation.html" title=" " alt="" coords="5,183,329,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,236,170,285,165,285,165,236"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html" title="ScriptableObject that groups one or more WitWeaverConversationData assets into a single addressable u..." alt="" coords="54,80,281,120"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,134,170,183,165,183,165,134"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="103,5,232,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="170,44,170,80,165,80,165,44"/>
+</map>

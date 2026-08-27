@@ -1,0 +1,4 @@
+var WitWeaverDialogueLineActionModifyTransform_8cs =
+[
+    [ "WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionModifyTransform", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionModifyTransform.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionModifyTransform" ]
+];

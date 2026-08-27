@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.DefaultConversationContext" name="WolfstagInteractive.WitWeaver.DefaultConversationContext">
+<area shape="rect" id="Node000001" title="Default no&#45;op implementation of IConversationContext." alt="" coords="5,79,232,119"/>
+<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IConversationContext.html" title="Provides optional runtime context for branch evaluation." alt="" coords="37,5,200,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,44,121,79,116,79,116,44"/>
+</map>

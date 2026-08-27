@@ -1,0 +1,67 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IAnimatedPortraitSurface.html" title="UI&#45;agnostic render target for animated portrait playback." alt="" coords="9,5,235,45"/>
+<area shape="rect" id="Node000001" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatedPortraitPlayer.html" title="uGUI reference implementation of IAnimatedPortraitSurface: hosts animated expression playback on an e..." alt="" coords="339,5,585,45"/>
+<area shape="poly" id="edge26_Node000000_Node000001" title=" " alt="" coords="249,23,339,23,339,28,249,28"/>
+<area shape="rect" id="Node000030" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IUIFoundation.html" title="Contract between the WitWeaver runner and a dialogue UI implementation." alt="" coords="9,69,235,109"/>
+<area shape="rect" id="Node000027" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html" title="Used as a basis of any UI that can be assigned in the inspector that includes all the base functions ..." alt="" coords="349,69,575,109"/>
+<area shape="poly" id="edge27_Node000030_Node000027" title=" " alt="" coords="249,87,348,87,348,92,249,92"/>
+<area shape="rect" id="Node000028" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html" title="World&#45;space dialogue UI for 3D character conversations." alt="" coords="701,5,927,45"/>
+<area shape="poly" id="edge28_Node000027_Node000028" title=" " alt="" coords="586,64,703,43,704,48,587,69"/>
+<area shape="rect" id="Node000029" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUICanvas.html" title="Canvas&#45;space dialogue UI supporting both sprite and prefab&#45;in&#45;canvas character representations." alt="" coords="701,69,927,109"/>
+<area shape="poly" id="edge29_Node000027_Node000029" title=" " alt="" coords="590,87,700,87,700,92,590,92"/>
+<area shape="rect" id="Node000032" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverAudioProvider.html" title="Interface for audio playback backends." alt="" coords="9,133,235,173"/>
+<area shape="rect" id="Node000031" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUnityAudioProvider.html" title="Default Unity AudioSource&#45;based audio provider." alt="" coords="349,133,575,173"/>
+<area shape="poly" id="edge30_Node000032_Node000031" title=" " alt="" coords="249,151,348,151,348,156,249,156"/>
+<area shape="rect" id="Node000014" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverCharacterDisplay.html" title=" " alt="" coords="9,197,235,237"/>
+<area shape="rect" id="Node000009" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterDisplayBase.html" title="Generic base class for all prefab&#45;based character displays." alt="" coords="343,197,581,237"/>
+<area shape="poly" id="edge31_Node000014_Node000009" title=" " alt="" coords="249,215,343,215,343,220,249,220"/>
+<area shape="rect" id="Node000010" href="$classWolfstagInteractive_1_1WitWeaver_1_1SimplePrefabRepresentationDisplay.html" title=" " alt="" coords="685,261,943,301"/>
+<area shape="poly" id="edge32_Node000009_Node000010" title=" " alt="" coords="587,237,704,259,703,264,586,242"/>
+<area shape="rect" id="Node000011" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverActionOnlyDisplay.html" title="Minimal prefab display component." alt="" coords="701,325,927,365"/>
+<area shape="poly" id="edge33_Node000009_Node000011" title=" " alt="" coords="595,228,639,247,656,263,664,280,672,296,687,311,709,323,706,327,684,315,667,299,659,282,651,266,636,252,593,233"/>
+<area shape="rect" id="Node000012" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorDisplay.html" title="Prefab display component that maps expression display names to Animator parameters." alt="" coords="701,133,927,173"/>
+<area shape="poly" id="edge34_Node000009_Node000012" title=" " alt="" coords="586,192,703,171,704,176,587,197"/>
+<area shape="rect" id="Node000013" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverBlendShapeDisplay.html" title="Prefab display component that maps expression display names to SkinnedMeshRenderer blend shape indice..." alt="" coords="701,197,927,237"/>
+<area shape="poly" id="edge35_Node000009_Node000013" title=" " alt="" coords="595,215,700,215,700,220,595,220"/>
+<area shape="rect" id="Node000022" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverFadeIn.html" title=" " alt="" coords="9,325,235,365"/>
+<area shape="rect" id="Node000021" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSimpleFade.html" title="Drop&#45;on component that implements both IWitWeaverFadeIn and IWitWeaverFadeOut by fading a CanvasGroup..." alt="" coords="349,261,575,301"/>
+<area shape="poly" id="edge36_Node000022_Node000021" title=" " alt="" coords="238,320,286,311,350,299,351,304,287,316,239,325"/>
+<area shape="rect" id="Node000023" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverFadeOut.html" title=" " alt="" coords="9,261,235,301"/>
+<area shape="poly" id="edge37_Node000023_Node000021" title=" " alt="" coords="249,279,348,279,348,284,249,284"/>
+<area shape="rect" id="Node000007" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverRunner.html" title="Minimal interface implemented by WitWeaver." alt="" coords="9,1029,235,1069"/>
+<area shape="rect" id="Node000006" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html" title="Main conversation runner MonoBehaviour." alt="" coords="349,1029,575,1069"/>
+<area shape="poly" id="edge38_Node000007_Node000006" title=" " alt="" coords="249,1047,348,1047,348,1052,249,1052"/>
+<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverStartContextProvider.html" title="Implement on a component alongside WitWeaver to control how a conversation is started." alt="" coords="5,1101,239,1141"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverConversationSaveManager.html" title="Attach alongside a WitWeaver component to persist and restore conversation state (active line,..." alt="" coords="330,1094,594,1149"/>
+<area shape="poly" id="edge39_Node000004_Node000003" title=" " alt="" coords="252,1119,330,1119,330,1124,252,1124"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="60,557,184,582"/>
+<area shape="poly" id="edge43_Node000002_Node000001" title=" " alt="" coords="140,544,189,471,215,425,236,376,248,329,250,285,241,206,238,168,241,131,256,94,285,55,310,37,338,25,340,30,312,42,289,59,260,97,246,133,243,168,246,205,255,285,253,329,241,378,220,427,194,474,144,547"/>
+<area shape="poly" id="edge56_Node000002_Node000027" title=" " alt="" coords="139,544,188,471,214,425,236,376,247,338,249,303,245,240,244,210,248,180,260,150,285,119,314,99,348,87,349,93,316,104,288,123,265,153,253,181,249,210,250,239,255,303,252,339,241,378,219,427,193,474,144,547"/>
+<area shape="poly" id="edge57_Node000002_Node000031" title=" " alt="" coords="139,544,187,471,213,425,236,376,245,348,249,321,249,273,250,251,254,228,265,206,285,183,314,164,348,152,349,157,317,169,288,187,270,209,259,230,255,251,254,273,254,322,250,349,241,378,218,427,191,474,143,547"/>
+<area shape="poly" id="edge45_Node000002_Node000009" title=" " alt="" coords="138,544,184,470,236,376,248,339,252,307,261,277,270,262,285,247,312,230,342,220,344,225,314,235,288,251,274,265,266,279,258,308,253,340,241,378,189,473,142,547"/>
+<area shape="poly" id="edge52_Node000002_Node000021" title=" " alt="" coords="135,543,215,410,257,346,285,311,315,295,348,285,349,291,317,300,288,315,261,349,219,413,140,546"/>
+<area shape="poly" id="edge42_Node000002_Node000006" title=" " alt="" coords="127,595,135,678,145,733,160,793,180,854,208,914,244,968,288,1015,317,1033,349,1044,348,1049,315,1038,285,1019,239,972,203,916,175,856,155,794,140,734,130,679,122,596"/>
+<area shape="poly" id="edge40_Node000002_Node000003" title=" " alt="" coords="131,595,153,701,189,847,211,921,235,989,261,1043,289,1079,308,1094,331,1105,328,1109,305,1098,285,1083,257,1046,230,991,206,923,184,849,147,702,126,596"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSaveManagerBootstrapper.html" title=" " alt="" coords="287,965,637,1005"/>
+<area shape="poly" id="edge41_Node000002_Node000005" title=" " alt="" coords="129,595,141,667,168,765,189,816,216,866,249,912,288,951,306,963,303,967,285,955,244,916,211,869,184,819,163,766,136,668,123,596"/>
+<area shape="rect" id="Node000008" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCameraRelativePosition.html" title="Added at runtime to spawned characters by CameraRelativeBehaviour when using CameraRelativeBehaviour...." alt="" coords="337,325,587,365"/>
+<area shape="poly" id="edge44_Node000002_Node000008" title=" " alt="" coords="135,543,158,505,192,459,235,413,285,375,336,355,338,360,288,380,238,417,196,462,163,508,139,546"/>
+<area shape="rect" id="Node000015" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueHistoryUI.html" title=" " alt="" coords="349,389,575,429"/>
+<area shape="poly" id="edge46_Node000002_Node000015" title=" " alt="" coords="143,545,204,491,243,462,286,439,347,419,349,424,288,444,246,467,207,495,147,549"/>
+<area shape="rect" id="Node000016" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverFollowTarget.html" title="Added at runtime to spawned characters by FollowTargetBehaviour." alt="" coords="349,453,575,493"/>
+<area shape="poly" id="edge47_Node000002_Node000016" title=" " alt="" coords="163,549,220,525,286,503,348,488,349,493,287,508,222,530,165,553"/>
+<area shape="rect" id="Node000017" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverPrefabPool.html" title=" " alt="" coords="349,517,575,557"/>
+<area shape="poly" id="edge48_Node000002_Node000017" title=" " alt="" coords="197,560,348,545,349,551,198,565"/>
+<area shape="rect" id="Node000018" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverPrefabRepresentationSpawner.html" title="Resolves, tracks, and releases prefab&#45;based character displays for a single UI instance." alt="" coords="317,581,607,621"/>
+<area shape="poly" id="edge49_Node000002_Node000018" title=" " alt="" coords="198,574,317,585,316,590,197,579"/>
+<area shape="rect" id="Node000019" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSceneCharacterRegistrant.html" title="Add this component to any scene GameObject that should be driven by WitWeaver as a scene&#45;resident cha..." alt="" coords="331,645,593,685"/>
+<area shape="poly" id="edge50_Node000002_Node000019" title=" " alt="" coords="165,585,222,609,287,631,336,643,335,648,286,636,220,614,163,590"/>
+<area shape="rect" id="Node000020" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSceneCharacterRegistry.html" title="Scene&#45;level registry that maps developer&#45;assigned string IDs to IWitWeaverCharacterDisplay instances ..." alt="" coords="337,709,587,749"/>
+<area shape="poly" id="edge51_Node000002_Node000020" title=" " alt="" coords="147,590,207,644,246,672,288,695,338,712,336,717,286,700,243,676,204,648,143,594"/>
+<area shape="rect" id="Node000024" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSpawnPoint.html" title="Lightweight scene marker used by WorldPointBehaviour to define named spawn positions." alt="" coords="349,773,575,813"/>
+<area shape="poly" id="edge53_Node000002_Node000024" title=" " alt="" coords="139,593,163,631,196,676,238,722,288,759,317,773,349,782,348,787,316,778,285,764,235,726,192,680,158,634,135,596"/>
+<area shape="rect" id="Node000025" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSpawnPointRegistry.html" title="Scene singleton that tracks all WitWeaverSpawnPoint instances by their ID." alt="" coords="349,837,575,877"/>
+<area shape="poly" id="edge54_Node000002_Node000025" title=" " alt="" coords="134,594,154,644,186,707,231,771,258,799,288,823,317,838,349,848,348,853,315,843,285,828,254,803,227,774,182,710,149,646,129,596"/>
+<area shape="rect" id="Node000026" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverTransformLerp.html" title="Added at runtime by TransformLerpBehaviour to smoothly move a character&#39;s Transform to a target posit..." alt="" coords="349,901,575,941"/>
+<area shape="poly" id="edge55_Node000002_Node000026" title=" " alt="" coords="131,595,147,656,177,736,198,778,223,819,253,856,288,887,317,903,349,914,348,919,315,908,285,892,249,859,219,822,193,781,172,738,142,657,126,596"/>
+</map>

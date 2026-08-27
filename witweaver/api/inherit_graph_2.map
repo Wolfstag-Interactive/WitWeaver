@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,109,140,134"/>
+<area shape="rect" id="Node000001" href="$classWolfstagInteractive_1_1WitWeaver_1_1ContainerAliasSelectorAttribute.html" title="Renders a string field holding a ConversationContainer entry alias (or conversation name) as a dropdo..." alt="" coords="188,5,415,45"/>
+<area shape="poly" id="edge4_Node000000_Node000001" title=" " alt="" coords="104,99,143,76,187,55,220,43,222,48,189,60,145,81,106,104"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1ExpressionIDSelectorAttribute.html" title="Marks a string field to be rendered as a popup of expression IDs coming from a sibling SerializedProp..." alt="" coords="188,69,415,109"/>
+<area shape="poly" id="edge5_Node000000_Node000002" title=" " alt="" coords="154,107,187,103,188,108,154,113"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1LineIDSelectorAttribute.html" title="Renders a string field holding a dialogue LineID as a dropdown of the lines in the owning WitWeaverCo..." alt="" coords="188,133,415,173"/>
+<area shape="poly" id="edge6_Node000000_Node000003" title=" " alt="" coords="154,130,188,135,187,140,154,135"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1PagedListAttribute.html" title=" " alt="" coords="188,197,415,237"/>
+<area shape="poly" id="edge7_Node000000_Node000004" title=" " alt="" coords="106,139,145,162,189,183,222,195,220,200,187,188,143,166,104,144"/>
+</map>

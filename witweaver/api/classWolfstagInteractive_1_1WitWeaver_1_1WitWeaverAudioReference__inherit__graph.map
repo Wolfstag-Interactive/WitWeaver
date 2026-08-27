@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverAudioReference" name="WolfstagInteractive.WitWeaver.WitWeaverAudioReference">
+<area shape="rect" id="Node000001" title="Abstract base for audio references used in WitWeaver&#39;s audio manifest." alt="" coords="269,37,496,77"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioEventKeyReference.html" title="Passes a middleware event key (FMOD event path, Wwise event name, etc.) through the IWitWeaverAudioPr..." alt="" coords="544,5,801,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="509,41,544,37,544,42,510,46"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUnityAudioReference.html" title="Built&#45;in Unity AudioClip&#45;based audio reference." alt="" coords="557,69,788,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="510,69,557,74,557,79,510,74"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,45,221,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,55,269,55,269,60,235,60"/>
+</map>

@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.PrefabCharacterRepresentationData" name="WolfstagInteractive.ConvoCore.PrefabCharacterRepresentationData">
-<area shape="rect" id="Node000001" title="Defines how a prefab&#45;based character is displayed in a ConvoCore conversation." alt="" coords="84,152,375,192"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="5,79,221,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,110,203,150,200,154,141,114"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="49,5,178,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="116,44,116,79,111,79,111,44"/>
-<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IExpressionCatalogProvider.html" title="Implemented by character representations that expose a list of expressions (stable GUID + human&#45;reada..." alt="" coords="246,79,447,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="320,114,259,154,256,150,317,109"/>
-</map>

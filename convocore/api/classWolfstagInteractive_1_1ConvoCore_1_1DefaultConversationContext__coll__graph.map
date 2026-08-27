@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.DefaultConversationContext" name="WolfstagInteractive.ConvoCore.DefaultConversationContext">
-<area shape="rect" id="Node000001" title="Default no&#45;op implementation of IConversationContext." alt="" coords="5,183,247,223"/>
-<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1ConvoCore_1_1IConversationContext.html" title="Provides optional runtime context for branch evaluation." alt="" coords="39,5,202,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,44,128,183,123,183,119,45"/>
-<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1DefaultConversationContext.html" title="Default no&#45;op implementation of IConversationContext." alt="" coords="143,80,384,120"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="154,35,231,78,228,82,152,40"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,130,153,185,150,180,225,126"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="399,92,411,100,402,107,385,110,384,104,401,102,405,100,396,97"/>
-</map>

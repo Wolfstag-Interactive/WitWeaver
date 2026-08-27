@@ -1,0 +1,19 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverCharacterBehaviour" name="WolfstagInteractive.WitWeaver.WitWeaverCharacterBehaviour">
+<area shape="rect" id="Node000001" title="Abstract ScriptableObject base for all character behaviour types." alt="" coords="183,165,409,205"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1CameraRelativeBehaviour.html" title="Character behaviour type that places characters at authored offsets relative to the active camera." alt="" coords="457,5,684,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="325,153,383,103,419,77,456,55,484,43,486,48,459,60,421,82,386,107,329,157"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1ExternalBehaviour.html" title="Character behaviour type for characters that are fully managed by the developer." alt="" coords="457,69,684,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="355,158,456,119,494,107,496,112,458,124,357,163"/>
+<area shape="rect" id="Node000006" href="$classWolfstagInteractive_1_1WitWeaver_1_1FollowTargetBehaviour.html" title="Character behaviour type that spawns characters and keeps them following a scene Transform during the..." alt="" coords="457,133,684,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="423,168,457,164,457,169,423,173"/>
+<area shape="rect" id="Node000007" href="$classWolfstagInteractive_1_1WitWeaver_1_1SequencedBehaviour.html" title="Character behaviour type that wraps a list of other behaviour types and selects between them based on..." alt="" coords="457,197,684,237"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="423,197,457,201,457,207,423,203"/>
+<area shape="rect" id="Node000008" href="$classWolfstagInteractive_1_1WitWeaver_1_1TransformLerpBehaviour.html" title="Character behaviour type for scene&#45;resident characters that move to an authored offset position when ..." alt="" coords="457,261,684,301"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="357,208,458,247,496,259,494,264,456,252,355,213"/>
+<area shape="rect" id="Node000009" href="$classWolfstagInteractive_1_1WitWeaver_1_1WorldPointBehaviour.html" title="Character behaviour type that places characters at scene&#45;authored positions." alt="" coords="457,325,684,365"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="329,213,386,263,421,289,459,311,486,323,484,328,456,316,419,293,383,267,325,217"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,173,135,198"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,183,182,183,182,188,148,188"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorBehaviour.html" title="Character behaviour type for scene&#45;resident characters that are driven by an Animator." alt="" coords="732,69,959,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="698,87,732,87,732,92,698,92"/>
+</map>

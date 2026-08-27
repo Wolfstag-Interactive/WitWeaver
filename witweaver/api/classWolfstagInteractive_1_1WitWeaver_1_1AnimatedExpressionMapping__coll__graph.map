@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.AnimatedExpressionMapping" name="WolfstagInteractive.WitWeaver.AnimatedExpressionMapping">
+<area shape="rect" id="Node000001" title=" " alt="" coords="677,37,904,77"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1AnimatedExpressionPayload.html" title="Base class for animation payloads authored on an AnimatedCharacterRepresentationData expression." alt="" coords="275,5,501,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="516,33,677,46,677,51,515,38"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1DialogueLineDisplayOptions.html" title=" " alt="" coords="275,69,501,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="515,77,677,64,677,69,516,82"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,77,225,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="239,87,275,87,275,92,239,92"/>
+</map>

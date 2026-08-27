@@ -1,0 +1,5 @@
+<map id="WolfstagInteractive.WitWeaver.IWitWeaverFadeOut" name="WolfstagInteractive.WitWeaver.IWitWeaverFadeOut">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSimpleFade.html" title="Drop&#45;on component that implements both IWitWeaverFadeIn and IWitWeaverFadeOut by fading a CanvasGroup..." alt="" coords="5,93,232,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,59,121,93,116,93,116,59"/>
+</map>

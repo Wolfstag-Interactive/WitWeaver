@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.IConvoInput" name="WolfstagInteractive.ConvoCore.IConvoInput">
-<area shape="rect" id="Node000001" title="Input strategy interface." alt="" coords="5,69,200,109"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ContainerInput.html" title="Plays one or more conversations from a ConversationContainer asset." alt="" coords="258,5,453,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,63,275,43,277,48,196,68"/>
-<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1GraphConversationInput.html" title="Plays a conversation authored as a node graph." alt="" coords="248,69,463,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,87,248,87,248,92,214,92"/>
-<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1ConvoCore_1_1SingleConversationInput.html" title="Plays a single ConvoCoreConversationData asset directly." alt="" coords="248,133,463,173"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,110,277,131,275,136,195,115"/>
-</map>

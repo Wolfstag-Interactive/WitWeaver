@@ -1,0 +1,7 @@
+<map id="WolfstagInteractive.WitWeaver.WitWeaverAnimatedPortraitPlayer" name="WolfstagInteractive.WitWeaver.WitWeaverAnimatedPortraitPlayer">
+<area shape="rect" id="Node000001" title="uGUI reference implementation of IAnimatedPortraitSurface: hosts animated expression playback on an e..." alt="" coords="34,79,279,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,129,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,38,137,77,133,81,89,42"/>
+<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IAnimatedPortraitSurface.html" title="UI&#45;agnostic render target for animated portrait playback." alt="" coords="154,5,341,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,42,180,81,177,76,222,38"/>
+</map>

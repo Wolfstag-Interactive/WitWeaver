@@ -1,0 +1,4 @@
+var WitWeaverCharacterProfileExtensions_8cs =
+[
+    [ "WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverCharacterProfileExtensions", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverCharacterProfileExtensions.html", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverCharacterProfileExtensions" ]
+];

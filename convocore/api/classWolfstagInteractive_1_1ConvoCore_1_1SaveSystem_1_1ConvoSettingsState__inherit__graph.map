@@ -1,5 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.SaveSystem.ConvoSettingsState" name="WolfstagInteractive.ConvoCore.SaveSystem.ConvoSettingsState">
-<area shape="rect" id="Node000001" title="ScriptableObject that bridges ConvoCoreLanguageManager with the save system." alt="" coords="5,79,275,119"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="75,5,205,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,44,143,79,137,79,137,44"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ConvoCoreYamlLoader" name="WolfstagInteractive.ConvoCore.ConvoCoreYamlLoader">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,183,208,223"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreSettings.html" title="Global runtime settings ScriptableObject for ConvoCore." alt="" coords="9,80,204,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,134,109,183,104,183,104,134"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="219,92,231,100,222,107,205,110,204,105,220,102,225,100,216,97"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="42,5,171,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,44,109,80,104,80,104,44"/>
-</map>

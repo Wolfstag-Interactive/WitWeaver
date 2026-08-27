@@ -1,9 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.AnimatedExpressionMapping" name="WolfstagInteractive.ConvoCore.AnimatedExpressionMapping">
-<area shape="rect" id="Node000001" title=" " alt="" coords="692,37,939,77"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1AnimatedExpressionPayload.html" title="Base class for animation payloads authored on an AnimatedCharacterRepresentationData expression." alt="" coords="275,5,516,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="530,33,692,45,692,51,530,38"/>
-<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1ConvoCore_1_1DialogueLineDisplayOptions.html" title=" " alt="" coords="275,69,515,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="529,76,692,64,692,69,530,82"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="5,77,225,102"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="239,87,275,87,275,92,239,92"/>
-</map>

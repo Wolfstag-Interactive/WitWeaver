@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.IAnimatedExpressionPlayback" name="WolfstagInteractive.WitWeaver.IAnimatedExpressionPlayback">
+<area shape="rect" id="Node000001" title="A live animation instance driving one surface." alt="" coords="152,37,379,77"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="427,5,653,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="392,40,426,36,427,41,392,45"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="427,69,653,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="392,69,427,73,426,79,392,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,45,104,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,55,152,55,152,60,118,60"/>
+</map>

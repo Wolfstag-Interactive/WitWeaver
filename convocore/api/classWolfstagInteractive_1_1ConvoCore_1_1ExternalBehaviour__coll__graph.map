@@ -1,7 +1,0 @@
-<map id="WolfstagInteractive.ConvoCore.ExternalBehaviour" name="WolfstagInteractive.ConvoCore.ExternalBehaviour">
-<area shape="rect" id="Node000001" title="Character behaviour type for characters that are fully managed by the developer." alt="" coords="19,152,214,192"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1ConvoCore_1_1ConvoCoreCharacterBehaviour.html" title="Abstract ScriptableObject base for all character behaviour types." alt="" coords="5,79,228,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,118,119,152,114,152,114,118"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="52,5,181,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,44,119,79,114,79,114,44"/>
-</map>

@@ -1,0 +1,9 @@
+<map id="WolfstagInteractive.WitWeaver.PrefabHistoryRenderer" name="WolfstagInteractive.WitWeaver.PrefabHistoryRenderer">
+<area shape="rect" id="Node000001" title="Renderer that requests prefab&#45;based dialogue entry creation via IDialogueHistoryOutputPrefab." alt="" coords="557,26,784,66"/>
+<area shape="rect" id="Node000002" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="241,5,444,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="458,25,557,34,557,39,458,30"/>
+<area shape="rect" id="Node000003" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IDialogueHistoryOutputPrefab.html" title=" " alt="" coords="229,55,456,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="470,61,557,53,557,59,470,67"/>
+<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IDialogueHistoryOutput.html" title=" " alt="" coords="5,63,180,88"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="194,73,229,73,229,78,194,78"/>
+</map>
