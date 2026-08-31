@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="Node000000" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1IWitWeaverSaveProvider.html" title=" " alt="" coords="5,53,273,93"/>
 <area shape="rect" id="Node000001" href="$classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1JsonFileWitWeaverSaveProvider.html" title=" " alt="" coords="323,5,583,60"/>
-<area shape="poly" id="edge90_Node000000_Node000001" title=" " alt="" coords="287,51,323,47,323,52,287,56"/>
+<area shape="poly" id="edge92_Node000000_Node000001" title=" " alt="" coords="287,51,323,47,323,52,287,56"/>
 <area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1YamlFileWitWeaverSaveProvider.html" title=" " alt="" coords="321,84,585,139"/>
-<area shape="poly" id="edge91_Node000000_Node000002" title=" " alt="" coords="287,88,321,92,321,98,287,93"/>
+<area shape="poly" id="edge93_Node000000_Node000002" title=" " alt="" coords="287,88,321,92,321,98,287,93"/>
 </map>

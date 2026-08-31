@@ -13,6 +13,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/ConversationContainer_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/ConversationPresentationMode_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/ConversationSnapshot_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/DebugLogExpressionAction_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/DialogueHistoryEntry_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/DialogueHistoryRendererContext_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/DialogueLineDisplayOptions_8cs.html</loc></url>
@@ -40,6 +41,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/LineIDSelectorAttribute_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/PagedListAttribute_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/PlainTextHistoryRenderer_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/PlayOneShotAudioExpressionAction_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/PrefabCharacterRepresentationData_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/PrefabDialogueHistoryOutput_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/PrefabHistoryRenderer_8cs.html</loc></url>
@@ -156,6 +158,8 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainerRuntime.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer_1_1Entry-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer_1_1Entry.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1DebugLogExpressionAction-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1DebugLogExpressionAction.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1DefaultConversationContext-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1DefaultConversationContext.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1DialogueHistoryEntry-members.html</loc></url>
@@ -189,6 +193,8 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ParticipantConfigurationSlot.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PlainTextHistoryRenderer-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PlainTextHistoryRenderer.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PlayOneShotAudioExpressionAction-members.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PlayOneShotAudioExpressionAction.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterConfigurationEntry-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterConfigurationEntry.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData-members.html</loc></url>
@@ -365,6 +371,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classes.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_00e27c476b7dfa969d8e65310c0c1e9c.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_013e384f93ddb304e566000ce4f2bf03.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_0cf24e0db53ce27bcceba9b32733bf8f.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_0d091b094f0de97a683527eba95af6ce.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_1ff5d243901ef99b99def64e82c6f402.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_27f5e998d040dd3d03910ee3a7a05380.html</loc></url>

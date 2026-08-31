@@ -1,53 +1,54 @@
 <map id="WolfstagInteractive.WitWeaver.ExpressionActionContext" name="WolfstagInteractive.WitWeaver.ExpressionActionContext">
-<area shape="rect" id="Node000001" title="Context passed to BaseExpressionAction when a character expression is applied." alt="" coords="2131,112,2357,152"/>
-<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html" title="Main conversation runner MonoBehaviour." alt="" coords="1661,343,1888,383"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1827,334,2201,150,2203,155,1830,339"/>
-<area shape="rect" id="Node000009" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html" title="Used as a basis of any UI that can be assigned in the inspector that includes all the base functions ..." alt="" coords="2131,485,2357,525"/>
-<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="1902,363,2004,376,2057,389,2108,406,2142,422,2173,443,2223,483,2220,487,2170,447,2139,427,2106,410,2055,394,2003,382,1901,368"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="1278,509,1402,534"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1415,507,1479,493,1559,470,1636,438,1692,409,1740,380,1743,385,1695,414,1638,442,1561,475,1481,499,1416,513"/>
-<area shape="poly" id="edge11_Node000009_Node000003" title=" " alt="" coords="1416,517,2130,505,2130,510,1416,523"/>
-<area shape="rect" id="Node000011" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueHistoryUI.html" title=" " alt="" coords="1661,593,1888,633"/>
-<area shape="poly" id="edge15_Node000011_Node000003" title=" " alt="" coords="1416,526,1522,541,1638,568,1662,579,1698,591,1697,596,1660,584,1636,573,1521,547,1415,531"/>
-<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverRunner.html" title="Minimal interface implemented by WitWeaver." alt="" coords="1269,330,1411,355"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1425,344,1661,355,1661,360,1425,349"/>
-<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html" title=" " alt="" coords="184,141,411,181"/>
-<area shape="poly" id="edge28_Node000001_Node000005" title=" " alt="" coords="424,140,434,139,744,109,880,102,1055,100,1776,100,1964,106,2131,118,2130,124,1963,111,1776,105,1055,105,880,107,744,114,435,144,425,145"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="387,182,435,191,593,210,728,219,846,221,957,220,1068,219,1187,222,1322,231,1480,251,1561,265,1638,290,1694,314,1742,340,1739,345,1691,319,1636,294,1559,270,1480,256,1322,236,1187,227,1068,224,957,225,846,226,727,224,593,215,434,196,386,187"/>
-<area shape="rect" id="Node000007" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioManifest.html" title="Maps dialogue line IDs to audio clips or middleware references, supporting Unity AudioSource,..." alt="" coords="685,140,912,180"/>
-<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="425,178,435,179,548,184,661,179,685,176,685,182,662,184,548,190,434,184,424,183"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="5,149,135,174"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="149,159,184,159,184,164,149,164"/>
-<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="119,142,184,127,317,113,422,114,662,139,685,141,685,146,661,144,422,120,318,119,184,132,120,147"/>
-<area shape="rect" id="Node000012" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html" title="Global runtime settings ScriptableObject for WitWeaver." alt="" coords="184,444,411,484"/>
-<area shape="poly" id="edge17_Node000012_Node000006" title=" " alt="" coords="91,184,283,442,279,445,87,187"/>
-<area shape="rect" id="Node000014" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverHistoryRendererProfile.html" title=" " alt="" coords="936,667,1176,707"/>
-<area shape="poly" id="edge21_Node000014_Node000006" title=" " alt="" coords="77,187,86,247,106,327,138,414,160,456,186,494,242,557,294,597,355,625,435,652,500,670,566,682,700,697,827,700,935,695,936,701,827,705,700,702,565,688,499,675,434,657,353,630,291,602,238,561,182,498,155,459,133,417,101,329,81,248,72,188"/>
-<area shape="rect" id="Node000019" href="$classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="435,5,661,45"/>
-<area shape="poly" id="edge30_Node000019_Node000006" title=" " alt="" coords="81,135,111,90,132,67,157,50,191,35,225,23,298,10,369,5,435,7,434,13,369,11,298,15,227,28,192,40,160,54,136,71,115,93,86,138"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="672,163,411,164,411,158,672,158"/>
-<area shape="rect" id="Node000008" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverInput.html" title="Input strategy interface." alt="" coords="1227,380,1453,420"/>
-<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="1467,388,1637,373,1661,371,1662,376,1638,379,1467,393"/>
-<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="2130,485,2023,459,1911,425,1816,385,1818,380,1913,420,2025,454,2132,480"/>
-<area shape="rect" id="Node000010" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IUIFoundation.html" title="Contract between the WitWeaver runner and a dialogue UI implementation." alt="" coords="1719,543,1831,569"/>
-<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="1844,547,2106,521,2130,518,2131,524,2107,527,1845,553"/>
-<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="1901,599,2002,584,2106,560,2156,543,2201,523,2204,528,2158,548,2107,565,2003,589,1902,604"/>
-<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="405,484,560,515,757,550,977,583,1200,608,1323,615,1447,618,1661,615,1661,621,1447,623,1323,621,1200,613,977,589,756,555,559,520,404,489"/>
-<area shape="poly" id="edge18_Node000012_Node000012" title=" " alt="" coords="272,428,281,420,297,417,312,419,321,425,325,434,324,444,319,443,320,435,317,429,310,424,297,423,283,425,275,432"/>
-<area shape="rect" id="Node000017" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLanguageManager.html" title=" " alt="" coords="685,444,912,484"/>
-<area shape="poly" id="edge26_Node000017_Node000012" title=" " alt="" coords="425,461,685,461,685,467,425,467"/>
-<area shape="rect" id="Node000013" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="1227,559,1453,599"/>
-<area shape="poly" id="edge19_Node000011_Node000013" title=" " alt="" coords="1467,586,1661,602,1661,607,1467,591"/>
-<area shape="poly" id="edge20_Node000011_Node000014" title=" " alt="" coords="1190,687,1288,686,1401,681,1520,670,1637,652,1716,631,1717,636,1638,657,1520,675,1401,686,1288,691,1190,692"/>
-<area shape="rect" id="Node000015" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverAudioProvider.html" title="Interface for audio playback backends." alt="" coords="1227,151,1453,191"/>
-<area shape="poly" id="edge22_Node000002_Node000015" title=" " alt="" coords="1467,165,1554,177,1598,189,1639,207,1681,237,1716,273,1745,310,1764,341,1760,344,1740,313,1712,277,1677,241,1636,212,1596,194,1553,182,1467,170"/>
-<area shape="rect" id="Node000016" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLocalizationHandler.html" title=" " alt="" coords="1200,444,1480,484"/>
-<area shape="poly" id="edge23_Node000002_Node000016" title=" " alt="" coords="1475,439,1637,404,1715,380,1717,385,1638,409,1476,444"/>
-<area shape="poly" id="edge24_Node000016_Node000017" title=" " alt="" coords="926,461,1200,461,1200,467,926,467"/>
-<area shape="poly" id="edge25_Node000017_Node000017" title=" " alt="" coords="754,427,770,420,799,417,824,419,841,425,848,434,845,444,840,443,843,435,838,429,823,425,799,423,771,425,756,432"/>
-<area shape="rect" id="Node000018" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IConversationContext.html" title="Provides optional runtime context for branch evaluation." alt="" coords="1227,265,1453,305"/>
-<area shape="poly" id="edge27_Node000002_Node000018" title=" " alt="" coords="1467,302,1638,331,1684,340,1683,345,1637,336,1466,307"/>
-<area shape="poly" id="edge29_Node000001_Node000019" title=" " alt="" coords="675,25,1055,29,1776,29,1870,32,1944,42,2107,81,2194,109,2192,115,2106,87,1943,47,1870,38,1776,35,1055,35,675,31"/>
-<area shape="rect" id="Node000020" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverCharacterDisplay.html" title=" " alt="" coords="1661,140,1888,180"/>
-<area shape="poly" id="edge31_Node000001_Node000020" title=" " alt="" coords="1902,150,2130,136,2131,141,1902,155"/>
+<area shape="rect" id="Node000001" title="Context passed to BaseExpressionAction when a character expression is applied." alt="" coords="2132,87,2359,127"/>
+<area shape="rect" id="Node000002" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html" title="Main conversation runner MonoBehaviour." alt="" coords="1663,436,1889,476"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1813,426,2215,125,2218,129,1817,430"/>
+<area shape="rect" id="Node000009" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html" title="Used as a basis of any UI that can be assigned in the inspector that includes all the base functions ..." alt="" coords="2132,548,2359,588"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="1904,469,2004,486,2109,511,2202,545,2200,550,2107,516,2003,491,1903,474"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="1278,581,1402,606"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1415,580,1479,567,1560,546,1638,518,1734,474,1737,479,1640,522,1561,551,1481,572,1416,585"/>
+<area shape="poly" id="edge11_Node000009_Node000003" title=" " alt="" coords="1416,589,2132,568,2132,574,1416,594"/>
+<area shape="rect" id="Node000011" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueHistoryUI.html" title=" " alt="" coords="1663,677,1889,717"/>
+<area shape="poly" id="edge15_Node000011_Node000003" title=" " alt="" coords="1416,597,1542,614,1599,625,1640,639,1653,651,1664,663,1688,675,1686,680,1661,667,1649,655,1637,644,1598,630,1541,619,1415,603"/>
+<area shape="rect" id="Node000004" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverRunner.html" title="Minimal interface implemented by WitWeaver." alt="" coords="1269,531,1411,557"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1425,527,1638,487,1695,473,1697,479,1639,492,1426,533"/>
+<area shape="rect" id="Node000005" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html" title=" " alt="" coords="1227,199,1453,239"/>
+<area shape="poly" id="edge29_Node000001_Node000005" title=" " alt="" coords="1397,191,1518,145,1589,123,1662,105,1787,89,1913,84,2032,86,2132,92,2132,97,2031,91,1913,89,1788,94,1663,111,1591,128,1519,150,1399,196"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="1447,241,1482,261,1490,269,1494,278,1498,286,1506,294,1523,303,1540,308,1570,311,1602,312,1640,324,1678,349,1712,379,1761,434,1758,438,1708,383,1675,353,1638,329,1602,317,1570,316,1539,314,1521,308,1502,298,1494,290,1489,281,1486,272,1478,265,1445,246"/>
+<area shape="rect" id="Node000007" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAudioManifest.html" title="Maps dialogue line IDs to audio clips or middleware references, supporting Unity AudioSource,..." alt="" coords="1663,184,1889,224"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="1467,202,1504,200,1571,199,1639,200,1663,200,1663,205,1639,205,1571,204,1504,205,1467,208"/>
+<area shape="poly" id="edge22_Node000009_Node000005" title=" " alt="" coords="1468,236,1606,265,1770,309,1857,338,1944,371,2029,408,2109,451,2176,499,2226,546,2223,550,2172,503,2107,456,2026,413,1942,376,1855,343,1768,315,1604,271,1467,242"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,206,135,231"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="149,216,1226,216,1226,221,149,221"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="103,197,141,177,188,157,241,142,296,136,1341,136,1436,140,1531,151,1692,181,1691,187,1530,157,1436,146,1341,141,296,141,242,147,190,162,143,182,105,201"/>
+<area shape="rect" id="Node000012" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html" title="Global runtime settings ScriptableObject for WitWeaver." alt="" coords="184,403,411,443"/>
+<area shape="poly" id="edge17_Node000012_Node000006" title=" " alt="" coords="97,239,275,400,272,404,94,243"/>
+<area shape="rect" id="Node000014" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverHistoryRendererProfile.html" title=" " alt="" coords="936,727,1176,767"/>
+<area shape="poly" id="edge21_Node000014_Node000006" title=" " alt="" coords="82,243,120,340,150,398,186,453,244,527,294,580,353,623,436,664,499,688,564,708,631,722,698,733,826,745,936,748,936,754,826,751,698,738,630,728,563,713,497,693,434,669,350,627,291,584,240,530,182,456,145,401,115,342,77,245"/>
+<area shape="rect" id="Node000019" href="$classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html" title="Abstract ScriptableObject base class for all character visual representations." alt="" coords="435,17,661,57"/>
+<area shape="poly" id="edge31_Node000019_Node000006" title=" " alt="" coords="84,193,115,154,135,134,157,118,225,86,297,63,369,49,434,40,435,45,370,54,298,68,227,91,160,122,138,138,119,157,88,196"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1649,219,1639,220,1454,223,1454,218,1639,215,1649,214"/>
+<area shape="rect" id="Node000008" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverInput.html" title="Input strategy interface." alt="" coords="1227,275,1453,315"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="1459,316,1481,324,1505,339,1542,350,1572,354,1602,358,1640,370,1700,401,1749,434,1746,438,1697,405,1638,374,1601,363,1571,359,1540,355,1503,344,1479,329,1457,321"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="2118,566,2016,554,1964,544,1912,531,1855,506,1806,479,1809,474,1857,502,1914,525,1965,539,2017,549,2118,561"/>
+<area shape="rect" id="Node000010" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IUIFoundation.html" title="Contract between the WitWeaver runner and a dialogue UI implementation." alt="" coords="1720,627,1832,653"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="1845,635,1968,625,2107,605,2184,586,2185,591,2109,611,1969,630,1846,640"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="1903,690,2004,676,2057,665,2107,650,2168,620,2217,586,2220,590,2171,624,2109,654,2058,670,2005,682,1904,695"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="395,443,748,525,973,573,1200,616,1419,649,1639,676,1663,679,1662,685,1638,681,1419,654,1200,621,972,578,747,530,394,449"/>
+<area shape="poly" id="edge18_Node000012_Node000012" title=" " alt="" coords="272,387,281,379,297,376,312,378,321,384,325,393,324,403,319,402,320,394,317,388,310,383,297,381,283,384,275,391"/>
+<area shape="rect" id="Node000017" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLanguageManager.html" title=" " alt="" coords="685,403,912,443"/>
+<area shape="poly" id="edge27_Node000017_Node000012" title=" " alt="" coords="425,420,685,420,685,425,425,425"/>
+<area shape="rect" id="Node000013" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverHistoryRenderer.html" title="Base contract for any dialogue history renderer." alt="" coords="1227,685,1453,725"/>
+<area shape="poly" id="edge19_Node000011_Node000013" title=" " alt="" coords="1467,700,1663,697,1663,702,1467,706"/>
+<area shape="poly" id="edge20_Node000011_Node000014" title=" " alt="" coords="1190,749,1200,749,1340,754,1401,754,1480,749,1589,734,1689,715,1690,720,1590,740,1480,755,1402,760,1340,760,1200,755,1190,754"/>
+<area shape="rect" id="Node000015" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverAudioProvider.html" title="Interface for audio playback backends." alt="" coords="1227,339,1453,379"/>
+<area shape="poly" id="edge23_Node000002_Node000015" title=" " alt="" coords="1467,378,1639,415,1709,433,1708,438,1638,420,1466,384"/>
+<area shape="rect" id="Node000016" href="$classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLocalizationHandler.html" title=" " alt="" coords="1200,403,1480,443"/>
+<area shape="poly" id="edge24_Node000002_Node000016" title=" " alt="" coords="1494,432,1663,445,1662,450,1494,437"/>
+<area shape="poly" id="edge25_Node000016_Node000017" title=" " alt="" coords="926,420,1200,420,1200,425,926,425"/>
+<area shape="poly" id="edge26_Node000017_Node000017" title=" " alt="" coords="754,386,770,379,799,376,824,378,841,384,848,393,845,403,840,402,843,394,838,388,823,383,799,381,771,384,756,391"/>
+<area shape="rect" id="Node000018" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IConversationContext.html" title="Provides optional runtime context for branch evaluation." alt="" coords="1227,467,1453,507"/>
+<area shape="poly" id="edge28_Node000002_Node000018" title=" " alt="" coords="1467,484,1638,475,1662,472,1663,477,1639,480,1467,489"/>
+<area shape="poly" id="edge30_Node000001_Node000019" title=" " alt="" coords="675,28,855,21,1055,17,1777,17,1889,24,1999,41,2099,63,2179,84,2178,89,2098,68,1998,46,1888,29,1777,23,1055,23,855,26,675,33"/>
+<area shape="rect" id="Node000020" href="$interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverCharacterDisplay.html" title=" " alt="" coords="1663,120,1889,160"/>
+<area shape="poly" id="edge32_Node000001_Node000020" title=" " alt="" coords="1903,128,2132,112,2132,117,1903,134"/>
 </map>

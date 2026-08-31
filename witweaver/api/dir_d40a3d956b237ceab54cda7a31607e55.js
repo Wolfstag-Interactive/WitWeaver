@@ -6,6 +6,7 @@ var dir_d40a3d956b237ceab54cda7a31607e55 =
     [ "UI", "dir_ccc47be735e2b1db748bf024eeadb05f.html", "dir_ccc47be735e2b1db748bf024eeadb05f" ],
     [ "WitWeaverContainers", "dir_4b9cea587d6fcc1faae26fa756e449ba.html", "dir_4b9cea587d6fcc1faae26fa756e449ba" ],
     [ "WitWeaverExcel", "dir_f7bdf3be45cf8b405ee5ef75ddd8e0ef.html", "dir_f7bdf3be45cf8b405ee5ef75ddd8e0ef" ],
+    [ "WitWeaverExpressionActions", "dir_0cf24e0db53ce27bcceba9b32733bf8f.html", "dir_0cf24e0db53ce27bcceba9b32733bf8f" ],
     [ "WitWeaverHelpers", "dir_a83fcf3e7ba29a6f06908ea01308ff84.html", "dir_a83fcf3e7ba29a6f06908ea01308ff84" ],
     [ "WitWeaverYaml", "dir_6387918bc5978acd255b62c27581f09d.html", "dir_6387918bc5978acd255b62c27581f09d" ],
     [ "AnimatedCharacterRepresentationData.cs", "AnimatedCharacterRepresentationData_8cs.html", "AnimatedCharacterRepresentationData_8cs" ],

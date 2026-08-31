@@ -1,9 +1,9 @@
 var classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D =
 [
+    [ "ApplyDialogueLine", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#ad6417945dc3671d21270327ac54ace0c", null ],
     [ "CompleteTypewriter", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a8dd544b199dcd403ff43108054c16ea7", null ],
     [ "DisplayDialogue", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#af8ec4442a6f830e6653d26a746c6a25c", null ],
     [ "GetOrTransitionBehaviours", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#abd273614c1facaca7d9ca021fa200053", null ],
-    [ "GetRepresentationFromData", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#aa362370d057bce9d38c5230f10ef02b7", null ],
     [ "HideDialogue", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#acb800d368b8aaa07e58069f62ceeef14", null ],
     [ "InitializeUI", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a4df0b4dbb0e6b2ef0d54b2b89b6ed918", null ],
     [ "IsPointerOverUI", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#adc0ffd27e2a7e9f4ed8af596753f8e18", null ],
@@ -24,7 +24,6 @@ var classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D =
     [ "ToggleDialogueHistoryUI", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a40f3318724db3396de0fe3ef4d0fd6c1", null ],
     [ "ToggleDialogueHistoryUI", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#ac81d7c09063e87532a2a203340f65a6a", null ],
     [ "TypewriterEffect", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#aafaffc7f7a8b137117396ed4dec5c3ec", null ],
-    [ "UpdateDialogueUI", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a337f2a057d3b9433883c6f1ecfc0d022", null ],
     [ "WaitForUserInput", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a5511ce122365e35d677a0e7d63229c49", null ],
     [ "_activeBehavioursByCharacter", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#aada9631fa27ee6813fc195fe3f58139b", null ],
     [ "_committedLineIndices", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a19b3b49704d214bfab10a16f66fb7fcd", null ],

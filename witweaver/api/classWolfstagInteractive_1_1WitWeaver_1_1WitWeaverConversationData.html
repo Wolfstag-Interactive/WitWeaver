@@ -182,6 +182,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa492a06eda6e8e6de515f86a93f913bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35491ee4d7ec273f6eb32fe721bd4ef0" id="r_a35491ee4d7ec273f6eb32fe721bd4ef0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html">WitWeaverCharacterProfileBaseData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a35491ee4d7ec273f6eb32fe721bd4ef0">ResolveCharacterProfile</a> (List&lt; <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html">WitWeaverCharacterProfileBaseData</a> &gt; profiles, string characterID)</td></tr>
 <tr class="separator:a35491ee4d7ec273f6eb32fe721bd4ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7d6187292a17da19298007d98063a16" id="r_aa7d6187292a17da19298007d98063a16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#aa7d6187292a17da19298007d98063a16">ResolveRepresentation</a> (in <a class="el" href="structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html">CharacterRepresentationData</a> data, string fallbackCharacterId, <a class="el" href="namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983">RepresentationRole</a> role)</td></tr>
+<tr class="memdesc:aa7d6187292a17da19298007d98063a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Single runtime resolution path from a line's representation entry to a representation asset.  <br /></td></tr>
+<tr class="separator:aa7d6187292a17da19298007d98063a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc146324fb7a1f96da288b5000807aa" id="r_a1dc146324fb7a1f96da288b5000807aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a1dc146324fb7a1f96da288b5000807aa">ResolveSpeakerRepresentation</a> (<a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1DialogueLineInfo.html">DialogueLineInfo</a> line)</td></tr>
+<tr class="memdesc:a1dc146324fb7a1f96da288b5000807aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves the speaker slot (index 0) of a line via ResolveRepresentation.  <br /></td></tr>
+<tr class="separator:a1dc146324fb7a1f96da288b5000807aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ffd4e77a1b7f820e558a2fee8b62563" id="r_a2ffd4e77a1b7f820e558a2fee8b62563"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a2ffd4e77a1b7f820e558a2fee8b62563">InitializeDialogueData</a> ()</td></tr>
 <tr class="memdesc:a2ffd4e77a1b7f820e558a2fee8b62563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the YAML runtime data.  <br /></td></tr>
 <tr class="separator:a2ffd4e77a1b7f820e558a2fee8b62563"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -676,6 +682,89 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7d6187292a17da19298007d98063a16" name="aa7d6187292a17da19298007d98063a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7d6187292a17da19298007d98063a16">&#9670;&#160;</a></span>ResolveRepresentation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a> WolfstagInteractive.WitWeaver.WitWeaverConversationData.ResolveRepresentation </td>
+          <td>(</td>
+          <td class="paramtype">in <a class="el" href="structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html">CharacterRepresentationData</a>&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>fallbackCharacterId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983">RepresentationRole</a>&#160;</td>
+          <td class="paramname"><em>role</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Single runtime resolution path from a line's representation entry to a representation asset. </p>
+<p>Used by the runner, the UI foundation's expression-action pass, and the sample UIs; custom UIs should call this instead of hand-rolling resolution.</p>
+<p>RepresentationRole.Speaker never resolves to null while the profile has any representation: an empty selection auto-assigns the first entry with a warning, and a stale ID warns once per session and substitutes the first entry. RepresentationRole.Visible treats an empty selection as a legal "None" and returns null silently.</p>
+<p>Editor validation and inspectors intentionally do not use this path — they check the authored data via the quiet profile primitives (WitWeaverCharacterProfileBaseData.TryGetRepresentation and friends).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The line's representation slot entry.</td></tr>
+    <tr><td class="paramname">fallbackCharacterId</td><td>CharacterID used to resolve the profile when the entry does not target an explicit participant — pass <code>line.characterID</code> for the speaker slot, null otherwise.</td></tr>
+    <tr><td class="paramname">role</td><td>Speaker or Visible slot semantics (see summary).</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1dc146324fb7a1f96da288b5000807aa" name="a1dc146324fb7a1f96da288b5000807aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dc146324fb7a1f96da288b5000807aa">&#9670;&#160;</a></span>ResolveSpeakerRepresentation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a> WolfstagInteractive.WitWeaver.WitWeaverConversationData.ResolveSpeakerRepresentation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1DialogueLineInfo.html">DialogueLineInfo</a>&#160;</td>
+          <td class="paramname"><em>line</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Resolves the speaker slot (index 0) of a line via ResolveRepresentation. </p>
 
 </div>
 </div>

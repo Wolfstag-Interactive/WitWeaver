@@ -33,6 +33,8 @@ var classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData =
     [ "OnValidate", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a434111684a1b132b4f4b56190ba54dc4", null ],
     [ "RegenerateGuid", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a9a4b3fc30f95838e92ede81a8bf176dc", null ],
     [ "ResolveCharacterProfile", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a35491ee4d7ec273f6eb32fe721bd4ef0", null ],
+    [ "ResolveRepresentation", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#aa7d6187292a17da19298007d98063a16", null ],
+    [ "ResolveSpeakerRepresentation", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a1dc146324fb7a1f96da288b5000807aa", null ],
     [ "ShouldDisplayText", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#a55bedf38599190447da6cba558e1c481", null ],
     [ "ShouldPlayAudio", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#ac3feaba4c193f712ccf2d84b8385bfbf", null ],
     [ "SyncAllRepresentationObjectReferences", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html#aa5fbae6316090f69727fe4276a99c29b", null ],

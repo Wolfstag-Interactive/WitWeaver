@@ -278,6 +278,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Updates the displayed UI elements based on the WitWeaver instances current state. </p>
+<p>Extending WitWeaverUIFoundation (override <code>ApplyDialogueLine</code>) also guarantees the line's BaseExpressionActions run after rendering; a class implementing this interface directly must run expression actions itself.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dialogueLineInfo</td><td>Details of the current dialogue line.</td></tr>
@@ -289,7 +290,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html#a9a873e6a6824422ea33645a11e72f889">WolfstagInteractive.WitWeaver.WitWeaverUIFoundation</a>, <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUI3D.html#a337f2a057d3b9433883c6f1ecfc0d022">WolfstagInteractive.WitWeaver.WitWeaverSampleUI3D</a>, and <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSampleUICanvas.html#a0160e6c33e4f2117a47cde821782b2d3">WolfstagInteractive.WitWeaver.WitWeaverSampleUICanvas</a>.</p>
+<p>Implemented in <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html#ab61577d859d6fcf6e3b2883fc049bb70">WolfstagInteractive.WitWeaver.WitWeaverUIFoundation</a>.</p>
 
 </div>
 </div>

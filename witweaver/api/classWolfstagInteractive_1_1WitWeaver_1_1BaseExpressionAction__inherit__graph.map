@@ -1,5 +1,9 @@
 <map id="WolfstagInteractive.WitWeaver.BaseExpressionAction" name="WolfstagInteractive.WitWeaver.BaseExpressionAction">
-<area shape="rect" id="Node000001" title="Abstract base ScriptableObject for custom expression actions." alt="" coords="5,79,232,119"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="54,5,183,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,44,121,79,116,79,116,44"/>
+<area shape="rect" id="Node000001" title="Abstract base ScriptableObject for custom expression actions." alt="" coords="183,37,409,77"/>
+<area shape="rect" id="Node000003" href="$classWolfstagInteractive_1_1WitWeaver_1_1DebugLogExpressionAction.html" title="Logs every field of the ExpressionActionContext when the expression it is attached to is applied." alt="" coords="471,5,698,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="423,41,471,35,471,41,423,46"/>
+<area shape="rect" id="Node000004" href="$classWolfstagInteractive_1_1WitWeaver_1_1PlayOneShotAudioExpressionAction.html" title="Plays a one&#45;shot audio clip whenever the expression it is attached to is applied — a vocal bark,..." alt="" coords="457,69,712,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="423,69,458,73,457,78,423,74"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,45,135,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,55,182,55,182,60,148,60"/>
 </map>

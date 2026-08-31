@@ -21,6 +21,7 @@ var namespaceWolfstagInteractive_1_1WitWeaver =
     [ "ConversationBranchResult", "structWolfstagInteractive_1_1WitWeaver_1_1ConversationBranchResult.html", "structWolfstagInteractive_1_1WitWeaver_1_1ConversationBranchResult" ],
     [ "ConversationContainer", "classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html", "classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer" ],
     [ "ConversationContainerRuntime", "classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainerRuntime.html", "classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainerRuntime" ],
+    [ "DebugLogExpressionAction", "classWolfstagInteractive_1_1WitWeaver_1_1DebugLogExpressionAction.html", "classWolfstagInteractive_1_1WitWeaver_1_1DebugLogExpressionAction" ],
     [ "DefaultConversationContext", "classWolfstagInteractive_1_1WitWeaver_1_1DefaultConversationContext.html", "classWolfstagInteractive_1_1WitWeaver_1_1DefaultConversationContext" ],
     [ "DialogueHistoryEntry", "classWolfstagInteractive_1_1WitWeaver_1_1DialogueHistoryEntry.html", "classWolfstagInteractive_1_1WitWeaver_1_1DialogueHistoryEntry" ],
     [ "DialogueHistoryRendererContext", "structWolfstagInteractive_1_1WitWeaver_1_1DialogueHistoryRendererContext.html", "structWolfstagInteractive_1_1WitWeaver_1_1DialogueHistoryRendererContext" ],
@@ -58,6 +59,7 @@ var namespaceWolfstagInteractive_1_1WitWeaver =
     [ "PagedListAttribute", "classWolfstagInteractive_1_1WitWeaver_1_1PagedListAttribute.html", "classWolfstagInteractive_1_1WitWeaver_1_1PagedListAttribute" ],
     [ "ParticipantConfigurationSlot", "classWolfstagInteractive_1_1WitWeaver_1_1ParticipantConfigurationSlot.html", "classWolfstagInteractive_1_1WitWeaver_1_1ParticipantConfigurationSlot" ],
     [ "PlainTextHistoryRenderer", "classWolfstagInteractive_1_1WitWeaver_1_1PlainTextHistoryRenderer.html", "classWolfstagInteractive_1_1WitWeaver_1_1PlainTextHistoryRenderer" ],
+    [ "PlayOneShotAudioExpressionAction", "classWolfstagInteractive_1_1WitWeaver_1_1PlayOneShotAudioExpressionAction.html", "classWolfstagInteractive_1_1WitWeaver_1_1PlayOneShotAudioExpressionAction" ],
     [ "PrefabCharacterConfigurationEntry", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterConfigurationEntry.html", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterConfigurationEntry" ],
     [ "PrefabCharacterRepresentationData", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData.html", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData" ],
     [ "PrefabDialogueHistoryOutput", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabDialogueHistoryOutput.html", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabDialogueHistoryOutput" ],
@@ -175,6 +177,10 @@ var namespaceWolfstagInteractive_1_1WitWeaver =
       [ "Loop", "namespaceWolfstagInteractive_1_1WitWeaver.html#a0ede85a7df4c388d435d09af7311b51ca89d7b10cb4238977d2b523dfd9ea7745", null ],
       [ "Once", "namespaceWolfstagInteractive_1_1WitWeaver.html#a0ede85a7df4c388d435d09af7311b51cae1a9dc9f23534e63de9df0d540ac1611", null ],
       [ "PingPong", "namespaceWolfstagInteractive_1_1WitWeaver.html#a0ede85a7df4c388d435d09af7311b51ca99e52704462d3580db3528cad7ea9660", null ]
+    ] ],
+    [ "RepresentationRole", "namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983", [
+      [ "Speaker", "namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983a22cc65fdfc4417d64127a3a2c12853d0", null ],
+      [ "Visible", "namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983aec24d78ce33048dc73a2b6b1a0690192", null ]
     ] ],
     [ "TextSourceKind", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6", [
       [ "AssignedTextAsset", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6acc4cf545e0f024d2cb9a60292a4d7d71", null ],

@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('classWolfstagInteractive_1_1WitWeaver_
 <div class="dynheader">
 Inheritance diagram for WolfstagInteractive.WitWeaver.BaseExpressionAction:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction__inherit__graph.svg" width="238" height="124"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction__inherit__graph.svg" width="718" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for WolfstagInteractive.WitWeaver.BaseExpressionAction:</div>
@@ -117,7 +117,17 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base ScriptableObject for custom expression actions. </p>
-<p>Extend this class to run game logic whenever a character expression is applied to a line — for example, triggering an animation, particle effect, or audio cue when a specific emotion is displayed. </p>
+<p>Extend this class to run game logic whenever a character expression is applied to a line — for example, triggering an animation, particle effect, or audio cue when a specific emotion is displayed.</p>
+<p>Contract: </p><ul>
+<li>
+<b>Guaranteed to run.</b> WitWeaverUIFoundation runs the actions for every visible character after the UI renders each line — a custom UI subclass does not need to do anything for them to fire. </li>
+<li>
+<b>Idempotent by contract.</b> Actions re-fire every time the expression is applied, including when the player navigates back to a previous line or revisits one. Treat execution as state application: running twice must be harmless. There is no run-once gate and no reverse hook — logic that must block the line, run exactly once, or be undone on back-navigation belongs in a BaseDialogueLineAction instead. </li>
+<li>
+<b>Executed on the shared asset.</b> Unlike line actions, no per-run instance is created — keep actions stateless (or explicitly session-scoped) so state never leaks between runs or into the saved asset. </li>
+<li>
+<b>Synchronous.</b> ExecuteAction returns before the dialogue continues; it never pauses the line. For fire-and-forget async work, a coroutine can be started on ExpressionActionContext.Runtime. </li>
+</ul>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a743959a6c7e3a569d54a7b0de238844b" name="a743959a6c7e3a569d54a7b0de238844b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a743959a6c7e3a569d54a7b0de238844b">&#9670;&#160;</a></span>ExecuteAction()</h2>
@@ -144,9 +154,10 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Executes this action. </p>
+<p>Must be safe to call repeatedly (see the class contract).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td></td></tr>
+    <tr><td class="paramname">context</td><td>Runtime context for the application. <code>Display</code> is only populated when the UI ran the actions itself with a resolved display (the prefab path); on the automatic fallback pass and the sprite/animated paths it is null.</td></tr>
   </table>
   </dd>
 </dl>

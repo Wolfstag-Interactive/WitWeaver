@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['textsourcekind_0',['TextSourceKind',['../namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6',1,'WolfstagInteractive::WitWeaver']]]
+  ['representationrole_0',['RepresentationRole',['../namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983',1,'WolfstagInteractive::WitWeaver']]]
 ];

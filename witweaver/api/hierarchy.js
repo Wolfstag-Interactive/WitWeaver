@@ -151,7 +151,10 @@ var hierarchy =
         [ "WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionModifyTransform", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionModifyTransform.html", null ],
         [ "WolfstagInteractive.WitWeaver.WitWeaverDialogueLineActionPlayAudioClip", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLineActionPlayAudioClip.html", null ]
       ] ],
-      [ "WolfstagInteractive.WitWeaver.BaseExpressionAction", "classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html", null ],
+      [ "WolfstagInteractive.WitWeaver.BaseExpressionAction", "classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html", [
+        [ "WolfstagInteractive.WitWeaver.DebugLogExpressionAction", "classWolfstagInteractive_1_1WitWeaver_1_1DebugLogExpressionAction.html", null ],
+        [ "WolfstagInteractive.WitWeaver.PlayOneShotAudioExpressionAction", "classWolfstagInteractive_1_1WitWeaver_1_1PlayOneShotAudioExpressionAction.html", null ]
+      ] ],
       [ "WolfstagInteractive.WitWeaver.CharacterRepresentationBase", "classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html", [
         [ "WolfstagInteractive.WitWeaver.AnimatedCharacterRepresentationData", "classWolfstagInteractive_1_1WitWeaver_1_1AnimatedCharacterRepresentationData.html", null ],
         [ "WolfstagInteractive.WitWeaver.PrefabCharacterRepresentationData", "classWolfstagInteractive_1_1WitWeaver_1_1PrefabCharacterRepresentationData.html", null ],
