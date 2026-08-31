@@ -5,13 +5,13 @@ title: Extending WitWeaver
 
 # Extending WitWeaver
 
-WitWeaver is built top-to-bottom for extensibility. Every layer — dialogue actions, character visuals, character placement, UI display, and save storage — uses abstract base classes or interfaces that you replace or extend without touching the core package. This page maps every extension point and links to the detailed guide for each one.
+WitWeaver is built top-to-bottom for extensibility. Every layer (dialogue actions, character visuals, character placement, UI display, and save storage) uses abstract base classes or interfaces that you replace or extend without touching the core package. This page maps every extension point and links to the detailed guide for each one.
 
 ---
 
 ## Why This Matters
 
-Out of the box, WitWeaver plays dialogue. What it does *with* that dialogue — what appears on screen, which game systems react, how character visuals update, where characters stand in the world — is entirely your code. This is intentional: WitWeaver does not know or care whether you are making a visual novel, a 3D RPG cutscene, an interactive museum exhibit, or a procedurally generated story. The extension points below are where your game logic plugs in.
+Out of the box, WitWeaver plays dialogue. What it does *with* that dialogue is entirely your code: what appears on screen, which game systems react, how character visuals update, and where characters stand in the world. This is intentional: WitWeaver does not know or care whether you are making a visual novel, a 3D RPG cutscene, an interactive museum exhibit, or a procedurally generated story. The extension points below are where your game logic plugs in.
 
 ---
 
@@ -19,17 +19,17 @@ Out of the box, WitWeaver plays dialogue. What it does *with* that dialogue — 
 
 | Extension | What you replace or extend | Docs |
 |---|---|---|
-| **Dialogue actions** | Before/after hooks on individual lines — trigger any game logic | [Custom Actions](dialogue-actions/custom-actions) |
-| **Character representations** | How characters look — sprites, prefabs, Spine, VRM, or any visual system | [Character Representations](characters/character-representations) |
+| **Dialogue actions** | Before/after hooks on individual lines that trigger any game logic | [Custom Actions](dialogue-actions/custom-actions) |
+| **Character representations** | How characters look: sprites, prefabs, Spine, VRM, or any visual system | [Character Representations](characters/character-representations) |
 | **Animation backends** | How animated portraits play: flipbooks, Animator prefabs, Live2D, or any animation system | [Animated Representations](characters/animated-representations#writing-a-custom-animation-backend) |
-| **Character behaviours** | Where 3D characters are placed and how they move — spawn points, follow targets, camera-relative, or anything else | [Character Behaviours](prefab-characters/presence-types) |
-| **UI layer** | The entire dialogue display — text boxes, portraits, choice buttons, 3D panels | [Building a Custom UI](ui/building-a-ui) |
-| **Save provider** | Where save data is stored — JSON file, YAML, cloud, PlayerPrefs, encrypted | [Save Providers](save-system/save-providers) |
-| **Expression actions** | Per-expression logic — update an animator, blend shapes, or shader when an emotion changes | [Custom Actions](dialogue-actions/custom-actions#extending-baseexpressionaction) |
+| **Character behaviours** | Where 3D characters are placed and how they move: spawn points, follow targets, camera-relative, or anything else | [Character Behaviours](prefab-characters/presence-types) |
+| **UI layer** | The entire dialogue display: text boxes, portraits, choice buttons, 3D panels | [Building a Custom UI](ui/building-a-ui) |
+| **Save provider** | Where save data is stored: JSON file, YAML, cloud, PlayerPrefs, encrypted | [Save Providers](save-system/save-providers) |
+| **Expression actions** | Per-expression logic: update an animator, blend shapes, or shader when an emotion changes | [Custom Actions](dialogue-actions/custom-actions#extending-baseexpressionaction) |
 
 ---
 
-## Dialogue Actions — Before and After Every Line
+## Dialogue Actions: Before and After Every Line
 
 Dialogue actions are ScriptableObject assets that fire custom coroutines before a line is displayed or after the player advances past it. This is how you connect dialogue to the rest of your game.
 
@@ -71,9 +71,9 @@ public class MyCustomAction : BaseDialogueLineAction
 
 ---
 
-## Character Representations — Any Visual System
+## Character Representations: Any Visual System
 
-The built-in representation types (Sprite, Prefab, and Animated) cover most 2D and 3D setups. For anything else — Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters — extend `CharacterRepresentationBase` and implement its three members (`ProcessExpression`, `ApplyExpression`, `GetExpressionMappingByGuid`):
+The built-in representation types (Sprite, Prefab, and Animated) cover most 2D and 3D setups. For anything else, such as Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters, extend `CharacterRepresentationBase` and implement its three members (`ProcessExpression`, `ApplyExpression`, `GetExpressionMappingByGuid`):
 
 ```csharp
 [CreateAssetMenu(menuName = "WitWeaver/Character Representation/My Representation")]
@@ -95,22 +95,22 @@ public class MyRepresentationData : CharacterRepresentationBase
 
 Inline editor previews are opt-in: implement `IEditorPreviewableRepresentation` inside an `#if UNITY_EDITOR` block only if you want one.
 
-One profile can hold multiple representation variants — a character can have a `"Default"` sprite set, an `"Armored"` sprite set, and a `"3D Prefab"` variant all living in the same profile.
+One profile can hold multiple representation variants: a character can have a `"Default"` sprite set, an `"Armored"` sprite set, and a `"3D Prefab"` variant all living in the same profile.
 
 [Full guide: Character Representations](characters/character-representations)
 
 ---
 
-## Character Behaviours — Custom Conversation Lifecycle Hooks
+## Character Behaviours: Custom Conversation Lifecycle Hooks
 
-`WitWeaverCharacterBehaviour` is a ScriptableObject with three override points that span the entire conversation lifecycle. Extending it is not limited to placement — it is the right hook for any logic that needs to run alongside a character's involvement in a conversation: setting up animator state, registering audio listeners, enabling VFX, driving IK targets, or anything else that needs to react when a conversation begins, resolves a character per line, or ends.
+`WitWeaverCharacterBehaviour` is a ScriptableObject with three override points that span the entire conversation lifecycle. Extending it is not limited to placement; it is the right hook for any logic that needs to run alongside a character's involvement in a conversation: setting up animator state, registering audio listeners, enabling VFX, driving IK targets, or anything else that needs to react when a conversation begins, resolves a character per line, or ends.
 
 The three methods are:
 
 | Method | When it is called | What it is for |
 |---|---|---|
 | `OnConversationBegin()` | Once when the conversation starts, before any line is shown | Pre-compute positions, cache scene references, transition Animator state, enable components |
-| `ResolvePresence(rep, context, spawner)` | Once per character per dialogue line | Return the `IWitWeaverCharacterDisplay` to use for this line — or `null` to skip expression application |
+| `ResolvePresence(rep, context, spawner)` | Once per character per dialogue line | Return the `IWitWeaverCharacterDisplay` to use for this line, or `null` to skip expression application |
 | `OnConversationEnd()` | Once when the conversation ends | Release spawned instances, restore Animator state, clean up any scene changes |
 
 You can implement any combination of these. A behaviour that only drives an Animator at conversation boundaries doesn't need to touch `ResolvePresence` beyond returning the scene character. A behaviour that only controls placement doesn't need to interact with the Animator at all.
@@ -125,12 +125,12 @@ public class MyCustomBehaviour : WitWeaverCharacterBehaviour
     [SerializeField] private string _sceneCharacterId;
     [SerializeField] private string _talkingAnimParam = "IsTalking";
 
-    // Runtime-only — not serialized, resolved fresh each conversation.
+    // Runtime-only: not serialized, resolved fresh each conversation.
     [System.NonSerialized] private IWitWeaverCharacterDisplay _cachedDisplay;
 
     public override void OnConversationBegin()
     {
-        // Resolve the scene character and drive any setup logic — animator state,
+        // Resolve the scene character and drive any setup logic: animator state,
         // IK targets, VFX, audio, anything that needs to happen before line one.
         _cachedDisplay = null;
     }
@@ -143,10 +143,10 @@ public class MyCustomBehaviour : WitWeaverCharacterBehaviour
         // Return the same cached display on every line for scene-resident characters.
         if (_cachedDisplay != null) return _cachedDisplay;
 
-        // context.CharacterId            — CharacterID from the conversation participant
-        // context.CharacterIndex         — zero-based index of this character on the current line
-        // context.ConfigurationEntryName — which configuration entry is active for this line
-        // context.DisplayOptions         — per-line display overrides (scale, flip), or null
+        // context.CharacterId            - CharacterID from the conversation participant
+        // context.CharacterIndex         - zero-based index of this character on the current line
+        // context.ConfigurationEntryName - which configuration entry is active for this line
+        // context.DisplayOptions         - per-line display overrides (scale, flip), or null
 
         if (!spawner.TryGetSceneResident(_sceneCharacterId, out var display))
         {
@@ -174,22 +174,22 @@ public class MyCustomBehaviour : WitWeaverCharacterBehaviour
 
 Because character behaviours are ScriptableObjects, they cannot hold direct serialized references to scene objects. Use `WitWeaverSceneCharacterRegistry` or `WitWeaverSpawnPointRegistry` to resolve scene objects by ID at runtime, and cache live references in `[System.NonSerialized]` fields that are cleared in `OnConversationEnd()`.
 
-Behaviours are assigned per **configuration entry** on each character's `PrefabCharacterRepresentationData` asset. Each entry holds a list of behaviours that all run together — the first one that returns a non-null display drives expression application for that character on that line. A single entry might pair a placement behaviour with a separate animator-hook behaviour, keeping each asset focused on one concern.
+Behaviours are assigned per **configuration entry** on each character's `PrefabCharacterRepresentationData` asset. Each entry holds a list of behaviours that all run together; the first one that returns a non-null display drives expression application for that character on that line. A single entry might pair a placement behaviour with a separate animator-hook behaviour, keeping each asset focused on one concern.
 
 [Full guide: Character Behaviours](prefab-characters/presence-types)
 
 ---
 
-## UI Layer — Build Any Display
+## UI Layer: Build Any Display
 
 `WitWeaverUIFoundation` is an abstract MonoBehaviour with six virtual methods. Override the ones you need and WitWeaver calls them at the right moment:
 
 | Method | When WitWeaver calls it |
 |---|---|
 | `InitializeUI(runner)` | Once when the conversation starts |
-| `UpdateDialogueUI(line, text, speaker, representation, profile)` | Every time a new line is ready to display |
-| `WaitForUserInput()` | Coroutine — must block until the player advances |
-| `PresentChoices(options, labels, result)` | Coroutine — display choice buttons, write selection to `result.SelectedIndex` |
+| `ApplyDialogueLine(line, text, speaker, representation, profile)` | Every time a new line is ready to display (expression actions run automatically after it returns) |
+| `WaitForUserInput()` | Coroutine; must block until the player advances |
+| `PresentChoices(options, labels, result)` | Coroutine; display choice buttons and write the selection to `result.SelectedIndex` |
 | `HideDialogue()` | When the conversation ends |
 | `UpdateForLanguageChange(text, code)` | When the player switches language mid-conversation |
 
@@ -199,7 +199,7 @@ You can use Unity UI (uGUI), UI Toolkit, TextMeshPro, a custom renderer, a 3D wo
 
 ---
 
-## Save Provider — Store Data Anywhere
+## Save Provider: Store Data Anywhere
 
 The save system ships with JSON and YAML file providers. For cloud saves, PlayerPrefs, or encrypted storage, implement `IWitWeaverSaveProvider`:
 
@@ -220,47 +220,53 @@ Assign your custom provider to the `WitWeaverSaveManager` asset in the Inspector
 
 ---
 
-## Expression Actions — React to Emotion Changes
+## Expression Actions: React to Emotion Changes
 
-For logic that should trigger specifically when a character's expression changes — updating an animator, blending facial shapes, switching materials — extend `BaseExpressionAction` instead of `BaseDialogueLineAction`. It is synchronous (no coroutine) and receives the full expression context:
+For logic that should trigger specifically when a character's expression changes, such as updating an animator, blending facial shapes, or switching materials, extend `BaseExpressionAction` instead of `BaseDialogueLineAction`. It is synchronous (no coroutine) and receives the full expression context:
 
 ```csharp
-[CreateAssetMenu(menuName = "WitWeaver/Expressions/My Expression Action")]
+[CreateAssetMenu(menuName = "WitWeaver/Expression Actions/My Expression Action")]
 public class MyExpressionAction : BaseExpressionAction
 {
     public override void ExecuteAction(ExpressionActionContext context)
     {
-        // context.Representation — the character's representation
-        // context.ExpressionId   — the GUID of the expression being applied
-        // context.Runtime        — the WitWeaver runner
+        // context.Representation - the character's representation
+        // context.ExpressionId   - the GUID of the expression being applied
+        // context.Runtime        - the WitWeaver runner
     }
 }
 ```
+
+Expression actions run automatically after the UI renders each line and re-fire on every
+application (including back-navigation), so they must be idempotent. Anything that must block the
+line, run exactly once, or be reversed belongs in a dialogue line action instead; the
+[decision table](dialogue-actions/custom-actions#line-action-or-expression-action) covers the
+choice.
 
 [Full guide: Custom Actions](dialogue-actions/custom-actions#extending-baseexpressionaction)
 
 ---
 
-## Best Practices — Choosing the Right Extension Point
+## Best Practices: Choosing the Right Extension Point
 
-The most common design question when adding new logic to WitWeaver is whether it belongs in a **dialogue action** or a **character behaviour**. They overlap in capability — both are ScriptableObjects, both fire at conversation time — but they have fundamentally different scopes.
+The most common design question when adding new logic to WitWeaver is whether it belongs in a **dialogue action** or a **character behaviour**. They overlap in capability (both are ScriptableObjects, both fire at conversation time) but they have fundamentally different scopes. (A third hook, the **expression action**, covers non-blocking logic tied to an *emotion* rather than a line or a character's presence; see the [line action vs expression action table](dialogue-actions/custom-actions#line-action-or-expression-action) for that boundary.)
 
 ### The core distinction
 
 | | Dialogue Action | Character Behaviour |
 |---|---|---|
 | **Scope** | A specific line | The full conversation |
-| **Subject** | The conversation itself — story events, game state | A specific character and their presence in the scene |
+| **Subject** | The conversation itself: story events, game state | A specific character and their presence in the scene |
 | **Granularity** | Authoring per-line in the YAML | Authoring per-configuration-entry on the representation asset |
 | **Runs on** | Every line it is attached to | Every line a character appears in the conversation |
-| **Reuse pattern** | One asset, many conversations — "PlayVO", "SetFlag", "FadeCamera" | One asset, many characters — "WorldPointBehaviour", "FollowTarget" |
-| **Has coroutine support** | Yes — can block line display until complete | No — lifecycle methods are synchronous |
+| **Reuse pattern** | One asset, many conversations: "PlayVO", "SetFlag", "FadeCamera" | One asset, many characters: "WorldPointBehaviour", "FollowTarget" |
+| **Has coroutine support** | Yes; can block line display until complete | No; lifecycle methods are synchronous |
 
 ### Use a dialogue action when…
 
-- The logic is tied to a **specific moment in the script** — a camera cut, a sound cue, a flag being set, an item being awarded.
+- The logic is tied to a **specific moment in the script**: a camera cut, a sound cue, a flag being set, an item being awarded.
 - The trigger is **editorial**: someone writing the conversation decides when it happens, line by line.
-- The effect is **not specific to one character** — it could be a door opening, a lighting change, an analytics event.
+- The effect is **not specific to one character**: it could be a door opening, a lighting change, an analytics event.
 - The logic needs to **block progression** until it finishes (a fade, a camera move, a timed pause). Dialogue actions support coroutines; character behaviours do not.
 - The same asset will be dropped onto **many different lines across many conversations**.
 
@@ -268,28 +274,28 @@ The most common design question when adding new logic to WitWeaver is whether it
 
 ### Use a character behaviour when…
 
-- The logic is **tied to a character's presence** across an entire conversation — not to a single line.
+- The logic is **tied to a character's presence** across an entire conversation, not to a single line.
 - The setup and teardown are **symmetric**: something that starts when the conversation begins needs to be undone when it ends (moving a character to a spot and back, enabling an Animator state and restoring it, spawning a prefab and releasing it).
-- The logic needs to know **which character** is being resolved and **which configuration entry** is active — information dialogue actions do not receive.
+- The logic needs to know **which character** is being resolved and **which configuration entry** is active: information dialogue actions do not receive.
 - The effect is **invisible to the dialogue author**: the character just "works correctly" in every conversation that uses this representation without per-line configuration.
-- You are managing **runtime scene state** that lives for the duration of the conversation — cached display references, marker Transforms, spawned instances.
+- You are managing **runtime scene state** that lives for the duration of the conversation: cached display references, marker Transforms, spawned instances.
 
 **Examples:** `WorldPointBehaviour`, `FollowTargetBehaviour`, a custom `CrowdFormationBehaviour` that arrays extras around a main character, an `IKLookAtBehaviour` that makes a character look at a target while they are in a conversation.
 
-### The overlap zone — and how to decide
+### The overlap zone, and how to decide
 
 Some effects sit in the middle. An NPC stepping forward when a conversation starts *could* be a before-line action on line 0, or it *could* be `TransformLerpBehaviour`. The right choice depends on ownership:
 
-- If **the dialogue author decides** when and for which conversations the NPC steps forward, use a dialogue action — they author it into the YAML.
-- If **the character always does this** for any conversation that uses a particular configuration entry, use a character behaviour — the rule lives on the asset, not in the script.
+- If **the dialogue author decides** when and for which conversations the NPC steps forward, use a dialogue action; they author it into the YAML.
+- If **the character always does this** for any conversation that uses a particular configuration entry, use a character behaviour; the rule lives on the asset, not in the script.
 
-A useful test: **can you describe the logic without naming a specific line?** "When this character enters any conversation using the 'TalkingMode' entry, play the greeting animation and restore idle on exit" — that's a character behaviour. "On line 4 of the tavern scene, play the laughing animation" — that's a dialogue action.
+A useful test: **can you describe the logic without naming a specific line?** "When this character enters any conversation using the 'TalkingMode' entry, play the greeting animation and restore idle on exit" is a character behaviour. "On line 4 of the tavern scene, play the laughing animation" is a dialogue action.
 
 ### Combining both
 
 They are not mutually exclusive. A common pattern for a cinematic scene:
 
-- A **character behaviour** handles placing two characters at authored spawn points and restoring their positions at conversation end — this is structural and belongs on the representation asset.
-- A **dialogue action** on a specific mid-conversation line triggers a gesture animation — this is editorial and belongs in the YAML.
+- A **character behaviour** handles placing two characters at authored spawn points and restoring their positions at conversation end; this is structural and belongs on the representation asset.
+- A **dialogue action** on a specific mid-conversation line triggers a gesture animation; this is editorial and belongs in the YAML.
 
 Neither system needs to know about the other.

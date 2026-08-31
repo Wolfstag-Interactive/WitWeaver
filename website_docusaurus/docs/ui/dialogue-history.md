@@ -31,12 +31,12 @@ Add the `WitWeaverDialogueHistoryUI` component to any GameObject in the scene (t
 
 ## Calling AddLine from Your UI
 
-In your `WitWeaverUIFoundation` subclass, call `AddLine()` each time a line is displayed. The most natural place is inside `UpdateDialogueUI()`:
+In your `WitWeaverUIFoundation` subclass, call `AddLine()` each time a line is displayed. The most natural place is inside `ApplyDialogueLine()`:
 
 ```csharp
 [SerializeField] private WitWeaverDialogueHistoryUI _historyUI;
 
-protected override void UpdateDialogueUI(
+protected override void ApplyDialogueLine(
     DialogueLineInfo lineInfo,
     string localizedText,
     string speakerName,
@@ -163,7 +163,7 @@ After adding an entry, you typically want the history view to scroll to the bott
 ```csharp
 [SerializeField] private ScrollRect _historyScrollRect;
 
-protected override void UpdateDialogueUI(...)
+protected override void ApplyDialogueLine(...)
 {
     // ... update current line display ...
 
@@ -177,7 +177,7 @@ protected override void UpdateDialogueUI(...)
 ```
 
 :::warning
-`Canvas.ForceUpdateCanvases()` forces an immediate layout rebuild, which can be expensive if called every frame. Calling it only inside `UpdateDialogueUI()` (once per line) is acceptable. Do not call it in `Update()`.
+`Canvas.ForceUpdateCanvases()` forces an immediate layout rebuild, which can be expensive if called every frame. Calling it only inside `ApplyDialogueLine()` (once per line) is acceptable. Do not call it in `Update()`.
 :::
 
 ---

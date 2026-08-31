@@ -9,6 +9,26 @@ using WolfstagInteractive.WitWeaver.Editor;
 
 namespace WolfstagInteractive.WitWeaver
 {
+    /// <summary>
+    /// Role of a line's representation slot during resolution
+    /// (see <see cref="WitWeaverConversationData.ResolveRepresentation"/>).
+    /// </summary>
+    public enum RepresentationRole
+    {
+        /// <summary>
+        /// The index-0 speaker slot. Never resolves to null while the profile has any
+        /// representation: an empty selection auto-assigns the first entry with a warning,
+        /// and a stale reference falls back loudly.
+        /// </summary>
+        Speaker,
+
+        /// <summary>
+        /// A non-speaker visible slot. An empty selection is a legal "None" and resolves to
+        /// null with no logging.
+        /// </summary>
+        Visible
+    }
+
     [HelpURL(
         "https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html")]
     [CreateAssetMenu(fileName = "New WitWeaver Conversation",
@@ -689,6 +709,126 @@ namespace WolfstagInteractive.WitWeaver
             if (verboseLogsEnabled)
                 Debug.LogWarning($"Profile not found for CharacterID: {characterID}");
             return null; // Profile not found
+        }
+
+        /// <summary>
+        /// Single runtime resolution path from a line's representation entry to a representation
+        /// asset. Used by the runner, the UI foundation's expression-action pass, and the sample
+        /// UIs; custom UIs should call this instead of hand-rolling resolution.
+        ///
+        /// <see cref="RepresentationRole.Speaker"/> never resolves to null while the profile has
+        /// any representation: an empty selection auto-assigns the first entry with a warning,
+        /// and a stale ID warns once per session and substitutes the first entry.
+        /// <see cref="RepresentationRole.Visible"/> treats an empty selection as a legal "None"
+        /// and returns null silently.
+        ///
+        /// Editor validation and inspectors intentionally do not use this path — they check the
+        /// authored data via the quiet profile primitives
+        /// (<see cref="WitWeaverCharacterProfileBaseData.TryGetRepresentation"/> and friends).
+        /// </summary>
+        /// <param name="data">The line's representation slot entry.</param>
+        /// <param name="fallbackCharacterId">CharacterID used to resolve the profile when the
+        /// entry does not target an explicit participant — pass <c>line.characterID</c> for the
+        /// speaker slot, null otherwise.</param>
+        /// <param name="role">Speaker or Visible slot semantics (see summary).</param>
+        public CharacterRepresentationBase ResolveRepresentation(
+            in CharacterRepresentationData data,
+            string fallbackCharacterId,
+            RepresentationRole role)
+        {
+            // 1. Profile: an explicit participant target wins, else the caller's fallback.
+            WitWeaverCharacterProfileBaseData profile;
+            if (!string.IsNullOrEmpty(data.SelectedCharacterID))
+            {
+                profile = ResolveCharacterProfile(ConversationParticipantProfiles, data.SelectedCharacterID);
+                if (profile == null)
+                {
+                    Debug.LogWarning($"Profile with CharacterID '{data.SelectedCharacterID}' not found.", this);
+                    return null;
+                }
+            }
+            else
+            {
+                profile = ResolveCharacterProfile(ConversationParticipantProfiles, fallbackCharacterId);
+            }
+
+            // 2. No profile: the entry's direct object reference is the only thing left to honor.
+            if (profile == null)
+            {
+                if (data.SelectedRepresentation != null)
+                {
+                    if (role == RepresentationRole.Speaker)
+                        Debug.LogWarning(
+                            $"No profile resolved for CharacterID '{fallbackCharacterId}'; using the line's direct representation reference.",
+                            this);
+                    return data.SelectedRepresentation;
+                }
+
+                if (role == RepresentationRole.Speaker)
+                    Debug.LogError(
+                        $"Cannot resolve a profile for CharacterID '{fallbackCharacterId}'; the speaker has no representation.",
+                        this);
+                return null;
+            }
+
+            // 3. Fully empty selection: legal "None" for visible slots; auto-assign for the speaker.
+            if (string.IsNullOrEmpty(data.SelectedRepresentationID) &&
+                string.IsNullOrEmpty(data.SelectedRepresentationName) &&
+                data.SelectedRepresentation == null)
+            {
+                if (role == RepresentationRole.Visible)
+                    return null;
+
+                if (profile.Representations is { Count: > 0 })
+                {
+                    var first = profile.Representations[0];
+                    if (first?.CharacterRepresentationType != null)
+                    {
+                        Debug.LogWarning(
+                            $"Auto-assigning first available representation '{first.CharacterRepresentationName}' from profile '{profile.CharacterName}' for the speaker.",
+                            profile);
+                        return first.CharacterRepresentationType;
+                    }
+                }
+
+                Debug.LogError(
+                    $"Speaker '{profile.CharacterName}' has no available representations. Ensure the character profile has at least one representation assigned.",
+                    profile);
+                return null;
+            }
+
+            // 4. Object-reference-only entry (legacy data with no ID or name).
+            string identifier = !string.IsNullOrEmpty(data.SelectedRepresentationID)
+                ? data.SelectedRepresentationID
+                : data.SelectedRepresentationName;
+            if (string.IsNullOrEmpty(identifier))
+                return data.SelectedRepresentation;
+
+            // 5. Stable ID (or legacy display name for unmigrated data). GetRepresentation owns
+            //    all miss handling: warn-once per id per session + first-entry substitution.
+            var representation = profile.GetRepresentation(identifier);
+            if (representation != null)
+                return representation;
+
+            // 6. GetRepresentation is null only when the profile's list is empty (it already
+            //    logged that error) — honor the entry's direct reference if one exists.
+            return data.SelectedRepresentation;
+        }
+
+        /// <summary>
+        /// Resolves the speaker slot (index 0) of a line via <see cref="ResolveRepresentation"/>.
+        /// </summary>
+        public CharacterRepresentationBase ResolveSpeakerRepresentation(DialogueLineInfo line)
+        {
+            if (line == null)
+                return null;
+
+            line.EnsureCharacterRepresentationListInitialized();
+            var speakerData = line.CharacterRepresentations.Count > 0
+                ? line.CharacterRepresentations[0]
+                : default;
+
+            return ResolveRepresentation(in speakerData, line.characterID, RepresentationRole.Speaker);
         }
 
         /// <summary>

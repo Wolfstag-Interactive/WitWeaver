@@ -30,7 +30,9 @@ public class WitWeaverUIFoundation : MonoBehaviour
 
     // Called every time a new line is ready to display.
     // Update your speaker name, dialogue text, portrait, etc.
-    protected virtual void UpdateDialogueUI(
+    // After this returns, the foundation automatically runs any expression
+    // actions your rendering didn't run itself (see Expression Actions below).
+    protected virtual void ApplyDialogueLine(
         DialogueLineInfo lineInfo,
         string localizedText,
         string speakerName,
@@ -192,8 +194,35 @@ public class MyCharacterDisplay : WitWeaverCharacterDisplayBase
 }
 ```
 
-You do not need to use `WitWeaverCharacterDisplayBase`; it is a convenience layer, not a requirement. If your UI manages character visuals independently and you handle `UpdateDialogueUI()` directly, you can skip it entirely.
+You do not need to use `WitWeaverCharacterDisplayBase`; it is a convenience layer, not a requirement. If your UI manages character visuals independently in `ApplyDialogueLine()`, you can skip it entirely.
 :::
+
+---
+
+## Expression Actions Run Automatically
+
+After your `ApplyDialogueLine()` override returns, the foundation runs the
+[expression actions](../characters/expressions#expression-actions) for every visible character on
+the line. You do not need to do anything for them to fire in a custom UI.
+
+Two refinements are available:
+
+- Call `RunExpressionActions(representation, expressionId, lineIndex, display, slotIndex)` yourself
+  during rendering when you can supply the resolved `IWitWeaverCharacterDisplay` (the prefab path)
+  or need the actions to fire at an exact moment relative to your visuals. Pass the character's
+  slot index (its position in the line's `CharacterRepresentations` list, 0 = speaker) — that is
+  what tells the automatic pass "this slot is handled", so anything you run is not run again, even
+  if you rendered a different representation than the default resolution would pick.
+- On the automatic pass, `context.Display` is null — actions that depend on a display handle should
+  be run manually as above.
+
+When your UI needs to resolve a line entry to a representation asset (portraits, slots), call
+`conversationData.ResolveRepresentation(in data, fallbackCharacterId, role)` rather than looking
+it up by hand — it is the same path the runner and the automatic pass use, so your UI can never
+disagree with them.
+
+Expression actions re-fire every time a line is presented, including back-navigation; they are
+required to be idempotent (see [Expression Actions](../characters/expressions#expression-actions)).
 
 ---
 

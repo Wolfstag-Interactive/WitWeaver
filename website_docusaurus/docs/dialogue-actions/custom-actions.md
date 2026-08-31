@@ -184,31 +184,71 @@ This is why it is safe to store instance-only state in plain (non-serialized) fi
 
 ---
 
-## Extending BaseExpressionAction
+## Line Action or Expression Action?
 
-If your action should respond to the **expression system** rather than the line action system, extend `BaseExpressionAction` instead of `BaseDialogueLineAction`.
+WitWeaver has two custom-action hooks, and many side effects (a sound, a particle burst, a camera
+nudge) could be built with either. Pick by lifecycle, not by effect:
+
+| | Dialogue line action (`BaseDialogueLineAction`) | Expression action (`BaseExpressionAction`) |
+|---|---|---|
+| Attached to | A specific line (before/after lists) | An expression mapping on a representation asset |
+| Fires | On that line, in that conversation | Every time that expression is applied — on any line, in any conversation |
+| Blocking | Yes — coroutine; the line waits | No — synchronous; the dialogue never pauses |
+| Run-once support | `RunOnlyOncePerConversation` | None — **re-fires on back-navigation and revisits; must be idempotent** |
+| Reversal | `ExecuteOnReversedLineAction` when the player steps back | None |
+| Context received | None (methods take no arguments) | Full `ExpressionActionContext` (runner, conversation, line index, representation, display, expression ID) |
+| Per-run instance | Yes — a fresh copy is instantiated per execution | No — the shared asset runs in place; keep it stateless |
+
+Rules of thumb: anything that must **block the line, run exactly once, or be undone** on
+back-navigation is a line action. Anything that is **re-appliable emotion state** — "whenever this
+character looks angry, do X" — is an expression action.
+
+## Extending BaseExpressionAction
 
 ```csharp
 using UnityEngine;
 using WolfstagInteractive.WitWeaver;
 
-[CreateAssetMenu(menuName = "WitWeaver/Expressions/My Expression Action")]
+[CreateAssetMenu(menuName = "WitWeaver/Expression Actions/My Expression Action")]
 public class MyExpressionAction : BaseExpressionAction
 {
     public override void ExecuteAction(ExpressionActionContext context)
     {
-        // context.Representation - the CharacterRepresentationBase for the speaker.
-        // context.ExpressionId   - the expression ID being applied.
-        // context.Runtime        - the WitWeaver runner.
+        // context.Representation - the CharacterRepresentationBase being applied.
+        // context.ExpressionId   - the expression GUID being applied.
+        // context.Runtime        - the WitWeaver runner (usable to start coroutines).
+        // context.Display        - the resolved prefab display, when the UI provided one; otherwise null.
         Debug.Log($"{context.ExpressionId} applied to {context.Representation.name}");
     }
 }
 ```
 
-`BaseExpressionAction` is **not** a coroutine; `ExecuteAction` is a synchronous void method. It receives an `ExpressionActionContext` struct that carries the character representation, the expression ID, the conversation data, and the runner itself. Use this when you need to react to expression changes (updating sprite renderers, blendshapes, animation states) rather than doing time-based work tied to a specific line.
+Two shipped examples live in the package's `Scripts/WitWeaverExpressionActions/` folder:
+`PlayOneShotAudioExpressionAction` (an audio cue tied to an emotion) and
+`DebugLogExpressionAction` (a wiring check that logs every context field). Create instances via
+**Create → WitWeaver → Expression Actions**, then add them to a mapping's **Expression Actions**
+list on the representation asset.
+
+The contract, in full:
+
+- **Guaranteed to run.** `WitWeaverUIFoundation` runs the line's expression actions automatically
+  after the UI renders each line — custom UIs built on the foundation need no extra wiring. (A UI
+  that runs them itself via `RunExpressionActions`, as the sample UIs do on the prefab path to
+  provide the display handle, is not double-run.)
+- **Idempotent by contract.** Expression actions re-fire every time the expression is applied,
+  including when the player navigates back or revisits a line. Treat execution as state
+  application: running twice must be harmless.
+- **Synchronous.** `ExecuteAction` is a void method; it cannot pause the line. For fire-and-forget
+  async work, start a coroutine on `context.Runtime`.
+- **Shared-asset execution.** Unlike line actions, no per-run copy is instantiated — instance
+  fields persist across runs (and dirty the asset in the editor), so keep actions stateless.
 
 :::info[For Advanced Users]
-`BaseExpressionAction` and `BaseDialogueLineAction` are entirely separate hierarchies. They are both `ScriptableObject` subclasses but they are invoked by different parts of the runtime: expression actions are called by the expression resolution system when a character's displayed expression changes, while line actions are called by the conversation runner for each line. You cannot assign a `BaseExpressionAction` to a line's action list, or a `BaseDialogueLineAction` to an expression slot.
+`BaseExpressionAction` and `BaseDialogueLineAction` are entirely separate hierarchies. Both are
+`ScriptableObject` subclasses, but expression actions are invoked by the UI foundation as part of
+applying a character's expression, while line actions are invoked by the conversation runner around
+each line. You cannot assign a `BaseExpressionAction` to a line's action list, or a
+`BaseDialogueLineAction` to an expression slot.
 :::
 
 ---

@@ -532,7 +532,7 @@ MonoBehaviour:
   PreviousLineButton: {fileID: 6884883449083575030}
   DialogueHistoryPanelRoot: {fileID: 323622142881766837}
   DialogueHistoryScrollRect: {fileID: 3880619691109246176}
-  DialogueHistoryContentBackground: {fileID: 5157808244682157698}
+  DialogueHistoryContentBackground: {fileID: 8703608421288385764}
   DialogueHistoryText: {fileID: 7479805580807005326}
   ToggleDialogueHistoryButton: {fileID: 643014730799521447}
   AllowLineAdvanceOutsideButton: 0

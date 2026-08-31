@@ -92,6 +92,8 @@ When a dialogue line begins, the runner performs this resolution sequence:
 4. Resolve the ID against the profile’s **Representations** list via `GetRepresentation()`.
 5. Call `ApplyExpression()` on the resolved `CharacterRepresentationBase` asset, passing the line’s selected expression GUID and the target character display component.
 
+The whole sequence lives in one place: `conversationData.ResolveRepresentation(in data, fallbackCharacterId, role)` (with `ResolveSpeakerRepresentation(line)` as the speaker-slot shortcut). The runner, the built-in expression-action pass, and both sample UIs all call it, so every consumer resolves identically. The `role` names the slot semantics: `RepresentationRole.Speaker` never resolves to null while the profile has any representation (empty selection auto-assigns the first entry with a warning); `RepresentationRole.Visible` treats an empty selection as a legal "None" and returns null silently. Custom UIs should call this method rather than hand-rolling their own lookup.
+
 If the selected ID is blank, the first entry in the Representations list is used (this means "default" by contract and does not log). If the ID is set but cannot be found — for example the representation entry was deleted — the runner still falls back to the first entry so the conversation never crashes mid-play, but it logs a warning naming the profile, the requested ID, and the substituted entry (once per missing ID per play session). If the Representations list is entirely empty, an error is logged and no visual is applied.
 
 :::tip

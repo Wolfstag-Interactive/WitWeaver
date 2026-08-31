@@ -37,18 +37,18 @@ This page covers the most common problems encountered when setting up or using W
 
 **Symptom:** The dialogue panel appears and shows the first line. Clicking advance or pressing a key plays audio or fires events, but the displayed text never changes.
 
-**Cause:** `UpdateDialogueUI()` is missing the `override` keyword in your UI subclass. Without it, Unity silently calls the empty base class version instead of your implementation.
+**Cause:** `ApplyDialogueLine()` is missing the `override` keyword in your UI subclass (or you declared your own `UpdateDialogueUI` — that is the foundation's fixed orchestration method, not the override point). Without `override`, Unity silently calls the empty base class version instead of your implementation.
 
 **Fix:**
 ```csharp
-// WRONG -- UpdateDialogueUI() on the base class runs instead
-protected void UpdateDialogueUI(...) { ... }
+// WRONG -- ApplyDialogueLine() on the base class runs instead
+protected void ApplyDialogueLine(...) { ... }
 
 // CORRECT
-protected override void UpdateDialogueUI(...) { ... }
+protected override void ApplyDialogueLine(...) { ... }
 ```
 
-Verify all overridden methods (`UpdateDialogueUI`, `WaitForUserInput`, `PresentChoices`, `HideDialogue`) have the `override` keyword.
+Verify all overridden methods (`ApplyDialogueLine`, `WaitForUserInput`, `PresentChoices`, `HideDialogue`) have the `override` keyword.
 
 ---
 
@@ -162,6 +162,6 @@ See [Event Subscription Safety](../core-systems/conversation-state#event-subscri
 
 ## The UI Foundation Methods Feel Backward
 
-If the connection between `WitWeaverUIFoundation` and the runner is confusing, read it this way: WitWeaver *calls into* your UI, not the other way around. You do not poll WitWeaver -- WitWeaver calls `UpdateDialogueUI()`, `WaitForUserInput()`, and `PresentChoices()` on your component at the right moments. Your job is to override those methods and make them do the right visual thing.
+If the connection between `WitWeaverUIFoundation` and the runner is confusing, read it this way: WitWeaver *calls into* your UI, not the other way around. You do not poll WitWeaver -- WitWeaver calls `UpdateDialogueUI()` (which renders through your `ApplyDialogueLine()` override, then runs expression actions), `WaitForUserInput()`, and `PresentChoices()` on your component at the right moments. Your job is to override `ApplyDialogueLine()` and the input methods and make them do the right visual thing.
 
 [UI Foundation](../ui/ui-foundation) | [Building a Custom UI](../ui/building-a-ui)

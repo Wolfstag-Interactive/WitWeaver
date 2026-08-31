@@ -138,7 +138,7 @@ namespace WolfstagInteractive.WitWeaver
         // Dialogue UI overrides
         // ------------------------------------------------------------------
 
-        public override void UpdateDialogueUI(WitWeaverConversationData.DialogueLineInfo lineInfo, string localizedText,
+        protected override void ApplyDialogueLine(WitWeaverConversationData.DialogueLineInfo lineInfo, string localizedText,
             string speakerName, CharacterRepresentationBase primaryRepresentation,
             WitWeaverCharacterProfileBaseData primaryProfile)
         {
@@ -159,7 +159,7 @@ namespace WolfstagInteractive.WitWeaver
             HideAllSpriteImages();
 
             for (int i = 0; i < showCount; i++)
-                RenderRepresentation(lineInfo.CharacterRepresentations[i], i);
+                RenderRepresentation(lineInfo, lineInfo.CharacterRepresentations[i], i);
 
             ContinueButton?.gameObject.SetActive(true);
             RefreshNavButtons();
@@ -259,12 +259,16 @@ namespace WolfstagInteractive.WitWeaver
         // Representation rendering
         // ------------------------------------------------------------------
 
-        protected virtual void RenderRepresentation(WitWeaverConversationData.CharacterRepresentationData data, int index)
+        protected virtual void RenderRepresentation(WitWeaverConversationData.DialogueLineInfo lineInfo,
+            WitWeaverConversationData.CharacterRepresentationData data, int index)
         {
             var conversationData = WitWeaverInstance?.GetCurrentConversationData();
             if (conversationData == null) return;
 
-            var representation = GetRepresentationFromData(conversationData, data);
+            var representation = conversationData.ResolveRepresentation(
+                in data,
+                index == 0 ? lineInfo.characterID : null,
+                index == 0 ? RepresentationRole.Speaker : RepresentationRole.Visible);
             if (representation == null) return;
 
             if (representation is PrefabCharacterRepresentationData prefabRep)
@@ -277,7 +281,7 @@ namespace WolfstagInteractive.WitWeaver
                     anchor);
 
                 // Run any BaseExpressionAction ScriptableObjects attached to this expression.
-                RunExpressionActions(prefabRep, data.SelectedExpressionId, _lastLineIndex, display);
+                RunExpressionActions(prefabRep, data.SelectedExpressionId, _lastLineIndex, display, slotIndex: index);
                 return;
             }
 
@@ -287,7 +291,7 @@ namespace WolfstagInteractive.WitWeaver
                 RenderSpriteRepresentation(spriteMapping, data.LineSpecificDisplayOptions, index);
 
                 // Sprite visuals are applied above; now run the representation's expression actions.
-                RunExpressionActions(representation, data.SelectedExpressionId, _lastLineIndex, display: null);
+                RunExpressionActions(representation, data.SelectedExpressionId, _lastLineIndex, display: null, slotIndex: index);
                 return;
             }
 
@@ -298,7 +302,7 @@ namespace WolfstagInteractive.WitWeaver
                     data.LineSpecificDisplayOptions, index);
 
                 // Animated visuals are applied above; now run the representation's expression actions.
-                RunExpressionActions(representation, data.SelectedExpressionId, _lastLineIndex, display: null);
+                RunExpressionActions(representation, data.SelectedExpressionId, _lastLineIndex, display: null, slotIndex: index);
                 return;
             }
 
@@ -461,21 +465,6 @@ namespace WolfstagInteractive.WitWeaver
                 WitWeaverAnimatedPortraitPlayer.StopOn(slotImage.gameObject);
                 slotImage.gameObject.SetActive(false);
             }
-        }
-
-        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData conversationData,
-            WitWeaverConversationData.CharacterRepresentationData data)
-        {
-            if (!string.IsNullOrEmpty(data.SelectedCharacterID))
-            {
-                var profile = conversationData.ConversationParticipantProfiles.FirstOrDefault(p =>
-                    p.CharacterID == data.SelectedCharacterID);
-                string identifier = !string.IsNullOrEmpty(data.SelectedRepresentationID)
-                    ? data.SelectedRepresentationID
-                    : data.SelectedRepresentationName;
-                return profile?.GetRepresentation(identifier);
-            }
-            return data.SelectedRepresentation;
         }
 
         // ------------------------------------------------------------------

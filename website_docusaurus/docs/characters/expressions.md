@@ -89,6 +89,10 @@ If the line has no expression selected, or the GUID no longer exists on the repr
 
 For logic that should fire when an expression is applied (playing a sound, spawning a particle burst, nudging the camera, setting an Animator parameter, etc.), create a ScriptableObject that extends `BaseExpressionAction` and attach it to the mapping entry's **Expression Actions** list.
 
+Two ready-made actions ship with the package under **Create → WitWeaver → Expression Actions**:
+**Play One Shot Audio** (an audio cue tied to an emotion) and **Debug Log** (a wiring check that
+logs every context field). Use them directly or as reference implementations.
+
 ```csharp
 using UnityEngine;
 using WolfstagInteractive.WitWeaver;
@@ -115,10 +119,17 @@ public class PlayEmotionSoundAction : BaseExpressionAction
 
 A few things to know:
 
-- `ExecuteAction` runs immediately and does not pause the dialogue. If you need something that blocks the line (a camera move, a timed fade), use a [dialogue line action](../dialogue-actions/custom-actions) instead.
+- **They always run.** The UI foundation runs a line's expression actions automatically after the
+  line is rendered, in any UI built on `WitWeaverUIFoundation` — no per-UI wiring required.
+- **They re-fire, so they must be idempotent.** Expression actions run every time the expression is
+  applied — including when the player navigates back to a previous line or revisits one. There is
+  no run-once flag and no undo hook; treat them as state application that is harmless to repeat.
+- `ExecuteAction` runs immediately and does not pause the dialogue. If you need something that blocks the line (a camera move, a timed fade), runs exactly once, or must be reversed on back-navigation, use a [dialogue line action](../dialogue-actions/custom-actions#line-action-or-expression-action) instead — that page has the full decision table.
+- **The shared asset executes in place** (no per-run copy, unlike line actions), so keep actions
+  stateless.
 - One entry can hold several actions. They run in list order.
 - The same action asset can be reused on many expressions and many characters.
-- `context.Display` is filled in on the prefab path, where a character display component exists. On the sprite and animated paths it is empty, because those draw straight onto the UI images.
+- `context.Display` is filled in on the prefab path, where a character display component exists and the UI ran the actions itself. On the sprite and animated paths — and on the foundation's automatic pass — it is empty.
 
 ---
 

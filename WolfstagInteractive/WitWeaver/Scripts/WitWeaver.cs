@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace WolfstagInteractive.WitWeaver
@@ -168,12 +167,7 @@ namespace WolfstagInteractive.WitWeaver
                 }
 
                 // Get the primary character representation
-                line.EnsureCharacterRepresentationListInitialized();
-                var speakerRepData = (line.CharacterRepresentations != null && line.CharacterRepresentations.Count > 0)
-                    ? line.CharacterRepresentations[0]
-                    : default;
-
-                var primaryRepresentation = GetPrimaryCharacterRepresentation(primaryProfile, speakerRepData);
+                var primaryRepresentation = ConversationData.ResolveSpeakerRepresentation(line);
 
                 if (primaryRepresentation == null)
                 {
@@ -690,12 +684,7 @@ namespace WolfstagInteractive.WitWeaver
                 ConversationData.ConversationParticipantProfiles,
                 prevLine.characterID);
 
-            prevLine.EnsureCharacterRepresentationListInitialized();
-            var speakerRepData = (prevLine.CharacterRepresentations != null && prevLine.CharacterRepresentations.Count > 0)
-                ? prevLine.CharacterRepresentations[0]
-                : default;
-
-            var primaryRepresentation = GetPrimaryCharacterRepresentation(primaryProfile, speakerRepData);
+            var primaryRepresentation = ConversationData.ResolveSpeakerRepresentation(prevLine);
 
             var localized = LocalizationHandler.GetLocalizedDialogue(prevLine);
             string finalOutput = ReplacePlayerNameInDialogueLine(localized.Text);
@@ -705,177 +694,6 @@ namespace WolfstagInteractive.WitWeaver
                     primaryProfile.CharacterName, primaryRepresentation, primaryProfile));
 
             // do not block on WaitForUserInput here. let your UI decide how back navigation returns to idle.
-        }
-        /// <summary>
-        /// Helper method to get primary character representation (special handling for speakers)
-        /// </summary>
-        /// <param name="primaryProfile">The character profile of the speaker</param>
-        /// <param name="representationData">The representation data from the dialogue line</param>
-        private CharacterRepresentationBase GetPrimaryCharacterRepresentation(WitWeaverCharacterProfileBaseData primaryProfile, WitWeaverConversationData.CharacterRepresentationData representationData)
-        {
-            // For primary characters, if no specific representation is set, try to get the first available one
-            if (string.IsNullOrEmpty(representationData.SelectedRepresentationID) &&
-                string.IsNullOrEmpty(representationData.SelectedRepresentationName) &&
-                representationData.SelectedRepresentation == null &&
-                string.IsNullOrEmpty(representationData.SelectedCharacterID))
-            {
-                // This looks like an uninitialized primary character representation
-                // Try to get the first available representation from the primary character's profile
-                if (primaryProfile.Representations is { Count: > 0 })
-                {
-                    var result = primaryProfile.Representations[0].CharacterRepresentationType;
-                    if (result != null)
-                    {
-                        Debug.LogWarning($"Auto-assigning first available representation '{primaryProfile.Representations[0].CharacterRepresentationName}' from profile '{primaryProfile.CharacterName}' for primary character.");
-                        return result;
-                    }
-                }
-                
-                Debug.LogError($"Primary character '{primaryProfile.CharacterName}' has no available representations. Please ensure the character profile has at least one representation assigned.");
-                return null;
-            }
-            
-            // Use the standard resolution method for other cases
-            return GetCharacterRepresentationFromData(primaryProfile, representationData, true);
-        }
-      
-        /// <summary>
-        /// Helper method to get character representation from representation data
-        /// </summary>
-        /// <param name="profile">The character profile to get representation from</param>
-        /// <param name="representationData">The representation data</param>
-        /// <param name="isPrimaryCharacter">Whether this is for a primary character (primary characters cannot be "None")</param>
-        private CharacterRepresentationBase GetCharacterRepresentationFromData(WitWeaverCharacterProfileBaseData profile, WitWeaverConversationData.CharacterRepresentationData representationData, bool isPrimaryCharacter = false)
-        {
-            CharacterRepresentationBase result;
-
-            // Stable ID is the resolution key; the display name remains as legacy migration source.
-            string identifier = !string.IsNullOrEmpty(representationData.SelectedRepresentationID)
-                ? representationData.SelectedRepresentationID
-                : representationData.SelectedRepresentationName;
-
-            // Check if this is using the new secondary/tertiary system (has SelectedCharacterID)
-            if (!string.IsNullOrEmpty(representationData.SelectedCharacterID))
-            {
-                // Find the profile by the selected character ID
-                var selectedProfile = ConversationData.ConversationParticipantProfiles
-                    .FirstOrDefault(p => p != null && p.CharacterID == representationData.SelectedCharacterID);
-
-                if (selectedProfile != null)
-                {
-                    if (!string.IsNullOrEmpty(identifier))
-                    {
-                        // Miss handling (warn + substitute) lives in GetRepresentation now.
-                        result = selectedProfile.GetRepresentation(identifier);
-                        if (result != null)
-                        {
-                            return result;
-                        }
-
-                        // Fallback: Try to get the first available representation from the selected profile
-                        if (selectedProfile.Representations is { Count: > 0 })
-                        {
-                            result = selectedProfile.Representations[0].CharacterRepresentationType;
-                            if (result != null)
-                            {
-                                Debug.LogWarning($"Using first available representation from profile '{selectedProfile.CharacterName}'.");
-                                return result;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Handle "None" case for secondary/tertiary characters only
-                        if (!isPrimaryCharacter)
-                        {
-                            return null; // Valid "None" selection for secondary/tertiary
-                        }
-                        else
-                        {
-                            Debug.LogError($"Primary character cannot have 'None' representation. Profile: '{selectedProfile.CharacterName}'");
-                            return null;
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning($"Profile with CharacterID '{representationData.SelectedCharacterID}' not found.");
-                    return null;
-                }
-            }
-            else
-            {
-                // Handle primary character or fallback to the old system
-                if (profile != null)
-                {
-                    // Check if this is an intentional "None" selection
-                    bool isIntentionalNone = string.IsNullOrEmpty(identifier) &&
-                                            representationData.SelectedRepresentation == null;
-                    
-                    if (isIntentionalNone)
-                    {
-                        if (!isPrimaryCharacter)
-                        {
-                            // This is valid for secondary/tertiary characters
-                            return null;
-                        }
-                        else
-                        {
-                            // This is NOT valid for primary characters - they must have a representation
-                            Debug.LogError($"Primary character '{profile.CharacterName}' cannot have 'None' representation. The primary character must have a valid representation as they are the speaker.");
-                            
-                            // Try to auto-assign the first available representation as a fallback
-                            if (profile.Representations is { Count: > 0 })
-                            {
-                                result = profile.Representations[0].CharacterRepresentationType;
-                                if (result != null)
-                                {
-                                    Debug.LogWarning($"Auto-assigning first available representation from profile '{profile.CharacterName}' as fallback.");
-                                    return result;
-                                }
-                            }
-                            
-                            return null; // No valid representation found
-                        }
-                    }
-                    
-                    // Try to resolve the stable ID (or legacy name) on the provided profile.
-                    // Miss handling (warn + substitute) lives in GetRepresentation now.
-                    if (!string.IsNullOrEmpty(identifier))
-                    {
-                        result = profile.GetRepresentation(identifier);
-                        if (result != null)
-                        {
-                            return result;
-                        }
-                    }
-                    
-                    // Fallback: Use SelectedRepresentation if available (for backward compatibility)
-                    if (representationData.SelectedRepresentation != null)
-                    {
-                        return representationData.SelectedRepresentation;
-                    }
-                    
-                    // Fallback: Get the first available representation from the profile
-                    if (profile.Representations is { Count: > 0 })
-                    {
-                        result = profile.Representations[0].CharacterRepresentationType;
-                        if (result != null)
-                        {
-                            Debug.LogWarning($"Using first available representation from profile '{profile.CharacterName}'.");
-                            return result;
-                        }
-                    }
-                    
-                    Debug.LogError($"No valid representations found for profile '{profile.CharacterName}'.");
-                }
-                else
-                {
-                    Debug.LogError("Profile is null, cannot get character representation.");
-                }
-            }
-            
-            return null;
         }
         /// <summary>
         /// Plays a dialogue line with the UI foundation

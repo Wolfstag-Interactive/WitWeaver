@@ -44,10 +44,10 @@ namespace WolfstagInteractive.WitWeaver
             // 1. Provide a valid IWitWeaverCharacterDisplay on the prefab so WitWeaver can call
             //    BindRepresentation and ApplyExpression without null-checking for a display component.
             //
-            // 2. Let PrefabCharacterRepresentationData.ApplyExpression (called separately by the
-            //    WitWeaver runner) execute any BaseExpressionAction ScriptableObjects attached to
-            //    the expression mapping. Those actions ARE the visual response -- this component
-            //    intentionally adds none of its own.
+            // 2. Let PrefabCharacterRepresentationData.ApplyExpression (invoked separately by the
+            //    UI foundation's expression-action pass) execute any BaseExpressionAction
+            //    ScriptableObjects attached to the expression mapping. Those actions ARE the
+            //    visual response -- this component intentionally adds none of its own.
             //
             // If you need built-in Animator or blend shape driving, use WitWeaverAnimatorDisplay
             // or WitWeaverBlendShapeDisplay instead.

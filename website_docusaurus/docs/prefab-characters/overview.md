@@ -140,7 +140,7 @@ Regardless of which path you use, the expression application sequence is the sam
 3. The UI calls `display.BindRepresentation(representationAsset)` on the returned display. The display builds an internal lookup table keyed by expression display name at this point.
 4. The UI calls `display.ApplyExpression(expressionId)` with the GUID of the expression selected in the YAML line.
 5. The display component translates the GUID into a concrete visual change: an Animator parameter, a blend shape weight, or nothing (if `WitWeaverActionOnlyDisplay`).
-6. `PrefabCharacterRepresentationData.ApplyExpression()` also runs, which fires any `BaseExpressionAction` ScriptableObjects attached to the expression mapping. Display component changes and ScriptableObject actions run together.
+6. Separately, the UI foundation's expression-action pass invokes `PrefabCharacterRepresentationData.ApplyExpression()`, which fires any `BaseExpressionAction` ScriptableObjects attached to the expression mapping. This is a different method from the display's `ApplyExpression` in step 4 — display visuals and expression actions are two independent calls that both happen while the line is presented.
 
 ```
 YAML dialogue line

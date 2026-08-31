@@ -274,13 +274,13 @@ Payload classes are stored inside the asset by their class name. If you rename o
 
 ### A note for lip sync and per-line effects
 
-Making the mouth move while text types out is a per-line behavior, not a per-expression visual. Put that logic in a `BaseExpressionAction` on the expression's **Expression Actions** list, or a dialogue line action. See [Custom Actions](../dialogue-actions/custom-actions).
+Making the mouth move while text types out is timing-coupled to the line, so it is a job for a **dialogue line action** (which can run as a coroutine for the line's duration and be reversed), not an expression action — expression actions fire once, synchronously, when the expression is applied, and re-fire on revisits. Use an expression action only for the fire-and-forget part (e.g. switching the mouth animation set when the emotion changes). The [decision table](../dialogue-actions/custom-actions#line-action-or-expression-action) covers the boundary.
 
 ### A note for custom UIs
 
 If you built your own UI on `WitWeaverUIFoundation`, you have two hooks:
 
-- **uGUI based UIs** that copied the sample canvas approach can override `RenderRepresentation` (it is virtual) and reuse `WitWeaverAnimatedPortraitPlayer.GetOrAdd(image).Play(...)` on their own images. Remember to call `WitWeaverAnimatedPortraitPlayer.StopOn(...)` wherever you hide images between lines.
+- **uGUI based UIs** that copied the sample canvas approach can override `RenderRepresentation(lineInfo, data, index)` (it is virtual; the first parameter is the current `DialogueLineInfo`) and reuse `WitWeaverAnimatedPortraitPlayer.GetOrAdd(image).Play(...)` on their own images. Remember to call `WitWeaverAnimatedPortraitPlayer.StopOn(...)` wherever you hide images between lines.
 - **Non-uGUI UIs** (UI Toolkit, world-space, custom renderers) implement `IAnimatedPortraitSurface` once for their display target and tick the playback themselves. Every payload, built-in or custom, then works on that UI unchanged.
 
 ---

@@ -22,8 +22,7 @@ MonoBehaviour:
       FlipPortraitY: 0
       FlipFullBodyX: 0
       FlipFullBodyY: 0
-      DisplayPosition: 0
-      SlotId: 
+      DisplaySlot: 
       PortraitScale: {x: 1, y: 1, z: 1}
       FullBodyScale: {x: 1, y: 1, z: 1}
     ExpressionActions: []
@@ -36,8 +35,7 @@ MonoBehaviour:
       FlipPortraitY: 0
       FlipFullBodyX: 0
       FlipFullBodyY: 0
-      DisplayPosition: 0
-      SlotId: 
+      DisplaySlot: 
       PortraitScale: {x: 1, y: 1, z: 1}
       FullBodyScale: {x: 1, y: 1, z: 1}
     ExpressionActions: []

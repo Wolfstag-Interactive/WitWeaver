@@ -22,7 +22,7 @@ Display components and `BaseExpressionAction` ScriptableObjects cover different 
 | Audio, particles, custom effects | `BaseExpressionAction` on the representation asset |
 | Any combination of the above | Both, simultaneously |
 
-When a line is processed, the display component fires first, then any `BaseExpressionAction` assets attached to the expression mapping on `PrefabCharacterRepresentationData` run. Both happen in response to the same `ApplyExpression()` call.
+When a line is processed, the display component fires first (via `IWitWeaverCharacterDisplay.ApplyExpression`, called by the spawner), then any `BaseExpressionAction` assets attached to the expression mapping on `PrefabCharacterRepresentationData` run (via the representation's own `ApplyExpression`, invoked by the UI foundation's expression-action pass). They are two separate methods on two separate types — the visual binding and the actions can never interleave.
 
 ---
 

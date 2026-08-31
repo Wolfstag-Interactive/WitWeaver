@@ -1,51 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b120c558-4353-4d0c-87e7-1fcf0e9c31fe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../BETA-UPGRADE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../BETA-UPGRADE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/Ava.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/Ava.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/Jared.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/Jared.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/Wolfstag.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/Wolfstag.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleConversationData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleConversationData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/Character Profiles/CapsuleCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/Character Profiles/CapsuleCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/Character Profiles/CubeCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/Character Profiles/CubeCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/Character Profiles/SphereCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/Character Profiles/SphereCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/WitWeaver3DSampleConversation.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/WitWeaver3DSampleConversation.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestCharacterProfile 2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TestCharacterProfile 2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestCharacterProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TestCharacterProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST 3D Sample.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST 3D Sample.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST EXCEL.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST EXCEL.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/Character Profiles/Ava.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/Character Profiles/Ava.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/Character Profiles/Jared.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/Character Profiles/Jared.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/Character Profiles/Wolfstag.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/Character Profiles/Wolfstag.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleConversationData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleConversationData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/Character Profiles/CapsuleCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/Character Profiles/CapsuleCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/Character Profiles/CubeCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/Character Profiles/CubeCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/Character Profiles/SphereCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/Character Profiles/SphereCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/WitWeaver3DSampleConversation.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WitWeaverTest/Assets/Samples/WitWeaver/1.0.0/Sample Assets/3D Sample/WitWeaver3DSampleConversation.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Editor/DialogueLinesPropertyDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Editor/DialogueLinesPropertyDrawer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/Character Profiles/Ava.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/Character Profiles/Ava.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/Character Profiles/Jared.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/Character Profiles/Jared.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/Character Profiles/Wolfstag.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/Character Profiles/Wolfstag.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/WitWeaver2DSampleConversationData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/2D Sample/WitWeaver2DSampleConversationData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/Character Profiles/CapsuleCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/Character Profiles/CapsuleCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/Character Profiles/CubeCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/Character Profiles/CubeCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/Character Profiles/SphereCharacter.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/Character Profiles/SphereCharacter.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/WitWeaver3DSampleConversation.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Samples~/WitWeaver/SampleAssets/3D Sample/WitWeaver3DSampleConversation.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/AnimatedCharacterRepresentationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/AnimatedCharacterRepresentationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/CharacterRepresentationBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/CharacterRepresentationBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/PrefabCharacterRepresentationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/PrefabCharacterRepresentationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/SpriteCharacterRepresentationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/SpriteCharacterRepresentationData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Planning/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Planning/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WitWeaverDev/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WitWeaverDev/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/WolfstagEmotionMappings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/WolfstagEmotionMappings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/Sample Assets/WitWeaver2DSampleUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/Sample Assets/WitWeaver2DSampleUI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TestAnimatedRepresentation.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TestAnimatedRepresentation.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/BaseExpressionAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/BaseExpressionAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/IWitWeaverUIFoundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/IWitWeaverUIFoundation.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUI3D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUI3D.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUICanvas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUICanvas.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverUIFoundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverUIFoundation.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverCharacterProfileBaseData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverCharacterProfileBaseData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.DialogueLineInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.DialogueLineInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverActionOnlyDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverActionOnlyDisplay.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/character-profiles.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/character-profiles.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/animated-representations.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/animated-representations.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/character-representations.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/character-representations.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/expressions.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/expressions.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/core-systems/witweaver-component.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/core-systems/witweaver-component.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/actions-overview.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/actions-overview.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/custom-actions.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/custom-actions.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/extending-witweaver.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/extending-witweaver.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/getting-started/troubleshooting.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/getting-started/troubleshooting.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/display-components.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/display-components.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/overview.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/overview.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/ui/building-a-ui.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/ui/building-a-ui.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/ui/dialogue-history.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/ui/dialogue-history.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/ui/ui-foundation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/ui/ui-foundation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website_docusaurus/static/llms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/static/llms.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,11 +40,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="4" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3IfEV97Zz09z096O9oUqdpaizrl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -68,9 +59,55 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true"
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath D:\UnityProjects\WolfstagInteractive\WitWeaver\WitWeaverDev -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\UnityProjects\WolfstagInteractive\WitWeaver\WitWeaverDev" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\UnityProjects\WolfstagInteractive\WitWeaver\WitWeaverDev -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\UnityProjects\WolfstagInteractive\WitWeaver\WitWeaverDev" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="useMixedMode" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b120c558-4353-4d0c-87e7-1fcf0e9c31fe" name="Changes" comment="" />
@@ -79,13 +116,20 @@
       <option name="presentableId" value="Default" />
       <updated>1788147244653</updated>
       <workItem from="1788147245726" duration="12000" />
+      <workItem from="1788198195781" duration="2695000" />
     </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
     <option name="unityProject" value="true" />
     <option name="unityProjectFolder" value="true" />
   </component>
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

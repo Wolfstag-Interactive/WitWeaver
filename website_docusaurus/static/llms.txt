@@ -29,11 +29,11 @@
 
 - [Character Profiles](https://docs.wolfstaginteractive.com/witweaver/characters/character-profiles): CharacterID, CharacterName, IsPlayerCharacter, and the Representations list
 - [Character Representations](https://docs.wolfstaginteractive.com/witweaver/characters/character-representations): SpriteCharacterRepresentationData, PrefabCharacterRepresentationData, and custom CharacterRepresentationBase subclasses
-- [Expressions](https://docs.wolfstaginteractive.com/witweaver/characters/expressions): Named emotion assets (WitWeaverCharacterExpression) -- how expressions map to sprites, animations, or custom logic via BaseExpressionAction
+- [Expressions](https://docs.wolfstaginteractive.com/witweaver/characters/expressions): GUID-keyed expression mappings on representation assets -- how expressions map to sprites, animations, or custom logic via BaseExpressionAction
 
 ## UI
 
-- [UI Foundation](https://docs.wolfstaginteractive.com/witweaver/ui/ui-foundation): The WitWeaverUIFoundation abstract base class -- UpdateDialogueUI, WaitForUserInput, PresentChoices, HideDialogue
+- [UI Foundation](https://docs.wolfstaginteractive.com/witweaver/ui/ui-foundation): The WitWeaverUIFoundation base class -- override ApplyDialogueLine (expression actions run automatically after it), WaitForUserInput, PresentChoices, HideDialogue
 - [Sample UI](https://docs.wolfstaginteractive.com/witweaver/ui/sample-ui): The ready-made dialogue UI prefab included in the Samples package -- how to import and use it as a starting point
 - [Building a Custom UI](https://docs.wolfstaginteractive.com/witweaver/ui/building-a-ui): Step-by-step guide to implementing a WitWeaverUIFoundation subclass
 - [Dialogue History](https://docs.wolfstaginteractive.com/witweaver/ui/dialogue-history): WitWeaverDialogueHistoryUI -- displaying a scrollable log of past dialogue lines
@@ -80,10 +80,10 @@ The full Doxygen-generated C# API is at:
 
 - [WitWeaver](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html): Main MonoBehaviour conversation runner -- PlayConversation, StopConversation, ReverseOneLine, CurrentDialogueState, all events
 - [WitWeaverConversationData](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html): ScriptableObject holding compiled dialogue lines, participants, and YAML references -- ConversationGuid, DialogueLines, ResolveCharacterProfile
-- [WitWeaverUIFoundation](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html): Abstract UI base class -- override UpdateDialogueUI, WaitForUserInput, PresentChoices, HideDialogue
+- [WitWeaverUIFoundation](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverUIFoundation.html): UI base class -- override ApplyDialogueLine (rendering; expression actions run automatically after it), WaitForUserInput, PresentChoices, HideDialogue
 - [BaseDialogueLineAction](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseDialogueLineAction.html): Base class for custom dialogue actions -- ExecuteLineAction (coroutine), ExecuteOnReversedLineAction, RunOnlyOncePerConversation
 - [CharacterRepresentationBase](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html): Abstract base for character visual representations -- ProcessExpression, ApplyExpression, GetExpressionMappingByGuid (editor previews opt-in via IEditorPreviewableRepresentation)
-- [BaseExpressionAction](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html): Base for per-expression synchronous actions -- ExecuteAction(ExpressionActionContext)
+- [BaseExpressionAction](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html): Base for per-expression synchronous actions -- ExecuteAction(ExpressionActionContext); guaranteed to run after each line renders, re-fires on revisits (must be idempotent)
 - [WitWeaverLanguageManager](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLanguageManager.html): Singleton for runtime language management -- CurrentLanguage, SetLanguage, OnLanguageChanged
 - [ConversationContainer](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html): ScriptableObject grouping multiple conversations -- Playlist and Selector modes, GetByGuid, IndexOf
 - [WitWeaverSettings](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, AddressablesEnabled, VerboseLogs

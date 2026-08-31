@@ -45,9 +45,9 @@ Use `RunOnlyOncePerConversation` for actions that have side effects that should 
 
 ## Reversal Behavior
 
-WitWeaver supports stepping backwards through dialogue via `ReverseOneLine()`. When the player reverses, the runner undoes the **before-actions** of the line being left, not the after-actions, because those already ran before the current line began.
+WitWeaver supports stepping backwards through dialogue via `ReverseOneLine()`. When the player reverses, the runner undoes **both action lists** of the line being left: first any after-actions that already ran (for example on a choice line, where after-actions run once the choice is made), then the before-actions — each list in **reverse order** (last action first).
 
-Reversal calls `ExecuteOnReversedLineAction()` on each before-action, in **reverse order** (last action first). This is the action's opportunity to undo whatever `ExecuteLineAction()` did: restore a position, hide a character that was revealed, destroy a spawned prop.
+Reversal calls `ExecuteOnReversedLineAction()` on each captured action instance. This is the action's opportunity to undo whatever `ExecuteLineAction()` did: restore a position, hide a character that was revealed, destroy a spawned prop.
 
 :::warning
 If your action has irreversible side effects (playing a cinematic, spending currency, sending a network event), you have two options:
@@ -58,7 +58,7 @@ If your action has irreversible side effects (playing a cinematic, spending curr
 The base implementation of `ExecuteOnReversedLineAction()` does nothing by default. If you do not override it, reversal silently skips any cleanup for your action's side effects.
 :::
 
-After-actions are never reversed. They ran after the player advanced past a line; reversing to that line does not undo them.
+On a normal (non-choice) line, after-actions only run once the player advances past it — so when reversing *from* that line, usually only its before-actions have anything to undo. Note that expression actions are separate from all of this: they have no reversal hook and simply re-run when the previous line's visuals are re-applied (see [Expression Actions](../characters/expressions#expression-actions)).
 
 ---
 

@@ -416,6 +416,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -499,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   witWeaverSettings: {fileID: 11400000, guid: 0fdc5f43fa7e2c7418c01c50ea88d5d4, type: 2}
-  selectedProfileName: Plain
+  selectedProfileName: Rich
   maxEntries: 100
 --- !u!114 &1896093986946830300
 MonoBehaviour:
@@ -532,7 +533,7 @@ MonoBehaviour:
   PreviousLineButton: {fileID: 6884883449083575030}
   DialogueHistoryPanelRoot: {fileID: 323622142881766837}
   DialogueHistoryScrollRect: {fileID: 3880619691109246176}
-  DialogueHistoryContentBackground: {fileID: 5157808244682157698}
+  DialogueHistoryContentBackground: {fileID: 8703608421288385764}
   DialogueHistoryText: {fileID: 7479805580807005326}
   ToggleDialogueHistoryButton: {fileID: 643014730799521447}
   AllowLineAdvanceOutsideButton: 0
@@ -557,6 +558,7 @@ MonoBehaviour:
       m_Action: Advance Dialogue
       m_Flags: 0
     m_Flags: 0
+    m_Priority: 0
   PreviousDialogueAction:
     m_Name: Previous Dialogue
     m_Type: 0
@@ -566,6 +568,7 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+    m_Priority: 0
 --- !u!114 &174051852324576569
 MonoBehaviour:
   m_ObjectHideFlags: 0

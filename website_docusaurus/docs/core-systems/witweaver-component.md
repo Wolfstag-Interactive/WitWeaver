@@ -174,11 +174,11 @@ This integration is entirely transparent - the WitWeaver component itself does n
 The core execution loop is the `ExecuteDialogueSequence()` coroutine. It iterates through `DialogueLines` starting from the resolved start index, and for each line it:
 
 1. Runs all **before-actions** (`BaseDialogueLineAction` assets assigned to that line, in order).
-2. Calls `UpdateDialogueUI()` on the assigned `WitWeaverUIFoundation`, which triggers rendering.
+2. Calls `UpdateDialogueUI()` on the assigned `WitWeaverUIFoundation`, which renders the line via the UI's `ApplyDialogueLine()` override and then runs the line's expression actions.
 3. Waits for line continuation (input, timer, or immediate, depending on `LineContinuationMode`).
 4. Runs all **after-actions**.
 5. Fires `OnLineCompleted`.
 6. Advances to the next line (or branches, if the line’s `LineContinuationMode` is a branch type).
 
-The runner maintains a `_lineActionHistory` list. Each time a line is executed, its instantiated before-actions are pushed to the history stack. When `ReverseOneLine()` is called, those actions are retrieved and `ExecuteOnReversedLineAction()` is called on each one in reverse order, allowing actions to undo any state changes they made.
+The runner maintains a per-line history of frames, each capturing the instantiated **before- and after-action** instances for that line. When `ReverseOneLine()` is called, the frame's actions are retrieved and `ExecuteOnReversedLineAction()` is called on each one — after-actions first, then before-actions, each list in reverse order — allowing actions to undo any state changes they made.
 :::

@@ -61,7 +61,7 @@ public class MyDialogueUI : WitWeaverUIFoundation
         _playerAdvanced = false;
     }
 
-    protected override void UpdateDialogueUI(
+    protected override void ApplyDialogueLine(
         DialogueLineInfo lineInfo,
         string localizedText,
         string speakerName,
@@ -237,7 +237,7 @@ Press **Play**. Trigger the conversation (via `StartConversation()` or the start
 ## Troubleshooting
 
 :::warning
-**Text appears but never updates after the first line**: Check that `UpdateDialogueUI()` is declared with the `override` keyword. Without it, Unity will not call your implementation; it will call the empty base method (which does nothing) silently.
+**Text appears but never updates after the first line**: Check that `ApplyDialogueLine()` is declared with the `override` keyword. Without it, Unity will not call your implementation; it will call the empty base method (which does nothing) silently. (Also make sure you are overriding `ApplyDialogueLine` and not declaring your own `UpdateDialogueUI` — the latter is the foundation's fixed orchestration method and is not an override point.)
 :::
 
 :::warning

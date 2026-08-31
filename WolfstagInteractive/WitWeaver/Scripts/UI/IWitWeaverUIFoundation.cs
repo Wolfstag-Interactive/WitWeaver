@@ -20,6 +20,9 @@ namespace WolfstagInteractive.WitWeaver
 
         /// <summary>
         /// Updates the displayed UI elements based on the WitWeaver instances current state.
+        /// Extending <see cref="WitWeaverUIFoundation"/> (override <c>ApplyDialogueLine</c>) also
+        /// guarantees the line's <see cref="BaseExpressionAction"/>s run after rendering; a class
+        /// implementing this interface directly must run expression actions itself.
         /// </summary>
         /// <param name="dialogueLineInfo">Details of the current dialogue line.</param>
         /// <param name="localizedText">The current localized text to be displayed</param>

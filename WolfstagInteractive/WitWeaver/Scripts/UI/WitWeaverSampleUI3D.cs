@@ -190,7 +190,7 @@ namespace WolfstagInteractive.WitWeaver
         // Dialogue UI overrides
         // ------------------------------------------------------------------
 
-        public override void UpdateDialogueUI(WitWeaverConversationData.DialogueLineInfo lineInfo, string localizedText,
+        protected override void ApplyDialogueLine(WitWeaverConversationData.DialogueLineInfo lineInfo, string localizedText,
             string speakerName, CharacterRepresentationBase primaryRepresentation,
             WitWeaverCharacterProfileBaseData primaryProfile)
         {
@@ -212,7 +212,10 @@ namespace WolfstagInteractive.WitWeaver
                 for (int i = 0; i < count; i++)
                 {
                     var charData = lineInfo.CharacterRepresentations[i];
-                    var rep = GetRepresentationFromData(conversationData, charData);
+                    var rep = conversationData.ResolveRepresentation(
+                        in charData,
+                        i == 0 ? lineInfo.characterID : null,
+                        i == 0 ? RepresentationRole.Speaker : RepresentationRole.Visible);
 
                     if (rep is not PrefabCharacterRepresentationData prefabRep)
                         continue;
@@ -269,7 +272,8 @@ namespace WolfstagInteractive.WitWeaver
                     // Run any BaseExpressionAction ScriptableObjects attached to this expression.
                     // The display only handles built-in visuals; the representation owns the actions.
                     RunExpressionActions(
-                        rep, charData.SelectedExpressionId, lineInfo.ConversationLineIndex, display);
+                        rep, charData.SelectedExpressionId, lineInfo.ConversationLineIndex, display,
+                        slotIndex: i);
                 }
             }
 
@@ -540,21 +544,6 @@ namespace WolfstagInteractive.WitWeaver
                 b?.OnConversationBegin();
             _activeBehavioursByCharacter[characterId] = newBehaviours;
             return newBehaviours;
-        }
-
-        private CharacterRepresentationBase GetRepresentationFromData(WitWeaverConversationData conversationData,
-            WitWeaverConversationData.CharacterRepresentationData data)
-        {
-            if (!string.IsNullOrEmpty(data.SelectedCharacterID))
-            {
-                var profile = conversationData?.ConversationParticipantProfiles.FirstOrDefault(p =>
-                    p.CharacterID == data.SelectedCharacterID);
-                string identifier = !string.IsNullOrEmpty(data.SelectedRepresentationID)
-                    ? data.SelectedRepresentationID
-                    : data.SelectedRepresentationName;
-                return profile?.GetRepresentation(identifier);
-            }
-            return data.SelectedRepresentation;
         }
 
         private static bool IsPointerOverUI()
