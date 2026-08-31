@@ -19,5 +19,6 @@ MonoBehaviour:
   CharacterNameColor: {r: 0.5570202, g: 0, b: 1, a: 1}
   CharacterDescription: A mysterious guardian of the forest
   Representations:
-  - CharacterRepresentationName: Sprites
+  - representationID: 641208dd8a8711d2c8cf3048898dfeda
+    CharacterRepresentationName: Sprites
     CharacterRepresentationType: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}

@@ -45,6 +45,7 @@ WitWeaver/
 | `WitWeaverYamlLoader.cs` | Loads and manages YAML file references |
 | `WitWeaverYamlWatcher.cs` | Watches for YAML file changes in editor |
 | `CharacterRepresentationBase.cs` | Base class for character visual representations |
+| `WitWeaverCharacterProfileBaseData.cs` | Character profile; `RepresentationPair` entries carry a non-editable stable `RepresentationID` (GUID) referenced by dialogue lines — the pair's name is display-only. `GetRepresentation` is the lenient lookup (warns once and substitutes the first entry on a miss); `TryGetRepresentation` is the strict, silent one |
 | `SpriteCharacterRepresentationData.cs` / `PrefabCharacterRepresentationData.cs` / `AnimatedCharacterRepresentationData.cs` | Built-in representations; expressions live as GUID-keyed mapping lists on each asset |
 | `BaseDialogueLineAction.cs` | Base for pre/post-line custom ScriptableObject actions |
 | `WitWeaverUIFoundation.cs` | Base UI setup |

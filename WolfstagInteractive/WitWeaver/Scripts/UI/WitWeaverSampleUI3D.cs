@@ -549,7 +549,10 @@ namespace WolfstagInteractive.WitWeaver
             {
                 var profile = conversationData?.ConversationParticipantProfiles.FirstOrDefault(p =>
                     p.CharacterID == data.SelectedCharacterID);
-                return profile?.GetRepresentation(data.SelectedRepresentationName);
+                string identifier = !string.IsNullOrEmpty(data.SelectedRepresentationID)
+                    ? data.SelectedRepresentationID
+                    : data.SelectedRepresentationName;
+                return profile?.GetRepresentation(identifier);
             }
             return data.SelectedRepresentation;
         }

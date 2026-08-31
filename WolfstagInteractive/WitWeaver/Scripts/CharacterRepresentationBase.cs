@@ -17,11 +17,27 @@ namespace WolfstagInteractive.WitWeaver
         #endif
     {
         /// <summary>
-        /// Processes the given expression and returns UI-relevant data (e.g., a sprite or GameObject).
-        /// Allows each character representation to define its own output.
+        /// Resolves an expression ID to a representation-defined payload for UI consumption.
+        ///
+        /// The return shape is defined by each concrete representation — there is no common
+        /// payload type. Consumers must type-test the result (e.g. <c>is SpriteExpressionMapping</c>)
+        /// and must not assume any particular shape for representation types they do not know.
+        /// Built-in contracts:
+        /// <list type="bullet">
+        /// <item><see cref="SpriteCharacterRepresentationData"/> returns a <see cref="SpriteExpressionMapping"/>
+        /// (or null when it has no mappings).</item>
+        /// <item><see cref="AnimatedCharacterRepresentationData"/> returns an <see cref="AnimatedExpressionMapping"/>
+        /// (or null when it has no mappings).</item>
+        /// <item><see cref="PrefabCharacterRepresentationData"/> returns <paramref name="expressionID"/>
+        /// unchanged: prefab visuals are bound by the spawned display
+        /// (<see cref="IWitWeaverCharacterDisplay.ApplyExpression"/>), not by this method.
+        /// Representations whose visuals live on a spawned instance may follow the same pattern.</item>
+        /// </list>
         /// </summary>
-        /// <param name="expressionID">The expression to process.</param>
-        /// <returns>Object related to the current representation, e.g., Sprite, GameObject, etc.</returns>
+        /// <param name="expressionID">Stable expression ID (GUID) to resolve. Null/empty selects the
+        /// representation's default, where one exists.</param>
+        /// <returns>A representation-defined payload, the unchanged ID for display-bound
+        /// representations, or null.</returns>
         public abstract object ProcessExpression(string expressionID);
         /// <summary>
         /// Apply an expression for this representation.
@@ -34,8 +50,10 @@ namespace WolfstagInteractive.WitWeaver
             int lineIndex,
             IWitWeaverCharacterDisplay display);
         /// <summary>
-        /// Retrieves the expression mapping object by its GUID.
-        /// Used by the editor to display the correct expression in previews.
+        /// Retrieves the expression mapping object by its GUID. Exact lookup: no fallback, no
+        /// logging — a miss (or a null/empty GUID) returns null.
+        /// Used by the editor to feed <c>DrawInlineEditorPreview</c>; the mapping type is
+        /// representation-defined (see <see cref="ProcessExpression"/> for the built-in shapes).
         /// </summary>
         /// <param name="expressionGuid">The GUID of the expression to retrieve.</param>
         /// <returns>The expression mapping object, or null if not found.</returns>

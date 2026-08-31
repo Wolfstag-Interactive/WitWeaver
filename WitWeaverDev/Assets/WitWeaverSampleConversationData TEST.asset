@@ -119,6 +119,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Test Sprite
+      SelectedRepresentationID: a587b592092aa0e8f7fa81d27a3bf9b9
       SelectedRepresentation: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -203,6 +204,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Test Sprite
+      SelectedRepresentationID: a587b592092aa0e8f7fa81d27a3bf9b9
       SelectedRepresentation: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -239,6 +241,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -274,6 +277,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -309,6 +313,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -345,6 +350,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 

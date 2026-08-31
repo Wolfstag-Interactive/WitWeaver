@@ -26,6 +26,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -67,6 +68,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -108,6 +110,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -149,6 +152,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -190,6 +194,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -231,6 +236,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -272,6 +278,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: 641208dd8a8711d2c8cf3048898dfeda
       SelectedRepresentation: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -314,6 +321,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -355,6 +363,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -396,6 +405,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -440,6 +450,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: 641208dd8a8711d2c8cf3048898dfeda
       SelectedRepresentation: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -481,6 +492,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -522,6 +534,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: 641208dd8a8711d2c8cf3048898dfeda
       SelectedRepresentation: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -566,6 +579,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -607,6 +621,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -648,6 +663,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: 641208dd8a8711d2c8cf3048898dfeda
       SelectedRepresentation: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -689,6 +705,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -730,6 +747,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -771,6 +789,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: 641208dd8a8711d2c8cf3048898dfeda
       SelectedRepresentation: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -815,6 +834,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -858,6 +878,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -899,6 +920,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: 641208dd8a8711d2c8cf3048898dfeda
       SelectedRepresentation: {fileID: 11400000, guid: 52e24c290fb50014b8aee74d5f275726, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -942,6 +964,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
       SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
@@ -984,6 +1007,7 @@ MonoBehaviour:
     CharacterRepresentations:
     - SelectedCharacterID: 
       SelectedRepresentationName: Sprites
+      SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 

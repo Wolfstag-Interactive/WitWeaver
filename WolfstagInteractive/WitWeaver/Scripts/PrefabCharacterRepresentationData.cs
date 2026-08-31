@@ -143,13 +143,25 @@ namespace WolfstagInteractive.WitWeaver
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="PrefabExpressionMapping"/> from <see cref="SharedExpressionMappings"/>
+        /// whose <c>ExpressionID</c> matches, or null on a miss or null/empty GUID. Searches the
+        /// shared pool only — per-entry <c>ExpressionOverrides</c> are not consulted here.
+        /// </summary>
         public override object GetExpressionMappingByGuid(string expressionGuid)
         {
             if (string.IsNullOrEmpty(expressionGuid)) return null;
             return SharedExpressionMappings.FirstOrDefault(m => m.ExpressionID == expressionGuid);
         }
 
-        // Prefab flow does not use ProcessExpression directly; the spawner binds and applies by GUID.
+        /// <summary>
+        /// Returns <paramref name="expressionId"/> unchanged (including null/empty), by design:
+        /// prefab visuals are bound by the spawned display, not resolved here. The spawner
+        /// (<c>WitWeaverPrefabRepresentationSpawner.ResolveCharacter</c>) passes the ID to
+        /// <see cref="IWitWeaverCharacterDisplay.ApplyExpression"/>, which looks the GUID up on
+        /// the bound representation. Consumers rendering prefab representations should route
+        /// through the spawner/display path instead of calling this method.
+        /// </summary>
         public override object ProcessExpression(string expressionId) => expressionId;
 
         /// <inheritdoc/>

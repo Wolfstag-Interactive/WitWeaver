@@ -19,5 +19,6 @@ MonoBehaviour:
   CharacterNameColor: {r: 1, g: 0.60341835, b: 0, a: 1}
   CharacterDescription: The happy-go-lucky boyfriend of Ava
   Representations:
-  - CharacterRepresentationName: Sprites
+  - representationID: c5b9c543091b8e7116d5dd47ae214033
+    CharacterRepresentationName: Sprites
     CharacterRepresentationType: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}

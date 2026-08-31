@@ -72,9 +72,10 @@ Let it resolve the package and recompile, then:
 1. Console: no missing-script warnings, no `Unknown managed type referenced`.
 2. A conversation ScriptableObject: lines, participants, and settings intact.
 3. A scene runner's **Input** field: still shows the configured input (confirms step 5).
-4. Play one conversation end to end.
-5. If they use FMOD/Wwise/Addressables: confirm the integration is active (confirms step 7).
-6. HelpURL buttons resolve (docs are live at `docs.wolfstaginteractive.com/witweaver/`).
+4. Run **Tools → Wolfstag Interactive → WitWeaver → Migrate Representation IDs**. This stamps stable representation IDs onto their character profiles and upgrades every dialogue line's legacy representation-name reference to the ID. It reports any reference it cannot resolve (fix those via the line's Representation dropdown and run it again); a clean run logs `0 unresolvable`. Safe to re-run.
+5. Play one conversation end to end.
+6. If they use FMOD/Wwise/Addressables: confirm the integration is active (confirms step 7).
+7. HelpURL buttons resolve (docs are live at `docs.wolfstaginteractive.com/witweaver/`).
 
 ## 10. Hand back
 

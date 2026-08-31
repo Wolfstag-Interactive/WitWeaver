@@ -705,6 +705,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 return h + line;
 
             var selectedRepNameProp       = repProp.FindPropertyRelative("SelectedRepresentationName");
+            var selectedRepIdProp         = repProp.FindPropertyRelative("SelectedRepresentationID");
             var selectedExpressionGuidProp = repProp.FindPropertyRelative("SelectedExpressionId");
 
             if (useRepresentationNameInsteadOfID)
@@ -731,7 +732,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                     // Representation-specific options
                     string emoId = selectedExpressionGuidProp?.stringValue ?? string.Empty;
-                    var repType = profile.GetRepresentation(selectedRepNameProp?.stringValue ?? string.Empty);
+                    var repType = profile.GetRepresentation(GetRepresentationIdentifier(selectedRepIdProp, selectedRepNameProp));
                     if (repType != null)
                     {
                         h += GetRepresentationSpecificOptionsHeight(repType, emoId, repProp);
@@ -763,7 +764,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                 // Representation-specific options
                 string emoId = selectedExpressionGuidProp?.stringValue ?? string.Empty;
-                var repType = profile.GetRepresentation(selectedRepNameProp?.stringValue ?? string.Empty);
+                var repType = profile.GetRepresentation(GetRepresentationIdentifier(selectedRepIdProp, selectedRepNameProp));
                 if (repType != null)
                 {
                     h += GetRepresentationSpecificOptionsHeight(repType, emoId, repProp);
@@ -771,6 +772,17 @@ namespace WolfstagInteractive.WitWeaver.Editor
             }
 
             return h;
+        }
+
+        /// <summary>
+        /// Preferred lookup identifier for a line's representation: the stable ID when present,
+        /// otherwise the legacy display name (unmigrated data).
+        /// </summary>
+        private static string GetRepresentationIdentifier(SerializedProperty idProp, SerializedProperty nameProp)
+        {
+            string id = idProp?.stringValue;
+            if (!string.IsNullOrEmpty(id)) return id;
+            return nameProp?.stringValue ?? string.Empty;
         }
 
 
@@ -1195,11 +1207,13 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             var charId = repProp.FindPropertyRelative("SelectedCharacterID")?.stringValue;
             var repName = repProp.FindPropertyRelative("SelectedRepresentationName")?.stringValue;
+            var repId = repProp.FindPropertyRelative("SelectedRepresentationID")?.stringValue;
             var repObj = repProp.FindPropertyRelative("SelectedRepresentation")?.objectReferenceValue;
             var exprId = repProp.FindPropertyRelative("SelectedExpressionId")?.stringValue;
 
             return !string.IsNullOrEmpty(charId)
                    || !string.IsNullOrEmpty(repName)
+                   || !string.IsNullOrEmpty(repId)
                    || repObj != null
                    || !string.IsNullOrEmpty(exprId);
         }
@@ -1210,16 +1224,19 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             var srcCharId = src.FindPropertyRelative("SelectedCharacterID");
             var srcRepName = src.FindPropertyRelative("SelectedRepresentationName");
+            var srcRepId = src.FindPropertyRelative("SelectedRepresentationID");
             var srcRepObj = src.FindPropertyRelative("SelectedRepresentation");
             var srcExprId = src.FindPropertyRelative("SelectedExpressionId");
 
             var dstCharId = dst.FindPropertyRelative("SelectedCharacterID");
             var dstRepName = dst.FindPropertyRelative("SelectedRepresentationName");
+            var dstRepId = dst.FindPropertyRelative("SelectedRepresentationID");
             var dstRepObj = dst.FindPropertyRelative("SelectedRepresentation");
             var dstExprId = dst.FindPropertyRelative("SelectedExpressionId");
 
             if (dstCharId != null && srcCharId != null) dstCharId.stringValue = srcCharId.stringValue;
             if (dstRepName != null && srcRepName != null) dstRepName.stringValue = srcRepName.stringValue;
+            if (dstRepId != null && srcRepId != null) dstRepId.stringValue = srcRepId.stringValue;
             if (dstExprId != null && srcExprId != null) dstExprId.stringValue = srcExprId.stringValue;
             if (dstRepObj != null && srcRepObj != null) dstRepObj.objectReferenceValue = srcRepObj.objectReferenceValue;
         }
@@ -1245,6 +1262,91 @@ namespace WolfstagInteractive.WitWeaver.Editor
         }
 
         /// <summary>
+        /// Representation popup backed by the profile's representation pairs: shows display names,
+        /// stores the stable RepresentationID (the display name is written alongside as a
+        /// human-readable echo / legacy migration source). Selection is matched by stable ID first,
+        /// falling back to the legacy name for unmigrated line data. Duplicate display names are
+        /// disambiguated in the popup only; the suffix is never written back to data.
+        /// Returns the currently selected representation asset, or null when the profile has no
+        /// representations (drewPopup false).
+        /// </summary>
+        private static CharacterRepresentationBase DrawRepresentationIdPopup(
+            ref Rect rect,
+            WitWeaverCharacterProfileBaseData profile,
+            SerializedProperty selectedRepIdProp,
+            SerializedProperty selectedRepNameProp,
+            SerializedProperty selectedRepProp,
+            SerializedProperty selectedExpressionGuidProp,
+            SerializedObject so,
+            float spacing,
+            out bool drewPopup)
+        {
+            var pairs = new List<RepresentationPair>();
+            if (profile.Representations != null)
+            {
+                foreach (var p in profile.Representations)
+                    if (p != null)
+                        pairs.Add(p);
+            }
+
+            drewPopup = pairs.Count > 0;
+            if (!drewPopup)
+                return null;
+
+            var displayNames = new string[pairs.Count];
+            var nameCounts = new Dictionary<string, int>();
+            for (int i = 0; i < pairs.Count; i++)
+            {
+                string baseName = string.IsNullOrEmpty(pairs[i].CharacterRepresentationName)
+                    ? "(Unnamed)"
+                    : pairs[i].CharacterRepresentationName;
+                if (nameCounts.TryGetValue(baseName, out int seen))
+                {
+                    nameCounts[baseName] = seen + 1;
+                    displayNames[i] = $"{baseName} ({seen + 1})";
+                }
+                else
+                {
+                    nameCounts[baseName] = 1;
+                    displayNames[i] = baseName;
+                }
+            }
+
+            // Current selection: stable ID first, legacy display name for unmigrated data.
+            int currentIdx = -1;
+            string currentId = selectedRepIdProp?.stringValue ?? string.Empty;
+            if (!string.IsNullOrEmpty(currentId))
+            {
+                for (int i = 0; i < pairs.Count; i++)
+                    if (pairs[i].RepresentationID == currentId)
+                    { currentIdx = i; break; }
+            }
+            if (currentIdx < 0 && !string.IsNullOrEmpty(selectedRepNameProp?.stringValue))
+            {
+                for (int i = 0; i < pairs.Count; i++)
+                    if (pairs[i].CharacterRepresentationName == selectedRepNameProp.stringValue)
+                    { currentIdx = i; break; }
+            }
+            if (currentIdx < 0) currentIdx = 0;
+
+            int newIdx = EditorGUI.Popup(rect, "Representation:", currentIdx, displayNames);
+            rect.y += EditorGUIUtility.singleLineHeight + spacing;
+
+            if (newIdx != currentIdx)
+            {
+                var picked = pairs[newIdx];
+                if (selectedRepIdProp != null) selectedRepIdProp.stringValue = picked.RepresentationID;
+                if (selectedRepNameProp != null) selectedRepNameProp.stringValue = picked.CharacterRepresentationName;
+                if (selectedExpressionGuidProp != null) selectedExpressionGuidProp.stringValue = "";
+                if (selectedRepProp != null) selectedRepProp.objectReferenceValue = picked.CharacterRepresentationType;
+                so.ApplyModifiedProperties();
+                return picked.CharacterRepresentationType;
+            }
+
+            return pairs[currentIdx].CharacterRepresentationType;
+        }
+
+        /// <summary>
         /// Character representation drawing (with hover preview)
         /// </summary>
         /// <returns></returns>
@@ -1261,6 +1363,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             var selectedCharacterIDProp = representationProp.FindPropertyRelative("SelectedCharacterID");
             var selectedRepNameProp = representationProp.FindPropertyRelative("SelectedRepresentationName");
+            var selectedRepIdProp = representationProp.FindPropertyRelative("SelectedRepresentationID");
             var selectedRepProp = representationProp.FindPropertyRelative("SelectedRepresentation");
             var selectedExpressionGuidProp = representationProp.FindPropertyRelative("SelectedExpressionId");
 
@@ -1312,6 +1415,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     {
                         selectedCharacterIDProp.stringValue = "";
                         selectedRepNameProp.stringValue = "";
+                        if (selectedRepIdProp != null) selectedRepIdProp.stringValue = "";
                         selectedExpressionGuidProp.stringValue = "";
                         if (selectedRepProp != null) selectedRepProp.objectReferenceValue = null;
                         so.ApplyModifiedProperties();
@@ -1324,6 +1428,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                         var firstRep = selProfile.Representations?.FirstOrDefault(r => r != null);
                         selectedRepNameProp.stringValue = firstRep?.CharacterRepresentationName ?? "";
+                        if (selectedRepIdProp != null)
+                            selectedRepIdProp.stringValue = firstRep?.RepresentationID ?? "";
                         selectedExpressionGuidProp.stringValue = "";
                         if (selectedRepProp != null)
                             selectedRepProp.objectReferenceValue = firstRep?.CharacterRepresentationType;
@@ -1335,30 +1441,12 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 if (currentProfile == null)
                     return rect;
 
-                var repNames = currentProfile.Representations
-                    .Where(r => r != null && !string.IsNullOrEmpty(r.CharacterRepresentationName))
-                    .Select(r => r.CharacterRepresentationName)
-                    .ToList();
+                selectedRepresentation = DrawRepresentationIdPopup(ref rect, currentProfile,
+                    selectedRepIdProp, selectedRepNameProp, selectedRepProp, selectedExpressionGuidProp,
+                    so, spacing, out bool drewRepPopup);
 
-                if (repNames.Count > 0)
+                if (drewRepPopup)
                 {
-                    string repName = selectedRepNameProp.stringValue;
-                    int repIdx = Mathf.Max(0, repNames.IndexOf(repName));
-                    repIdx = EditorGUI.Popup(rect, "Representation:", repIdx, repNames.ToArray());
-                    string newRepName = repNames[repIdx];
-                    rect.y += EditorGUIUtility.singleLineHeight + spacing;
-
-                    if (newRepName != repName)
-                    {
-                        selectedRepNameProp.stringValue = newRepName;
-                        selectedExpressionGuidProp.stringValue = "";
-                        if (selectedRepProp != null)
-                            selectedRepProp.objectReferenceValue = currentProfile.GetRepresentation(newRepName);
-                        so.ApplyModifiedProperties();
-                    }
-
-                    selectedRepresentation = currentProfile.GetRepresentation(newRepName);
-
                     if (selectedExpressionGuidProp != null)
                     {
                         float emoH = EditorGUI.GetPropertyHeight(selectedExpressionGuidProp, true);
@@ -1394,30 +1482,12 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     return rect;
                 }
 
-                var repNames = profile.Representations
-                    .Where(r => r != null && !string.IsNullOrEmpty(r.CharacterRepresentationName))
-                    .Select(r => r.CharacterRepresentationName)
-                    .ToList();
+                selectedRepresentation = DrawRepresentationIdPopup(ref rect, profile,
+                    selectedRepIdProp, selectedRepNameProp, selectedRepProp, selectedExpressionGuidProp,
+                    so, spacing, out bool drewRepPopup);
 
-                if (repNames.Count > 0)
+                if (drewRepPopup)
                 {
-                    string repName = selectedRepNameProp.stringValue;
-                    int repIdx = Mathf.Max(0, repNames.IndexOf(repName));
-                    repIdx = EditorGUI.Popup(rect, "Representation:", repIdx, repNames.ToArray());
-                    string newRepName = repNames[repIdx];
-                    rect.y += EditorGUIUtility.singleLineHeight + spacing;
-
-                    if (newRepName != repName)
-                    {
-                        selectedRepNameProp.stringValue = newRepName;
-                        if (selectedRepProp != null)
-                            selectedRepProp.objectReferenceValue = profile.GetRepresentation(newRepName);
-                        selectedExpressionGuidProp.stringValue = "";
-                        so.ApplyModifiedProperties();
-                    }
-
-                    selectedRepresentation = profile.GetRepresentation(newRepName);
-
                     if (selectedExpressionGuidProp != null)
                     {
                         float emoH = EditorGUI.GetPropertyHeight(selectedExpressionGuidProp, true);

@@ -96,8 +96,9 @@ Each entry in the **Representations** list is a `RepresentationPair` containing:
 
 | Sub-field | Description |
 |---|---|
-| **Name** | A label for this visual variant, e.g. `"Default"`, `"Armored"`, `"Disguised"`. Used by the dialogue line to select which variant to show. |
+| **Name** | A display label for this visual variant, e.g. `"Default"`, `"Armored"`, `"Disguised"`. Shown in the dialogue line's Representation dropdown. Display-only — renaming it never breaks lines that already use the entry. |
 | **Representation** | A `CharacterRepresentationBase` asset that defines the sprites, prefab, or other visual data for this variant. |
+| **Representation ID** | A stable GUID generated automatically for the entry (read-only). Dialogue lines reference this ID, not the name, so entries can be renamed and reordered safely. |
 
 A character can have as many representations as you need: different outfits, alternate forms, or level-of-detail variants. The runner selects which representation to use based on each dialogue line's display settings.
 

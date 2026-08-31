@@ -19,5 +19,6 @@ MonoBehaviour:
   CharacterNameColor: {r: 1, g: 1, b: 1, a: 1}
   CharacterDescription: 
   Representations:
-  - CharacterRepresentationName: Prefab Representation
+  - representationID: ab56f8c50b8f0502ac32478f4a41fa61
+    CharacterRepresentationName: Prefab Representation
     CharacterRepresentationType: {fileID: 11400000, guid: 3a653faf41f2c334fa8db7c3805d147c, type: 2}

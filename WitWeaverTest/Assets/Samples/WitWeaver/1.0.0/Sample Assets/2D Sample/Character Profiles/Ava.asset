@@ -19,5 +19,6 @@ MonoBehaviour:
   CharacterNameColor: {r: 1, g: 0.9345745, b: 0, a: 1}
   CharacterDescription: The timid and easily startled one in the relationship
   Representations:
-  - CharacterRepresentationName: Sprites
+  - representationID: f47c788a94d1affbdfda87be7801858b
+    CharacterRepresentationName: Sprites
     CharacterRepresentationType: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}

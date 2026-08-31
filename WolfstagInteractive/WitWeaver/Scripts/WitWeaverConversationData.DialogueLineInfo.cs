@@ -41,7 +41,15 @@ public partial class WitWeaverConversationData
         {
             [Tooltip("The ID of the selected character profile (for secondary/tertiary characters).")]
             public string SelectedCharacterID;
+
+            [Tooltip("Legacy display-name reference. Kept as migration source and human-readable echo; " +
+                     "resolution uses SelectedRepresentationID.")]
             public string SelectedRepresentationName;
+
+            [Tooltip("Stable ID of the selected representation on the profile. Non-editable; " +
+                     "set via the Representation dropdown.")]
+            public string SelectedRepresentationID;
+
             public CharacterRepresentationBase SelectedRepresentation;
 
             // This drawer shows DisplayName but stores GUID from the representation asset.
@@ -216,6 +224,7 @@ public partial class WitWeaverConversationData
             {
                 return !string.IsNullOrEmpty(data.SelectedCharacterID)
                        || !string.IsNullOrEmpty(data.SelectedRepresentationName)
+                       || !string.IsNullOrEmpty(data.SelectedRepresentationID)
                        || data.SelectedRepresentation != null
                        || !string.IsNullOrEmpty(data.SelectedExpressionId);
             }

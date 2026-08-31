@@ -28,7 +28,7 @@ CharacterProfile ("Guard")
                                   └── Prefab  ──▶  GuardPrefab.prefab
 ```
 
-At runtime, the WitWeaver runner reads each line’s character ID and desired representation name, looks up the matching entry in the profile’s Representations list, and calls `ApplyExpression()` to update the visible character display.
+At runtime, the WitWeaver runner reads each line’s character ID and selected representation (stored as the entry's stable **Representation ID**), looks up the matching entry in the profile’s Representations list, and calls `ApplyExpression()` to update the visible character display. The **Name** on each entry is display-only — it labels the entry in dropdowns, and renaming it never breaks existing lines.
 
 ---
 
@@ -88,14 +88,14 @@ When a dialogue line begins, the runner performs this resolution sequence:
 
 1. Read the line’s `CharacterID` to find the speaking character.
 2. Look up that character’s profile in the conversation’s **Participant Profiles** list.
-3. Read the line’s display settings to find the desired **representation variant name** (e.g., `"Armored"`).
-4. Search the profile’s **Representations** list for an entry with that name.
+3. Read the line’s selected **Representation ID** — the stable GUID stamped on the profile’s `RepresentationPair` entry. (The dropdown in the line inspector shows the entry’s display name but stores this ID, so renaming an entry never breaks lines.)
+4. Resolve the ID against the profile’s **Representations** list via `GetRepresentation()`.
 5. Call `ApplyExpression()` on the resolved `CharacterRepresentationBase` asset, passing the line’s selected expression GUID and the target character display component.
 
-If the representation name is blank or not found, the runner falls back to the first entry in the Representations list.
+If the selected ID is blank, the first entry in the Representations list is used (this means "default" by contract and does not log). If the ID is set but cannot be found — for example the representation entry was deleted — the runner still falls back to the first entry so the conversation never crashes mid-play, but it logs a warning naming the profile, the requested ID, and the substituted entry (once per missing ID per play session). If the Representations list is entirely empty, an error is logged and no visual is applied.
 
-:::warning
-If the Representations list is empty or the named variant cannot be found and there is no fallback entry, no expression will be applied and the character display will remain in whatever state it was in from the previous line. This does not log a hard error; it fails silently. Always ensure every profile has at least one representation entry.
+:::tip
+Code that wants to detect a miss instead of accepting the fallback — for example a custom UI or tool — can call `profile.TryGetRepresentation(id, out var representation)`, which performs an exact ID lookup with no fallback and no logging.
 :::
 
 ---
@@ -105,8 +105,8 @@ If the Representations list is empty or the named variant cannot be found and th
 1. Create the representation asset (Sprite or Prefab type, or your custom type).
 2. Select the character’s **Profile** asset in the Project panel.
 3. In the Inspector, scroll to the **Representations** list.
-4. Click **+** to add a new `RepresentationPair`.
-5. Set the **Name** field (e.g., `"Default"`).
+4. Click **+** to add a new `RepresentationPair`. A stable **Representation ID** (GUID) is generated for the entry automatically; it is shown read-only in the Inspector and is what dialogue lines reference.
+5. Set the **Name** field (e.g., `"Default"`). This is a display label only — you can rename it at any time without breaking lines that already use the entry.
 6. Drag your representation asset into the **Representation** field.
 
 Repeat for each visual variant the character needs.

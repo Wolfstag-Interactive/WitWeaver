@@ -61,6 +61,10 @@ namespace WolfstagInteractive.WitWeaver
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="AnimatedExpressionMapping"/> whose <c>ExpressionID</c> matches,
+        /// or null on a miss or null/empty GUID. No fallback.
+        /// </summary>
         public override object GetExpressionMappingByGuid(string expressionGuid)
         {
             if (string.IsNullOrEmpty(expressionGuid))
@@ -69,6 +73,12 @@ namespace WolfstagInteractive.WitWeaver
             return ExpressionMappings.FirstOrDefault(m => m.ExpressionID == expressionGuid);
         }
 
+        /// <summary>
+        /// Always returns an <see cref="AnimatedExpressionMapping"/>, or null only when
+        /// <see cref="ExpressionMappings"/> is empty. Null/empty ID selects the first mapping;
+        /// an unknown ID logs a warning and falls back to the first mapping. Consumers should
+        /// cast via <c>is AnimatedExpressionMapping</c> and play its animation payloads.
+        /// </summary>
         public override object ProcessExpression(string expressionId)
         {
             if (string.IsNullOrEmpty(expressionId))

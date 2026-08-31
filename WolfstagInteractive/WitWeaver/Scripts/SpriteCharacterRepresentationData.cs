@@ -57,14 +57,24 @@ namespace WolfstagInteractive.WitWeaver
             
         }
 
+        /// <summary>
+        /// Returns the <see cref="SpriteExpressionMapping"/> whose <c>ExpressionID</c> matches,
+        /// or null on a miss or null/empty GUID. No fallback.
+        /// </summary>
         public override object GetExpressionMappingByGuid(string expressionGuid)
         {
             if (string.IsNullOrEmpty(expressionGuid))
                 return null;
-            
+
             return ExpressionMappings.FirstOrDefault(m => m.ExpressionID == expressionGuid);
         }
 
+        /// <summary>
+        /// Always returns a <see cref="SpriteExpressionMapping"/>, or null only when
+        /// <see cref="ExpressionMappings"/> is empty. Null/empty ID selects the first mapping;
+        /// an unknown ID logs a warning and falls back to the first mapping. Consumers should
+        /// cast via <c>is SpriteExpressionMapping</c> and read its sprites/display options.
+        /// </summary>
         public override object ProcessExpression(string expressionId)
         {
             if (string.IsNullOrEmpty(expressionId))

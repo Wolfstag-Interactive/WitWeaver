@@ -247,7 +247,7 @@
       "url": "https://packages.unity.com"
     },
     "com.wolfstaginteractive.witweaver": {
-      "version": "file:\\UnityProjects\\WolfstagInteractive\\ConvoCore\\WolfstagInteractive\\WitWeaver",
+      "version": "file:../../WolfstagInteractive/WitWeaver",
       "depth": 0,
       "source": "local",
       "dependencies": {}

@@ -714,7 +714,8 @@ namespace WolfstagInteractive.WitWeaver
         private CharacterRepresentationBase GetPrimaryCharacterRepresentation(WitWeaverCharacterProfileBaseData primaryProfile, WitWeaverConversationData.CharacterRepresentationData representationData)
         {
             // For primary characters, if no specific representation is set, try to get the first available one
-            if (string.IsNullOrEmpty(representationData.SelectedRepresentationName) && 
+            if (string.IsNullOrEmpty(representationData.SelectedRepresentationID) &&
+                string.IsNullOrEmpty(representationData.SelectedRepresentationName) &&
                 representationData.SelectedRepresentation == null &&
                 string.IsNullOrEmpty(representationData.SelectedCharacterID))
             {
@@ -747,25 +748,30 @@ namespace WolfstagInteractive.WitWeaver
         private CharacterRepresentationBase GetCharacterRepresentationFromData(WitWeaverCharacterProfileBaseData profile, WitWeaverConversationData.CharacterRepresentationData representationData, bool isPrimaryCharacter = false)
         {
             CharacterRepresentationBase result;
-            
+
+            // Stable ID is the resolution key; the display name remains as legacy migration source.
+            string identifier = !string.IsNullOrEmpty(representationData.SelectedRepresentationID)
+                ? representationData.SelectedRepresentationID
+                : representationData.SelectedRepresentationName;
+
             // Check if this is using the new secondary/tertiary system (has SelectedCharacterID)
             if (!string.IsNullOrEmpty(representationData.SelectedCharacterID))
             {
                 // Find the profile by the selected character ID
                 var selectedProfile = ConversationData.ConversationParticipantProfiles
                     .FirstOrDefault(p => p != null && p.CharacterID == representationData.SelectedCharacterID);
-                
+
                 if (selectedProfile != null)
                 {
-                    if (!string.IsNullOrEmpty(representationData.SelectedRepresentationName))
+                    if (!string.IsNullOrEmpty(identifier))
                     {
-                        result = selectedProfile.GetRepresentation(representationData.SelectedRepresentationName);
+                        // Miss handling (warn + substitute) lives in GetRepresentation now.
+                        result = selectedProfile.GetRepresentation(identifier);
                         if (result != null)
                         {
                             return result;
                         }
-                        Debug.LogWarning($"Representation '{representationData.SelectedRepresentationName}' not found in profile '{selectedProfile.CharacterName}'. Trying fallbacks.");
-                        
+
                         // Fallback: Try to get the first available representation from the selected profile
                         if (selectedProfile.Representations is { Count: > 0 })
                         {
@@ -803,7 +809,7 @@ namespace WolfstagInteractive.WitWeaver
                 if (profile != null)
                 {
                     // Check if this is an intentional "None" selection
-                    bool isIntentionalNone = string.IsNullOrEmpty(representationData.SelectedRepresentationName) &&
+                    bool isIntentionalNone = string.IsNullOrEmpty(identifier) &&
                                             representationData.SelectedRepresentation == null;
                     
                     if (isIntentionalNone)
@@ -833,15 +839,15 @@ namespace WolfstagInteractive.WitWeaver
                         }
                     }
                     
-                    // Try to get representation by name from the provided profile
-                    if (!string.IsNullOrEmpty(representationData.SelectedRepresentationName))
+                    // Try to resolve the stable ID (or legacy name) on the provided profile.
+                    // Miss handling (warn + substitute) lives in GetRepresentation now.
+                    if (!string.IsNullOrEmpty(identifier))
                     {
-                        result = profile.GetRepresentation(representationData.SelectedRepresentationName);
+                        result = profile.GetRepresentation(identifier);
                         if (result != null)
                         {
                             return result;
                         }
-                        Debug.LogWarning($"Representation '{representationData.SelectedRepresentationName}' not found in profile '{profile.CharacterName}'. Trying fallbacks.");
                     }
                     
                     // Fallback: Use SelectedRepresentation if available (for backward compatibility)

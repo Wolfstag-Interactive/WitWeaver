@@ -19,5 +19,6 @@ MonoBehaviour:
   CharacterNameColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   CharacterDescription: 
   Representations:
-  - CharacterRepresentationName: Test Sprite
+  - representationID: a587b592092aa0e8f7fa81d27a3bf9b9
+    CharacterRepresentationName: Test Sprite
     CharacterRepresentationType: {fileID: 11400000, guid: b157a81523a5d734aa7d43970c8e6577, type: 2}

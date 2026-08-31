@@ -266,7 +266,8 @@ namespace WolfstagInteractive.WitWeaver
                 Debug.Log($"SelectedCharacterID: '{speakerRep.SelectedCharacterID}'");
             }
 
-            bool needsAutoFix = string.IsNullOrEmpty(speakerRep.SelectedRepresentationName) &&
+            bool needsAutoFix = string.IsNullOrEmpty(speakerRep.SelectedRepresentationID) &&
+                                string.IsNullOrEmpty(speakerRep.SelectedRepresentationName) &&
                                 speakerRep.SelectedRepresentation == null &&
                                 string.IsNullOrEmpty(speakerRep.SelectedCharacterID);
 
@@ -283,6 +284,7 @@ namespace WolfstagInteractive.WitWeaver
                         Debug.Log(
                             $"Line {lineIndex}: First representation found: CharacterRepresentationName='{firstRep.CharacterRepresentationName}', Object={(firstRep.CharacterRepresentationType != null ? "NOT NULL" : "NULL")}");
 
+                    speakerRep.SelectedRepresentationID = firstRep.RepresentationID;
                     speakerRep.SelectedRepresentationName = firstRep.CharacterRepresentationName;
                     speakerRep.SelectedRepresentation = firstRep.CharacterRepresentationType;
 
@@ -305,26 +307,45 @@ namespace WolfstagInteractive.WitWeaver
             {
                 bool needsSync = false;
 
-                if (!string.IsNullOrEmpty(speakerRep.SelectedRepresentationName) &&
+                if ((!string.IsNullOrEmpty(speakerRep.SelectedRepresentationID) ||
+                     !string.IsNullOrEmpty(speakerRep.SelectedRepresentationName)) &&
                     speakerRep.SelectedRepresentation == null)
                 {
-                    var representation = speakerProfile.GetRepresentation(speakerRep.SelectedRepresentationName);
-                    if (representation != null)
+                    bool changedRep = false;
+
+                    // Upgrade a legacy display-name reference to the stable ID before resolving.
+                    if (string.IsNullOrEmpty(speakerRep.SelectedRepresentationID) &&
+                        speakerProfile.TryGetRepresentationIdByName(speakerRep.SelectedRepresentationName,
+                            out var migratedId))
+                    {
+                        speakerRep.SelectedRepresentationID = migratedId;
+                        changedRep = true;
+                    }
+
+                    if (speakerProfile.TryGetRepresentation(speakerRep.SelectedRepresentationID,
+                            out var representation))
                     {
                         speakerRep.SelectedRepresentation = representation;
-                        line.CharacterRepresentations[0] = speakerRep;
+                        changedRep = true;
 
                         if (verboseLogs)
                             Debug.Log(
                                 $"Line {lineIndex}: Synced object reference for representation '{speakerRep.SelectedRepresentationName}'.");
-
-                        needsSync = true;
                     }
                     else
                     {
-                        if (verboseLogs)
-                            Debug.LogWarning(
-                                $"Line {lineIndex}: Could not resolve representation '{speakerRep.SelectedRepresentationName}' in profile '{speakerProfile.CharacterName}'.");
+                        string requested = !string.IsNullOrEmpty(speakerRep.SelectedRepresentationID)
+                            ? speakerRep.SelectedRepresentationID
+                            : speakerRep.SelectedRepresentationName;
+                        Debug.LogWarning(
+                            $"Line {lineIndex}: Could not resolve representation '{requested}' in profile '{speakerProfile.CharacterName}'.",
+                            this);
+                    }
+
+                    if (changedRep)
+                    {
+                        line.CharacterRepresentations[0] = speakerRep;
+                        needsSync = true;
                     }
                 }
 
@@ -405,7 +426,8 @@ namespace WolfstagInteractive.WitWeaver
         private bool SyncRepresentationObjectReference(ref CharacterRepresentationData representationData,
             string characterID, int lineIndex, string type)
         {
-            if (string.IsNullOrEmpty(representationData.SelectedRepresentationName) ||
+            if ((string.IsNullOrEmpty(representationData.SelectedRepresentationID) &&
+                 string.IsNullOrEmpty(representationData.SelectedRepresentationName)) ||
                 representationData.SelectedRepresentation != null)
             {
                 return false;
@@ -422,8 +444,17 @@ namespace WolfstagInteractive.WitWeaver
                 return false;
             }
 
-            var representation = profile.GetRepresentation(representationData.SelectedRepresentationName);
-            if (representation != null)
+            bool changed = false;
+
+            // Upgrade a legacy display-name reference to the stable ID before resolving.
+            if (string.IsNullOrEmpty(representationData.SelectedRepresentationID) &&
+                profile.TryGetRepresentationIdByName(representationData.SelectedRepresentationName, out var migratedId))
+            {
+                representationData.SelectedRepresentationID = migratedId;
+                changed = true;
+            }
+
+            if (profile.TryGetRepresentation(representationData.SelectedRepresentationID, out var representation))
             {
                 representationData.SelectedRepresentation = representation;
                 if (verboseLogs)
@@ -431,13 +462,14 @@ namespace WolfstagInteractive.WitWeaver
                         $"Line {lineIndex}: Synced {type} representation object reference for '{representationData.SelectedRepresentationName}'.");
                 return true;
             }
-            else
-            {
-                if (verboseLogs)
-                    Debug.LogWarning(
-                        $"Line {lineIndex}: Could not find {type} representation '{representationData.SelectedRepresentationName}' in profile '{profile.CharacterName}'.");
-                return false;
-            }
+
+            string requested = !string.IsNullOrEmpty(representationData.SelectedRepresentationID)
+                ? representationData.SelectedRepresentationID
+                : representationData.SelectedRepresentationName;
+            Debug.LogWarning(
+                $"Line {lineIndex}: Could not find {type} representation '{requested}' in profile '{profile.CharacterName}'.",
+                this);
+            return changed;
         }
 
 
@@ -464,15 +496,22 @@ namespace WolfstagInteractive.WitWeaver
                 return;
             }
 
-            if (string.IsNullOrEmpty(rep.SelectedRepresentationName))
+            if (string.IsNullOrEmpty(rep.SelectedRepresentationID) &&
+                string.IsNullOrEmpty(rep.SelectedRepresentationName))
                 return;
 
-            var representation = selectedProfile.GetRepresentation(rep.SelectedRepresentationName);
-            if (representation == null)
+            bool resolved = !string.IsNullOrEmpty(rep.SelectedRepresentationID)
+                ? selectedProfile.TryGetRepresentation(rep.SelectedRepresentationID, out _)
+                : selectedProfile.TryGetRepresentationIdByName(rep.SelectedRepresentationName, out _);
+
+            if (!resolved)
             {
-                if (verboseLogs)
-                    Debug.LogWarning(
-                        $"Line {lineIndex}: Visible character [{repIndex}] representation '{rep.SelectedRepresentationName}' not found in profile '{selectedProfile.CharacterName}'.");
+                string requested = !string.IsNullOrEmpty(rep.SelectedRepresentationID)
+                    ? rep.SelectedRepresentationID
+                    : rep.SelectedRepresentationName;
+                Debug.LogWarning(
+                    $"Line {lineIndex}: Visible character [{repIndex}] representation '{requested}' not found in profile '{selectedProfile.CharacterName}'.",
+                    this);
             }
         }
 
