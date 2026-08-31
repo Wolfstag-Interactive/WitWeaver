@@ -58,21 +58,23 @@ namespace WolfstagInteractive.WitWeaver.Editor
         {
             return
                 
-@"using UnityEngine;
-using System.Collections;
+@"using System.Collections;
+using UnityEngine;
 using WolfstagInteractive.WitWeaver;
 
-[CreateAssetMenu(menuName = ""WitWeaver/Actions/#NAME#"")] [System.Serializable]
-public class #NAME# : BaseAction
+[CreateAssetMenu(fileName = ""#NAME#"", menuName = ""WitWeaver/Actions/#NAME#"")]
+[System.Serializable]
+public class #NAME# : BaseDialogueLineAction
 {
+    public override IEnumerator ExecuteLineAction()
+    {
+        //add action logic here
+        yield return null;
+        //alternatively you can use yield return new WaitForSecondsRealtime(amount); to wait for a certain amount of time before or after continuing
+    }
 
-        public override IEnumerator DoAction()
-        {
-            //add action logic here
-            yield return null; 
-            //alternatively you can use yield return new WaitForSecondsRealtime(amount); to wait for a certain amount of time before or after continuing
-        }
-        
+    //optionally override ExecuteOnReversedLineAction() to undo this action's side effects
+    //when the player steps back to a previous dialogue line
 }";
         }
     }
