@@ -92,6 +92,8 @@ $(document).ready(function(){initNavTree('classWolfstagInteractive_1_1WitWeaver_
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">WolfstagInteractive.WitWeaver.WitWeaverCharacterProfileBaseData Class Reference</div></div>
 </div><!--header-->
@@ -113,8 +115,17 @@ Collaboration diagram for WolfstagInteractive.WitWeaver.WitWeaverCharacterProfil
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a56b44a5875d54e7d0ccbc3c813a58353" id="r_a56b44a5875d54e7d0ccbc3c813a58353"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#a56b44a5875d54e7d0ccbc3c813a58353">GetRepresentation</a> (string representationId)</td></tr>
-<tr class="memdesc:a56b44a5875d54e7d0ccbc3c813a58353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the representation matching the provided representationId.  <br /></td></tr>
+<tr class="memdesc:a56b44a5875d54e7d0ccbc3c813a58353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lenient representation lookup.  <br /></td></tr>
 <tr class="separator:a56b44a5875d54e7d0ccbc3c813a58353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77fe4dda6da0f7365b15a723a77584c9" id="r_a77fe4dda6da0f7365b15a723a77584c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#a77fe4dda6da0f7365b15a723a77584c9">TryGetRepresentation</a> (string representationId, out <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a> representation)</td></tr>
+<tr class="memdesc:a77fe4dda6da0f7365b15a723a77584c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strict representation lookup by stable ID.  <br /></td></tr>
+<tr class="separator:a77fe4dda6da0f7365b15a723a77584c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5059390944c325fc853a3ef85024530" id="r_af5059390944c325fc853a3ef85024530"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#af5059390944c325fc853a3ef85024530">TryGetRepresentationIdByName</a> (string displayName, out string representationId)</td></tr>
+<tr class="memdesc:af5059390944c325fc853a3ef85024530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exact display-name lookup returning the pair's stable ID.  <br /></td></tr>
+<tr class="separator:af5059390944c325fc853a3ef85024530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7863536eb346f33489c05d29d5060fd3" id="r_a7863536eb346f33489c05d29d5060fd3"><td class="memItemLeft" align="right" valign="top">IReadOnlyList&lt;(string id, string name)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#a7863536eb346f33489c05d29d5060fd3">GetRepresentationCatalog</a> ()</td></tr>
+<tr class="memdesc:a7863536eb346f33489c05d29d5060fd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns (id, displayName) pairs for editor dropdowns, mirroring IExpressionCatalogProvider.GetExpressionCatalog: the popup shows the name and stores the stable ID.  <br /></td></tr>
+<tr class="separator:a7863536eb346f33489c05d29d5060fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -132,11 +143,47 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a299238e37f7a0977d8162f9af0441c06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b7125368cd12d34cdb49f950eee6b66" id="r_a6b7125368cd12d34cdb49f950eee6b66"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1RepresentationPair.html">RepresentationPair</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#a6b7125368cd12d34cdb49f950eee6b66">Representations</a> = new List&lt;<a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1RepresentationPair.html">RepresentationPair</a>&gt;()</td></tr>
 <tr class="separator:a6b7125368cd12d34cdb49f950eee6b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a39ffdc0ec67e854671573c389a6c2c30" id="r_a39ffdc0ec67e854671573c389a6c2c30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1RepresentationPair.html">RepresentationPair</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#a39ffdc0ec67e854671573c389a6c2c30">FindPair</a> (string identifier)</td></tr>
+<tr class="separator:a39ffdc0ec67e854671573c389a6c2c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:af32f5e268e85c04f68025fb542e0b1f5" id="r_af32f5e268e85c04f68025fb542e0b1f5"><td class="memItemLeft" align="right" valign="top">HashSet&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterProfileBaseData.html#af32f5e268e85c04f68025fb542e0b1f5">_warnedMissingIds</a></td></tr>
+<tr class="separator:af32f5e268e85c04f68025fb542e0b1f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ScriptableObject that defines a character's identity within WitWeaver: their display name, CharacterID (matched against YAML), name colour, and the collection of CharacterRepresentationBase assets that map expression IDs to visuals. </p>
-<p>Set <code>IsPlayerCharacter</code> on exactly one profile to enable <code>{PlayerName}</code> substitution. </p>
+<p>Representations are referenced by their stable RepresentationPair.RepresentationID; the display name is presentation-only and safe to rename at any time. Set <code>IsPlayerCharacter</code> on exactly one profile to enable <code>{PlayerName}</code> substitution. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a39ffdc0ec67e854671573c389a6c2c30" name="a39ffdc0ec67e854671573c389a6c2c30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39ffdc0ec67e854671573c389a6c2c30">&#9670;&#160;</a></span>FindPair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1RepresentationPair.html">RepresentationPair</a> WolfstagInteractive.WitWeaver.WitWeaverCharacterProfileBaseData.FindPair </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>identifier</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a56b44a5875d54e7d0ccbc3c813a58353" name="a56b44a5875d54e7d0ccbc3c813a58353"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56b44a5875d54e7d0ccbc3c813a58353">&#9670;&#160;</a></span>GetRepresentation()</h2>
 
@@ -161,19 +208,147 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the representation matching the provided representationId. </p>
-<p>If no specific representation ID is provided or found, the first representation in the list is returned.</p>
+<p>Lenient representation lookup. </p>
+<p>Resolves the stable representation ID (RepresentationPair.RepresentationID); a null/empty ID means "default" and returns the first representation. During the migration window a legacy display-name match is also accepted.</p>
+<p>Never returns null while any representation exists: an unresolvable ID logs a warning (once per ID per session) and substitutes the first representation, so a stale reference degrades visibly instead of crashing mid-conversation. Use TryGetRepresentation to detect misses without fallback or logging.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">representationId</td><td>The identifier for the desired representation (e.g., 'happy', 'angry').</td></tr>
+    <tr><td class="paramname">representationId</td><td>Stable representation ID, or null/empty for the default.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The matching representation or the first representation if none is found.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The matching representation, the first representation as fallback, or null only when the profile has no representations at all (logged as an error).</dd></dl>
+
+</div>
+</div>
+<a id="a7863536eb346f33489c05d29d5060fd3" name="a7863536eb346f33489c05d29d5060fd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7863536eb346f33489c05d29d5060fd3">&#9670;&#160;</a></span>GetRepresentationCatalog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">IReadOnlyList&lt;(string id, string name)&gt; WolfstagInteractive.WitWeaver.WitWeaverCharacterProfileBaseData.GetRepresentationCatalog </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns (id, displayName) pairs for editor dropdowns, mirroring IExpressionCatalogProvider.GetExpressionCatalog: the popup shows the name and stores the stable ID. </p>
+
+</div>
+</div>
+<a id="a77fe4dda6da0f7365b15a723a77584c9" name="a77fe4dda6da0f7365b15a723a77584c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77fe4dda6da0f7365b15a723a77584c9">&#9670;&#160;</a></span>TryGetRepresentation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WolfstagInteractive.WitWeaver.WitWeaverCharacterProfileBaseData.TryGetRepresentation </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>representationId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html">CharacterRepresentationBase</a>&#160;</td>
+          <td class="paramname"><em>representation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Strict representation lookup by stable ID. </p>
+<p>No fallback, no logging. Returns false when the id is null/empty, no representation carries that id, or the matching entry has no representation asset assigned. Unlike GetRepresentation, an empty id is a miss here, not "default", and legacy display names are not accepted. </p>
+
+</div>
+</div>
+<a id="af5059390944c325fc853a3ef85024530" name="af5059390944c325fc853a3ef85024530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5059390944c325fc853a3ef85024530">&#9670;&#160;</a></span>TryGetRepresentationIdByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WolfstagInteractive.WitWeaver.WitWeaverCharacterProfileBaseData.TryGetRepresentationIdByName </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>displayName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out string&#160;</td>
+          <td class="paramname"><em>representationId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exact display-name lookup returning the pair's stable ID. </p>
+<p>Used by editor validation and the representation-ID migration pass to upgrade legacy name references; not a runtime resolution path. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="af32f5e268e85c04f68025fb542e0b1f5" name="af32f5e268e85c04f68025fb542e0b1f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af32f5e268e85c04f68025fb542e0b1f5">&#9670;&#160;</a></span>_warnedMissingIds</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HashSet&lt;string&gt; WolfstagInteractive.WitWeaver.WitWeaverCharacterProfileBaseData._warnedMissingIds</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a299238e37f7a0977d8162f9af0441c06" name="a299238e37f7a0977d8162f9af0441c06"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a299238e37f7a0977d8162f9af0441c06">&#9670;&#160;</a></span>CharacterDescription</h2>
 

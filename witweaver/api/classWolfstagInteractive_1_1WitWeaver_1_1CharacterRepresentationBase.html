@@ -112,7 +112,7 @@ Collaboration diagram for WolfstagInteractive.WitWeaver.CharacterRepresentationB
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8c1e86d5a1189fbd1aaf34805b75e630" id="r_a8c1e86d5a1189fbd1aaf34805b75e630"><td class="memItemLeft" align="right" valign="top">object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html#a8c1e86d5a1189fbd1aaf34805b75e630">ProcessExpression</a> (string expressionID)</td></tr>
-<tr class="memdesc:a8c1e86d5a1189fbd1aaf34805b75e630"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the given expression and returns UI-relevant data (e.g., a sprite or GameObject).  <br /></td></tr>
+<tr class="memdesc:a8c1e86d5a1189fbd1aaf34805b75e630"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolves an expression ID to a representation-defined payload for UI consumption.  <br /></td></tr>
 <tr class="separator:a8c1e86d5a1189fbd1aaf34805b75e630"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9069ea26d2063b1f7119ea8023f3b4a" id="r_af9069ea26d2063b1f7119ea8023f3b4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html#af9069ea26d2063b1f7119ea8023f3b4a">ApplyExpression</a> (string expressionId, <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html">WitWeaver</a> runtime, <a class="el" href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData.html">WitWeaverConversationData</a> conversation, int lineIndex, <a class="el" href="interfaceWolfstagInteractive_1_1WitWeaver_1_1IWitWeaverCharacterDisplay.html">IWitWeaverCharacterDisplay</a> display)</td></tr>
 <tr class="memdesc:af9069ea26d2063b1f7119ea8023f3b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply an expression for this representation.  <br /></td></tr>
@@ -241,7 +241,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retrieves the expression mapping object by its GUID. </p>
-<p>Used by the editor to display the correct expression in previews.</p>
+<p>Exact lookup: no fallback, no logging — a miss (or a null/empty GUID) returns null. Used by the editor to feed <code>DrawInlineEditorPreview</code>; the mapping type is representation-defined (see ProcessExpression for the built-in shapes).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">expressionGuid</td><td>The GUID of the expression to retrieve.</td></tr>
@@ -276,15 +276,22 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Processes the given expression and returns UI-relevant data (e.g., a sprite or GameObject). </p>
-<p>Allows each character representation to define its own output.</p>
+<p>Resolves an expression ID to a representation-defined payload for UI consumption. </p>
+<p>The return shape is defined by each concrete representation — there is no common payload type. Consumers must type-test the result (e.g. <code>is SpriteExpressionMapping</code>) and must not assume any particular shape for representation types they do not know. Built-in contracts: </p><ul>
+<li>
+SpriteCharacterRepresentationData returns a SpriteExpressionMapping (or null when it has no mappings). </li>
+<li>
+AnimatedCharacterRepresentationData returns an AnimatedExpressionMapping (or null when it has no mappings). </li>
+<li>
+PrefabCharacterRepresentationData returns <em>expressionID</em>  unchanged: prefab visuals are bound by the spawned display (IWitWeaverCharacterDisplay.ApplyExpression), not by this method. Representations whose visuals live on a spawned instance may follow the same pattern. </li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">expressionID</td><td>The expression to process.</td></tr>
+    <tr><td class="paramname">expressionID</td><td>Stable expression ID (GUID) to resolve. Null/empty selects the representation's default, where one exists.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Object related to the current representation, e.g., Sprite, GameObject, etc.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A representation-defined payload, the unchanged ID for display-bound representations, or null.</dd></dl>
 
 </div>
 </div>

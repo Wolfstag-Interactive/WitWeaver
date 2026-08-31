@@ -5,5 +5,6 @@ var structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1Chara
     [ "SelectedConfigurationEntryName", "structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html#a81c3467920aebf4cb7ada320b1e80201", null ],
     [ "SelectedExpressionId", "structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html#a6a1069d3e0b83f3b5a9d26038d3aa813", null ],
     [ "SelectedRepresentation", "structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html#a59773d49e1bac2917957b1d4b8e50aff", null ],
+    [ "SelectedRepresentationID", "structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html#a45ce515922be14b8ca1441fb8a4f56f3", null ],
     [ "SelectedRepresentationName", "structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverConversationData_1_1CharacterRepresentationData.html#a0b728adc6993ddb90451278c36601a50", null ]
 ];
