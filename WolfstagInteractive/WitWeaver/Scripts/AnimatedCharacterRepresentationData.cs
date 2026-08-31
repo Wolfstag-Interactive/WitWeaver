@@ -14,6 +14,7 @@ namespace WolfstagInteractive.WitWeaver
     public class AnimatedCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
 #if UNITY_EDITOR
         , IDialogueLineEditorCustomizable
+        , IEditorPreviewableRepresentation
 #endif
     {
         [Tooltip("Drive animations with unscaled time so they keep playing while the game is paused.")]
@@ -140,9 +141,9 @@ namespace WolfstagInteractive.WitWeaver
                 : 0f;
         }
 
-        public override float GetPreviewHeight() => 84f;
+        public float GetPreviewHeight() => 84f;
 
-        public override void DrawInlineEditorPreview(object mappingData, Rect position)
+        public void DrawInlineEditorPreview(object mappingData, Rect position)
         {
             var mapping = (mappingData as AnimatedExpressionMapping) ??
                           (ExpressionMappings.Count > 0 ? ExpressionMappings[0] : null);

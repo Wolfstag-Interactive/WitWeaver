@@ -118,62 +118,91 @@ Repeat for each visual variant the character needs.
 :::info[For Advanced Users]
 You can create your own representation type for any visual system: a spine animation controller, a dynamic texture system, a VRM avatar, or anything else.
 
-Extend `CharacterRepresentationBase` (which is a `ScriptableObject`) and implement the following members:
+Extend `CharacterRepresentationBase` (which is a `ScriptableObject`) and implement its three abstract members:
 
 ```csharp
 using WolfstagInteractive.WitWeaver;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "WitWeaver/Character Representation/My Custom Representation")]
 public class MyCustomRepresentationData : CharacterRepresentationBase
 {
-    // Called by the runner to apply an expression to a character display.
-    public override void ApplyExpression(
-        string expressionId,
-        WitWeaver runner,
-        WitWeaverConversationData data,
-        int lineIndex,
-        WitWeaverCharacterDisplayBase display)
+    // Resolves an expression ID to a payload your UI knows how to render.
+    // The return shape is yours to define — consumers type-test it, so return
+    // your own mapping type. Representations whose visuals are bound by a
+    // spawned display component may return the ID unchanged instead (this is
+    // what the built-in prefab representation does).
+    public override object ProcessExpression(string expressionID)
     {
-        // Look up your expression data by GUID and apply it to your display.
-        // For example: trigger an animation, swap a material, or update a shader param.
-    }
-
-    // Returns the expression mapping object for a given GUID.
-    // Used by the editor inspector to show expression previews.
-    public override object GetExpressionMappingByGuid(string guid)
-    {
-        // Return the mapping entry that matches this GUID, or null if not found.
+        // Return your mapping entry for this ID, a sensible default, or null.
         return null;
     }
 
-    // Editor-only: draws a preview of this expression in the inline inspector.
-    public override void DrawInlineEditorPreview(object mapping, Rect rect)
+    // Called by the UI layer to apply an expression: run any attached
+    // BaseExpressionAction entries and drive your visuals.
+    public override void ApplyExpression(
+        string expressionId,
+        WitWeaver runtime,
+        WitWeaverConversationData conversation,
+        int lineIndex,
+        IWitWeaverCharacterDisplay display)
     {
-        // Use GUI/EditorGUI calls to render a preview in the given rect.
+        // Look up your expression data by GUID and apply it.
+        // For example: trigger an animation, swap a material, or update a shader param.
     }
 
-    // Editor-only: returns the pixel height of the inline preview area.
-    public override float GetPreviewHeight()
+    // Exact lookup of the expression mapping object for a given GUID — no
+    // fallback; return null on a miss. The editor uses this to feed previews.
+    public override object GetExpressionMappingByGuid(string expressionGuid)
     {
-        return 64f;
+        return null;
     }
 }
 ```
 
-If your representation needs to perform a one-time setup step before it is first used in a conversation (for example, loading assets asynchronously or acquiring a reference to a scene object), implement `IWitWeaverRepresentationInitializable`:
+That is the whole required surface. Two optional interfaces add more:
+
+**Inline editor preview (optional).** To show a hover preview of your expressions in the dialogue line inspector, implement `IEditorPreviewableRepresentation`. The interface only exists in the editor, so both the base-list entry and the members must sit inside `#if UNITY_EDITOR`:
+
+```csharp
+public class MyCustomRepresentationData : CharacterRepresentationBase
+#if UNITY_EDITOR
+    , IEditorPreviewableRepresentation
+#endif
+{
+    // ...the three members above...
+
+#if UNITY_EDITOR
+    // Pixel height your preview needs. Return 0 to mean "nothing to preview
+    // right now" — the inspector then skips the preview entirely.
+    public float GetPreviewHeight() => 64f;
+
+    // Draw the preview. `mapping` is whatever your GetExpressionMappingByGuid
+    // returned for the line's selected expression — it can be null.
+    public void DrawInlineEditorPreview(object mapping, Rect rect)
+    {
+        // Use GUI/EditorGUI calls to render into the given rect.
+    }
+#endif
+}
+```
+
+Representations that skip this interface simply have no inline preview; everything else works normally.
+
+**One-time setup (optional).** If your representation needs a setup step before it is first used in a conversation (for example, loading assets or acquiring a scene reference), implement `IWitWeaverRepresentationInitializable`:
 
 ```csharp
 public class MyCustomRepresentationData : CharacterRepresentationBase,
     IWitWeaverRepresentationInitializable
 {
-    public void Initialize(WitWeaver runner, WitWeaverConversationData data)
+    public void Initialize()
     {
-        // Called once before the first line in the conversation that uses this representation.
+        // Called once when the conversation's dialogue data is initialized.
     }
 }
 ```
 
-The runner checks for this interface on every representation it resolves at the start of a conversation and calls `Initialize()` before any line is processed.
+The runner checks for this interface on every representation in the conversation's participant profiles and calls `Initialize()` before any line is processed.
 :::
 
 ---

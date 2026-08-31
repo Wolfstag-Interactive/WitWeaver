@@ -2,19 +2,30 @@
 using UnityEngine;
 namespace WolfstagInteractive.WitWeaver
 {
+    /// <summary>
+    /// Opt-in editor interface for character representations that want a hover preview in the
+    /// dialogue line inspector. Implement it on a <see cref="CharacterRepresentationBase"/>
+    /// subclass inside an <c>#if UNITY_EDITOR</c> block (the interface only exists in the editor).
+    /// Representations that do not implement it simply have no preview — the inspector skips the
+    /// preview tooltip entirely.
+    /// </summary>
     public interface IEditorPreviewableRepresentation
     {
         /// <summary>
-        /// Draws a custom representation-specific section in the inspector.
+        /// Draws the preview for the given expression mapping into <paramref name="position"/>.
         /// </summary>
-        /// <param name="expressionMapping">The expression mapping being inspected.</param>
+        /// <param name="expressionMapping">The mapping returned by
+        /// <see cref="CharacterRepresentationBase.GetExpressionMappingByGuid"/> for the line's
+        /// selected expression — may be null (no expression selected, or the lookup missed);
+        /// implementations must tolerate null.</param>
         /// <param name="position">The rect bounds for drawing.</param>
         void DrawInlineEditorPreview(object expressionMapping, Rect position);
 
         /// <summary>
-        /// Provides the height required for rendering the inline preview in the editor.
+        /// Height in pixels the preview needs. Return 0 (or less) to indicate "nothing to preview
+        /// right now" — the inspector then skips the preview without drawing anything. Positive
+        /// values are clamped to the inspector's preview size range.
         /// </summary>
-        /// <returns>Height required for preview rendering.</returns>
         float GetPreviewHeight();
     }
 }

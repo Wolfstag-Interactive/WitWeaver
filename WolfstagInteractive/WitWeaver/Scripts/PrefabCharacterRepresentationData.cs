@@ -25,6 +25,7 @@ namespace WolfstagInteractive.WitWeaver
     public class PrefabCharacterRepresentationData : CharacterRepresentationBase, IExpressionCatalogProvider
 #if UNITY_EDITOR
         , IDialogueLineEditorCustomizable
+        , IEditorPreviewableRepresentation
 #endif
     {
         [Header("Shared Expression Pool")]
@@ -171,13 +172,13 @@ namespace WolfstagInteractive.WitWeaver
                 : null;
 
 #if UNITY_EDITOR
-        public override float GetPreviewHeight()
+        public float GetPreviewHeight()
         {
             var entry = GetDefaultEntry();
             return entry?.CharacterPrefab ? 80f : 0f;
         }
 
-        public override void DrawInlineEditorPreview(object mappingData, Rect position)
+        public void DrawInlineEditorPreview(object mappingData, Rect position)
         {
             var entry = GetDefaultEntry();
             if (entry?.CharacterPrefab == null)

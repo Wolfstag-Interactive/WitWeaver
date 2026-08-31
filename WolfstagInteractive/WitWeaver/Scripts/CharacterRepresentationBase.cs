@@ -8,13 +8,14 @@ namespace WolfstagInteractive.WitWeaver
     /// Extend this class to map expression IDs to sprites, prefabs, or any other display asset.
     /// Attach a concrete implementation to a <see cref="WitWeaverCharacterProfileBaseData"/> asset
     /// so the runner can resolve visuals and trigger expression actions on each line.
+    ///
+    /// Editor previews are opt-in: implement <c>IEditorPreviewableRepresentation</c> (inside an
+    /// <c>#if UNITY_EDITOR</c> block) to show a hover preview in the dialogue line inspector.
+    /// Representations without it simply have no preview — nothing else changes.
     /// </summary>
     [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1CharacterRepresentationBase.html")]
 
-    public abstract class CharacterRepresentationBase : ScriptableObject 
-        #if UNITY_EDITOR
-         ,IEditorPreviewableRepresentation
-        #endif
+    public abstract class CharacterRepresentationBase : ScriptableObject
     {
         /// <summary>
         /// Resolves an expression ID to a representation-defined payload for UI consumption.
@@ -58,10 +59,6 @@ namespace WolfstagInteractive.WitWeaver
         /// <param name="expressionGuid">The GUID of the expression to retrieve.</param>
         /// <returns>The expression mapping object, or null if not found.</returns>
         public abstract object GetExpressionMappingByGuid(string expressionGuid);
-        #if UNITY_EDITOR
-        public abstract void DrawInlineEditorPreview(object expressionMapping, Rect position);
-        public abstract float GetPreviewHeight();
-        #endif
         /// <summary>
         /// Returns the named configuration entry options exposed by this representation.
         /// Override to opt in to the <c>Participant Configuration Defaults</c> system on

@@ -73,7 +73,7 @@ public class MyCustomAction : BaseDialogueLineAction
 
 ## Character Representations — Any Visual System
 
-The built-in representation types (Sprite, Prefab, and Animated) cover most 2D and 3D setups. For anything else — Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters — extend `CharacterRepresentationBase`:
+The built-in representation types (Sprite, Prefab, and Animated) cover most 2D and 3D setups. For anything else — Spine animations, VRM avatars, VTuber rigs, dynamic texture systems, or fully procedural characters — extend `CharacterRepresentationBase` and implement its three members (`ProcessExpression`, `ApplyExpression`, `GetExpressionMappingByGuid`):
 
 ```csharp
 [CreateAssetMenu(menuName = "WitWeaver/Character Representation/My Representation")]
@@ -81,17 +81,19 @@ public class MyRepresentationData : CharacterRepresentationBase
 {
     public override void ApplyExpression(
         string expressionId,
-        WitWeaver runner,
-        WitWeaverConversationData data,
+        WitWeaver runtime,
+        WitWeaverConversationData conversation,
         int lineIndex,
-        WitWeaverCharacterDisplayBase display)
+        IWitWeaverCharacterDisplay display)
     {
         // Apply the correct visual state for this expression.
         // For example: trigger an animation, update a material, swap a texture.
     }
-    // ...
+    // ...plus ProcessExpression and GetExpressionMappingByGuid.
 }
 ```
+
+Inline editor previews are opt-in: implement `IEditorPreviewableRepresentation` inside an `#if UNITY_EDITOR` block only if you want one.
 
 One profile can hold multiple representation variants — a character can have a `"Default"` sprite set, an `"Armored"` sprite set, and a `"3D Prefab"` variant all living in the same profile.
 
