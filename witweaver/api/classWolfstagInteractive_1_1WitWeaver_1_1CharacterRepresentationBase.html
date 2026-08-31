@@ -126,7 +126,8 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract ScriptableObject base class for all character visual representations. </p>
-<p>Extend this class to map expression IDs to sprites, prefabs, or any other display asset. Attach a concrete implementation to a WitWeaverCharacterProfileBaseData asset so the runner can resolve visuals and trigger expression actions on each line. </p>
+<p>Extend this class to map expression IDs to sprites, prefabs, or any other display asset. Attach a concrete implementation to a WitWeaverCharacterProfileBaseData asset so the runner can resolve visuals and trigger expression actions on each line.</p>
+<p>Editor previews are opt-in: implement <code>IEditorPreviewableRepresentation</code> (inside an <code>#if UNITY_EDITOR</code> block) to show a hover preview in the dialogue line inspector. Representations without it simply have no preview — nothing else changes. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af9069ea26d2063b1f7119ea8023f3b4a" name="af9069ea26d2063b1f7119ea8023f3b4a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af9069ea26d2063b1f7119ea8023f3b4a">&#9670;&#160;</a></span>ApplyExpression()</h2>
