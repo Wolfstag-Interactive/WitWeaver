@@ -11,10 +11,10 @@
 <!-- Node0 -->
 <g id="Node000000" class="node">
 <title>Node0</title>
-<g id="a_Node000000"><a xlink:href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlPreprocessor.html" target="_top" xlink:title="Three&#45;phase YAML preprocessor that replaces the old regex&#45;based EnsureQuotesOnLocalizedValues: Pre&#45;fl...">
+<g id="a_Node000000"><a xlink:href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlSerializer.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="170,-30 0,-30 0,0 170,0 170,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">WolfstagInteractive.WitWeaver.</text>
-<text text-anchor="middle" x="85" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">WitWeaverYamlPreprocessor</text>
+<text text-anchor="middle" x="85" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">WitWeaverYamlSerializer</text>
 </a>
 </g>
 </g>

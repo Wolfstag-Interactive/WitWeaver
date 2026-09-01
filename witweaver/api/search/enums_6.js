@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['positioningmode_0',['PositioningMode',['../classWolfstagInteractive_1_1WitWeaver_1_1CameraRelativeBehaviour.html#aef5ccc7e674d46e3b5be313ec01cfb11',1,'WolfstagInteractive::WitWeaver::CameraRelativeBehaviour']]]
+  ['representationrole_0',['RepresentationRole',['../namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983',1,'WolfstagInteractive::WitWeaver']]]
 ];

@@ -78,7 +78,6 @@ var namespaceWolfstagInteractive_1_1WitWeaver =
     [ "TransformLerpBehaviour", "classWolfstagInteractive_1_1WitWeaver_1_1TransformLerpBehaviour.html", "classWolfstagInteractive_1_1WitWeaver_1_1TransformLerpBehaviour" ],
     [ "WitWeaver", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver" ],
     [ "WitWeaverActionOnlyDisplay", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverActionOnlyDisplay.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverActionOnlyDisplay" ],
-    [ "WitWeaverAddressablesUtil", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAddressablesUtil.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAddressablesUtil" ],
     [ "WitWeaverAnimatedPortraitPlayer", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatedPortraitPlayer.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatedPortraitPlayer" ],
     [ "WitWeaverAnimatorBehaviour", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorBehaviour.html", null ],
     [ "WitWeaverAnimatorDisplay", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorDisplay.html", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorDisplay" ],
@@ -168,11 +167,6 @@ var namespaceWolfstagInteractive_1_1WitWeaver =
       [ "Error", "namespaceWolfstagInteractive_1_1WitWeaver.html#aba233efcf0dc503da83f55bc329bfdada902b0d55fddef6f8d651fe1035b7d4bd", null ],
       [ "Warning", "namespaceWolfstagInteractive_1_1WitWeaver.html#aba233efcf0dc503da83f55bc329bfdada0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ]
     ] ],
-    [ "ExcelFormulaCellBehavior", "namespaceWolfstagInteractive_1_1WitWeaver.html#a846b784e97150f2611c3f6534819ec52", [
-      [ "UseCachedValue", "namespaceWolfstagInteractive_1_1WitWeaver.html#a846b784e97150f2611c3f6534819ec52a7a8fe460a57fbb44e72aae3c2c374694", null ],
-      [ "TreatAsError", "namespaceWolfstagInteractive_1_1WitWeaver.html#a846b784e97150f2611c3f6534819ec52a61e205231d27196d52b04475d38c944d", null ],
-      [ "SkipRow", "namespaceWolfstagInteractive_1_1WitWeaver.html#a846b784e97150f2611c3f6534819ec52a9bd180aa0636dc56e4ba452d3c23aa0b", null ]
-    ] ],
     [ "FlipbookLoopMode", "namespaceWolfstagInteractive_1_1WitWeaver.html#a0ede85a7df4c388d435d09af7311b51c", [
       [ "Loop", "namespaceWolfstagInteractive_1_1WitWeaver.html#a0ede85a7df4c388d435d09af7311b51ca89d7b10cb4238977d2b523dfd9ea7745", null ],
       [ "Once", "namespaceWolfstagInteractive_1_1WitWeaver.html#a0ede85a7df4c388d435d09af7311b51cae1a9dc9f23534e63de9df0d540ac1611", null ],
@@ -182,11 +176,14 @@ var namespaceWolfstagInteractive_1_1WitWeaver =
       [ "Speaker", "namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983a22cc65fdfc4417d64127a3a2c12853d0", null ],
       [ "Visible", "namespaceWolfstagInteractive_1_1WitWeaver.html#a2c0284e0112a2151d5d9850f6dfea983aec24d78ce33048dc73a2b6b1a0690192", null ]
     ] ],
+    [ "SpreadsheetFormulaCellBehavior", "namespaceWolfstagInteractive_1_1WitWeaver.html#a56ce78f79949424beddf5a124ade8e75", [
+      [ "UseCachedValue", "namespaceWolfstagInteractive_1_1WitWeaver.html#a56ce78f79949424beddf5a124ade8e75a7a8fe460a57fbb44e72aae3c2c374694", null ],
+      [ "TreatAsError", "namespaceWolfstagInteractive_1_1WitWeaver.html#a56ce78f79949424beddf5a124ade8e75a61e205231d27196d52b04475d38c944d", null ],
+      [ "SkipRow", "namespaceWolfstagInteractive_1_1WitWeaver.html#a56ce78f79949424beddf5a124ade8e75a9bd180aa0636dc56e4ba452d3c23aa0b", null ]
+    ] ],
     [ "TextSourceKind", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6", [
       [ "AssignedTextAsset", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6acc4cf545e0f024d2cb9a60292a4d7d71", null ],
-      [ "Persistent", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6a5fe7b9358c9cb1b9eaa8d5aec000def4", null ],
-      [ "Addressables", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6a684342ec417e5a323fdaf24a6b5f8187", null ],
-      [ "Resources", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6addcf50c29294d4414f3f7c1bbc892cb5", null ]
+      [ "Persistent", "namespaceWolfstagInteractive_1_1WitWeaver.html#abac8f10b4f4865e1e0588f061e706af6a5fe7b9358c9cb1b9eaa8d5aec000def4", null ]
     ] ],
     [ "WitWeaverSpawnTiming", "namespaceWolfstagInteractive_1_1WitWeaver.html#a258635dc439a89a2e1ed1295ccfbedf7", [
       [ "OnConversationBegin", "namespaceWolfstagInteractive_1_1WitWeaver.html#a258635dc439a89a2e1ed1295ccfbedf7aa56d9bc90ba3312d9a8243ecca85b620", null ],

@@ -189,7 +189,6 @@ var hierarchy =
     ] ],
     [ "WolfstagInteractive.WitWeaver.SpreadsheetRowConfig", "classWolfstagInteractive_1_1WitWeaver_1_1SpreadsheetRowConfig.html", null ],
     [ "WolfstagInteractive.WitWeaver.SpriteExpressionMapping", "classWolfstagInteractive_1_1WitWeaver_1_1SpriteExpressionMapping.html", null ],
-    [ "WolfstagInteractive.WitWeaver.WitWeaverAddressablesUtil", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAddressablesUtil.html", null ],
     [ "WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverCharacterProfileExtensions", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverCharacterProfileExtensions.html", null ],
     [ "WolfstagInteractive.WitWeaver.WitWeaverDialogueLocalizationHandler", "classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverDialogueLocalizationHandler.html", null ],
     [ "WolfstagInteractive.WitWeaver.SaveSystem.WitWeaverGameSnapshot", "classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverGameSnapshot.html", null ],

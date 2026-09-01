@@ -11,10 +11,10 @@
 <!-- Node0 -->
 <g id="Node000000" class="node">
 <title>Node0</title>
-<g id="a_Node000000"><a xlink:href="structWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlDiagnostic.html" target="_top" xlink:title="A single diagnostic record produced during YAML pre&#45;flight, preprocessing, or post&#45;process validation...">
+<g id="a_Node000000"><a xlink:href="classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlLoader.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="170,-30 0,-30 0,0 170,0 170,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">WolfstagInteractive.WitWeaver.</text>
-<text text-anchor="middle" x="85" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">WitWeaverYamlDiagnostic</text>
+<text text-anchor="middle" x="85" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">WitWeaverYamlLoader</text>
 </a>
 </g>
 </g>

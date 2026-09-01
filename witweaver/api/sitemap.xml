@@ -53,7 +53,6 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/TMPDialogueHistoryOutput_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/TransformLerpBehaviour_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverActionOnlyDisplay_8cs.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverAddressablesUtil_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverAnimatedPortraitPlayer_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverAnimatorBehaviour_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverAnimatorDisplay_8cs.html</loc></url>
@@ -77,6 +76,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverDialogueLineActionModifyTransform_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverDialogueLineActionPlayAudioClip_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverDialogueLocalizationHandler_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverEmbedUtility_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverGameSnapshot_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverHistoryRendererProfile_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverHistoryRendererRegistry_8cs.html</loc></url>
@@ -114,6 +114,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverYamlParser_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverYamlPreprocessor_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverYamlSerializer_8cs.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverYamlTextSync_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverYamlUtilities_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaverYamlWatcher_8cs.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/WitWeaver_8cs.html</loc></url>
@@ -261,8 +262,6 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaver.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverActionOnlyDisplay-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverActionOnlyDisplay.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAddressablesUtil-members.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAddressablesUtil.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatedPortraitPlayer-members.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatedPortraitPlayer.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverAnimatorBehaviour-members.html</loc></url>
@@ -391,7 +390,7 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_ab55b19d827b5edf755c38bc4d9144d0.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_ccc47be735e2b1db748bf024eeadb05f.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_d40a3d956b237ceab54cda7a31607e55.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_f7bdf3be45cf8b405ee5ef75ddd8e0ef.html</loc></url>
+  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/dir_de7a2f3268c4a5f31a3655a2e0d3e70a.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/files.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_a.html</loc></url>
@@ -412,7 +411,6 @@
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_h.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_i.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_j.html</loc></url>
-  <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_k.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_l.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_m.html</loc></url>
   <url><loc>https://docs.wolfstaginteractive.com/witweaver/api/functions_func_n.html</loc></url>
