@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a28658fe4acc884b9a97ae12bf125c6, type: 3}
   m_Name: WitWeaverSettings
   m_EditorClassIdentifier: WitWeaver::WolfstagInteractive.WitWeaver.WitWeaverSettings
-  SourceOrder: 00000000010000000200000003000000
-  resourcesRoot: WitWeaver/Dialogue
+  SourceOrder: 0000000001000000
   SupportedLanguages:
   - EN
   - FR
@@ -25,20 +24,18 @@ MonoBehaviour:
   - Language: FR
     Text: 
     Clip: {fileID: 0}
-  AddressablesEnabled: 0
-  AddressablesKeyTemplate: '{filePath}.yml'
   VerboseLogs: 0
   SaveKeyPrefix: witweaver.
   EnableSaveSystem: 1
   EnableVariableStore: 1
   EnableLanguageSystem: 1
-  ExcelCharacterIDHeader: CharacterID
-  ExcelLineIDHeader: LineID
-  ExcelSkipSheetPrefix: _
-  ExcelHeaderRowIndex: 0
-  ExcelSkipEmptyRows: 1
-  ExcelWarnOnUnrecognizedColumns: 0
-  ExcelFormulaCellBehavior: 0
+  SpreadsheetCharacterIDHeader: CharacterID
+  SpreadsheetLineIDHeader: LineID
+  SpreadsheetSkipSheetPrefix: _
+  SpreadsheetHeaderRowIndex: 0
+  SpreadsheetSkipEmptyRows: 1
+  SpreadsheetWarnOnUnrecognizedColumns: 0
+  SpreadsheetFormulaCellBehavior: 0
   historyRendererProfiles:
   - {fileID: 11400000, guid: 94a4ff3a2894ac644a3c5310a1ea77b5, type: 2}
   - {fileID: 11400000, guid: 52ff87450e8436342bb338bf54984e89, type: 2}

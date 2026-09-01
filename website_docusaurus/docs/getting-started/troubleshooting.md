@@ -15,7 +15,7 @@ This page covers the most common problems encountered when setting up or using W
 
 **Common causes:**
 
-1. **YAML not imported** -- Open the Conversation Data asset and click **Import YAML from Key**, then **Sync from Source**. Without this step the asset contains no dialogue lines and the conversation ends immediately.
+1. **YAML not imported** -- Open the Conversation Data asset, link your `.yml` file in the **Dialogue Source** section (YAML tab) and click **Link & Embed**, then click **Import From YAML For Key** in the sync-status warning that appears. Without this step the asset contains no dialogue lines and the conversation ends immediately.
 
 2. **`StartConversation()` is never called** -- The WitWeaver component does not auto-start. You must call `StartConversation()` (from a script, a UnityEvent, or a trigger). Check your starter script is active and the runner reference is assigned.
 
@@ -152,11 +152,11 @@ See [Event Subscription Safety](../core-systems/conversation-state#event-subscri
 
 ## LineIDs Are Empty After Validation
 
-**Symptom:** After clicking Import YAML from Key and Sync from Source, the compiled dialogue lines have no LineID values.
+**Symptom:** After importing, the compiled dialogue lines have no LineID values.
 
-**Cause:** The YAML file was not linked to the Conversation Data asset before importing. LineIDs are generated during the import/compile step -- they cannot be generated without a source YAML.
+**Cause:** The YAML file was not linked to the Conversation Data asset before importing. LineIDs are generated during the embed step -- they cannot be generated without a source YAML.
 
-**Fix:** Open the Conversation Data asset. Ensure the **Conversation Key** field exactly matches the root key in your YAML (the first line, before the colon). Then click **Import YAML from Key** followed by **Sync from Source**.
+**Fix:** Open the Conversation Data asset. Ensure the **Conversation Key** field exactly matches the root key in your YAML (the first line, before the colon). Then, in the **Dialogue Source** section (YAML tab), click **Link & Embed** (or **Sync From Source**) followed by **Import From YAML For Key** in the sync-status warning.
 
 ---
 

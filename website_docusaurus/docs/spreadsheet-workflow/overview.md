@@ -1,11 +1,11 @@
 ---
 sidebar_position: 1
-title: Excel Workflow
+title: Spreadsheet Workflow
 ---
 
-# Excel Workflow
+# Spreadsheet Workflow
 
-WitWeaver supports authoring dialogue in `.xlsx` spreadsheets as an alternative to hand-editing YAML. The spreadsheet is the source of truth: every time you save the file in Excel (or any spreadsheet editor), Unity reimports it, generates LineIDs, writes them back to the `.xlsx`, and rebuilds the `WitWeaverConversationData` ScriptableObject automatically.
+WitWeaver supports authoring dialogue in `.xlsx` spreadsheets as an alternative to hand-editing YAML. The spreadsheet is the source of truth: every time you save the file in your spreadsheet editor (Excel, LibreOffice, Google Sheets exports, and so on), Unity reimports it, generates LineIDs, writes them back to the `.xlsx`, and rebuilds the `WitWeaverConversationData` ScriptableObject automatically.
 
 ---
 
@@ -15,7 +15,7 @@ The YAML workflow gives you full control but requires comfort with the format. T
 
 - Familiar tooling for writers and narrative designers who don't use code editors
 - Side-by-side columns for all language translations — no scrolling between files
-- Excel features like filtering, sorting, conditional formatting, and comments for review annotations
+- Spreadsheet features like filtering, sorting, conditional formatting, and comments for review annotations
 - Simpler handoff to external localisation teams who deliver updated sheets
 
 Both workflows use the same runtime data — a spreadsheet import produces exactly the same `WitWeaverConversationData` as a YAML import.
@@ -54,7 +54,7 @@ After the first import:
 
 ### Header Row
 
-By default, the first row (row index `0`) is treated as the header. Change this via `ExcelHeaderRowIndex` in [Spreadsheet Settings](#spreadsheet-settings) if your sheet has title rows above the column headers.
+By default, the first row (row index `0`) is treated as the header. Change this via **Header Row Index** in [Spreadsheet Settings](#spreadsheet-settings) if your sheet has title rows above the column headers.
 
 ### Multiple Conversations in One File
 
@@ -62,7 +62,7 @@ Use multiple tabs. Each tab produces one conversation key in the `WitWeaverConve
 
 ### Skipping Sheets
 
-Any tab whose name starts with the `ExcelSkipSheetPrefix` (default: `_`) is ignored entirely. Use this for documentation sheets, lookup tables, or anything that should not be parsed as dialogue.
+Any tab whose name starts with the **Skip Sheet Prefix** (default: `_`) is ignored entirely. Use this for documentation sheets, lookup tables, or anything that should not be parsed as dialogue.
 
 ```
 Conversation1      ← parsed
@@ -81,7 +81,7 @@ Right-click in the Project panel and choose **Create → WitWeaver → New Conve
 
 ### 2. Link the spreadsheet
 
-Select the `WitWeaverConversationData` asset. In the Inspector, find the **Excel Source** section and assign your `.xlsx` file to the **Source Excel Asset** field.
+Select the `WitWeaverConversationData` asset. In the Inspector, find the **Dialogue Source** section, switch to the **Spreadsheet** tab, and assign your `.xlsx` file to the **Source .xlsx** field.
 
 The path is stored as a Unity asset path (e.g. `Assets/Dialogue/ForestScene.xlsx`). Moving or renaming the file inside the Unity Project panel automatically updates the stored path — the link is not broken by file renames.
 
@@ -90,7 +90,11 @@ The path is stored as a Unity asset path (e.g. `Assets/Dialogue/ForestScene.xlsx
 Save the `.xlsx` in your spreadsheet editor. Unity detects the change and runs the full import pipeline automatically. Watch the Console for the result message.
 
 :::tip
-You can also trigger an import manually at any time by clicking **Import from Excel** in the **Excel Source** section of the inspector, without needing to re-save the file.
+You can also trigger an import manually at any time by clicking **Import from Spreadsheet** on the **Spreadsheet** tab of the **Dialogue Source** section, without needing to re-save the file. The result of the most recent import (manual or automatic) is shown right below the buttons, and the shared block underneath records that the embedded dialogue currently comes from the spreadsheet source.
+:::
+
+:::note
+A YAML file and a spreadsheet can both be linked to the same asset. Whichever source is imported most recently wins the embedded dialogue (last writer wins). The Dialogue Source section shows which source produced the current embed and warns when the other linked source file has changed since, so the overwrite is never silent.
 :::
 
 ---
@@ -121,7 +125,7 @@ Every import runs these steps in order:
 
 The writeback step modifies **only the LineID column cells** in the xlsx. All other content in the file is preserved exactly, including:
 
-- **Column widths** you have set in Excel
+- **Column widths** you have set in your spreadsheet editor
 - **Cell styles**, number formats, fonts, and fill colours
 - **Merged cells**, frozen panes, and other sheet-level properties
 - **Non-dialogue sheets** (e.g. `_README`) — they are copied byte-for-byte into the output file
@@ -137,9 +141,9 @@ Do not manually edit LineID values. WitWeaver treats them as stable identifiers 
 
 ## Auto-Sync on File Save
 
-`WitWeaverExcelWatcher` is an `AssetPostprocessor` that watches for `.xlsx` changes in the project. When an `.xlsx` file that is linked to a `WitWeaverConversationData` asset is imported (which happens automatically when the file is saved), the full pipeline runs without any manual action.
+`WitWeaverSpreadsheetWatcher` is an `AssetPostprocessor` that watches for `.xlsx` changes in the project. When an `.xlsx` file that is linked to a `WitWeaverConversationData` asset is imported (which happens automatically when the file is saved), the full pipeline runs without any manual action.
 
-The watcher also handles **file renames and moves** inside the Unity Project panel. If you rename or move the `.xlsx` in the Project panel, the `SourceExcelAssetPath` and `SourceExcelAsset` reference on the linked `WitWeaverConversationData` are updated automatically to reflect the new path.
+The watcher also handles **file renames and moves** inside the Unity Project panel. If you rename or move the `.xlsx` in the Project panel, the `SourceSpreadsheetAssetPath` and `SourceSpreadsheetAsset` reference on the linked `WitWeaverConversationData` are updated automatically to reflect the new path.
 
 The watcher performs no work when no `.xlsx` files are involved in an import (e.g. when Unity reimports a texture or a script), so it adds negligible overhead to the normal import process.
 
@@ -147,11 +151,11 @@ The watcher performs no work when no `.xlsx` files are involved in an import (e.
 
 ## Formula Cells
 
-Excel formulas (`=A1&B1`, `=UPPER(C2)`, etc.) are handled based on the `ExcelFormulaCellBehavior` setting:
+Spreadsheet formulas (`=A1&B1`, `=UPPER(C2)`, etc.) are handled based on the **Formula Cell Behavior** setting:
 
 | Behaviour | Effect |
 |---|---|
-| `UseCachedValue` *(default)* | Reads the last calculated value stored in the cell. This value is only current if the file was saved after the formula was last evaluated in Excel. LibreOffice and Google Sheets also cache values when saving as `.xlsx`. |
+| `UseCachedValue` *(default)* | Reads the last calculated value stored in the cell. This value is only current if the file was saved after the formula was last evaluated. Excel, LibreOffice, and Google Sheets all cache values when saving as `.xlsx`. |
 | `SkipRow` | Skips any row that contains at least one formula cell in a CharacterID or language column. The row does not appear in the parsed output. |
 | `UseEmptyString` | Treats formula cells as empty strings. The row is included but the formula result is discarded. |
 
@@ -167,13 +171,13 @@ All spreadsheet settings live in `WitWeaverSettings` under the **Spreadsheet** t
 
 | Field | Default | Description |
 |---|---|---|
-| **Excel Character ID Header** | `CharacterID` | Column header used to identify the character column. Case-insensitive. |
-| **Excel Line ID Header** | `LineID` | Column header used to identify the LineID column. Case-insensitive. |
-| **Excel Skip Sheet Prefix** | `_` | Sheet tabs whose names start with this prefix are not parsed. Set to empty string to disable skipping. |
-| **Excel Header Row Index** | `0` | Zero-based index of the header row within each sheet. Set to `1` if row 1 is a title and row 2 contains the column headers. |
-| **Excel Skip Empty Rows** | `true` | Rows where the CharacterID cell is blank are skipped. Disable to treat blank CharacterID rows as errors rather than silently skipping them. |
-| **Excel Warn On Unrecognized Columns** | `false` | Logs a warning for any column whose header is not CharacterID, LineID, or a recognised language code. Useful for auditing unexpected content during initial setup. |
-| **Excel Formula Cell Behavior** | `UseCachedValue` | Controls how formula cells are handled. See [Formula Cells](#formula-cells). |
+| **Character ID Header** | `CharacterID` | Column header used to identify the character column. Case-insensitive. |
+| **Line ID Header** | `LineID` | Column header used to identify the LineID column. Case-insensitive. |
+| **Skip Sheet Prefix** | `_` | Sheet tabs whose names start with this prefix are not parsed. Set to empty string to disable skipping. |
+| **Header Row Index** | `0` | Zero-based index of the header row within each sheet. Set to `1` if row 1 is a title and row 2 contains the column headers. |
+| **Skip Empty Rows** | `true` | Rows where the CharacterID cell is blank are skipped. Disable to treat blank CharacterID rows as errors rather than silently skipping them. |
+| **Warn On Unrecognized Columns** | `false` | Logs a warning for any column whose header is not CharacterID, LineID, or a recognised language code. Useful for auditing unexpected content during initial setup. |
+| **Formula Cell Behavior** | `UseCachedValue` | Controls how formula cells are handled. See [Formula Cells](#formula-cells). |
 
 ---
 
@@ -184,13 +188,13 @@ All spreadsheet settings live in `WitWeaverSettings` under the **Spreadsheet** t
 The parser read the file but found no usable dialogue rows. Common causes:
 
 - The sheet tab name does not match what you expected — check for trailing spaces or special characters in the tab name.
-- The `CharacterID` column header does not match `ExcelCharacterIDHeader` in settings (case-insensitive match, so `CharacterId` and `CHARACTERID` both work, but `Character ID` with a space does not match `CharacterID`).
-- All rows have a blank `CharacterID` and `ExcelSkipEmptyRows` is true.
-- The header row index is wrong — check `ExcelHeaderRowIndex`.
+- The `CharacterID` column header does not match the **Character ID Header** setting (case-insensitive match, so `CharacterId` and `CHARACTERID` both work, but `Character ID` with a space does not match `CharacterID`).
+- All rows have a blank `CharacterID` and **Skip Empty Rows** is true.
+- The header row index is wrong: check **Header Row Index**.
 
 ### "LineIDs were generated but could not be written back"
 
-The `.xlsx` file could not be saved back. This usually means the file is open in Excel at the moment of import. Close the file in Excel and re-save (or click **Import from Excel** in the Inspector) to trigger a fresh run. The Console message will say the file is "out of sync" — your conversation data was imported successfully, but the LineIDs were not persisted to the spreadsheet.
+The `.xlsx` file could not be saved back. This usually means the file is open in your spreadsheet editor at the moment of import. Close the file there and re-save (or click **Import from Spreadsheet** in the Inspector) to trigger a fresh run. The Console message will say the file is "out of sync": your conversation data was imported successfully, but the LineIDs were not persisted to the spreadsheet.
 
 ### "Internal YAML generation error"
 
@@ -198,7 +202,7 @@ This is a WitWeaver bug. The pipeline generated YAML from the parsed data but th
 
 ### Edits to the xlsx are not triggering a reimport
 
-Unity only fires the `AssetPostprocessor` when it detects a file change. If you are editing the file externally and Unity's auto-refresh is disabled, trigger a manual refresh via **Assets → Refresh** (or press `Ctrl+R`). Alternatively, click **Import from Excel** in the Inspector to force a pipeline run without reimporting the file.
+Unity only fires the `AssetPostprocessor` when it detects a file change. If you are editing the file externally and Unity's auto-refresh is disabled, trigger a manual refresh via **Assets → Refresh** (or press `Ctrl+R`). Alternatively, click **Import from Spreadsheet** in the Inspector to force a pipeline run without reimporting the file.
 
 ### A character's dialogue is missing after import
 

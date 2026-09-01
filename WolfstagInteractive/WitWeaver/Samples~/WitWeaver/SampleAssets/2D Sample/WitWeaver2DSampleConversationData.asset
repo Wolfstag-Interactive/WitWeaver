@@ -1206,10 +1206,10 @@ MonoBehaviour:
   AudioManifest: {fileID: 0}
   ConversationYaml: {fileID: -4732311180001108802}
   AllowPersistentOverrides: 1
-  FilePath: DialogueScriptSample.yml
+  FilePath: DialogueScriptSample
   SourceYaml: {fileID: 102900000, guid: 4612376414d9cc742be9c4b790213e6a, type: 3}
   SourceYamlAssetPath: Assets/SampleAssets/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
-  SourceExcelAsset: {fileID: 0}
-  SourceExcelAssetPath: 
+  SourceSpreadsheetAsset: {fileID: 0}
+  SourceSpreadsheetAssetPath: 
   ConversationKey: Conversation1
   _conversationGuid: ed8dd2e7-9336-4ec4-b74c-36ec4f3c4b5d

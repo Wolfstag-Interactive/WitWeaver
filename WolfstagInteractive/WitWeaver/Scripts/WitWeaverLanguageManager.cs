@@ -41,33 +41,8 @@ namespace WolfstagInteractive.WitWeaver
 
         private void Initialize()
         {
-            // Load settings - try Resources first, then look in project
+            // Resolves lazily through WitWeaverSettings.Instance (Resources, then editor search)
             _witWeaverSettings = WitWeaverYamlLoader.Settings;
-            
-            if (_witWeaverSettings == null)
-            {
-                // Try to load from Resources as fallback
-                _witWeaverSettings = Resources.Load<WitWeaverSettings>("WitWeaverSettings");
-            }
-
-            if (_witWeaverSettings == null)
-            {
-#if UNITY_EDITOR
-                // In editor, try to find it in the project
-                var guids = UnityEditor.AssetDatabase.FindAssets("t:WitWeaverSettings");
-                if (guids.Length > 0)
-                {
-                    var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
-                    _witWeaverSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<WitWeaverSettings>(path);
-                    
-                    // Auto-assign to the loader for next time
-                    if (_witWeaverSettings != null)
-                    {
-                        WitWeaverYamlLoader.Settings = _witWeaverSettings;
-                    }
-                }
-#endif
-            }
 
             if (_witWeaverSettings == null)
             {

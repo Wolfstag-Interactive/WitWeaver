@@ -23,10 +23,10 @@ Right-click in the **Project** panel and choose:
 
 **Create → WitWeaver → Conversation Dialogue Object**
 
-Name it something that matches the conversation (e.g., `TownSquareGreeting`, `BossIntroduction`). Then assign your YAML file to the **Conversation Yaml** field and fill in the remaining fields below.
+Name it something that matches the conversation (e.g., `TownSquareGreeting`, `BossIntroduction`). Then link your YAML file in the **Dialogue Source** section (YAML tab, **Source .yaml** field, then **Link & Embed**) and fill in the remaining fields below.
 
 :::tip
-If you are using the YAML Watcher, it will detect your `.yml` file and automatically assign the **Conversation Yaml** reference when you save the file in your editor. You still need to create the asset manually first.
+Once a `.yml` file is linked, the YAML Watcher re-embeds it automatically every time you save the file in your editor. You still need to create the asset and link the file manually first.
 :::
 
 ---
@@ -37,8 +37,8 @@ If you are using the YAML Watcher, it will detect your `.yml` file and automatic
 |---|---|
 | **Conversation Title** | A human-readable display name used in editor tools and debug output. Does not need to match any YAML key. |
 | **Conversation Key** | Must exactly match the root `ConversationName` key in your YAML file. This is how the parser identifies the right conversation in the YAML. |
-| **Conversation Yaml** | Drag your `.yml` TextAsset here. The YAML Watcher auto-populates this when it detects a matching file. |
-| **File Path** | The path used when loading from Resources or Addressables (relative to the Resources root, no file extension). |
+| **Dialogue Source** | Unified linking section with YAML and Spreadsheet tabs. Link a `.yml` file (Link & Embed) or an `.xlsx` spreadsheet (Import from Spreadsheet); both may be linked at once. The shared block below the tabs shows the embedded YAML, which source it came from, and sync/staleness warnings. |
+| **File Path** | Optional. The relative path (no extension) used to look up a post-ship text override at `persistentDataPath/WitWeaver/Dialogue/<File Path>.yml`. Only used when **Allow Persistent Overrides** is enabled. See [YAML Loading](../yaml-reference/yaml-loading.md). |
 | **Conversation Participant Profiles** | All `WitWeaverCharacterProfileBaseData` assets for the characters who appear in this conversation. Every `CharacterID` referenced in the YAML must have a corresponding profile in this list. |
 | **Dialogue Lines** | The compiled list of `DialogueLineInfo` objects. This is generated from your YAML file - do not edit it directly. |
 
@@ -87,7 +87,7 @@ Right-click the asset in the Project panel to access these actions:
 
 When `WitWeaver.PlayConversation(data)` is called, it invokes `data.InitializeDialogueData()`, which performs the following steps:
 
-1. **Load YAML**: The asset's YAML TextAsset (or file path) is passed to `WitWeaverYamlLoader`, which provides the raw YAML string.
+1. **Load YAML**: `WitWeaverYamlLoader` provides the raw YAML string, reading the embedded TextAsset or, if configured, a persistent override file. See [YAML Loading](../yaml-reference/yaml-loading.md).
 2. **Parse**: `WitWeaverYamlParser` parses the YAML string into an intermediate representation of dialogue lines.
 3. **Match and update**: The parsed lines are matched to the existing `DialogueLines` list by `LineID`. If a line's `LineID` matches, its localized text and expression data are updated in-place. If no `LineID` is present, lines are matched by index.
 4. **Ready**: The `DialogueLines` list is now up to date for the current language and YAML state, and the runner begins iteration.

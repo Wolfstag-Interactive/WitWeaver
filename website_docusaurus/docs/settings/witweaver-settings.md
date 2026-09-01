@@ -47,10 +47,7 @@ For **builds**, ensure the asset is inside a `Resources/` folder so Unity includ
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| **Source Order** | `TextSourceKind[]` | `[AssignedTextAsset, Persistent, Addressables, Resources]` | Ordered list of sources WitWeaver tries when loading YAML text. The first source that succeeds wins. See [Source Order](#source-order) below for details. |
-| **Resources Root** | `string` | `"WitWeaver/Dialogue"` | Base path prepended when loading YAML from the Resources folder, using the `FilePath` set on a `WitWeaverConversationData` asset. For example, a `FilePath` of `"Intro"` loads `Resources/WitWeaver/Dialogue/Intro`. |
-| **Addressables Enabled** | `bool` | `false` | Enable Addressables-based YAML loading. Requires the `WITWEAVER_ADDRESSABLES` scripting define to be set in **Project Settings → Player → Scripting Define Symbols**. |
-| **Addressables Key Template** | `string` | `"{filePath}.yml"` | Format string for the Addressables address. `{filePath}` is replaced with the `FilePath` value from the `WitWeaverConversationData` asset. For example, `"dialogue/{filePath}.yaml"` with `FilePath = "ForestIntro"` yields `"dialogue/ForestIntro.yaml"`. |
+| **Source Order** | `TextSourceKind[]` | `[AssignedTextAsset, Persistent]` | Ordered list of sources WitWeaver tries when loading YAML text. The first source that succeeds wins. See [Source Order](#source-order) below for details. |
 
 #### Source Order
 
@@ -58,12 +55,12 @@ The `TextSourceKind` enum controls which source WitWeaver tries first. The avail
 
 | Value | What it does |
 |---|---|
-| `AssignedTextAsset` | Uses the `ConversationYaml` TextAsset directly assigned on the `WitWeaverConversationData` asset. Works in editor and builds. The most direct option. |
-| `Persistent` | Loads from `Application.persistentDataPath` using the `FilePath` as the filename. Allows device-side YAML overrides (hot-patching dialogue without a build). |
-| `Addressables` | Loads via the Addressables system using the formatted key template. Requires `AddressablesEnabled = true` and the scripting define. |
-| `Resources` | Loads via `Resources.Load` using `ResourcesRoot + "/" + FilePath`. Requires the YAML file to be inside a `Resources/` folder in your project. |
+| `AssignedTextAsset` | Uses the `ConversationYaml` TextAsset embedded in the `WitWeaverConversationData` asset. Works in editor and builds with no configuration. The default and recommended source. |
+| `Persistent` | Loads from `Application.persistentDataPath/WitWeaver/Dialogue/<FilePath>.yml` (or `.yaml`). Allows device-side text overrides (hot-patching dialogue without a build). Gated by the **Allow Persistent Overrides** toggle on each Conversation Data asset. |
 
-The runner tries each entry in `SourceOrder` in sequence and stops at the first that returns a valid result. If no source succeeds, the conversation data remains unpopulated and an error is logged.
+The loader tries each entry in `SourceOrder` in sequence and stops at the first that returns a valid result. Entries left over from removed source kinds (`Addressables`, `Resources` in older versions) are skipped and pruned automatically when the settings asset is next validated. If no source succeeds, the conversation data remains unpopulated and an error is logged.
+
+See [YAML Loading](../yaml-reference/yaml-loading.md) for the full loading pipeline, including how to ship conversations as DLC by making the Conversation Data asset itself Addressable.
 
 ### Debug
 

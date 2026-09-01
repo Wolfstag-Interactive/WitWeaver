@@ -61,10 +61,10 @@ WitWeaver does not dictate where you put your own files, but the following layou
 
 ### YAML dialogue files
 
-Place your `.yml` files anywhere in your `Assets/` folder. Two common conventions:
+Place your `.yml` files anywhere in your `Assets/` folder. There is no required location: the YAML text is embedded into each Conversation Data asset in the editor, so nothing needs to live in a `Resources/` or `StreamingAssets/` folder for runtime loading. Two common conventions:
 
 - `Assets/Dialogue/` - simple flat structure for smaller projects
-- `Assets/Resources/Dialogue/` - required if you want to load YAML files at runtime using `Resources.Load` (without Addressables)
+- `Assets/Dialogue/<Chapter>/` - grouped by chapter or area for larger projects
 
 :::tip
 If you have many conversations, consider organizing them by chapter, level, or character: `Assets/Dialogue/Chapter1/`, `Assets/Dialogue/NPCs/`, etc. YAML files are just text assets; Unity treats them the same regardless of where they live.

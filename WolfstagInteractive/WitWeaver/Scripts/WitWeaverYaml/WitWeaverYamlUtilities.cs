@@ -23,7 +23,7 @@ namespace WolfstagInteractive.WitWeaver
         /// Imports dialogue metadata from the YAML file.
         /// Preserves Unity-authored per-line data by ConversationID+LineId (fallback to index for legacy).
         /// </summary>
-        public void ImportFromYamlForKey(string conversationKey)
+        public void ImportFromYamlForKey(string conversationKey, bool suppressSourceWriteBack = false)
         {
             if (string.IsNullOrEmpty(_witWeaverConversationData.FilePath) &&
                 _witWeaverConversationData.ConversationYaml == null)
@@ -38,7 +38,7 @@ namespace WolfstagInteractive.WitWeaver
             if (string.IsNullOrEmpty(yamlData))
             {
                 string sourcesMsg =
-                    $"Checked direct TextAsset, persistent override, Addressables (if enabled), and Resources using FilePath='{_witWeaverConversationData.FilePath}'.";
+                    $"Checked the embedded/assigned TextAsset and the persistent override at persistentDataPath/WitWeaver/Dialogue/{_witWeaverConversationData.FilePath}.yml.";
                 Debug.LogError($"YAML file not found. {sourcesMsg}");
                 return;
             }
@@ -75,7 +75,7 @@ namespace WolfstagInteractive.WitWeaver
                     $"WitWeaver: Conversation key '{conversationKey}' not found in YAML " +
                     $"for asset '{_witWeaverConversationData.name}'. " +
                     $"Available keys in the YAML: [{availableKeys}]. " +
-                    $"Ensure the sheet tab name (for Excel) or top-level YAML key exactly matches the ConversationKey.");
+                    $"Ensure the sheet tab name (for spreadsheets) or top-level YAML key exactly matches the ConversationKey.");
                 return;
             }
 
@@ -103,7 +103,9 @@ namespace WolfstagInteractive.WitWeaver
             }
 
 #if UNITY_EDITOR
-            if (idsAdded)
+            // suppressSourceWriteBack: set by imports whose data did not come from the linked YAML
+            // file (e.g. the spreadsheet pipeline), so generated LineIDs never overwrite that file.
+            if (idsAdded && !suppressSourceWriteBack)
             {
                 try
                 {

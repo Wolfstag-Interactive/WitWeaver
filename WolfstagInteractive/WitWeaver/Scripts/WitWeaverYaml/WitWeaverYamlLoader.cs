@@ -9,188 +9,74 @@ namespace WolfstagInteractive.WitWeaver
 [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverYamlLoader.html")]
     public static class WitWeaverYamlLoader
     {
-        public static WitWeaverSettings Settings; // assign once at boot (or Resources.Load in code)
+        private static WitWeaverSettings _settings;
+
+        /// <summary>
+        /// The active settings used to resolve the source order. Resolves lazily through
+        /// WitWeaverSettings.Instance (Resources.Load in builds) when not assigned.
+        /// Assign at boot to override, e.g. with settings delivered as downloadable content.
+        /// </summary>
+        public static WitWeaverSettings Settings
+        {
+            get => _settings != null ? _settings : WitWeaverSettings.Instance;
+            set => _settings = value;
+        }
 
         // ------------------- Public entry points -------------------
 
-        // Simple synchronous path (what your current import/init uses)
+        // Simple synchronous path (what import/init uses)
         public static string Load(WitWeaverConversationData data)
         {
-            return LoadInternalSync(data);
+            return LoadInternal(data);
         }
 
-        // Async via Task (good for menu/boot flows; await it)
-        public static async Task<string> LoadAsync(WitWeaverConversationData data)
+        // Task wrapper kept for API compatibility; both sources resolve synchronously
+        public static Task<string> LoadAsync(WitWeaverConversationData data)
         {
-            return await LoadInternalTaskAsync(data);
+            return Task.FromResult(LoadInternal(data));
         }
 
-        // Async via Coroutine
+        // Coroutine wrapper kept for API compatibility; both sources resolve synchronously
         public static IEnumerator LoadCoroutine(WitWeaverConversationData data, Action<string> onDone)
         {
-            return LoadInternalCoroutine(data, onDone);
+            onDone?.Invoke(LoadInternal(data));
+            yield break;
         }
 
-        // ------------------- Core (Sync) -------------------
+        // ------------------- Core -------------------
 
-        static string LoadInternalSync(WitWeaverConversationData data)
+        static string LoadInternal(WitWeaverConversationData data)
         {
-            var order = Settings?.SourceOrder ?? new[]
+            var settings = Settings;
+            var order = settings?.SourceOrder ?? new[]
             {
                 TextSourceKind.AssignedTextAsset,
-                TextSourceKind.Persistent,
-                TextSourceKind.Addressables,
-                TextSourceKind.Resources
+                TextSourceKind.Persistent
             };
 
             foreach (var src in order)
             {
-                switch (src)
+                // Explicit comparisons rather than a switch: assets serialized before the
+                // Addressables/Resources kinds were removed may hold out-of-range enum values,
+                // which are skipped here.
+                if (src == TextSourceKind.AssignedTextAsset)
                 {
-                    case TextSourceKind.AssignedTextAsset:
-                        if (data.ConversationYaml && !string.IsNullOrEmpty(data.ConversationYaml.text))
-                            return data.ConversationYaml.text;
-                        break;
-
-                    case TextSourceKind.Persistent:
-                        if (data.AllowPersistentOverrides && TryReadPersistent(data, out var pText))
-                            return pText;
-                        break;
-
-                    case TextSourceKind.Addressables:
-                        if (Settings != null && Settings.AddressablesEnabled && !string.IsNullOrWhiteSpace(data.FilePath))
-                        {
-                            var key = KeyFromFilePath(data.FilePath);
-                            var text = TryLoadFromAddressablesSync(key); // uses WaitForCompletion
-                            if (!string.IsNullOrEmpty(text)) return text;
-                        }
-                        break;
-
-                    case TextSourceKind.Resources:
-                        if (!string.IsNullOrWhiteSpace(data.FilePath))
-                        {
-                            var ta = Resources.Load<TextAsset>(data.FilePath);
-                            if (ta) return ta.text;
-                        }
-                        break;
+                    if (data.ConversationYaml && !string.IsNullOrEmpty(data.ConversationYaml.text))
+                        return data.ConversationYaml.text;
+                }
+                else if (src == TextSourceKind.Persistent)
+                {
+                    if (data.AllowPersistentOverrides && TryReadPersistent(data, out var pText))
+                        return pText;
                 }
             }
 
-            if (Settings?.VerboseLogs == true)
+            if (settings?.VerboseLogs == true)
                 Debug.LogWarning($"WitWeaver: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
             return null;
-        }
-
-        // ------------------- Core (Task) -------------------
-
-        static async Task<string> LoadInternalTaskAsync(WitWeaverConversationData data)
-        {
-            var order = Settings?.SourceOrder ?? new[]
-            {
-                TextSourceKind.AssignedTextAsset,
-                TextSourceKind.Persistent,
-                TextSourceKind.Addressables,
-                TextSourceKind.Resources
-            };
-
-            foreach (var src in order)
-            {
-                switch (src)
-                {
-                    case TextSourceKind.AssignedTextAsset:
-                        if (data.ConversationYaml && !string.IsNullOrEmpty(data.ConversationYaml.text))
-                            return data.ConversationYaml.text;
-                        break;
-
-                    case TextSourceKind.Persistent:
-                        if (data.AllowPersistentOverrides && TryReadPersistent(data, out var pText))
-                            return pText;
-                        break;
-
-                    case TextSourceKind.Addressables:
-                        if (Settings != null && Settings.AddressablesEnabled && !string.IsNullOrWhiteSpace(data.FilePath))
-                        {
-                            var key = KeyFromFilePath(data.FilePath);
-                            var text = await TryLoadFromAddressablesTaskAsync(key);
-                            if (!string.IsNullOrEmpty(text)) return text;
-                        }
-                        break;
-
-                    case TextSourceKind.Resources:
-                        if (!string.IsNullOrWhiteSpace(data.FilePath))
-                        {
-                            var ta = Resources.Load<TextAsset>(data.FilePath);
-                            if (ta) return ta.text;
-                        }
-                        break;
-                }
-            }
-
-            if (Settings?.VerboseLogs == true)
-                Debug.LogWarning($"WitWeaver: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
-            return null;
-        }
-
-        // ------------------- Core (Coroutine) -------------------
-
-        static IEnumerator LoadInternalCoroutine(WitWeaverConversationData data, Action<string> onDone)
-        {
-            string result = null;
-
-            var order = Settings?.SourceOrder ?? new[]
-            {
-                TextSourceKind.AssignedTextAsset,
-                TextSourceKind.Persistent,
-                TextSourceKind.Addressables,
-                TextSourceKind.Resources
-            };
-
-            foreach (var src in order)
-            {
-                if (result != null) break;
-
-                switch (src)
-                {
-                    case TextSourceKind.AssignedTextAsset:
-                        if (data.ConversationYaml && !string.IsNullOrEmpty(data.ConversationYaml.text))
-                            result = data.ConversationYaml.text;
-                        break;
-
-                    case TextSourceKind.Persistent:
-                        if (data.AllowPersistentOverrides && TryReadPersistent(data, out var pText))
-                            result = pText;
-                        break;
-
-                    case TextSourceKind.Addressables:
-                        if (Settings != null && Settings.AddressablesEnabled && !string.IsNullOrWhiteSpace(data.FilePath))
-                        {
-                            bool done = false;
-                            string addrText = null;
-                            yield return TryLoadFromAddressablesCoroutine(KeyFromFilePath(data.FilePath), t => { addrText = t; done = true; });
-                            if (done && !string.IsNullOrEmpty(addrText)) result = addrText;
-                        }
-                        break;
-
-                    case TextSourceKind.Resources:
-                        if (!string.IsNullOrWhiteSpace(data.FilePath))
-                        {
-                            var ta = Resources.Load<TextAsset>(data.FilePath);
-                            if (ta) result = ta.text;
-                        }
-                        break;
-                }
-            }
-
-            if (result == null && Settings?.VerboseLogs == true)
-                Debug.LogWarning($"WitWeaver: YAML not found via [{string.Join(", ", order)}] for FilePath='{data.FilePath}'.");
-
-            onDone?.Invoke(result);
         }
 
         // ------------------- Helpers -------------------
-
-        static string KeyFromFilePath(string filePathNoExt)
-            => (Settings?.AddressablesKeyTemplate ?? "{filePath}.yml").Replace("{filePath}", filePathNoExt);
 
         static bool TryReadPersistent(WitWeaverConversationData data, out string text)
         {
@@ -202,50 +88,5 @@ namespace WolfstagInteractive.WitWeaver
             if (File.Exists(p2)) { text = File.ReadAllText(p2); return true; }
             text = null; return false;
         }
-
-        // ------------------- Addressables shims -------------------
-#if WITWEAVER_ADDRESSABLES
-        static string TryLoadFromAddressablesSync(string key)
-        {
-            try
-            {
-                var init = UnityEngine.AddressableAssets.Addressables.InitializeAsync();
-                init.WaitForCompletion();
-                var h = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<TextAsset>(key);
-                var ta = h.WaitForCompletion();
-                UnityEngine.AddressableAssets.Addressables.Release(h);
-                return ta ? ta.text : null;
-            }
-            catch { return null; }
-        }
-
-        static async Task<string> TryLoadFromAddressablesTaskAsync(string key)
-        {
-            try
-            {
-                await UnityEngine.AddressableAssets.Addressables.InitializeAsync().Task;
-                var h = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<TextAsset>(key);
-                var ta = await h.Task;
-                UnityEngine.AddressableAssets.Addressables.Release(h);
-                return ta ? ta.text : null;
-            }
-            catch { return null; }
-        }
-
-        static IEnumerator TryLoadFromAddressablesCoroutine(string key, Action<string> onDone)
-        {
-            var init = UnityEngine.AddressableAssets.Addressables.InitializeAsync();
-            yield return init;
-            var h = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<TextAsset>(key);
-            yield return h;
-            var ta = h.Result as TextAsset;
-            UnityEngine.AddressableAssets.Addressables.Release(h);
-            onDone?.Invoke(ta ? ta.text : null);
-        }
-#else
-        static string TryLoadFromAddressablesSync(string key) => null;
-        static Task<string> TryLoadFromAddressablesTaskAsync(string key) => Task.FromResult<string>(null);
-        static IEnumerator TryLoadFromAddressablesCoroutine(string key, Action<string> onDone) { onDone?.Invoke(null); yield break; }
-#endif
     }
 }

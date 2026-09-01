@@ -53,7 +53,7 @@ Leave `class:` values and the YAML keys alone. This is the step that preserves c
 
 - `Assets/Resources/ConvoCoreSettings.asset` → `WitWeaverSettings.asset`, **renaming the `.meta` alongside it** (preserves the GUID; the runtime now loads it by the new name). Do not recreate it — rename the pair.
 - Delete `Assets/Samples/ConvoCore/` entirely (with its `.meta`). Re-import fresh samples from the package later if wanted.
-- If they have a `Resources/ConvoCore/Dialogue/` folder: either rename it to `WitWeaver/Dialogue` **or** leave it and keep the serialized `resourcesRoot` value pointing at the old name — both work; renaming matches the new defaults.
+- If they have a `Resources/ConvoCore/Dialogue/` folder: this is no longer needed. The Resources YAML source (and the `resourcesRoot` setting) has been removed; ensure each Conversation Data asset has its YAML embedded (Link & Embed), then delete the folder.
 
 ## 7. Migrate their code, asmdefs, and defines
 

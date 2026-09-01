@@ -86,10 +86,8 @@ private void HandleLanguageChanged(string newLanguage)
 
 `WitWeaverLanguageManager` initializes lazily on the first access to `Instance`. During initialization it:
 
-1. Looks for `WitWeaverSettings` via `WitWeaverYamlLoader.Settings`.
-2. Falls back to `Resources.Load<WitWeaverSettings>("WitWeaverSettings")`.
-3. In the editor only, searches the project with `AssetDatabase.FindAssets`.
-4. If no settings are found, logs an error. `CurrentLanguage` returns `"EN"` as a safe fallback.
+1. Resolves `WitWeaverSettings` through `WitWeaverYamlLoader.Settings`, which loads the asset via `Resources.Load<WitWeaverSettings>("WitWeaverSettings")` in builds (in the editor it also searches the project with `AssetDatabase.FindAssets`).
+2. If no settings are found, logs an error. `CurrentLanguage` returns `"EN"` as a safe fallback.
 
 If `SupportedLanguages` is empty when initialization runs, `"EN"` is added automatically and the settings asset is marked dirty.
 

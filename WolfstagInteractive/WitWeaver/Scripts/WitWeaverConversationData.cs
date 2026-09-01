@@ -86,16 +86,23 @@ namespace WolfstagInteractive.WitWeaver
         [Tooltip("Optional. Assign an audio manifest to enable voice clip playback for this conversation.")]
         public WitWeaverAudioManifest AudioManifest;
 
-        [Header("YAML Source")]
         public TextAsset ConversationYaml;
         public bool AllowPersistentOverrides = true; // enable device-side hotfixes
-        [Tooltip("Resources path without extension, e.g. WitWeaver/Dialogue/ForestIntro")]
+        [Tooltip("Optional. Relative path without extension used to look up a post-ship text override at " +
+                 "persistentDataPath/WitWeaver/Dialogue/<FilePath>.yml (or .yaml). " +
+                 "Only used when Allow Persistent Overrides is enabled.")]
         public string FilePath;
 #if UNITY_EDITOR
         [HideInInspector] public UnityEngine.Object SourceYaml; // .yaml or TextAsset
         [HideInInspector] public string SourceYamlAssetPath; // AssetDatabase path for auto-sync
-        [HideInInspector] public UnityEngine.Object SourceExcelAsset; // .xlsx for Excel-driven authoring
-        [HideInInspector] public string SourceExcelAssetPath; // AssetDatabase path for Excel auto-sync
+        [HideInInspector] public UnityEngine.Object SourceSpreadsheetAsset; // .xlsx for spreadsheet-driven authoring
+        [HideInInspector] public string SourceSpreadsheetAssetPath; // AssetDatabase path for spreadsheet auto-sync
+
+        // Provenance of the current EmbeddedYaml sub-asset: which linked source produced it and
+        // when. Written only through WitWeaverEmbedUtility; shown by the inspector's Dialogue
+        // Source section and used for cross-source staleness warnings.
+        [HideInInspector] public string EmbeddedFromSourcePath;
+        [HideInInspector] public long EmbeddedAtTicks; // DateTime.UtcNow.Ticks at embed time
 #endif
         [Tooltip("Define the unique key for the conversation.")]
         public string ConversationKey; // Add this field to hold the key
@@ -841,7 +848,7 @@ namespace WolfstagInteractive.WitWeaver
             if (string.IsNullOrEmpty(yamlData))
             {
                 Debug.LogError(
-                    $"YAML not found. Checked direct TextAsset, persistent override, Addressables (if enabled), and Resources using FilePath='{FilePath}'.");
+                    $"YAML not found. Checked the embedded/assigned TextAsset and the persistent override at persistentDataPath/WitWeaver/Dialogue/{FilePath}.yml.");
                 return;
             }
 

@@ -36,10 +36,6 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
         private static WitWeaverSettings FindSettings()
         {
-            // First check if already assigned to loader
-            if (WitWeaverYamlLoader.Settings != null)
-                return WitWeaverYamlLoader.Settings;
-
             // Try Resources folder
             var resourceSettings = Resources.Load<WitWeaverSettings>("WitWeaverSettings");
             if (resourceSettings != null)
@@ -60,14 +56,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
         {
             var existing = FindSettings();
             if (existing != null)
-            {
-                // Auto-assign to loader if not already
-                if (WitWeaverYamlLoader.Settings == null)
-                {
-                    WitWeaverYamlLoader.Settings = existing;
-                }
                 return existing;
-            }
 
             return CreateNewSettings();
         }

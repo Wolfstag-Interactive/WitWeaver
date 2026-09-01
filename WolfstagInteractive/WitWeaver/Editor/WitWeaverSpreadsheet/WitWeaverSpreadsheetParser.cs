@@ -11,12 +11,12 @@ using UnityEngine;
 namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Parses Excel (.xlsx) workbooks into WitWeaver's internal dialogue configuration format.
+    /// Parses .xlsx workbooks into WitWeaver's internal dialogue configuration format.
     /// Implements <see cref="IWitWeaverSpreadsheetReader"/> using built-in System.IO.Compression
     /// and System.Xml.Linq — no external NuGet dependencies.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelParser.html")]
-    public class WitWeaverExcelParser : IWitWeaverSpreadsheetReader
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverSpreadsheetParser.html")]
+    public class WitWeaverSpreadsheetParser : IWitWeaverSpreadsheetReader
     {
         // Explicit interface implementation
         bool IWitWeaverSpreadsheetReader.TryRead(
@@ -66,8 +66,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     foreach (var kv in sheetMap)
                     {
                         var sheetName = kv.Key;
-                        if (!string.IsNullOrEmpty(settings.ExcelSkipSheetPrefix) &&
-                            sheetName.StartsWith(settings.ExcelSkipSheetPrefix, StringComparison.Ordinal))
+                        if (!string.IsNullOrEmpty(settings.SpreadsheetSkipSheetPrefix) &&
+                            sheetName.StartsWith(settings.SpreadsheetSkipSheetPrefix, StringComparison.Ordinal))
                             continue;
 
                         var parsed = ParseSheet(zip, kv.Value, sheetName, sharedStrings, settings, absolutePath);
@@ -80,7 +80,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             catch (Exception ex)
             {
                 result = null;
-                error  = $"WitWeaver Excel: Failed to read '{Path.GetFileName(absolutePath)}'. {ex.Message} " +
+                error  = $"WitWeaver Spreadsheet: Failed to read '{Path.GetFileName(absolutePath)}'. {ex.Message} " +
                          $"Ensure the file is a valid .xlsx workbook and is not open in another application.";
                 return false;
             }
@@ -187,7 +187,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (entry == null)
             {
                 Debug.LogError(
-                    $"WitWeaver Excel: Worksheet entry '{entryPath}' not found in " +
+                    $"WitWeaver Spreadsheet: Worksheet entry '{entryPath}' not found in " +
                     $"'{Path.GetFileName(absolutePath)}'. The workbook may be corrupt.");
                 return null;
             }
@@ -199,17 +199,17 @@ namespace WolfstagInteractive.WitWeaver.Editor
             var allRows = ReadAllRows(wsDoc, sharedStrings);
             var rowList = allRows.ToList(); // sorted by xlsx row number
 
-            if (rowList.Count <= settings.ExcelHeaderRowIndex)
+            if (rowList.Count <= settings.SpreadsheetHeaderRowIndex)
             {
                 Debug.LogError(
-                    $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
-                    $"does not have a row at header index {settings.ExcelHeaderRowIndex}. " +
-                    $"Check ExcelHeaderRowIndex in WitWeaverSettings > Spreadsheet.");
+                    $"WitWeaver Spreadsheet: Sheet '{sheetName}' in '{fileName}' " +
+                    $"does not have a row at header index {settings.SpreadsheetHeaderRowIndex}. " +
+                    $"Check Header Row Index in WitWeaverSettings > Spreadsheet.");
                 return null;
             }
 
             // Build colIndex → header name from the header row
-            var headerValues = rowList[settings.ExcelHeaderRowIndex].Value.Values;
+            var headerValues = rowList[settings.SpreadsheetHeaderRowIndex].Value.Values;
             var colToName    = new Dictionary<int, string>();
             foreach (var kv in headerValues)
                 if (!string.IsNullOrEmpty(kv.Value)) colToName[kv.Key] = kv.Value;
@@ -220,9 +220,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             foreach (var kv in colToName)
             {
-                if (string.Equals(kv.Value, settings.ExcelCharacterIDHeader, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(kv.Value, settings.SpreadsheetCharacterIDHeader, StringComparison.OrdinalIgnoreCase))
                     charIdCol = kv.Key;
-                else if (string.Equals(kv.Value, settings.ExcelLineIDHeader, StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(kv.Value, settings.SpreadsheetLineIDHeader, StringComparison.OrdinalIgnoreCase))
                     lineIdCol = kv.Key;
                 else if (LanguageCodePattern.IsMatch(kv.Value))
                     langCols[kv.Key] = kv.Value;
@@ -233,8 +233,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (charIdCol == null)
             {
                 Debug.LogError(
-                    $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
-                    $"is missing the required '{settings.ExcelCharacterIDHeader}' column. " +
+                    $"WitWeaver Spreadsheet: Sheet '{sheetName}' in '{fileName}' " +
+                    $"is missing the required '{settings.SpreadsheetCharacterIDHeader}' column. " +
                     $"Check your header row and confirm the column is spelled exactly as configured in " +
                     $"WitWeaverSettings > Spreadsheet > Character ID Header.");
                 return null;
@@ -243,16 +243,16 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (langCols.Count == 0)
             {
                 Debug.LogError(
-                    $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
+                    $"WitWeaver Spreadsheet: Sheet '{sheetName}' in '{fileName}' " +
                     $"has no language code columns (e.g. 'en', 'fr', 'zh-CN'). " +
                     $"Add at least one language column to the header row.");
                 return null;
             }
 
-            if (settings.ExcelWarnOnUnrecognizedColumns)
+            if (settings.SpreadsheetWarnOnUnrecognizedColumns)
                 foreach (var col in unrecognized)
                     Debug.LogWarning(
-                        $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
+                        $"WitWeaver Spreadsheet: Sheet '{sheetName}' in '{fileName}' " +
                         $"has unrecognized column header '{col}'. " +
                         $"It is not the CharacterID header, LineID header, or a recognized language code " +
                         $"(2-5 letter ISO code). This column will be ignored during import.");
@@ -260,7 +260,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             // ── Data rows ────────────────────────────────────────────────────────────
             var configs = new List<SpreadsheetRowConfig>();
 
-            for (int i = settings.ExcelHeaderRowIndex + 1; i < rowList.Count; i++)
+            for (int i = settings.SpreadsheetHeaderRowIndex + 1; i < rowList.Count; i++)
             {
                 var rd               = rowList[i].Value;
                 var spreadsheetRowNo = rowList[i].Key; // actual 1-based xlsx row number
@@ -268,25 +268,25 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 // Formula handling
                 if (rd.FormulaCols.Count > 0)
                 {
-                    switch (settings.ExcelFormulaCellBehavior)
+                    switch (settings.SpreadsheetFormulaCellBehavior)
                     {
-                        case ExcelFormulaCellBehavior.TreatAsError:
+                        case SpreadsheetFormulaCellBehavior.TreatAsError:
                         {
                             var colName = colToName.TryGetValue(rd.FormulaCols.First(), out var cn)
                                 ? cn : ColIndexToLetters(rd.FormulaCols.First());
                             Debug.LogError(
-                                $"WitWeaver Excel: Sheet '{sheetName}' in '{fileName}' " +
+                                $"WitWeaver Spreadsheet: Sheet '{sheetName}' in '{fileName}' " +
                                 $"contains a formula cell at row {spreadsheetRowNo}, column '{colName}'. " +
-                                $"Set ExcelFormulaCellBehavior to UseCachedValue or SkipRow in " +
+                                $"Set Formula Cell Behavior to UseCachedValue or SkipRow in " +
                                 $"WitWeaverSettings > Spreadsheet, or remove formulas from the spreadsheet.");
                             return null;
                         }
-                        case ExcelFormulaCellBehavior.SkipRow:
+                        case SpreadsheetFormulaCellBehavior.SkipRow:
                         {
                             var colName = colToName.TryGetValue(rd.FormulaCols.First(), out var cn)
                                 ? cn : ColIndexToLetters(rd.FormulaCols.First());
                             Debug.LogWarning(
-                                $"WitWeaver Excel: Skipping row {spreadsheetRowNo} in sheet '{sheetName}' " +
+                                $"WitWeaver Spreadsheet: Skipping row {spreadsheetRowNo} in sheet '{sheetName}' " +
                                 $"in '{fileName}' because column '{colName}' contains a formula. " +
                                 $"To suppress this warning, use UseCachedValue in WitWeaverSettings > Spreadsheet.");
                             continue;
@@ -295,7 +295,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     }
                 }
 
-                if (settings.ExcelSkipEmptyRows && IsRowEmpty(rd.Values)) continue;
+                if (settings.SpreadsheetSkipEmptyRows && IsRowEmpty(rd.Values)) continue;
 
                 rd.Values.TryGetValue(charIdCol.Value, out var charId);
                 if (string.IsNullOrWhiteSpace(charId)) continue;
@@ -328,7 +328,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             return true;
         }
 
-        // ── Column index utilities (also used by WitWeaverExcelWriter) ───────────────
+        // ── Column index utilities (also used by WitWeaverSpreadsheetWriter) ───────────────
 
         /// <summary>Converts a cell reference like "A1" or "AA12" to a 0-based column index.</summary>
         public static int CellRefToColIndex(string cellRef)

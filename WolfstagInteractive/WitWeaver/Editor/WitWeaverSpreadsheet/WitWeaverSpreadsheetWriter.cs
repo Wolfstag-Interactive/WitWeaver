@@ -18,11 +18,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
     /// Uses System.IO.Compression and System.Xml.Linq — no external NuGet dependencies.
     ///
     /// Each <see cref="SpreadsheetRowConfig"/> carries the 1-based xlsx row number stamped
-    /// by <see cref="WitWeaverExcelParser"/> at parse time, so writeback is keyed directly
+    /// by <see cref="WitWeaverSpreadsheetParser"/> at parse time, so writeback is keyed directly
     /// by row number — no skip-logic duplication, no index drift.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelWriter.html")]
-    public static class WitWeaverExcelWriter
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverSpreadsheetWriter.html")]
+    public static class WitWeaverSpreadsheetWriter
     {
         private static readonly XNamespace Ns     = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
         private static readonly XNamespace RNs    = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -74,7 +74,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             }
             catch (Exception ex)
             {
-                error = $"WitWeaver Excel: Failed to write LineIDs back to '{fileName}'. {ex.Message} — " +
+                error = $"WitWeaver Spreadsheet: Failed to write LineIDs back to '{fileName}'. {ex.Message} — " +
                         $"The file may be open in another application or marked read-only.";
                 return false;
             }
@@ -197,17 +197,17 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 .ToDictionary(r => int.Parse(r.Attribute("r")!.Value));
 
             // Find LineID column from the header row
-            // Header is at sorted-row-list index ExcelHeaderRowIndex
+            // Header is at sorted-row-list index SpreadsheetHeaderRowIndex
             var sortedRowNumbers = rowByNumber.Keys.OrderBy(k => k).ToList();
-            if (sortedRowNumbers.Count <= settings.ExcelHeaderRowIndex)
+            if (sortedRowNumbers.Count <= settings.SpreadsheetHeaderRowIndex)
             {
                 Debug.LogWarning(
-                    $"WitWeaver Excel: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}': " +
-                    $"no row at header index {settings.ExcelHeaderRowIndex}.");
+                    $"WitWeaver Spreadsheet: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}': " +
+                    $"no row at header index {settings.SpreadsheetHeaderRowIndex}.");
                 return null;
             }
 
-            var headerRowNum = sortedRowNumbers[settings.ExcelHeaderRowIndex];
+            var headerRowNum = sortedRowNumbers[settings.SpreadsheetHeaderRowIndex];
             var headerRow    = rowByNumber[headerRowNum];
             int? lineIdCol   = null;
 
@@ -216,9 +216,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 var cellRef = cell.Attribute("r")?.Value;
                 if (string.IsNullOrEmpty(cellRef)) continue;
                 var val    = GetCellValue(cell, sharedStrings)?.Trim();
-                var colIdx = WitWeaverExcelParser.CellRefToColIndex(cellRef);
+                var colIdx = WitWeaverSpreadsheetParser.CellRefToColIndex(cellRef);
 
-                if (string.Equals(val, settings.ExcelLineIDHeader, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(val, settings.SpreadsheetLineIDHeader, StringComparison.OrdinalIgnoreCase))
                 {
                     lineIdCol = colIdx;
                     break;
@@ -228,9 +228,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (lineIdCol == null)
             {
                 Debug.LogWarning(
-                    $"WitWeaver Excel: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}' " +
-                    $"because the '{settings.ExcelLineIDHeader}' column was not found in the header row. " +
-                    $"Add a '{settings.ExcelLineIDHeader}' column header or update ExcelLineIDHeader in " +
+                    $"WitWeaver Spreadsheet: Cannot write LineIDs to sheet '{sheetName}' in '{fileName}' " +
+                    $"because the '{settings.SpreadsheetLineIDHeader}' column was not found in the header row. " +
+                    $"Add a '{settings.SpreadsheetLineIDHeader}' column header or update Line ID Header in " +
                     $"WitWeaverSettings > Spreadsheet.");
                 return null;
             }
@@ -244,7 +244,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 {
                     var r = c.Attribute("r")?.Value;
                     return r != null
-                        && WitWeaverExcelParser.CellRefToColIndex(r) == lineIdCol.Value
+                        && WitWeaverSpreadsheetParser.CellRefToColIndex(r) == lineIdCol.Value
                         && c.Attribute("s") != null;
                 });
                 if (styleCell != null)
@@ -295,7 +295,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
         private static void UpdateOrInsertCell(
             XElement rowEl, int rowNum, int colIndex, string value, string columnStyle = null)
         {
-            var colLetters = WitWeaverExcelParser.ColIndexToLetters(colIndex);
+            var colLetters = WitWeaverSpreadsheetParser.ColIndexToLetters(colIndex);
             var cellRef    = $"{colLetters}{rowNum}";
 
             var existing = rowEl.Elements(Ns + "c").FirstOrDefault(c =>
@@ -321,7 +321,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                 // Insert in column order
                 var insertBefore = rowEl.Elements(Ns + "c").FirstOrDefault(c =>
-                    WitWeaverExcelParser.CellRefToColIndex(c.Attribute("r")?.Value ?? "") > colIndex);
+                    WitWeaverSpreadsheetParser.CellRefToColIndex(c.Attribute("r")?.Value ?? "") > colIndex);
 
                 if (insertBefore != null)
                     insertBefore.AddBeforeSelf(newCell);

@@ -5,12 +5,12 @@ using UnityEngine;
 namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// AssetPostprocessor that automatically runs the Excel round-trip pipeline
+    /// AssetPostprocessor that automatically runs the spreadsheet round-trip pipeline
     /// when a linked .xlsx file is imported or renamed in the Unity project.
     /// Mirrors <see cref="WitWeaverYamlWatcher"/> for .xlsx files.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelWatcher.html")]
-    public class WitWeaverExcelWatcher : AssetPostprocessor
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverSpreadsheetWatcher.html")]
+    public class WitWeaverSpreadsheetWatcher : AssetPostprocessor
     {
         // Guard against re-entrant calls triggered by the pipeline's own AssetDatabase.ImportAsset.
         // Unity's AssetPostprocessor callbacks always run on the main thread, so no lock needed.
@@ -18,8 +18,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
         // Centralised property names — if WitWeaverConversationData renames these fields,
         // compilation will not catch the break but at least a single place needs updating.
-        private const string PropSourceExcelAssetPath = "SourceExcelAssetPath";
-        private const string PropSourceExcelAsset     = "SourceExcelAsset";
+        private const string PropSourceSpreadsheetAssetPath = "SourceSpreadsheetAssetPath";
+        private const string PropSourceSpreadsheetAsset     = "SourceSpreadsheetAsset";
 
         private static bool HasXlsx(string[] paths) =>
             paths != null &&
@@ -63,29 +63,35 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 if (data == null) continue;
 
                 var so = new SerializedObject(data);
-                var excelPathProp = so.FindProperty(PropSourceExcelAssetPath);
-                if (excelPathProp == null) continue;
+                var spreadsheetPathProp = so.FindProperty(PropSourceSpreadsheetAssetPath);
+                if (spreadsheetPathProp == null) continue;
 
-                var linkedPath = excelPathProp.stringValue;
+                var linkedPath = spreadsheetPathProp.stringValue;
                 if (string.IsNullOrEmpty(linkedPath)) continue;
 
                 // Handle file moved/renamed
                 if (movedMap.TryGetValue(linkedPath, out var newPath))
                 {
-                    excelPathProp.stringValue = newPath;
+                    spreadsheetPathProp.stringValue = newPath;
                     so.ApplyModifiedPropertiesWithoutUndo();
 
                     // Update the asset reference as well
-                    var excelAssetProp = so.FindProperty(PropSourceExcelAsset);
-                    if (excelAssetProp != null)
-                        excelAssetProp.objectReferenceValue = AssetDatabase.LoadAssetAtPath<Object>(newPath);
+                    var spreadsheetAssetProp = so.FindProperty(PropSourceSpreadsheetAsset);
+                    if (spreadsheetAssetProp != null)
+                        spreadsheetAssetProp.objectReferenceValue = AssetDatabase.LoadAssetAtPath<Object>(newPath);
+
+                    // Keep embed provenance pointing at the moved file
+                    var provenanceProp = so.FindProperty("EmbeddedFromSourcePath");
+                    if (provenanceProp != null && provenanceProp.stringValue == linkedPath)
+                        provenanceProp.stringValue = newPath;
+
                     so.ApplyModifiedPropertiesWithoutUndo();
 
                     EditorUtility.SetDirty(data);
                     AssetDatabase.SaveAssets();
 
                     Debug.Log(
-                        $"WitWeaver Excel: Updated SourceExcelAssetPath after move/rename:\n" +
+                        $"WitWeaver Spreadsheet: Updated SourceSpreadsheetAssetPath after move/rename:\n" +
                         $"  {linkedPath} -> {newPath}\n  Asset: {soPath}");
 
                     linkedPath = newPath;
@@ -99,12 +105,12 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                 try
                 {
-                    bool success = WitWeaverExcelUtilities.RunFullPipeline(data, linkedPath, out var msg);
+                    bool success = WitWeaverSpreadsheetUtilities.RunFullPipeline(data, linkedPath, out var msg);
 
                     if (success)
-                        Debug.Log($"WitWeaver Excel: Auto-synced '{System.IO.Path.GetFileName(linkedPath)}' into '{data.name}'. {msg}");
+                        Debug.Log($"WitWeaver Spreadsheet: Auto-synced '{System.IO.Path.GetFileName(linkedPath)}' into '{data.name}'. {msg}");
                     else
-                        Debug.LogError($"WitWeaver Excel: Auto-sync failed for '{System.IO.Path.GetFileName(linkedPath)}' into '{data.name}'. {msg}");
+                        Debug.LogError($"WitWeaver Spreadsheet: Auto-sync failed for '{System.IO.Path.GetFileName(linkedPath)}' into '{data.name}'. {msg}");
                 }
                 finally
                 {

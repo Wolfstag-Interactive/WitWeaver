@@ -7,32 +7,11 @@
     <list default="true" id="b120c558-4353-4d0c-87e7-1fcf0e9c31fe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../Planning/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Planning/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WitWeaverDev/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WitWeaverDev/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/WolfstagEmotionMappings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/Character Profiles/WolfstagEmotionMappings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/Sample Assets/WitWeaver2DSampleUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/Sample Assets/WitWeaver2DSampleUI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestAnimatedRepresentation.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TestAnimatedRepresentation.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/BaseExpressionAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/BaseExpressionAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/IWitWeaverUIFoundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/IWitWeaverUIFoundation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUI3D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUI3D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUICanvas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverSampleUICanvas.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverUIFoundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/UI/WitWeaverUIFoundation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverActionOnlyDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverActionOnlyDisplay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverAddressablesUtil.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverAddressablesUtil.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/animated-representations.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/animated-representations.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/character-representations.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/character-representations.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/characters/expressions.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/characters/expressions.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/core-systems/witweaver-component.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/core-systems/witweaver-component.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/actions-overview.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/actions-overview.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/custom-actions.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/dialogue-actions/custom-actions.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/extending-witweaver.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/extending-witweaver.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/getting-started/troubleshooting.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/getting-started/troubleshooting.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/display-components.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/display-components.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/overview.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/prefab-characters/overview.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/ui/building-a-ui.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/ui/building-a-ui.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/ui/dialogue-history.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/ui/dialogue-history.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/docs/ui/ui-foundation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/docs/ui/ui-foundation.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../website_docusaurus/static/llms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../website_docusaurus/static/llms.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverYaml/WitWeaverYamlLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverYaml/WitWeaverYamlLoader.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1788147244653</updated>
       <workItem from="1788147245726" duration="12000" />
-      <workItem from="1788198195781" duration="2695000" />
+      <workItem from="1788198195781" duration="3482000" />
     </task>
     <servers />
   </component>

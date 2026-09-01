@@ -23,7 +23,7 @@
 - [YAML Overview](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-overview): Why YAML, hot-reload workflow, and how the YAML-to-ScriptableObject pipeline works
 - [YAML Format](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-format): Full field reference -- ConversationName, Participants, Dialogue entries, LocalizedDialogue, LineID, LineContinuation
 - [Line Continuation](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/line-continuation): Continue, EndConversation, ContainerBranch, and PlayerChoice modes
-- [YAML Loading](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-loading): Four load sources -- AssignedTextAsset, Persistent, Addressables, Resources -- and the load priority order
+- [YAML Loading](https://docs.wolfstaginteractive.com/witweaver/yaml-reference/yaml-loading): Two load sources -- AssignedTextAsset (embedded, default) and Persistent (device-side text overrides) -- the load priority order, and shipping conversations as DLC via Addressables
 
 ## Characters
 
@@ -64,7 +64,7 @@
 
 ## Settings
 
-- [WitWeaver Settings](https://docs.wolfstaginteractive.com/witweaver/settings/witweaver-settings): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, Addressables toggle, VerboseLogs, SaveKeyPrefix
+- [WitWeaver Settings](https://docs.wolfstaginteractive.com/witweaver/settings/witweaver-settings): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, VerboseLogs, SaveKeyPrefix
 
 ## C# API Reference
 
@@ -86,7 +86,7 @@ The full Doxygen-generated C# API is at:
 - [BaseExpressionAction](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1BaseExpressionAction.html): Base for per-expression synchronous actions -- ExecuteAction(ExpressionActionContext); guaranteed to run after each line renders, re-fires on revisits (must be idempotent)
 - [WitWeaverLanguageManager](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverLanguageManager.html): Singleton for runtime language management -- CurrentLanguage, SetLanguage, OnLanguageChanged
 - [ConversationContainer](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1ConversationContainer.html): ScriptableObject grouping multiple conversations -- Playlist and Selector modes, GetByGuid, IndexOf
-- [WitWeaverSettings](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, AddressablesEnabled, VerboseLogs
+- [WitWeaverSettings](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverSettings.html): Global settings ScriptableObject -- SourceOrder, SupportedLanguages, VerboseLogs
 - [WitWeaverCharacterExpression](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1WitWeaverCharacterExpression.html): Named expression asset with stable GUID -- maps an emotion name to visual data in a representation
 
 ### Key Interfaces

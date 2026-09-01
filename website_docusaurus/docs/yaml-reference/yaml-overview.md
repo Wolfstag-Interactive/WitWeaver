@@ -80,7 +80,7 @@ Edit .yml file → Save → WitWeaverYamlWatcher auto-updates the asset → Done
 
 - Use the `.yml` extension, not `.yaml`. Unity's `TextAsset` importer recognizes `.yml` files and treats them as text assets. Using `.yaml` requires extra configuration that `.yml` avoids.
 - The file name does not need to match the conversation key written inside the file. You might name your file `chapter_one.yml` and have a conversation key of `VillageIntro` inside it. Both are independent identifiers.
-- You can store YAML files anywhere inside your `Assets/` folder, but a dedicated folder (such as `Assets/Dialogue/`) keeps your project tidy. The Conversation Data asset holds the path reference - move it through the Unity Inspector, not by renaming files in your file system, so Unity updates the reference automatically.
+- You can store YAML files anywhere inside your `Assets/` folder, but a dedicated folder (such as `Assets/Dialogue/`) keeps your project tidy. The Conversation Data asset links the source file and embeds its text for runtime use - move or rename the file through the Unity editor so the link is repaired automatically.
 
 :::tip
 Use a YAML-aware editor such as [VS Code](https://code.visualstudio.com/) with the [YAML extension by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) installed. It gives you syntax highlighting, indentation guides, and inline error messages that catch tab characters and misaligned keys before you switch back to Unity.

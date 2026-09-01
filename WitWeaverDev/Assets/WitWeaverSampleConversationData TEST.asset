@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!49 &-1815757720239999469
+--- !u!49 &-2546465978010586731
 TextAsset:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18,7 +18,7 @@ TextAsset:
     We\u2019ve circled that tree three times now.\r\n    fr: On a tourn\xE9 autour
     de cet arbre trois fois.\r\n    es: Hemos rodeado ese \xE1rbol tres veces.\r\n-
     CharacterID: Jared\r\n  LineID: L_9cd861a48566\r\n  LocalizedDialogue:\r\n   
-    en: It\u2019s a popular tree. Five stars on TreeAdvisor.\r\n    fr: C\u2019est
+    en: It\u2019s a popular tree! Five stars on TreeAdvisor.\r\n    fr: C\u2019est
     un arbre populaire. Cinq \xE9toiles sur TreeAdvisor.\r\n    es: Es un \xE1rbol
     famoso. Cinco estrellas en TreeAdvisor.\r\n- CharacterID: Ava\r\n  LineID: L_e01c38d35e8f\r\n 
     LocalizedDialogue:\r\n    en: Shh! Did you hear that?\r\n    fr: Chut! T\u2019as
@@ -382,13 +382,15 @@ MonoBehaviour:
       TargetLineID: 
   DefaultPresentationMode: 0
   AudioManifest: {fileID: 11400000, guid: 2e8c6e3aed53bbe44adfb275049e1155, type: 2}
-  ConversationYaml: {fileID: 0}
-  AllowPersistentOverrides: 1
-  FilePath: DialogueScriptSample.yml
+  ConversationYaml: {fileID: -2546465978010586731}
+  AllowPersistentOverrides: 0
+  FilePath: DialogueScriptSample
   SourceYaml: {fileID: 102900000, guid: 4612376414d9cc742be9c4b790213e6a, type: 3}
   SourceYamlAssetPath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
-  SourceExcelAsset: {fileID: 0}
-  SourceExcelAssetPath: 
+  SourceSpreadsheetAsset: {fileID: 0}
+  SourceSpreadsheetAssetPath: 
+  EmbeddedFromSourcePath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
+  EmbeddedAtTicks: 639238178019301423
   ConversationKey: LabIntroPart2
   _conversationGuid: bde237e7-af83-4511-9d84-4ac0211d6853
   GraphAssetGuid: 1631c224839c18d4db6d350025c51dc5

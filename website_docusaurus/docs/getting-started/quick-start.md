@@ -74,14 +74,14 @@ Select the asset and configure it in the **Inspector**:
 
 2. **Participant Profiles**: Click the **+** button on the Participant Profiles list and drag the `Narrator` Character Profile asset into the new slot.
 
-3. **Import and compile the YAML**: With the asset still selected, click the **Import YAML from Key** button in the Inspector. WitWeaver will find the YAML file by matching the Conversation Key you set in step 1, parse it, and populate the compiled dialogue data. Then click **Sync from Source** to regenerate LineIDs and finalize the asset. Check the Console for any parse warnings.
+3. **Link and compile the YAML**: With the asset still selected, scroll to the **Dialogue Source** section, select the **YAML** tab, assign your `.yml` file to **Source .yaml**, and click **Link & Embed**. WitWeaver validates the file, generates LineIDs, and embeds the text into the asset. A sync-status warning then appears saying the embedded source has lines this asset does not; click **Import From YAML For Key** in that warning to populate the compiled dialogue lines. Check the Console for any parse warnings.
 
 :::note
 **What is a ScriptableObject?** In Unity, a ScriptableObject is a data asset stored as a file in your project, similar to a spreadsheet or config file that you can edit visually in the Inspector. The Conversation Data asset is a ScriptableObject that holds the compiled version of your YAML: the list of participants, the ordered dialogue lines, localized text, and metadata. You never need to edit the compiled data by hand; always edit the YAML and re-import.
 :::
 
 :::warning
-If you skip the **Import YAML from Key** and **Sync from Source** steps, the Conversation Data asset will be empty at runtime and no lines will play. If your conversation silently does nothing when you press Play, this is the first thing to check.
+If you skip the **Link & Embed** and **Import From YAML For Key** steps, the Conversation Data asset will be empty at runtime and no lines will play. If your conversation silently does nothing when you press Play, this is the first thing to check.
 :::
 
 ---
@@ -163,7 +163,7 @@ Click any log entry in the Console and Unity will **highlight the WitWeaver runn
 
 If you see errors instead of log output, the most common causes are:
 
-- **Conversation does nothing** - The YAML was not imported. Re-run **Import YAML from Key** and **Sync from Source** (Step 3).
+- **Conversation does nothing** - The YAML was not imported. Re-run **Link & Embed** and **Import From YAML For Key** (Step 3).
 - **“Character ID not found”** - The CharacterID in the YAML does not match any Character Profile. Check case and spelling (Step 2).
 - **No log output at all** - Make sure **Debug Log Lines** is checked in the WitWeaver component’s Debug section.
 

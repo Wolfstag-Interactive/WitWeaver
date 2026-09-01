@@ -18,7 +18,7 @@ Unity's Graph Toolkit API is experimental and may change between Unity versions.
 You only ever work with the `WitWeaverConversationData` asset. Each conversation has an **authoring mode**:
 
 - **Linear List** (default): lines are edited in the inspector, exactly as before.
-- **Graph**: the node graph is the *sole* editing surface for lines and flow. The inspector hides the line list (showing a baked-line summary instead) while keeping everything else — participants, presentation, audio manifest, language preview, YAML/Excel linking, validation tools.
+- **Graph**: the node graph is the *sole* editing surface for lines and flow. The inspector hides the line list (showing a baked-line summary instead) while keeping everything else: participants, presentation, audio manifest, language preview, the Dialogue Source section (YAML/Spreadsheet), validation tools.
 
 Behind the scenes a companion `.WitWeaverConversationGraph` file holds the canvas (Graph Toolkit requires its own file format, so it cannot live inside the `.asset` itself), but it is fully managed for you: created on convert, renamed/moved/deleted together with the conversation asset, and opened by **double-clicking the conversation asset**. You never interact with it directly.
 

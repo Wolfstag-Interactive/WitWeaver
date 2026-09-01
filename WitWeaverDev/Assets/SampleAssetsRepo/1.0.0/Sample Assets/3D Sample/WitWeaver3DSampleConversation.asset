@@ -1681,7 +1681,7 @@ MonoBehaviour:
   FilePath: WitWeaver/Dialogue/WitWeaver3DDialogueSampleConversation
   SourceYaml: {fileID: 102900000, guid: 24d61ad70f2f49441891f99c350c0620, type: 3}
   SourceYamlAssetPath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/3D Sample/WitWeaver3DDialogueSampleConversation.yml
-  SourceExcelAsset: {fileID: 0}
-  SourceExcelAssetPath: 
+  SourceSpreadsheetAsset: {fileID: 0}
+  SourceSpreadsheetAssetPath: 
   ConversationKey: 3DSampleConversation
   _conversationGuid: 5098f002-7eb1-424b-bf94-2608aee320c0

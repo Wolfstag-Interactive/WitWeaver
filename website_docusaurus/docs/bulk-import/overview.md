@@ -188,5 +188,5 @@ Confirm that `SourceYamlAssetPath` is set on the `WitWeaverConversationData` ass
 |---|---|
 | Understand the YAML format for dialogue files | [YAML Overview →](../yaml-reference/yaml-overview) |
 | Set up YAML auto-sync for a single asset | [YAML Loading →](../yaml-reference/yaml-loading) |
-| Author dialogue in a spreadsheet instead | [Excel Workflow →](../spreadsheet-workflow/overview) |
+| Author dialogue in a spreadsheet instead | [Spreadsheet Workflow →](../spreadsheet-workflow/overview) |
 | Configure WitWeaver-wide settings | [WitWeaver Settings →](../settings/witweaver-settings) |

@@ -15,9 +15,6 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
         // Serialized properties
         private SerializedProperty _sourceOrderProp;
-        private SerializedProperty _resourcesRootProp;
-        private SerializedProperty _addressablesEnabledProp;
-        private SerializedProperty _addressablesKeyTemplateProp;
         private SerializedProperty _supportedLanguagesProp;
         private SerializedProperty _currentLanguageProp;
         private SerializedProperty _goBackLabelProp;
@@ -29,13 +26,13 @@ namespace WolfstagInteractive.WitWeaver.Editor
         private SerializedProperty _historyRendererProfilesProp;
 
         // Spreadsheet properties
-        private SerializedProperty _excelCharacterIDHeaderProp;
-        private SerializedProperty _excelLineIDHeaderProp;
-        private SerializedProperty _excelSkipSheetPrefixProp;
-        private SerializedProperty _excelHeaderRowIndexProp;
-        private SerializedProperty _excelSkipEmptyRowsProp;
-        private SerializedProperty _excelWarnOnUnrecognizedColumnsProp;
-        private SerializedProperty _excelFormulaCellBehaviorProp;
+        private SerializedProperty _spreadsheetCharacterIDHeaderProp;
+        private SerializedProperty _spreadsheetLineIDHeaderProp;
+        private SerializedProperty _spreadsheetSkipSheetPrefixProp;
+        private SerializedProperty _spreadsheetHeaderRowIndexProp;
+        private SerializedProperty _spreadsheetSkipEmptyRowsProp;
+        private SerializedProperty _spreadsheetWarnOnUnrecognizedColumnsProp;
+        private SerializedProperty _spreadsheetFormulaCellBehaviorProp;
 
         private ReorderableList _rendererList;
         private int _activeTab;
@@ -45,9 +42,6 @@ namespace WolfstagInteractive.WitWeaver.Editor
             _activeTab = EditorPrefs.GetInt(TAB_PREF_KEY, 0);
 
             _sourceOrderProp                    = serializedObject.FindProperty("SourceOrder");
-            _resourcesRootProp                  = serializedObject.FindProperty("resourcesRoot");
-            _addressablesEnabledProp            = serializedObject.FindProperty("AddressablesEnabled");
-            _addressablesKeyTemplateProp        = serializedObject.FindProperty("AddressablesKeyTemplate");
             _supportedLanguagesProp             = serializedObject.FindProperty("SupportedLanguages");
             _currentLanguageProp                = serializedObject.FindProperty("CurrentLanguage");
             _goBackLabelProp                    = serializedObject.FindProperty("GoBackLabel");
@@ -58,13 +52,13 @@ namespace WolfstagInteractive.WitWeaver.Editor
             _enableLanguageSystemProp           = serializedObject.FindProperty("EnableLanguageSystem");
             _historyRendererProfilesProp        = serializedObject.FindProperty("historyRendererProfiles");
 
-            _excelCharacterIDHeaderProp         = serializedObject.FindProperty("ExcelCharacterIDHeader");
-            _excelLineIDHeaderProp              = serializedObject.FindProperty("ExcelLineIDHeader");
-            _excelSkipSheetPrefixProp           = serializedObject.FindProperty("ExcelSkipSheetPrefix");
-            _excelHeaderRowIndexProp            = serializedObject.FindProperty("ExcelHeaderRowIndex");
-            _excelSkipEmptyRowsProp             = serializedObject.FindProperty("ExcelSkipEmptyRows");
-            _excelWarnOnUnrecognizedColumnsProp = serializedObject.FindProperty("ExcelWarnOnUnrecognizedColumns");
-            _excelFormulaCellBehaviorProp       = serializedObject.FindProperty("ExcelFormulaCellBehavior");
+            _spreadsheetCharacterIDHeaderProp         = serializedObject.FindProperty("SpreadsheetCharacterIDHeader");
+            _spreadsheetLineIDHeaderProp              = serializedObject.FindProperty("SpreadsheetLineIDHeader");
+            _spreadsheetSkipSheetPrefixProp           = serializedObject.FindProperty("SpreadsheetSkipSheetPrefix");
+            _spreadsheetHeaderRowIndexProp            = serializedObject.FindProperty("SpreadsheetHeaderRowIndex");
+            _spreadsheetSkipEmptyRowsProp             = serializedObject.FindProperty("SpreadsheetSkipEmptyRows");
+            _spreadsheetWarnOnUnrecognizedColumnsProp = serializedObject.FindProperty("SpreadsheetWarnOnUnrecognizedColumns");
+            _spreadsheetFormulaCellBehaviorProp       = serializedObject.FindProperty("SpreadsheetFormulaCellBehavior");
 
             BuildRendererList();
         }
@@ -135,29 +129,13 @@ namespace WolfstagInteractive.WitWeaver.Editor
             EditorGUILayout.LabelField("YAML Source Configuration", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_sourceOrderProp, true);
             EditorGUILayout.HelpBox(
-                "Sources are checked in order from top to bottom. " +
-                "The first source that returns content wins. " +
-                "AssignedTextAsset embeds the YAML directly in the build.",
+                "Sources are checked in order from top to bottom; the first source that returns content wins. " +
+                "AssignedTextAsset reads the YAML embedded in the Conversation Data asset (no runtime I/O). " +
+                "Persistent reads an optional device-side override from persistentDataPath/WitWeaver/Dialogue/.",
                 MessageType.Info);
 
             EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(_resourcesRootProp);
             EditorGUILayout.PropertyField(_verboseLogsProp);
-
-            EditorGUILayout.Space();
-            Separator();
-
-            EditorGUILayout.PropertyField(_addressablesEnabledProp);
-            if (_addressablesEnabledProp.boolValue)
-            {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(_addressablesKeyTemplateProp);
-                EditorGUI.indentLevel--;
-                EditorGUILayout.HelpBox(
-                    "The WITWEAVER_ADDRESSABLES scripting define symbol must be added to your project " +
-                    "for Addressables support to activate.",
-                    MessageType.Info);
-            }
         }
 
         private void DrawLanguageTab(WitWeaverSettings settings)
@@ -233,27 +211,27 @@ namespace WolfstagInteractive.WitWeaver.Editor
         private void DrawSpreadsheetTab(WitWeaverSettings settings)
         {
             EditorGUILayout.HelpBox(
-                "These settings apply to all Excel spreadsheet imports project-wide. " +
+                "These settings apply to all spreadsheet imports project-wide. " +
                 "Column header names are case-insensitive. Changes take effect on the next import.",
                 MessageType.Info);
 
             EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(_excelCharacterIDHeaderProp);
-            EditorGUILayout.PropertyField(_excelLineIDHeaderProp);
-            EditorGUILayout.PropertyField(_excelSkipSheetPrefixProp);
-            EditorGUILayout.PropertyField(_excelHeaderRowIndexProp);
-            EditorGUILayout.PropertyField(_excelSkipEmptyRowsProp);
-            EditorGUILayout.PropertyField(_excelWarnOnUnrecognizedColumnsProp);
-            EditorGUILayout.PropertyField(_excelFormulaCellBehaviorProp);
+            EditorGUILayout.PropertyField(_spreadsheetCharacterIDHeaderProp, new GUIContent("Character ID Header"));
+            EditorGUILayout.PropertyField(_spreadsheetLineIDHeaderProp, new GUIContent("Line ID Header"));
+            EditorGUILayout.PropertyField(_spreadsheetSkipSheetPrefixProp, new GUIContent("Skip Sheet Prefix"));
+            EditorGUILayout.PropertyField(_spreadsheetHeaderRowIndexProp, new GUIContent("Header Row Index"));
+            EditorGUILayout.PropertyField(_spreadsheetSkipEmptyRowsProp, new GUIContent("Skip Empty Rows"));
+            EditorGUILayout.PropertyField(_spreadsheetWarnOnUnrecognizedColumnsProp, new GUIContent("Warn On Unrecognized Columns"));
+            EditorGUILayout.PropertyField(_spreadsheetFormulaCellBehaviorProp, new GUIContent("Formula Cell Behavior"));
 
             // Warn if required headers are empty
-            var charHeader = _excelCharacterIDHeaderProp?.stringValue;
-            var lineHeader = _excelLineIDHeaderProp?.stringValue;
+            var charHeader = _spreadsheetCharacterIDHeaderProp?.stringValue;
+            var lineHeader = _spreadsheetLineIDHeaderProp?.stringValue;
             if (string.IsNullOrEmpty(charHeader) || string.IsNullOrEmpty(lineHeader))
             {
                 EditorGUILayout.HelpBox(
                     "CharacterID Header and LineID Header must not be empty. " +
-                    "All Excel imports will fail until these are set.",
+                    "All spreadsheet imports will fail until these are set.",
                     MessageType.Warning);
             }
         }

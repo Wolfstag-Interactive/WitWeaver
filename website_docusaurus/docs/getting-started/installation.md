@@ -19,7 +19,7 @@ Before installing, make sure your project meets the following requirements:
 | .NET Standard | 2.1 |
 | Other packages | None required for the core feature set |
 
-WitWeaver ships with its YAML parser (YamlDotNet) bundled inside the package, so you do not need to install any other Unity packages to get started. Optional integrations (such as Addressables support) are described at the bottom of this page.
+WitWeaver ships with its YAML parser (YamlDotNet) bundled inside the package, so you do not need to install any other Unity packages to get started. Delivering dialogue as DLC or remote content works through your existing content pipeline (see the bottom of this page).
 
 ---
 
@@ -90,27 +90,11 @@ Use short, uppercase ISO 639-1 codes (`EN`, `FR`, `DE`) to stay consistent with 
 
 ---
 
-## Addressables support (optional)
+## Shipping dialogue as Addressables (optional)
 
-By default, WitWeaver loads dialogue YAML files using Unity's built-in `Resources` system. If your project uses **Unity Addressables** for asset management and you want to load YAML files through that pipeline instead, you can enable Addressables support with a scripting define symbol.
+WitWeaver needs no special setup to work with Unity Addressables or asset bundles. Dialogue YAML is embedded inside each Conversation Data asset, so marking the `WitWeaverConversationData` asset as Addressable is all it takes: the embedded YAML travels with the asset, and no scripting defines or loader configuration are required.
 
-**Steps:**
-
-1. Make sure the **Addressables** package is already installed in your project (via Package Manager → search "Addressables").
-
-2. Go to **Edit → Project Settings → Player → Other Settings → Scripting Define Symbols**.
-
-3. Add the following symbol to the list:
-
-   ```
-   WITWEAVER_ADDRESSABLES
-   ```
-
-4. Click **Apply**. Unity will recompile.
-
-:::warning
-If you add the `WITWEAVER_ADDRESSABLES` scripting define but the Addressables package is **not** installed, WitWeaver will silently fall back to `Resources.Load` without any error or warning. Your dialogue will still load, but it will not use the Addressables pipeline. If you notice Addressables-specific behavior (like async loading) not working, verify that the Addressables package is present.
-:::
+See [YAML Loading](../yaml-reference/yaml-loading#shipping-conversations-as-dlc-or-remote-content) for the full DLC and remote-content workflow, and for the persistent override mechanism used to hotfix dialogue text post-ship.
 
 ---
 

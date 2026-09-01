@@ -8,24 +8,36 @@ using UnityEngine;
 namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
-    /// Entry point for the WitWeaver Excel round-trip pipeline.
+    /// Entry point for the WitWeaver spreadsheet round-trip pipeline.
     /// Converts an .xlsx file into a fully populated <see cref="WitWeaverConversationData"/> ScriptableObject
     /// by parsing the spreadsheet, generating LineIDs, writing them back to the .xlsx,
     /// serializing to YAML, and calling <see cref="WitWeaverYamlUtilities.ImportFromYamlForKey"/> for each key.
     /// </summary>
-    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverExcelUtilities.html")]
-    public static class WitWeaverExcelUtilities
+    [HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverSpreadsheetUtilities.html")]
+    public static class WitWeaverSpreadsheetUtilities
     {
         /// <summary>
-        /// Runs the full Excel-to-ScriptableObject pipeline for the given conversation data asset.
+        /// Runs the full spreadsheet-to-ScriptableObject pipeline for the given conversation data asset.
         /// </summary>
         /// <param name="target">The WitWeaverConversationData asset to populate.</param>
-        /// <param name="excelAssetPath">Unity asset-relative path to the .xlsx file (e.g. "Assets/Dialogue/Forest.xlsx").</param>
+        /// <param name="spreadsheetAssetPath">Unity asset-relative path to the .xlsx file (e.g. "Assets/Dialogue/Forest.xlsx").</param>
         /// <param name="diagnosticMessage">Human-readable result message (success summary or error).</param>
         /// <returns>True on success, false on any failure.</returns>
         public static bool RunFullPipeline(
             WitWeaverConversationData target,
-            string excelAssetPath,
+            string spreadsheetAssetPath,
+            out string diagnosticMessage)
+        {
+            bool ok = RunFullPipelineCore(target, spreadsheetAssetPath, out diagnosticMessage);
+
+            // Record for the inspector so watcher-triggered imports are visible there too
+            WitWeaverSpreadsheetImportStatus.Record(target, ok, diagnosticMessage);
+            return ok;
+        }
+
+        private static bool RunFullPipelineCore(
+            WitWeaverConversationData target,
+            string spreadsheetAssetPath,
             out string diagnosticMessage)
         {
             // Step 1: Load settings
@@ -33,17 +45,17 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (settings == null)
             {
                 diagnosticMessage =
-                    "WitWeaver Excel: Could not load WitWeaverSettings. " +
+                    "WitWeaver Spreadsheet: Could not load WitWeaverSettings. " +
                     "Create one via Assets > Create > WitWeaver > Settings.";
                 return false;
             }
 
             // Step 2: Resolve absolute path
-            var absolutePath = Path.GetFullPath(excelAssetPath);
+            var absolutePath = Path.GetFullPath(spreadsheetAssetPath);
             var fileName = Path.GetFileName(absolutePath);
 
-            // Step 3: Parse Excel — returns SpreadsheetRowConfig (row number + DialogueYamlConfig)
-            var parser = new WitWeaverExcelParser();
+            // Step 3: Parse the spreadsheet — returns SpreadsheetRowConfig (row number + DialogueYamlConfig)
+            var parser = new WitWeaverSpreadsheetParser();
             if (!parser.TryRead(absolutePath, settings, out var rowConfigDict, out var parseError))
             {
                 diagnosticMessage = parseError;
@@ -53,9 +65,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (rowConfigDict == null || rowConfigDict.Count == 0)
             {
                 diagnosticMessage =
-                    $"WitWeaver Excel: No conversation data found in '{fileName}'. " +
+                    $"WitWeaver Spreadsheet: No conversation data found in '{fileName}'. " +
                     $"Ensure sheet tab names correspond to ConversationKeys and that each sheet has " +
-                    $"a '{settings.ExcelCharacterIDHeader}' column and at least one language code column.";
+                    $"a '{settings.SpreadsheetCharacterIDHeader}' column and at least one language code column.";
                 return false;
             }
 
@@ -70,7 +82,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (idError != null)
             {
                 diagnosticMessage =
-                    $"WitWeaver Excel: LineID validation failed in '{fileName}'. {idError}";
+                    $"WitWeaver Spreadsheet: LineID validation failed in '{fileName}'. {idError}";
                 return false;
             }
 
@@ -78,10 +90,10 @@ namespace WolfstagInteractive.WitWeaver.Editor
             bool writebackWarned = false;
             if (idsGenerated)
             {
-                if (!WitWeaverExcelWriter.TryWriteLineIDs(absolutePath, settings, rowConfigDict, out var writeError))
+                if (!WitWeaverSpreadsheetWriter.TryWriteLineIDs(absolutePath, settings, rowConfigDict, out var writeError))
                 {
                     Debug.LogWarning(
-                        $"WitWeaver Excel: LineIDs were generated but could not be written back to '{fileName}'. " +
+                        $"WitWeaver Spreadsheet: LineIDs were generated but could not be written back to '{fileName}'. " +
                         $"{writeError} — The file is now out of sync. " +
                         $"Save the .xlsx again to trigger a fresh import.");
                     writebackWarned = true;
@@ -89,7 +101,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 else
                 {
                     // Reimport the xlsx so Unity picks up the LineID changes
-                    AssetDatabase.ImportAsset(excelAssetPath, ImportAssetOptions.Default);
+                    AssetDatabase.ImportAsset(spreadsheetAssetPath, ImportAssetOptions.Default);
                 }
             }
 
@@ -104,40 +116,34 @@ namespace WolfstagInteractive.WitWeaver.Editor
             if (!WitWeaverYamlParser.TryParse(yamlText, out _, out string yamlValidationError))
             {
                 diagnosticMessage =
-                    $"WitWeaver Excel: Internal YAML generation error for '{fileName}'. " +
+                    $"WitWeaver Spreadsheet: Internal YAML generation error for '{fileName}'. " +
                     $"The generated YAML could not be parsed: {yamlValidationError} — " +
                     $"Please report this as a bug with your spreadsheet content.";
                 return false;
             }
 
-            // Step 8: Remove existing "EmbeddedYaml" subasset
-            var conversationAssetPath = AssetDatabase.GetAssetPath(target);
-            var representations = AssetDatabase.LoadAllAssetRepresentationsAtPath(conversationAssetPath);
-            if (representations != null)
-            {
-                foreach (var rep in representations)
-                {
-                    if (rep is TextAsset { name: "EmbeddedYaml" } existing)
-                        UnityEngine.Object.DestroyImmediate(existing, true);
-                }
-            }
+            // Steps 8-10: Replace the embedded sub-asset via the shared helper (also records
+            // provenance and defaults the persistent-override stem)
+            WitWeaverEmbedUtility.ReplaceEmbeddedYaml(target, yamlText, spreadsheetAssetPath);
 
-            // Step 9: Create new embedded subasset and assign
-            var embedded = new TextAsset(yamlText) { name = "EmbeddedYaml" };
-            AssetDatabase.AddObjectToAsset(embedded, target);
-            target.ConversationYaml = embedded;
-
-            // Step 10: Set default FilePath if empty
-            if (string.IsNullOrEmpty(target.FilePath))
-            {
-                var baseName = Path.GetFileNameWithoutExtension(excelAssetPath);
-                target.FilePath = $"WitWeaver/Dialogue/{baseName}";
-            }
-
-            // Step 11: ImportFromYamlForKey for each conversation key
+            // Step 11: ImportFromYamlForKey for each conversation key. Write-back is suppressed:
+            // this data came from the spreadsheet, so generated LineIDs must never overwrite a
+            // linked YAML source file (they were already written back to the .xlsx in step 6).
             var utils = new WitWeaverYamlUtilities(target);
             foreach (var key in configDict.Keys)
-                utils.ImportFromYamlForKey(key);
+                utils.ImportFromYamlForKey(key, suppressSourceWriteBack: true);
+
+            // Known limitation: each key's import wholesale-replaces DialogueLines, so with a
+            // multi-sheet workbook only the last sheet's lines are retained on this asset.
+            string multiSheetNote = null;
+            if (configDict.Count > 1)
+            {
+                var lastKey = configDict.Keys.Last();
+                multiSheetNote =
+                    $"Workbook has {configDict.Count} sheets; only the last imported key " +
+                    $"('{lastKey}') is retained as this asset's dialogue lines.";
+                Debug.LogWarning($"WitWeaver Spreadsheet: {multiSheetNote}", target);
+            }
 
             // Step 12: Mark dirty and save
             EditorUtility.SetDirty(target);
@@ -153,8 +159,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 : "";
 
             diagnosticMessage =
-                $"WitWeaver Excel: Import successful from '{fileName}'. " +
+                $"WitWeaver Spreadsheet: Import successful from '{fileName}'. " +
                 $"{configDict.Count} conversation key(s), {totalLines} total line(s){idInfo}.";
+
+            if (multiSheetNote != null)
+                diagnosticMessage += $" {multiSheetNote}";
 
             return true;
         }
@@ -220,7 +229,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
         /// <summary>
         /// Escapes a string for use inside a YAML double-quoted scalar.
-        /// Handles backslash, double-quote, and all newline variants (Excel cells can contain
+        /// Handles backslash, double-quote, and all newline variants (spreadsheet cells can contain
         /// real newlines via Alt+Enter; a literal newline inside a YAML double-quoted scalar
         /// would break the line structure and cause a parse error).
         /// </summary>

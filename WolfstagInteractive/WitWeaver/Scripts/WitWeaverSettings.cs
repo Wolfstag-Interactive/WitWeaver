@@ -6,15 +6,13 @@ namespace WolfstagInteractive.WitWeaver
     public enum TextSourceKind
     {
         AssignedTextAsset,
-        Persistent,
-        Addressables,
-        Resources
+        Persistent
     }
 
     /// <summary>
-    /// Controls how WitWeaver handles formula cells encountered during Excel spreadsheet import.
+    /// Controls how WitWeaver handles formula cells encountered during spreadsheet import.
     /// </summary>
-    public enum ExcelFormulaCellBehavior
+    public enum SpreadsheetFormulaCellBehavior
     {
         /// <summary>
         /// Use the cached result value stored in the cell. This is the default and works
@@ -44,13 +42,9 @@ namespace WolfstagInteractive.WitWeaver
         public TextSourceKind[] SourceOrder = new[]
         {
             TextSourceKind.AssignedTextAsset,
-            TextSourceKind.Persistent,
-            TextSourceKind.Addressables,
-            TextSourceKind.Resources
+            TextSourceKind.Persistent
         };
 
-        public string resourcesRoot = "WitWeaver/Dialogue"; // only used if FilePath given
-        [Header("Language Settings")]
         [Tooltip("List of supported language codes (e.g., 'en', 'fr', 'es')")]
         public List<string> SupportedLanguages = new List<string> { "EN" };
         [Tooltip("Currently active language code")]
@@ -63,11 +57,8 @@ namespace WolfstagInteractive.WitWeaver
             {
                 new WitWeaverConversationData.LocalizedDialogue { Language = "EN", Text = "← Go Back" }
             };
-        public bool AddressablesEnabled = false; // flip on when project uses it
-        public string AddressablesKeyTemplate = "{filePath}.yml"; // maps FilePath -> key
         public bool VerboseLogs = false;
 
-        [Header("Save System")]
         [Tooltip("Prefix for all save system keys. Must not be empty.")]
         public string SaveKeyPrefix = "witweaver.";
         [Tooltip("Enable the save system for persisting game state.")]
@@ -137,7 +128,8 @@ namespace WolfstagInteractive.WitWeaver
             return _instance;
 #else
         Debug.LogError("WitWeaverSettings not found in Resources! Please create one in the Editor.");
-        return ScriptableObject.CreateInstance<WitWeaverSettings>();
+        _instance = ScriptableObject.CreateInstance<WitWeaverSettings>();
+        return _instance;
 #endif
         }
         /// <summary>
@@ -145,6 +137,8 @@ namespace WolfstagInteractive.WitWeaver
         /// </summary>
         private void OnValidate()
         {
+            SanitizeSourceOrder();
+
             // Ensure we have at least one language
             if (SupportedLanguages == null || SupportedLanguages.Count == 0)
             {
@@ -178,39 +172,69 @@ namespace WolfstagInteractive.WitWeaver
 
             CleanRendererProfiles();
 
-            if (string.IsNullOrEmpty(ExcelCharacterIDHeader))
-                ExcelCharacterIDHeader = "CharacterID";
+            if (string.IsNullOrEmpty(SpreadsheetCharacterIDHeader))
+                SpreadsheetCharacterIDHeader = "CharacterID";
 
-            if (string.IsNullOrEmpty(ExcelLineIDHeader))
-                ExcelLineIDHeader = "LineID";
+            if (string.IsNullOrEmpty(SpreadsheetLineIDHeader))
+                SpreadsheetLineIDHeader = "LineID";
 
-            if (ExcelHeaderRowIndex < 0)
-                ExcelHeaderRowIndex = 0;
+            if (SpreadsheetHeaderRowIndex < 0)
+                SpreadsheetHeaderRowIndex = 0;
+        }
+
+        /// <summary>
+        /// Removes duplicate and out-of-range SourceOrder entries. Assets serialized before the
+        /// Addressables/Resources source kinds were removed may still contain their old raw values;
+        /// those deserialize as undefined enum values and are pruned here.
+        /// </summary>
+        private void SanitizeSourceOrder()
+        {
+            if (SourceOrder == null || SourceOrder.Length == 0)
+            {
+                SourceOrder = new[] { TextSourceKind.AssignedTextAsset, TextSourceKind.Persistent };
+                return;
+            }
+
+            var cleaned = new List<TextSourceKind>(SourceOrder.Length);
+            foreach (var src in SourceOrder)
+            {
+                if ((src == TextSourceKind.AssignedTextAsset || src == TextSourceKind.Persistent) &&
+                    !cleaned.Contains(src))
+                {
+                    cleaned.Add(src);
+                }
+            }
+
+            if (cleaned.Count == 0)
+                cleaned.Add(TextSourceKind.AssignedTextAsset);
+
+            if (cleaned.Count != SourceOrder.Length)
+                SourceOrder = cleaned.ToArray();
         }
         // ------------------------------
         // Spreadsheet Import
         // ------------------------------
 
-        [Tooltip("The column header used to identify the character ID column in an Excel spreadsheet. Case-insensitive.")]
-        public string ExcelCharacterIDHeader = "CharacterID";
+        [Tooltip("The column header used to identify the character ID column in a spreadsheet. Case-insensitive.")]
+        public string SpreadsheetCharacterIDHeader = "CharacterID";
 
         [Tooltip("The column header used to identify the line ID column. This column is auto-populated by WitWeaver on import. Case-insensitive.")]
-        public string ExcelLineIDHeader = "LineID";
+        public string SpreadsheetLineIDHeader = "LineID";
 
         [Tooltip("Sheet tabs whose names begin with this prefix are skipped during import. Use this for note sheets or scratch tabs.")]
-        public string ExcelSkipSheetPrefix = "_";
+        public string SpreadsheetSkipSheetPrefix = "_";
 
         [Tooltip("Zero-based row index of the header row. Default is 0 (first row). Increase this if your spreadsheet has title rows above the column headers.")]
-        public int ExcelHeaderRowIndex = 0;
+        public int SpreadsheetHeaderRowIndex = 0;
 
         [Tooltip("If true, rows where all cells are empty or whitespace are silently skipped during import.")]
-        public bool ExcelSkipEmptyRows = true;
+        public bool SpreadsheetSkipEmptyRows = true;
 
         [Tooltip("If true, column headers that are not the CharacterID column, the LineID column, or a recognized language code will produce a warning in the console.")]
-        public bool ExcelWarnOnUnrecognizedColumns = false;
+        public bool SpreadsheetWarnOnUnrecognizedColumns = false;
 
-        [Tooltip("Controls how cells containing Excel formulas are handled during import.")]
-        public ExcelFormulaCellBehavior ExcelFormulaCellBehavior = ExcelFormulaCellBehavior.UseCachedValue;
+        [Tooltip("Controls how cells containing spreadsheet formulas are handled during import.")]
+        public SpreadsheetFormulaCellBehavior SpreadsheetFormulaCellBehavior = SpreadsheetFormulaCellBehavior.UseCachedValue;
 
         // ------------------------------
         // Dialogue History Renderers

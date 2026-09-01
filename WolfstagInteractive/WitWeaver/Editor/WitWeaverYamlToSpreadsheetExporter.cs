@@ -20,11 +20,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
     /// Row 1 is a frozen bold header row.
     ///
     /// Uses <see cref="System.IO.Compression.ZipArchive"/> and <see cref="System.Xml.Linq.XDocument"/>
-    /// — the same infrastructure as <see cref="WitWeaverExcelParser"/> and
-    /// <see cref="WitWeaverExcelWriter"/>. No external dependencies.
+    /// — the same infrastructure as <see cref="WitWeaverSpreadsheetParser"/> and
+    /// <see cref="WitWeaverSpreadsheetWriter"/>. No external dependencies.
     /// </summary>
-[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverYamlToExcelExporter.html")]
-    public static class WitWeaverYamlToExcelExporter
+[HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverYamlToSpreadsheetExporter.html")]
+    public static class WitWeaverYamlToSpreadsheetExporter
     {
         private static readonly XNamespace Ns     = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
         private static readonly XNamespace RNs    = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -271,7 +271,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 var row = rows[r];
                 for (int c = 0; c < row.Count; c++)
                 {
-                    string cellRef = WitWeaverExcelParser.ColIndexToLetters(c) + rowNum;
+                    string cellRef = WitWeaverSpreadsheetParser.ColIndexToLetters(c) + rowNum;
                     var cellEl = new XElement(Ns + "c",
                         new XAttribute("r", cellRef),
                         new XAttribute("t", "s"));                    // shared string type

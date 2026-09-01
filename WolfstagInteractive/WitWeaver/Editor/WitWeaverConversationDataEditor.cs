@@ -11,7 +11,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 {
     /// <summary>
     /// The single custom inspector for <see cref="WitWeaverConversationData"/>.
-    /// Combines YAML/Excel linking and import, participant configuration, dialogue line
+    /// Combines YAML/Spreadsheet linking and import, participant configuration, dialogue line
     /// rendering and validation tooling with the presentation-mode and audio-manifest sections.
     /// </summary>
     [UnityEngine.HelpURL("https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1Editor_1_1WitWeaverConversationDataEditor.html")]
@@ -20,15 +20,23 @@ namespace WolfstagInteractive.WitWeaver.Editor
     {
         private SerializedProperty _conversationKey;
         private SerializedProperty _filePath;
+        private SerializedProperty _allowPersistentOverrides;
 
         private SerializedProperty _conversationYaml;
         private SerializedProperty _sourceYaml;
         private SerializedProperty _sourceYamlAssetPath;
-        private SerializedProperty _sourceExcelAsset;
-        private SerializedProperty _sourceExcelAssetPath;
-        private string _lastExcelImportMessage;
-        private bool _lastExcelImportSuccess;
-        private bool _excelFoldout;
+        private SerializedProperty _sourceSpreadsheetAsset;
+        private SerializedProperty _sourceSpreadsheetAssetPath;
+
+        private const string SourceTabPrefKey = "WitWeaver.ConversationEditor.DialogueSourceTab";
+        private static readonly string[] SourceTabLabels = { "YAML", "Spreadsheet" };
+        private int _sourceTab;
+
+        // Cross-source staleness check state (throttled; see DrawSharedEmbedBlock)
+        private double _lastStaleCheckTime;
+        private bool _otherSourceIsNewer;
+        private bool _otherSourceMissing;
+        private string _otherSourcePath;
 
         private string[] _cachedSupportedLanguages;
         private string[] _cachedDisplayLanguages;
@@ -39,7 +47,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
         private ReorderableList _participantConfigList;
         private void OnEnable()
         {
-            _excelFoldout = EditorPrefs.GetBool("WitWeaver.ExcelSourceFoldout." + target.GetEntityId(), false);
+            _sourceTab = EditorPrefs.GetInt(SourceTabPrefKey, 0);
             CacheLanguageSettings();
         }
         private void CacheLanguageSettings()
@@ -73,12 +81,13 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             // Initialize required serialized properties
             _filePath                 = serializedObject.FindProperty("FilePath");
+            _allowPersistentOverrides = serializedObject.FindProperty("AllowPersistentOverrides");
             _conversationKey          = serializedObject.FindProperty("ConversationKey");
             _conversationYaml         = serializedObject.FindProperty("ConversationYaml");
             _sourceYaml               = serializedObject.FindProperty("SourceYaml");
             _sourceYamlAssetPath      = serializedObject.FindProperty("SourceYamlAssetPath");
-            _sourceExcelAsset         = serializedObject.FindProperty("SourceExcelAsset");
-            _sourceExcelAssetPath     = serializedObject.FindProperty("SourceExcelAssetPath");
+            _sourceSpreadsheetAsset         = serializedObject.FindProperty("SourceSpreadsheetAsset");
+            _sourceSpreadsheetAssetPath     = serializedObject.FindProperty("SourceSpreadsheetAssetPath");
 
             // Auto-sync ParticipantConfigurationDefaults before drawing.
             SyncParticipantConfigurationDefaults();
@@ -103,6 +112,11 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 // Skip custom-handled and internal properties
                 if (property.name == "m_Script" ||
                     property.name == "FilePath" ||
+                    property.name == "AllowPersistentOverrides" ||
+                    property.name == "SourceSpreadsheetAsset" ||
+                    property.name == "SourceSpreadsheetAssetPath" ||
+                    property.name == "EmbeddedFromSourcePath" ||
+                    property.name == "EmbeddedAtTicks" ||
                     property.name == "ConversationKey" ||
                     property.name == "ConversationYaml" ||
                     property.name == "SourceYaml" ||
@@ -149,11 +163,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
             // Add validation tools section
             DrawValidationToolsSection();
 
-            // YAML Linking (hidden intermediary workflow)
-            DrawYamlLinkingSection();
-            // Excel Source (alternative to YAML for spreadsheet-driven authoring)
-            DrawExcelSourceSection();
-            // Draw 'FilePath' field with the browse button
+            // Unified source linking: YAML | Spreadsheet tabs plus the shared embed/status block
+            DrawDialogueSourceSection();
+            // Persistent override configuration
             DrawFilePathField();
 
             if (IsGraphAuthored())
@@ -679,163 +691,98 @@ namespace WolfstagInteractive.WitWeaver.Editor
             }
         }
 
-        private void DrawExcelSourceSection()
+        private void DrawDialogueSourceSection()
         {
-            if (_sourceExcelAsset == null || _sourceExcelAssetPath == null)
+            // Safety: if these props don't exist (older data class), skip drawing the section
+            if (_sourceYaml == null || _conversationYaml == null || _sourceYamlAssetPath == null ||
+                _sourceSpreadsheetAsset == null || _sourceSpreadsheetAssetPath == null)
                 return;
 
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.LabelField("Dialogue Source", EditorStyles.boldLabel);
 
-            var foldoutKey = "WitWeaver.ExcelSourceFoldout." + target.GetEntityId();
-            _excelFoldout = EditorGUILayout.Foldout(_excelFoldout, "Excel Source", true, EditorStyles.foldoutHeader);
-            EditorPrefs.SetBool(foldoutKey, _excelFoldout);
-
-            if (_excelFoldout)
+            EditorGUI.BeginChangeCheck();
+            var newTab = GUILayout.Toolbar(_sourceTab, SourceTabLabels);
+            if (EditorGUI.EndChangeCheck())
             {
-                EditorGUILayout.Space(2);
-
-                // Show link prompt when no asset assigned
-                if (_sourceExcelAsset.objectReferenceValue == null)
-                {
-                    EditorGUILayout.HelpBox(
-                        "Link an .xlsx file to enable spreadsheet-driven dialogue authoring. " +
-                        "Each sheet tab name must match a ConversationKey. " +
-                        "Configure expected column headers in WitWeaverSettings under the Spreadsheet tab.",
-                        MessageType.Info);
-                }
-
-                // Object field for SourceExcelAsset
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(_sourceExcelAsset, new GUIContent("Source .xlsx (Editor-only)"));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    serializedObject.ApplyModifiedProperties();
-                    var newObj = _sourceExcelAsset.objectReferenceValue;
-                    if (newObj != null)
-                    {
-                        var newPath = AssetDatabase.GetAssetPath(newObj);
-                        _sourceExcelAssetPath.stringValue = newPath;
-                        serializedObject.ApplyModifiedProperties();
-                    }
-                    else
-                    {
-                        _sourceExcelAssetPath.stringValue = string.Empty;
-                        serializedObject.ApplyModifiedProperties();
-                    }
-                }
-
-                // Validate extension
-                if (_sourceExcelAsset.objectReferenceValue != null)
-                {
-                    var assignedPath = _sourceExcelAssetPath.stringValue;
-                    if (!assignedPath.EndsWith(".xlsx", System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        EditorGUILayout.HelpBox(
-                            "The assigned file does not appear to be an .xlsx file. Only Excel workbooks are supported.",
-                            MessageType.Warning);
-                    }
-                    else
-                    {
-                        // Show current linked path
-                        using (new EditorGUI.DisabledScope(true))
-                            EditorGUILayout.TextField("Linked Path", assignedPath);
-
-                        // Import button
-                        if (GUILayout.Button("Import from Excel", GUILayout.Height(24)))
-                        {
-                            var data = (WitWeaverConversationData)target;
-                            bool ok = WitWeaverExcelUtilities.RunFullPipeline(data, assignedPath, out var msg);
-                            _lastExcelImportMessage = msg;
-                            _lastExcelImportSuccess = ok;
-                        }
-
-                        // Result message
-                        if (!string.IsNullOrEmpty(_lastExcelImportMessage))
-                        {
-                            EditorGUILayout.HelpBox(
-                                _lastExcelImportMessage,
-                                _lastExcelImportSuccess ? MessageType.Info : MessageType.Error);
-                        }
-                    }
-                }
+                _sourceTab = newTab;
+                EditorPrefs.SetInt(SourceTabPrefKey, _sourceTab);
             }
+
+            EditorGUILayout.Space(4);
+
+            if (_sourceTab == 0)
+                DrawYamlSourcePanel();
+            else
+                DrawSpreadsheetSourcePanel();
+
+            Separator();
+            DrawSharedEmbedBlock();
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
         }
 
-        private void DrawYamlLinkingSection()
+        private void DrawYamlSourcePanel()
         {
-            // Safety: if these props don't exist (older data class), skip drawing the section
-            if (_sourceYaml == null || _conversationYaml == null || _sourceYamlAssetPath == null)
-                return;
-
-            EditorGUILayout.Space();
-            EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.LabelField("YAML Linking (Recommended)", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "Link a plain .yaml file you edit normally. WitWeaver will embed its text as a sub-asset used at runtime. " +
-                "This avoids StreamingAssets/Resources requirements and won’t conflict with other YAML tools.",
+                "Link a plain .yaml file you edit normally. WitWeaver embeds its text as a sub-asset used at runtime. " +
+                "Saving the file auto-syncs the embed and the compiled lines' text.",
                 MessageType.Info);
 
             // Source .yaml (DefaultAsset or TextAsset)
             EditorGUILayout.PropertyField(_sourceYaml, new GUIContent("Source .yaml (Editor-only)"));
 
-            // Show current embedded TextAsset (read-only)
-            using (new EditorGUI.DisabledScope(true))
-            {
-                EditorGUILayout.PropertyField(_conversationYaml, new GUIContent("Embedded YAML (used at runtime)"));
-            }
-
-            // Show linked path (if any)
             if (!string.IsNullOrEmpty(_sourceYamlAssetPath.stringValue))
             {
                 EditorGUILayout.LabelField("Linked Path", _sourceYamlAssetPath.stringValue, EditorStyles.miniLabel);
             }
-            // Calculate button width to make all buttons equal
-            float buttonWidth = (EditorGUIUtility.currentViewWidth - 20f) / 2f;
 
-            // Buttons row
+            bool inPlayMode = EditorApplication.isPlayingOrWillChangePlaymode;
+
             EditorGUILayout.BeginHorizontal();
 
-            if (GUILayout.Button(_conversationYaml.objectReferenceValue == null ? "Link & Embed" : "Sync From Source", GUILayout.Height(22),
-                    GUILayout.Width(buttonWidth)))
+            using (new EditorGUI.DisabledScope(inPlayMode))
             {
-                var data = (WitWeaverConversationData)target;
-                if (_sourceYaml.objectReferenceValue == null)
+                var linkLabel = _conversationYaml.objectReferenceValue == null ? "Link & Embed" : "Sync From Source";
+                if (GUILayout.Button(new GUIContent(linkLabel,
+                        "Validate the linked .yaml (parse and LineID checks), embed its text, and sync compiled line text."),
+                        GUILayout.Height(24)))
                 {
-                    Debug.LogError("Please assign a Source .yaml asset to link.");
-                }
-                else
-                {
-                    var srcObj  = _sourceYaml.objectReferenceValue;
-                    var srcPath = AssetDatabase.GetAssetPath(srcObj);
-
-                    // Only allow .yml/.yaml or TextAsset
-                    var isYamlExt  = srcPath.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
-                                     srcPath.EndsWith(".yml",  StringComparison.OrdinalIgnoreCase);
-                    var isTextAsset = srcObj is TextAsset;
-
-                    if (!isYamlExt && !isTextAsset)
+                    var data = (WitWeaverConversationData)target;
+                    if (_sourceYaml.objectReferenceValue == null)
                     {
-                        Debug.LogError("Source must be a .yaml/.yml file or a TextAsset.");
+                        Debug.LogError("Please assign a Source .yaml asset to link.");
                     }
                     else
                     {
-                        // Use the new method that returns the embedded TextAsset
-                        var embeddedAsset = TryEmbedFromPath(data, srcPath);
-                        if (embeddedAsset != null)
+                        var srcObj  = _sourceYaml.objectReferenceValue;
+                        var srcPath = AssetDatabase.GetAssetPath(srcObj);
+
+                        // Only allow .yml/.yaml or TextAsset
+                        var isYamlExt  = srcPath.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase) ||
+                                         srcPath.EndsWith(".yml",  StringComparison.OrdinalIgnoreCase);
+                        var isTextAsset = srcObj is TextAsset;
+
+                        if (!isYamlExt && !isTextAsset)
                         {
-                            _sourceYamlAssetPath.stringValue = srcPath;
+                            Debug.LogError("Source must be a .yaml/.yml file or a TextAsset.");
+                        }
+                        else
+                        {
+                            // Same validated embed + text sync the YAML watcher uses on file save
+                            var result = WitWeaverYamlWatcher.EmbedFromPath(data, srcPath);
+                            if (result != WitWeaverYamlWatcher.EmbedResult.Failed)
+                            {
+                                // EmbedFromPath writes to the target directly; refresh before linking
+                                serializedObject.Update();
+                                _sourceYamlAssetPath.stringValue = srcPath;
+                                serializedObject.ApplyModifiedProperties();
 
-                            // Assign the embedded asset directly to the SerializedProperty
-                            _conversationYaml.objectReferenceValue = embeddedAsset;
-
-                            // Apply all changes
-                            serializedObject.ApplyModifiedProperties();
-
-                            Debug.Log($"WitWeaver: Embedded YAML text from '{srcPath}' into '{AssetDatabase.GetAssetPath(data)}'.");
+                                if (result == WitWeaverYamlWatcher.EmbedResult.Embedded)
+                                    Debug.Log($"WitWeaver: Embedded YAML text from '{srcPath}' into '{AssetDatabase.GetAssetPath(data)}'.");
+                            }
                         }
                     }
                 }
@@ -843,7 +790,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             using (new EditorGUI.DisabledScope(_sourceYaml.objectReferenceValue == null))
             {
-                if (GUILayout.Button("Ping Source", GUILayout.Height(22),GUILayout.ExpandWidth(true)))
+                if (GUILayout.Button("Ping Source", GUILayout.Height(24)))
                 {
                     EditorGUIUtility.PingObject(_sourceYaml.objectReferenceValue);
                 }
@@ -851,13 +798,14 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            // Second row of buttons with uniform width
             EditorGUILayout.BeginHorizontal();
 
-            // Clear Link button - use ExpandWidth to match first row
-            using (new EditorGUI.DisabledScope(_sourceYaml.objectReferenceValue == null && _conversationYaml.objectReferenceValue == null))
+            using (new EditorGUI.DisabledScope(inPlayMode ||
+                       (_sourceYaml.objectReferenceValue == null &&
+                        string.IsNullOrEmpty(_sourceYamlAssetPath.stringValue))))
             {
-                if (GUILayout.Button("Clear Link (keeps embedded)", GUILayout.Height(18), GUILayout.Width(buttonWidth)))
+                if (GUILayout.Button(new GUIContent("Clear Link (keeps embedded)",
+                        "Unlink the source file without touching the embedded YAML."), GUILayout.Height(22)))
                 {
                     _sourceYaml.objectReferenceValue = null;
                     _sourceYamlAssetPath.stringValue = string.Empty;
@@ -865,10 +813,12 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 }
             }
 
-            // Clear Embedded button - use ExpandWidth to match first row
-            using (new EditorGUI.DisabledScope(_conversationYaml.objectReferenceValue == null))
+            using (new EditorGUI.DisabledScope(inPlayMode || _conversationYaml.objectReferenceValue == null))
             {
-                if (GUILayout.Button("Clear Embedded", GUILayout.Height(18), GUILayout.Width(buttonWidth)))
+                var prevColor = GUI.backgroundColor;
+                GUI.backgroundColor = Color.red;
+                if (GUILayout.Button(new GUIContent("Clear Embedded",
+                        "Permanently delete the embedded YAML TextAsset from this asset."), GUILayout.Height(22)))
                 {
                     if (EditorUtility.DisplayDialog("Clear Embedded YAML",
                         "Are you sure you want to remove the embedded YAML? This will delete the embedded TextAsset permanently.",
@@ -884,11 +834,298 @@ namespace WolfstagInteractive.WitWeaver.Editor
                         Debug.Log("WitWeaver: Cleared embedded YAML.");
                     }
                 }
+                GUI.backgroundColor = prevColor;
             }
 
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-            EditorGUILayout.Space();
+        }
+
+        private void DrawSpreadsheetSourcePanel()
+        {
+            if (_sourceSpreadsheetAsset.objectReferenceValue == null)
+            {
+                EditorGUILayout.HelpBox(
+                    "Link an .xlsx file to enable spreadsheet-driven dialogue authoring. " +
+                    "Each sheet tab name must match a ConversationKey. " +
+                    "Configure expected column headers in WitWeaverSettings under the Spreadsheet tab.",
+                    MessageType.Info);
+            }
+
+            // Object field for SourceSpreadsheetAsset
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(_sourceSpreadsheetAsset, new GUIContent("Source .xlsx (Editor-only)"));
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+                var newObj = _sourceSpreadsheetAsset.objectReferenceValue;
+                _sourceSpreadsheetAssetPath.stringValue = newObj != null ? AssetDatabase.GetAssetPath(newObj) : string.Empty;
+                serializedObject.ApplyModifiedProperties();
+            }
+
+            if (_sourceSpreadsheetAsset.objectReferenceValue == null)
+                return;
+
+            var assignedPath = _sourceSpreadsheetAssetPath.stringValue;
+            if (!assignedPath.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                EditorGUILayout.HelpBox(
+                    "The assigned file does not appear to be an .xlsx file. Only .xlsx spreadsheets are supported.",
+                    MessageType.Warning);
+                return;
+            }
+
+            EditorGUILayout.LabelField("Linked Path", assignedPath, EditorStyles.miniLabel);
+
+            bool inPlayMode = EditorApplication.isPlayingOrWillChangePlaymode;
+
+            EditorGUILayout.BeginHorizontal();
+
+            using (new EditorGUI.DisabledScope(inPlayMode))
+            {
+                if (GUILayout.Button(new GUIContent("Import from Spreadsheet",
+                        "Parse the workbook, write generated LineIDs back into it, embed the generated YAML, and rebuild the dialogue lines."),
+                        GUILayout.Height(24)))
+                {
+                    WitWeaverSpreadsheetUtilities.RunFullPipeline((WitWeaverConversationData)target, assignedPath, out _);
+                    serializedObject.Update();
+                }
+            }
+
+            if (GUILayout.Button("Ping Source", GUILayout.Height(24)))
+            {
+                EditorGUIUtility.PingObject(_sourceSpreadsheetAsset.objectReferenceValue);
+            }
+
+            using (new EditorGUI.DisabledScope(inPlayMode))
+            {
+                if (GUILayout.Button(new GUIContent("Clear Link (keeps embedded)",
+                        "Unlink the workbook without touching the embedded YAML."), GUILayout.Height(24)))
+                {
+                    _sourceSpreadsheetAsset.objectReferenceValue = null;
+                    _sourceSpreadsheetAssetPath.stringValue = string.Empty;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            // Latest import outcome: manual button or watcher-triggered auto-sync
+            if (WitWeaverSpreadsheetImportStatus.TryGet((WitWeaverConversationData)target,
+                    out bool importOk, out string importMsg, out var importWhenUtc) &&
+                !string.IsNullOrEmpty(importMsg))
+            {
+                EditorGUILayout.HelpBox($"{importMsg} ({FormatRelativeTime(importWhenUtc)})",
+                    importOk ? MessageType.Info : MessageType.Error);
+            }
+        }
+
+        private static string FormatRelativeTime(DateTime whenUtc)
+        {
+            var span = DateTime.UtcNow - whenUtc;
+            if (span.TotalSeconds < 60) return "just now";
+            if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}m ago";
+            if (span.TotalHours < 24) return $"{(int)span.TotalHours}h ago";
+            return $"{(int)span.TotalDays}d ago";
+        }
+
+        /// <summary>
+        /// The source-agnostic embed display shared by both tabs: the embedded TextAsset,
+        /// its provenance, cross-source staleness/dual-link notices, and the sync status.
+        /// </summary>
+        private void DrawSharedEmbedBlock()
+        {
+            var data = (WitWeaverConversationData)target;
+
+            // Current embedded TextAsset (read-only)
+            using (new EditorGUI.DisabledScope(true))
+            {
+                EditorGUILayout.PropertyField(_conversationYaml, new GUIContent("Embedded YAML (used at runtime)"));
+            }
+
+            bool hasEmbed = _conversationYaml.objectReferenceValue != null;
+            bool hasYamlLink = !string.IsNullOrEmpty(_sourceYamlAssetPath.stringValue);
+            bool hasSpreadsheetLink = !string.IsNullOrEmpty(_sourceSpreadsheetAssetPath.stringValue);
+
+            if (hasEmbed)
+            {
+                if (!string.IsNullOrEmpty(data.EmbeddedFromSourcePath))
+                {
+                    var kind = WitWeaverEmbedUtility.IsSpreadsheetSource(data.EmbeddedFromSourcePath) ? "Spreadsheet" : "YAML";
+                    EditorGUILayout.LabelField("Embedded From",
+                        $"{data.EmbeddedFromSourcePath} ({kind})", EditorStyles.miniLabel);
+                }
+                else
+                {
+                    EditorGUILayout.LabelField("Embedded From",
+                        "unknown (embed predates source tracking; run a sync or import to record it)",
+                        EditorStyles.miniLabel);
+                }
+            }
+            else if (!hasYamlLink && !hasSpreadsheetLink)
+            {
+                EditorGUILayout.HelpBox(
+                    "No dialogue source linked. Link a .yaml or .xlsx file above to embed dialogue into this asset.",
+                    MessageType.Info);
+            }
+
+            UpdateCrossSourceStaleness(data, hasYamlLink, hasSpreadsheetLink);
+
+            if (hasEmbed && _otherSourceIsNewer)
+            {
+                var embedKind = WitWeaverEmbedUtility.IsSpreadsheetSource(data.EmbeddedFromSourcePath) ? "Spreadsheet" : "YAML";
+                var otherKind = WitWeaverEmbedUtility.IsSpreadsheetSource(_otherSourcePath) ? "Spreadsheet" : "YAML";
+                EditorGUILayout.HelpBox(
+                    $"The linked {otherKind} source '{_otherSourcePath}' was modified after the current embed " +
+                    $"(which came from the {embedKind} source). The next import from that file will overwrite " +
+                    "the embedded dialogue (last writer wins).",
+                    MessageType.Warning);
+            }
+            else if (hasEmbed && _otherSourceMissing)
+            {
+                EditorGUILayout.HelpBox(
+                    $"The linked source '{_otherSourcePath}' could not be found on disk.",
+                    MessageType.Warning);
+            }
+            else if (hasYamlLink && hasSpreadsheetLink)
+            {
+                var provenance = string.IsNullOrEmpty(data.EmbeddedFromSourcePath)
+                    ? "the current embed's source is unknown."
+                    : $"the embed currently comes from the " +
+                      $"{(WitWeaverEmbedUtility.IsSpreadsheetSource(data.EmbeddedFromSourcePath) ? "Spreadsheet" : "YAML")} source.";
+                EditorGUILayout.HelpBox(
+                    $"Both a YAML and a Spreadsheet source are linked. Whichever is imported most recently wins; {provenance}",
+                    MessageType.Info);
+            }
+
+            DrawEmbeddedSyncStatus();
+        }
+
+        /// <summary>
+        /// Throttled check of whether a linked source OTHER than the one that produced the embed
+        /// has a newer write time than the embed itself. Advisory only (VCS checkouts refresh
+        /// write times); same-source staleness is not checked because the watchers auto-heal it.
+        /// </summary>
+        private void UpdateCrossSourceStaleness(WitWeaverConversationData data, bool hasYamlLink, bool hasSpreadsheetLink)
+        {
+            if (EditorApplication.timeSinceStartup - _lastStaleCheckTime < YAML_CHECK_INTERVAL)
+                return;
+            _lastStaleCheckTime = EditorApplication.timeSinceStartup;
+
+            _otherSourceIsNewer = false;
+            _otherSourceMissing = false;
+            _otherSourcePath = null;
+
+            if (data.EmbeddedAtTicks <= 0) return;
+
+            var candidates = new List<string>(2);
+            if (hasYamlLink && _sourceYamlAssetPath.stringValue != data.EmbeddedFromSourcePath)
+                candidates.Add(_sourceYamlAssetPath.stringValue);
+            if (hasSpreadsheetLink && _sourceSpreadsheetAssetPath.stringValue != data.EmbeddedFromSourcePath)
+                candidates.Add(_sourceSpreadsheetAssetPath.stringValue);
+
+            foreach (var path in candidates)
+            {
+                try
+                {
+                    var fullPath = Path.GetFullPath(path);
+                    if (!File.Exists(fullPath))
+                    {
+                        _otherSourceMissing = true;
+                        _otherSourcePath = path;
+                        continue;
+                    }
+
+                    if (File.GetLastWriteTimeUtc(fullPath).Ticks > data.EmbeddedAtTicks)
+                    {
+                        _otherSourceIsNewer = true;
+                        _otherSourcePath = path;
+                        return;
+                    }
+                }
+                catch
+                {
+                    // Unreadable path: treat like a missing file
+                    _otherSourceMissing = true;
+                    _otherSourcePath = path;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Shows a persistent warning when the compiled DialogueLines have drifted from the
+        /// embedded dialogue source (YAML or spreadsheet-generated): structural drift needs an
+        /// explicit structural import, while stale text can be synced in place.
+        /// </summary>
+        private void DrawEmbeddedSyncStatus()
+        {
+            var data = (WitWeaverConversationData)target;
+            if (!YamlSyncStatusCache.Get(data, out int staleText, out int yamlOnly, out int assetOnly))
+                return;
+
+            if (yamlOnly == 0 && assetOnly == 0 && staleText == 0)
+                return;
+
+            using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
+            {
+                if (yamlOnly > 0 || assetOnly > 0)
+                {
+                    var message =
+                        $"Structure drift: {yamlOnly} line(s) exist only in the embedded source and {assetOnly} " +
+                        "line(s) exist only in this asset. Text stays synced for matching lines, but added or " +
+                        "removed lines require a structural import.";
+
+                    if (IsGraphAuthored())
+                    {
+                        // Structure flows through the graph for graph-authored assets
+                        EditorGUILayout.HelpBox(
+                            message + " This asset is graph-authored: use the graph's bake to update structure.",
+                            MessageType.Warning);
+                    }
+                    else
+                    {
+                        EditorGUILayout.HelpBox(message, MessageType.Warning);
+
+                        if (GUILayout.Button("Import From YAML For Key"))
+                            RunImportFromYamlForKey();
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.HelpBox(
+                        $"{staleText} dialogue line(s) have text that is out of date with the embedded source.",
+                        MessageType.Warning);
+
+                    if (GUILayout.Button("Sync Text Now"))
+                    {
+                        if (WitWeaverYamlTextSync.TryParseEmbedded(data, out var dict) &&
+                            WitWeaverYamlTextSync.MergeLocalizedText(data, dict))
+                        {
+                            EditorUtility.SetDirty(data);
+                            AssetDatabase.SaveAssets();
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Single home for the structural import action. Write-back to a linked YAML file is
+        /// suppressed when the embed came from a spreadsheet, so spreadsheet-derived data never overwrites it.
+        /// </summary>
+        private void RunImportFromYamlForKey()
+        {
+            if (string.IsNullOrEmpty(_conversationKey.stringValue))
+            {
+                Debug.LogError("Please provide a valid conversation key.");
+                return;
+            }
+
+            var data = (WitWeaverConversationData)target;
+            data.WitWeaverYamlUtilities.ImportFromYamlForKey(_conversationKey.stringValue,
+                suppressSourceWriteBack: WitWeaverEmbedUtility.IsSpreadsheetSource(data.EmbeddedFromSourcePath));
+            data.ValidateAndFixDialogueLines();
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
         }
 
 
@@ -908,6 +1145,9 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 Object.DestroyImmediate(data.ConversationYaml, true);
                 data.ConversationYaml = null;
             }
+
+            // The embed is gone, so its provenance no longer applies
+            WitWeaverEmbedUtility.ClearProvenance(data);
 
             // Also clean up any stray "EmbeddedYaml" sub-assets
             var reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(convPath);
@@ -930,73 +1170,6 @@ namespace WolfstagInteractive.WitWeaver.Editor
             AssetDatabase.ImportAsset(convPath, ImportAssetOptions.ForceUpdate);
         }
 
-        private static TextAsset TryEmbedFromPath(WitWeaverConversationData data, string sourcePath)
-        {
-            if (string.IsNullOrEmpty(sourcePath)) return null;
-
-            // Load text either from TextAsset or via File
-            string text = null;
-            var srcObj = AssetDatabase.LoadAssetAtPath<Object>(sourcePath);
-            if (srcObj is TextAsset ta) text = ta.text;
-            else                        text = File.ReadAllText(sourcePath);
-            if (string.IsNullOrEmpty(text)) return null;
-
-            // Path of the Conversation asset we will embed into
-            var convPath = AssetDatabase.GetAssetPath(data);
-            if (string.IsNullOrEmpty(convPath))
-            {
-                Debug.LogError("WitWeaver: Could not resolve asset path for Conversation asset.");
-                return null;
-            }
-
-            // --- Clean up any existing embedded assets first ---
-            // Remove whatever the field currently points to
-            if (data.ConversationYaml != null)
-            {
-                Object.DestroyImmediate(data.ConversationYaml, true);
-                data.ConversationYaml = null;
-            }
-
-            // Remove any stray "EmbeddedYaml" sub-assets
-            var reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(convPath);
-            if (reps != null)
-            {
-                foreach (var rep in reps)
-                {
-                    if (rep is TextAsset repTA && repTA.name == "EmbeddedYaml")
-                    {
-                        Object.DestroyImmediate(repTA, true);
-                    }
-                }
-            }
-
-            // Save to ensure cleanup is committed
-            AssetDatabase.SaveAssets();
-
-            // --- Create new embedded TextAsset ---
-            var embedded = new TextAsset(text) { name = "EmbeddedYaml" };
-
-            // Add as sub-asset
-            AssetDatabase.AddObjectToAsset(embedded, data);
-
-            // Optional: auto-fill FilePath for persistent/Addressables fallbacks if empty
-            if (string.IsNullOrEmpty(data.FilePath))
-            {
-                var baseName = Path.GetFileNameWithoutExtension(sourcePath);
-                data.FilePath = $"WitWeaver/Dialogue/{baseName}";
-            }
-
-            // Mark dirty and save
-            EditorUtility.SetDirty(embedded);
-            EditorUtility.SetDirty(data);
-            AssetDatabase.SaveAssets();
-
-            // Force reimport to ensure the sub-asset is properly recognized
-            AssetDatabase.ImportAsset(convPath, ImportAssetOptions.ForceUpdate);
-
-            // Return the embedded asset so we can assign it to the SerializedProperty
-            return embedded;
-        }
         /// Draws validation tools section with buttons for manual validation
         private void DrawValidationToolsSection()
         {
@@ -1062,45 +1235,83 @@ namespace WolfstagInteractive.WitWeaver.Editor
         }
 
         /// <summary>
-        /// Draws the File Path field with browse functionality.
+        /// Draws the optional persistent-override configuration (post-ship text hotfixes).
         /// </summary>
         private void DrawFilePathField()
         {
             EditorGUILayout.BeginVertical("box");
             // Section header
-            EditorGUILayout.LabelField("YML Dialogue Data File Path", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Persistent Override (optional)", EditorStyles.boldLabel);
 
             // Description
             EditorGUILayout.HelpBox(
-                "Specify the path to the YML file containing conversation data. " +
-                "Ensure this file exists inside the /StreamingAssets/ folder.",
+                "Lets a shipped game override this conversation's dialogue text with a YAML file placed in " +
+                "persistentDataPath/WitWeaver/Dialogue/. Useful for live-ops hotfixes and on-device iteration. " +
+                "Overrides can only change text, not conversation structure.",
                 MessageType.Info
             );
 
-            // Draw the FilePath property field
-            EditorGUILayout.PropertyField(_filePath, new GUIContent("File Path"));
+            if (_allowPersistentOverrides != null)
+                EditorGUILayout.PropertyField(_allowPersistentOverrides, new GUIContent("Allow Persistent Overrides"));
 
-            // Browse button to load file path
-            if (GUILayout.Button("Browse YML File"))
+            bool overridesEnabled = _allowPersistentOverrides == null || _allowPersistentOverrides.boolValue;
+            using (new EditorGUI.DisabledScope(!overridesEnabled))
             {
-                // Open file panel for YML files
-                string filePath = EditorUtility.OpenFilePanel("Select YML File", Application.streamingAssetsPath, "yml");
-                if (!string.IsNullOrEmpty(filePath))
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(_filePath, new GUIContent("File Path",
+                    "Relative path without extension. The override is looked up at " +
+                    "persistentDataPath/WitWeaver/Dialogue/<File Path>.yml (or .yaml)."));
+                if (EditorGUI.EndChangeCheck())
                 {
-                    // Ensure the file resides in the StreamingAssets folder
-                    if (filePath.StartsWith(Application.streamingAssetsPath))
+                    _filePath.stringValue = StripYamlExtension(_filePath.stringValue);
+                }
+
+                // Pre-existing data may still carry an extension, which breaks the lookup
+                // (it would resolve to '<value>.yml.yml' and never match)
+                if (HasYamlExtension(_filePath.stringValue))
+                {
+                    EditorGUILayout.HelpBox(
+                        "File Path should not include an extension; the override lookup would resolve to " +
+                        $"'{_filePath.stringValue}.yml' and never be found.",
+                        MessageType.Warning);
+                    if (GUILayout.Button("Fix: Remove Extension"))
                     {
-                        _filePath.stringValue = filePath.Substring(Application.streamingAssetsPath.Length + 1); // Relative path
-                        serializedObject.ApplyModifiedProperties(); // Apply changes
+                        _filePath.stringValue = StripYamlExtension(_filePath.stringValue);
+                        serializedObject.ApplyModifiedProperties();
                     }
-                    else
-                    {
-                        Debug.LogError("Selected file must reside inside the StreamingAssets folder.");
-                    }
+                }
+
+                if (!string.IsNullOrEmpty(_filePath.stringValue))
+                {
+                    EditorGUILayout.LabelField("Override Path",
+                        $"persistentDataPath/WitWeaver/Dialogue/{_filePath.stringValue}.yml",
+                        EditorStyles.miniLabel);
+                }
+
+                // Convenience: default the stem to the asset's name
+                if (GUILayout.Button("Use Asset Name"))
+                {
+                    _filePath.stringValue = target.name;
+                    serializedObject.ApplyModifiedProperties();
                 }
             }
             EditorGUILayout.EndVertical();
 
+        }
+
+        private static bool HasYamlExtension(string value)
+            => !string.IsNullOrEmpty(value) &&
+               (value.EndsWith(".yml", StringComparison.OrdinalIgnoreCase) ||
+                value.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase));
+
+        private static string StripYamlExtension(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            if (value.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase))
+                return value.Substring(0, value.Length - 5);
+            if (value.EndsWith(".yml", StringComparison.OrdinalIgnoreCase))
+                return value.Substring(0, value.Length - 4);
+            return value;
         }
 
         /// <summary>
@@ -1121,27 +1332,124 @@ namespace WolfstagInteractive.WitWeaver.Editor
             // Draw the ConversationKey property field
             EditorGUILayout.PropertyField(_conversationKey, new GUIContent("Conversation Key"));
 
-            // Button to import data using the ConversationKey
-            if (GUILayout.Button("Import From YAML For Key"))
+            // Legacy escape hatch: with an embed present, the structural import lives in the
+            // Dialogue Source sync-status warning (which appears exactly when an import is
+            // needed). Without an embed (FilePath/persistent-override based loading), that
+            // warning cannot trigger, so keep the button available here.
+            if (_conversationYaml == null || _conversationYaml.objectReferenceValue == null)
             {
-                // Ensure the ConversationKey is not empty
-                if (string.IsNullOrEmpty(_conversationKey.stringValue))
-                {
-                    Debug.LogError("Please provide a valid conversation key.");
-                }
-                else
-                {
-                    // Safely import the conversation using the provided key
-                    WitWeaverConversationData obj = (WitWeaverConversationData)target;
-                    obj.WitWeaverYamlUtilities.ImportFromYamlForKey(_conversationKey.stringValue);
-
-                    // After import, validate the data
-                    obj.ValidateAndFixDialogueLines();
-                    EditorUtility.SetDirty(target);
-                }
+                if (GUILayout.Button("Import From YAML For Key"))
+                    RunImportFromYamlForKey();
             }
         }
     }
+    /// <summary>
+    /// Caches the drift/stale-text analysis drawn by the conversation inspector so the embedded
+    /// YAML is only reparsed when the embedded text or the compiled lines actually change.
+    /// </summary>
+    static class YamlSyncStatusCache
+    {
+        private sealed class Entry
+        {
+            public uint Fingerprint;
+            public bool Parsed;
+            public int StaleText;
+            public int YamlOnly;
+            public int AssetOnly;
+        }
+
+        private static readonly Dictionary<EntityId, Entry> _cache = new Dictionary<EntityId, Entry>();
+
+        /// <summary>
+        /// Returns false when the asset has no embedded YAML or it fails to parse; otherwise
+        /// outputs the current sync analysis, recomputing only when the data changed.
+        /// </summary>
+        public static bool Get(WitWeaverConversationData data, out int staleText, out int yamlOnly, out int assetOnly)
+        {
+            staleText = 0;
+            yamlOnly = 0;
+            assetOnly = 0;
+
+            var text = data != null && data.ConversationYaml != null ? data.ConversationYaml.text : null;
+            if (string.IsNullOrEmpty(text)) return false;
+
+            uint fp = Fingerprint(data, text);
+            EntityId id = data.GetEntityId();
+
+            if (!_cache.TryGetValue(id, out var entry) || entry.Fingerprint != fp)
+            {
+                if (entry == null)
+                {
+                    entry = new Entry();
+                    _cache[id] = entry;
+                }
+
+                entry.Fingerprint = fp;
+                entry.Parsed = WitWeaverYamlTextSync.TryParseEmbedded(data, out var dict);
+                if (entry.Parsed)
+                {
+                    WitWeaverYamlTextSync.Analyze(data, dict,
+                        out entry.StaleText, out entry.YamlOnly, out entry.AssetOnly);
+                }
+            }
+
+            if (!entry.Parsed) return false;
+
+            staleText = entry.StaleText;
+            yamlOnly = entry.YamlOnly;
+            assetOnly = entry.AssetOnly;
+            return true;
+        }
+
+        private static uint Fingerprint(WitWeaverConversationData data, string embeddedText)
+        {
+            unchecked
+            {
+                uint hash = 2166136261;
+                hash = Fnva32(hash, embeddedText);
+
+                if (data.DialogueLines != null)
+                {
+                    foreach (var line in data.DialogueLines)
+                    {
+                        if (line == null) continue;
+                        hash = Fnva32(hash, line.ConversationID);
+                        hash = Fnva32(hash, line.LineID);
+                        hash ^= (uint)line.ConversationLineIndex;
+                        hash *= 16777619;
+
+                        if (line.LocalizedDialogues == null) continue;
+                        foreach (var localized in line.LocalizedDialogues)
+                        {
+                            hash = Fnva32(hash, localized.Language);
+                            hash = Fnva32(hash, localized.Text);
+                        }
+                    }
+                }
+
+                return hash;
+            }
+        }
+
+        // FNV-1a 32-bit, continued from an existing hash; null strings hash as a separator
+        private static uint Fnva32(uint hash, string s)
+        {
+            unchecked
+            {
+                const uint fnvPrime = 16777619;
+                hash ^= 0xFF;
+                hash *= fnvPrime;
+                if (s == null) return hash;
+                for (int i = 0; i < s.Length; i++)
+                {
+                    hash ^= s[i];
+                    hash *= fnvPrime;
+                }
+                return hash;
+            }
+        }
+    }
+
     static class LocaleCache
 {
     // One cache entry per TextAsset

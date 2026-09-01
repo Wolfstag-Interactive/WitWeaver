@@ -131,7 +131,7 @@ TownSquare:
       EN: "Move along, then."
 ```
 
-After linking this file to a `WitWeaverConversationData` asset and running validation, WitWeaver writes the LineIDs back into the file automatically:
+After linking this file to a `WitWeaverConversationData` asset (Dialogue Source section, YAML tab) and embedding it, WitWeaver writes the LineIDs back into the file automatically (imports initiated from a linked spreadsheet never write back to a YAML file; their LineIDs go into the spreadsheet instead):
 
 ```yaml
 TownSquare:

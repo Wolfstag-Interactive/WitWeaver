@@ -12,7 +12,7 @@ namespace WolfstagInteractive.WitWeaver
     {
         /// <summary>
         /// 1-based row number as it appears in the .xlsx file.
-        /// Used by <c>WitWeaverExcelWriter</c> to locate the exact row for LineID writeback.
+        /// Used by <c>WitWeaverSpreadsheetWriter</c> to locate the exact row for LineID writeback.
         /// </summary>
         public int XlRowNumber { get; }
 

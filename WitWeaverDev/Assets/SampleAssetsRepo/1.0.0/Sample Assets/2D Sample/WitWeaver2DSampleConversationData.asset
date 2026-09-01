@@ -74,7 +74,7 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
+      TargetLineID: L_6e955da171a6
   - ConversationID: Conversation1
     LineID: L_cb8d04d73eed
     ConversationLineIndex: 1
@@ -180,7 +180,7 @@ MonoBehaviour:
         FullBodyScale: {x: 1, y: 1, z: 1}
     LocalizedDialogues:
     - Language: en
-      Text: "It\u2019s a popular tree. Five stars on TreeAdvisor."
+      Text: "It\u2019s a popular tree! Five stars on TreeAdvisor."
       Clip: {fileID: 0}
     - Language: fr
       Text: "C\u2019est un arbre populaire. Cinq \xE9toiles sur TreeAdvisor."
@@ -1134,18 +1134,20 @@ MonoBehaviour:
       TargetLineID: 
   DefaultPresentationMode: 2
   AudioManifest: {fileID: 0}
-  ConversationYaml: {fileID: 715757969694766042}
-  AllowPersistentOverrides: 1
+  ConversationYaml: {fileID: 2865306688586147411}
+  AllowPersistentOverrides: 0
   FilePath: DialogueScriptSample.yml
   SourceYaml: {fileID: 102900000, guid: 4612376414d9cc742be9c4b790213e6a, type: 3}
   SourceYamlAssetPath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
-  SourceExcelAsset: {fileID: 0}
-  SourceExcelAssetPath: 
+  SourceSpreadsheetAsset: {fileID: 0}
+  SourceSpreadsheetAssetPath: 
+  EmbeddedFromSourcePath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
+  EmbeddedAtTicks: 639238170450041607
   ConversationKey: Conversation1
   _conversationGuid: ed8dd2e7-9336-4ec4-b74c-36ec4f3c4b5d
   GraphAssetGuid: 
   AuthoringMode: 0
---- !u!49 &715757969694766042
+--- !u!49 &2865306688586147411
 TextAsset:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1163,7 +1165,7 @@ TextAsset:
     We\u2019ve circled that tree three times now.\r\n    fr: On a tourn\xE9 autour
     de cet arbre trois fois.\r\n    es: Hemos rodeado ese \xE1rbol tres veces.\r\n-
     CharacterID: Jared\r\n  LineID: L_9cd861a48566\r\n  LocalizedDialogue:\r\n   
-    en: It\u2019s a popular tree. Five stars on TreeAdvisor.\r\n    fr: C\u2019est
+    en: It\u2019s a popular tree! Five stars on TreeAdvisor.\r\n    fr: C\u2019est
     un arbre populaire. Cinq \xE9toiles sur TreeAdvisor.\r\n    es: Es un \xE1rbol
     famoso. Cinco estrellas en TreeAdvisor.\r\n- CharacterID: Ava\r\n  LineID: L_e01c38d35e8f\r\n 
     LocalizedDialogue:\r\n    en: Shh! Did you hear that?\r\n    fr: Chut! T\u2019as
