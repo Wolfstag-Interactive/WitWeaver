@@ -942,7 +942,7 @@ namespace WolfstagInteractive.WitWeaver.Editor
 
                 Rect buttons = new(rect.x + 14, rect.y, rect.width - 14, lineHeight);
                 if (GUI.Button(new Rect(buttons.x, buttons.y, 20, lineHeight), "+"))
-                    beforeProp.InsertArrayElementAtIndex(beforeProp.arraySize);
+                    AppendEmptyActionSlot(beforeProp);
                 if (GUI.Button(new Rect(buttons.x + 25, buttons.y, 20, lineHeight), "-") && beforeProp.arraySize > 0)
                     beforeProp.DeleteArrayElementAtIndex(beforeProp.arraySize - 1);
 
@@ -978,8 +978,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
                 Rect buttons = new(rect.x + 14, rect.y, rect.width - 14, lineHeight);
                 if (GUI.Button(new Rect(buttons.x, buttons.y, 20, lineHeight), "+"))
                 {
-                    afterProp.InsertArrayElementAtIndex(afterProp.arraySize);
-                }                
+                    AppendEmptyActionSlot(afterProp);
+                }
                 if (GUI.Button(new Rect(buttons.x + 25, buttons.y, 20, lineHeight), "-") && afterProp.arraySize > 0)
                 {
                     afterProp.DeleteArrayElementAtIndex(afterProp.arraySize - 1);
@@ -989,6 +989,19 @@ namespace WolfstagInteractive.WitWeaver.Editor
             }
 
             return rect;
+        }
+
+        /// <summary>
+        /// Appends a new element to an action list and clears it. InsertArrayElementAtIndex clones
+        /// the preceding element, so without this the new slot would duplicate the last action.
+        /// </summary>
+        private static void AppendEmptyActionSlot(SerializedProperty listProp)
+        {
+            int index = listProp.arraySize;
+            listProp.InsertArrayElementAtIndex(index);
+            var inserted = listProp.GetArrayElementAtIndex(index);
+            if (inserted.propertyType == SerializedPropertyType.ObjectReference)
+                inserted.objectReferenceValue = null;
         }
 
 
