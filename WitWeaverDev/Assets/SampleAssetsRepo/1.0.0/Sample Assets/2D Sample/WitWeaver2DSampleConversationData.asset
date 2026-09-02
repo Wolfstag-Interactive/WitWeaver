@@ -28,20 +28,6 @@ MonoBehaviour:
       SelectedRepresentationName: Sprites
       SelectedRepresentationID: f47c788a94d1affbdfda87be7801858b
       SelectedRepresentation: {fileID: 11400000, guid: cf61be94e9ae46b4da28bb23d0bfa60f, type: 2}
-      SelectedExpressionId: 8d0977f727bc4b5cbeabe8d221b234ee
-      SelectedConfigurationEntryName: 
-      LineSpecificDisplayOptions:
-        FlipPortraitX: 0
-        FlipPortraitY: 0
-        FlipFullBodyX: 0
-        FlipFullBodyY: 0
-        DisplaySlot: Left
-        PortraitScale: {x: 1, y: 1, z: 1}
-        FullBodyScale: {x: 1, y: 1, z: 1}
-    - SelectedCharacterID: Jared
-      SelectedRepresentationName: Sprites
-      SelectedRepresentationID: c5b9c543091b8e7116d5dd47ae214033
-      SelectedRepresentation: {fileID: 11400000, guid: 5b9d585132056d5479e01ea082d4b2be, type: 2}
       SelectedExpressionId: 
       SelectedConfigurationEntryName: 
       LineSpecificDisplayOptions:
@@ -49,7 +35,7 @@ MonoBehaviour:
         FlipPortraitY: 0
         FlipFullBodyX: 0
         FlipFullBodyY: 0
-        DisplaySlot: Center
+        DisplaySlot: 
         PortraitScale: {x: 1, y: 1, z: 1}
         FullBodyScale: {x: 1, y: 1, z: 1}
     LocalizedDialogues:
@@ -62,7 +48,7 @@ MonoBehaviour:
     - Language: es
       Text: Jared... definitivamente nos perdimos del sendero.
       Clip: {fileID: 0}
-    PresentationMode: 0
+    PresentationMode: 2
     ActionsBeforeDialogueLine: []
     ActionsAfterDialogueLine: []
     UserInputMethod: 0
@@ -74,7 +60,7 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: L_6e955da171a6
+      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_cb8d04d73eed
     ConversationLineIndex: 1
@@ -1125,16 +1111,27 @@ MonoBehaviour:
     UserInputMethod: 0
     TimeBeforeNextLine: 0
     LineContinuationSettings:
-      Mode: 0
+      Mode: 3
       TargetContainer: {fileID: 0}
       TargetAliasOrName: 
       PushReturnPoint: 0
-      Choices: []
+      Choices:
+      - Labels:
+        - Language: EN
+          Text: 
+          Clip: {fileID: 0}
+        - Language: FR
+          Text: 
+          Clip: {fileID: 0}
+        TargetContainer: {fileID: 0}
+        TargetAliasOrName: 
+        PushReturnPoint: 0
+        TargetLineID: 
       AllowGoBack: 0
       TargetLineID: 
   DefaultPresentationMode: 2
   AudioManifest: {fileID: 0}
-  ConversationYaml: {fileID: 2865306688586147411}
+  ConversationYaml: {fileID: 7993210430971859282}
   AllowPersistentOverrides: 0
   FilePath: DialogueScriptSample.yml
   SourceYaml: {fileID: 102900000, guid: 4612376414d9cc742be9c4b790213e6a, type: 3}
@@ -1142,12 +1139,12 @@ MonoBehaviour:
   SourceSpreadsheetAsset: {fileID: 0}
   SourceSpreadsheetAssetPath: 
   EmbeddedFromSourcePath: Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
-  EmbeddedAtTicks: 639238170450041607
+  EmbeddedAtTicks: 639239236883994005
   ConversationKey: Conversation1
   _conversationGuid: ed8dd2e7-9336-4ec4-b74c-36ec4f3c4b5d
   GraphAssetGuid: 
   AuthoringMode: 0
---- !u!49 &2865306688586147411
+--- !u!49 &7993210430971859282
 TextAsset:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

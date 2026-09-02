@@ -133,7 +133,10 @@ namespace WolfstagInteractive.WitWeaver.Editor
         }
 
         // Mirrors the runtime matching in WitWeaverConversationData.InitializeDialogueData:
-        // section by ConversationID, then LineID, then legacy index fallback.
+        // section by ConversationID, then LineID; the index fallback applies ONLY to legacy
+        // lines that have no LineID at all. A line whose LineID is absent from the YAML was
+        // deleted there and must not fall back to the index (that would hand it the next
+        // line's text); it is drift, handled by the structural import.
         static DialogueYamlConfig FindConfig(WitWeaverConversationData.DialogueLineInfo line,
             Dictionary<string, List<DialogueYamlConfig>> dict)
         {
@@ -148,6 +151,8 @@ namespace WolfstagInteractive.WitWeaver.Editor
                     if (cfg != null && cfg.LineID == line.LineID)
                         return cfg;
                 }
+
+                return null;
             }
 
             return line.ConversationLineIndex >= 0 && line.ConversationLineIndex < configList.Count

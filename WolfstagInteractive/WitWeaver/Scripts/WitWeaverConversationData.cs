@@ -887,9 +887,11 @@ namespace WolfstagInteractive.WitWeaver
                             }
                         }
                     }
-
-                    // Fallback: legacy assets still matching by index
-                    if (matchingConfig == null)
+                    // Fallback for legacy assets whose lines have no LineID at all. A line WITH
+                    // a LineID that is absent from the YAML was deleted there; matching it by
+                    // index would hand it the next line's text, so it keeps its serialized text
+                    // until a structural import removes it.
+                    else
                     {
                         matchingConfig = (currentLine.ConversationLineIndex >= 0 &&
                                           currentLine.ConversationLineIndex < configList.Count)

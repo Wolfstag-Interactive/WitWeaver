@@ -249,8 +249,14 @@ namespace WolfstagInteractive.WitWeaver
                     if (dl.ConversationID == key && dl.LineID == lineId)
                         return dl;
                 }
+
+                // No line with this LineID exists: the YAML line is new (or its ID changed).
+                // Falling back to the index here would make it inherit an unrelated line's
+                // authored actions/representations/clips, so it starts fresh instead.
+                return null;
             }
 
+            // Legacy fallback for YAML lines that carry no LineID at all
             for (int i = 0; i < data.DialogueLines.Count; i++)
             {
                 var dl = data.DialogueLines[i];
