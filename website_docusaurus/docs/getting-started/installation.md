@@ -15,7 +15,7 @@ Before installing, make sure your project meets the following requirements:
 
 | Requirement | Minimum version |
 |---|---|
-| Unity | 2021.3 LTS |
+| Unity | 6.5 (6000.5) |
 | .NET Standard | 2.1 |
 | Other packages | None required for the core feature set |
 

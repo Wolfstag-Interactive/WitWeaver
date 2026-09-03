@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**WitWeaver** is a Unity dialogue and conversation framework (Unity Package Manager package) built for scalable multi-character conversations. It is a tooling product, not a game-specific system. Author: Dylan Alter (Wolfstag Interactive), version 1.0.0, supports Unity 2021.3+.
+**WitWeaver** is a Unity dialogue and conversation framework (Unity Package Manager package) built for scalable multi-character conversations. It is a tooling product, not a game-specific system. Author: Dylan Alter (Wolfstag Interactive), version 1.0.0, requires Unity 6.5 (6000.5) or newer.
 
 Dialogue is authored in **YAML as the single source of truth**, compiled into **ScriptableObjects** for runtime and editor use. All systems are modular, replaceable, and genre-agnostic (no assumptions about UI, rendering, cameras, etc.).
 

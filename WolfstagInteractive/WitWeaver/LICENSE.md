@@ -118,3 +118,4 @@ By installing or using the Software, you accept this license.
 ---
 
 Copyright (c) 2025-2026 Wolfstag Interactive LLC. All rights reserved.
+

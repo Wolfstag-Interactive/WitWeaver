@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **Minimum Unity version is now 6.5 (6000.5).** The package manifest already required 6000.5; the documentation and requirements table now state it consistently.
 - The spreadsheet import pipeline now embeds through the same validated embed helper as the YAML path and records embed provenance. Spreadsheet-initiated imports no longer write generated LineIDs back to a linked YAML source file (`ImportFromYamlForKey` gained an optional `suppressSourceWriteBack` parameter); they were already written back to the .xlsx itself. Multi-sheet workbooks now log a warning that only the last sheet's lines are retained (pre-existing limitation, now visible).
 - The standalone "Import From YAML For Key" button appears contextually: in the sync-status drift warning when an embed is present, or in Line Data Controls only when no embed exists (FilePath-based loading). Graph-authored assets show the drift warning without the button and are pointed to the graph bake instead.
 - The Persistent Override "File Path" field now strips accidental `.yml`/`.yaml` extensions on edit and shows a warning with a fix button for pre-existing values (an extension made the override lookup resolve to `<name>.yml.yml` and never match).
