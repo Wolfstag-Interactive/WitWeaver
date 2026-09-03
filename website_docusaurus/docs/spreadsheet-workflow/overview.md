@@ -5,7 +5,7 @@ title: Spreadsheet Workflow
 
 # Spreadsheet Workflow
 
-WitWeaver supports authoring dialogue in `.xlsx` spreadsheets as an alternative to hand-editing YAML. The spreadsheet is the source of truth: every time you save the file in your spreadsheet editor (Excel, LibreOffice, Google Sheets exports, and so on), Unity reimports it, generates LineIDs, writes them back to the `.xlsx`, and rebuilds the `WitWeaverConversationData` ScriptableObject automatically.
+WitWeaver™ supports authoring dialogue in `.xlsx` spreadsheets as an alternative to hand-editing YAML. The spreadsheet is the source of truth: every time you save the file in your spreadsheet editor (Excel, LibreOffice, Google Sheets exports, and so on), Unity reimports it, generates LineIDs, writes them back to the `.xlsx`, and rebuilds the `WitWeaverConversationData` ScriptableObject automatically.
 
 ---
 

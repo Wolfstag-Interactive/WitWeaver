@@ -26,7 +26,7 @@ Activates or deactivates a GameObject in the scene when the dialogue line is rea
 **Practical uses:** showing or hiding UI panels, activating trigger zones, toggling scene decorations that appear mid-conversation.
 
 :::note
-If the target GameObject is already in the desired state when the action runs, WitWeaver logs a message and skips the `SetActive` call. This prevents redundant state changes but otherwise does nothing.
+If the target GameObject is already in the desired state when the action runs, WitWeaver™ logs a message and skips the `SetActive` call. This prevents redundant state changes but otherwise does nothing.
 :::
 
 ---

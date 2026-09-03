@@ -5,7 +5,7 @@ title: Save System Overview
 
 # Save System Overview
 
-The WitWeaver Save System persists conversation progress and game state across play sessions. It is a separate, optional module; the core WitWeaver runner has no hard dependency on it. Drop it in when your project needs durable progress tracking.
+The WitWeaver™ Save System persists conversation progress and game state across play sessions. It is a separate, optional module; the core WitWeaver runner has no hard dependency on it. Drop it in when your project needs durable progress tracking.
 
 ---
 

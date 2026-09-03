@@ -5,7 +5,7 @@ title: Conversation Graph (Experimental)
 
 # Conversation Graph (Experimental)
 
-WitWeaver can author conversations visually as a **node graph**, built on Unity's Graph Toolkit (a built-in editor module in Unity 6000.4+). Each dialogue line is a node; wires define ordering, player choices, intra-conversation jumps, container branches, and endings — enabling **nonlinear conversations** without splitting content across multiple assets.
+WitWeaver™ can author conversations visually as a **node graph**, built on Unity's Graph Toolkit (a built-in editor module in Unity 6000.4+). Each dialogue line is a node; wires define ordering, player choices, intra-conversation jumps, container branches, and endings — enabling **nonlinear conversations** without splitting content across multiple assets.
 
 :::warning[Experimental]
 Unity's Graph Toolkit API is experimental and may change between Unity versions. WitWeaver isolates all graph code in its own editor assembly (`WitWeaverGraphEditor`): if the API ever breaks, only the graph tooling disappears — conversations, YAML, and the runtime are unaffected. Deleting a graph asset never breaks a conversation.

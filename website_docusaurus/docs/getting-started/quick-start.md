@@ -5,7 +5,7 @@ title: Quick Start
 
 # Quick Start
 
-This guide walks you through creating a simple “Hello World” conversation from scratch. By the end you will have a fully wired WitWeaver setup running in a Unity scene, with console log output confirming that lines are advancing correctly. Adding a visible UI is covered in the [UI Foundation](../ui/ui-foundation) page; this guide focuses on getting the core logic working first.
+This guide walks you through creating a simple “Hello World” conversation from scratch. By the end you will have a fully wired WitWeaver™ setup running in a Unity scene, with console log output confirming that lines are advancing correctly. Adding a visible UI is covered in the [UI Foundation](../ui/ui-foundation) page; this guide focuses on getting the core logic working first.
 
 :::info[Minimum Setup at a Glance]
 Every WitWeaver conversation needs exactly four things:

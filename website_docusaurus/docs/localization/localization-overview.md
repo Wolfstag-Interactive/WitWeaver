@@ -5,7 +5,7 @@ title: Localization Overview
 
 # Localization Overview
 
-WitWeaver has a native localization system built directly into the YAML dialogue format. No external localization packages are required. Every dialogue line carries its own translations as a map of language codes to text strings, and the runtime resolves the correct text for the active language at display time.
+WitWeaver™ has a native localization system built directly into the YAML dialogue format. No external localization packages are required. Every dialogue line carries its own translations as a map of language codes to text strings, and the runtime resolves the correct text for the active language at display time.
 
 ---
 

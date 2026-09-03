@@ -5,7 +5,7 @@ title: Installation
 
 # Installation
 
-This page walks you through installing WitWeaver into a Unity project via the Unity Package Manager, verifying the installation, and completing first-time setup.
+This page walks you through installing WitWeaver™ into a Unity project via the Unity Package Manager, verifying the installation, and completing first-time setup.
 
 ---
 

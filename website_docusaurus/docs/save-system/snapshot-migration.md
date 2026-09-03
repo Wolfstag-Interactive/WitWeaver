@@ -13,7 +13,7 @@ As you develop and ship updates to your game, the structure of your save data ma
 
 `WitWeaverSnapshotMigrator.Migrate()` is called automatically by `WitWeaverSaveManager` inside `Load()` and `InitializeSettings()`, before the snapshot is distributed to the rest of the system. The migrator reads the `SchemaVersion` string from the snapshot and applies the chain of migration steps in version order until the snapshot is current.
 
-The migrator itself is a static class with one step method per schema change, dispatched by a `switch` on the version string. WitWeaver ships as source, so adding a step means adding a case to that switch (see [Adding a migration step](#adding-a-migration-step)).
+The migrator itself is a static class with one step method per schema change, dispatched by a `switch` on the version string. WitWeaver™ ships as source, so adding a step means adding a case to that switch (see [Adding a migration step](#adding-a-migration-step)).
 
 The migration pipeline is transparent to your gameplay code - you never need to call `Migrate()` directly.
 

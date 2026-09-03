@@ -5,7 +5,7 @@ title: Adding Languages
 
 # Adding Languages
 
-This page walks through the full process of adding a new language to your WitWeaver project, from registering the language in settings through testing it at runtime.
+This page walks through the full process of adding a new language to your WitWeaver™ project, from registering the language in settings through testing it at runtime.
 
 ---
 

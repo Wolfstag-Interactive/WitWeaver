@@ -5,7 +5,7 @@ title: Player Choices
 
 # Player Choices
 
-When a dialogue line's continuation mode is set to `PlayerChoice`, WitWeaver pauses playback, hands a list of options to your UI, and waits for the player to make a selection. This page covers how to configure choice lines, what each field does, how to implement the UI coroutine that presents the options, and the edge cases you need to handle.
+When a dialogue line's continuation mode is set to `PlayerChoice`, WitWeaver™ pauses playback, hands a list of options to your UI, and waits for the player to make a selection. This page covers how to configure choice lines, what each field does, how to implement the UI coroutine that presents the options, and the edge cases you need to handle.
 
 ---
 

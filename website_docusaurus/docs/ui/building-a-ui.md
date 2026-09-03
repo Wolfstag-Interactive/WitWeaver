@@ -6,7 +6,7 @@ title: Building a Custom UI
 # Building a Custom UI
 
 :::tip
-WitWeaver includes a ready-made sample UI in the Samples package that demonstrates all of these patterns in a working scene. If you prefer a hands-on starting point over building from scratch, [import the Sample UI](sample-ui) first and read its code alongside this guide.
+WitWeaver™ includes a ready-made sample UI in the Samples package that demonstrates all of these patterns in a working scene. If you prefer a hands-on starting point over building from scratch, [import the Sample UI](sample-ui) first and read its code alongside this guide.
 :::
 
 This page walks through creating a complete, working dialogue UI for WitWeaver from scratch. By the end you will have a UI that displays the speaker's name and dialogue text, handles player input to advance lines, and presents branching choices.

@@ -10,7 +10,7 @@ Dialogue actions are the primary way to connect your dialogue to the rest of you
 Because actions are assets rather than scene components, each one is reusable across dozens of conversations, configurable per-instance in the Inspector, and tracked in version control just like any other project file. A single `FadeInCharacter` action can be shared by every scene that uses that character; change the timing once and it updates everywhere.
 
 :::tip
-Dialogue actions are one of WitWeaver's most powerful features. Everything you see in the [built-in actions](built-in-actions) is built on the same `BaseDialogueLineAction` base class that your own actions use. If the built-in actions do not cover your needs, [creating a custom action](custom-actions) takes only a few minutes.
+Dialogue actions are one of WitWeaver™'s most powerful features. Everything you see in the [built-in actions](built-in-actions) is built on the same `BaseDialogueLineAction` base class that your own actions use. If the built-in actions do not cover your needs, [creating a custom action](custom-actions) takes only a few minutes.
 :::
 
 ---

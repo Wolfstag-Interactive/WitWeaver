@@ -1,4 +1,4 @@
-PROJECT_NAME           = "WitWeaver"
+PROJECT_NAME           = "WitWeaver™"
 OUTPUT_DIRECTORY       = Docs
 INPUT                  = ./WolfstagInteractive/WitWeaver/Scripts \
                          ./WolfstagInteractive/WitWeaver/SaveSystem
@@ -12,6 +12,7 @@ GENERATE_SEARCHENGINE  = YES
 HAVE_DOT               = YES
 DOT_IMAGE_FORMAT       = svg
 HTML_OUTPUT            = html
+HTML_FOOTER            = DoxygenFooter.html
 OPTIMIZE_OUTPUT_CSHARP  = YES
 SITEMAP_URL            = https://docs.wolfstaginteractive.com/witweaver/api/
 EXTRACT_ALL             = YES

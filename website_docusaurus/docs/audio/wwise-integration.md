@@ -5,7 +5,7 @@ title: Wwise Integration
 
 # Wwise Integration
 
-WitWeaver can drive voice dialogue through Audiokinetic Wwise by mapping each dialogue line to a Wwise event name. WitWeaver passes the event name to a provider component; the provider calls `AkSoundEngine.PostEvent`. This keeps the WitWeaver core assembly free of Wwise compile dependencies.
+WitWeaver™ can drive voice dialogue through Audiokinetic Wwise by mapping each dialogue line to a Wwise event name. WitWeaver passes the event name to a provider component; the provider calls `AkSoundEngine.PostEvent`. This keeps the WitWeaver core assembly free of Wwise compile dependencies.
 
 ---
 

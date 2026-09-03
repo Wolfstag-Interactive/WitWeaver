@@ -7,7 +7,7 @@ title: Character Behaviours
 
 A **character behaviour** is a ScriptableObject that decides where 3D prefab characters are positioned during a conversation and how long they remain in the scene. The 3D UI calls into the behaviour at conversation start, per line, and at conversation end — the behaviour handles the rest.
 
-All character behaviour types extend `WitWeaverCharacterBehaviour`. WitWeaver ships with seven built-in types covering the most common placement needs.
+All character behaviour types extend `WitWeaverCharacterBehaviour`. WitWeaver™ ships with seven built-in types covering the most common placement needs.
 
 Character behaviours live on individual **configuration entries** inside a `PrefabCharacterRepresentationData` asset — not on the UI component. This means different configuration entries on the same character (for example `"CloseUp"` and `"Distant"`) can each carry a different set of behaviours, and the active set switches automatically when the entry changes between dialogue lines.
 

@@ -11,7 +11,7 @@ Custom dialogue actions let you run any game logic you want in sync with individ
 
 ## Step 1: Create the Script
 
-Create a new C# script in your project (outside the WitWeaver package folder). Extend `BaseDialogueLineAction`, add a `[CreateAssetMenu]` attribute, and override the two action methods.
+Create a new C# script in your project (outside the WitWeaver™ package folder). Extend `BaseDialogueLineAction`, add a `[CreateAssetMenu]` attribute, and override the two action methods.
 
 The simplest possible custom action looks like this:
 

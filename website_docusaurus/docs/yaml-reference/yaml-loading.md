@@ -5,7 +5,7 @@ title: YAML Loading
 
 # YAML Loading
 
-At runtime, WitWeaver needs the YAML text for a conversation before it can parse and play it. The `WitWeaverYamlLoader` resolves that text from two sources in a configurable priority order: the YAML embedded in the Conversation Data asset, and an optional device-side override file. This page explains both sources, the load order, the loading API, and how to ship dialogue as DLC or remote content.
+At runtime, WitWeaver™ needs the YAML text for a conversation before it can parse and play it. The `WitWeaverYamlLoader` resolves that text from two sources in a configurable priority order: the YAML embedded in the Conversation Data asset, and an optional device-side override file. This page explains both sources, the load order, the loading API, and how to ship dialogue as DLC or remote content.
 
 ---
 

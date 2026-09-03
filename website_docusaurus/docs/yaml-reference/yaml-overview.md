@@ -5,7 +5,7 @@ title: YAML Overview
 
 # YAML Overview
 
-WitWeaver authors dialogue in YAML - a plain-text format that any editor can open, any version-control system can track, and any writer can read without prior programming experience. This page explains what YAML is, why WitWeaver uses it, and the practical rules you need to follow to write valid dialogue files.
+WitWeaver™ authors dialogue in YAML - a plain-text format that any editor can open, any version-control system can track, and any writer can read without prior programming experience. This page explains what YAML is, why WitWeaver uses it, and the practical rules you need to follow to write valid dialogue files.
 
 ---
 

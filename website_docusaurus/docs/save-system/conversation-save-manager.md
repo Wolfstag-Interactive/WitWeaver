@@ -114,7 +114,7 @@ If your bootstrapper initialises `WitWeaverSaveManager` in `Awake()` and `WitWea
 
 ## How WitWeaver uses the start context
 
-When `PlayConversation()` is called, WitWeaver invokes `IWitWeaverStartContextProvider.GetStartContext()`. The saver returns a `WitWeaverStartContext` struct:
+When `PlayConversation()` is called, WitWeaver™ invokes `IWitWeaverStartContextProvider.GetStartContext()`. The saver returns a `WitWeaverStartContext` struct:
 
 ```csharp
 public struct WitWeaverStartContext

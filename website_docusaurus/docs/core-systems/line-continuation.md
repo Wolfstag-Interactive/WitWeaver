@@ -5,7 +5,7 @@ title: Line Continuation
 
 # Line Continuation
 
-After WitWeaver displays a dialogue line, it needs to know what to do next. Should it advance to the following line? End the conversation? Jump to a different conversation? Display a set of options for the player? The answer is controlled by the **Line Continuation Mode**, a field set on each line in the `WitWeaverConversationData` inspector, not in the YAML file itself.
+After WitWeaver™ displays a dialogue line, it needs to know what to do next. Should it advance to the following line? End the conversation? Jump to a different conversation? Display a set of options for the player? The answer is controlled by the **Line Continuation Mode**, a field set on each line in the `WitWeaverConversationData` inspector, not in the YAML file itself.
 
 :::note[Why is this in the inspector, not the YAML?]
 YAML is optimised for prose: it is where a writer authors dialogue quickly and legibly in any text editor. Branching logic belongs in the asset graph where it can be wired up visually, validated by the editor, and iterated without touching source text.

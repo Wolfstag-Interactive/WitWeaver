@@ -1,6 +1,6 @@
-# WitWeaver
+# WitWeaver™
 
-> WitWeaver is a modular Unity dialogue framework for authoring branching conversations in YAML and playing them back in any genre of game. Write dialogue in plain YAML files -- no proprietary formats, no node graphs. Character logic, expressions, branching, localization, and save state are all configured in the Unity editor. WitWeaver compiles YAML into runtime-ready ScriptableObjects automatically.
+> WitWeaver™ is a modular Unity dialogue framework for authoring branching conversations in YAML and playing them back in any genre of game. Write dialogue in plain YAML files -- no proprietary formats, no node graphs. Character logic, expressions, branching, localization, and save state are all configured in the Unity editor. WitWeaver compiles YAML into runtime-ready ScriptableObjects automatically.
 
 ## Getting Started
 
@@ -102,3 +102,7 @@ The full Doxygen-generated C# API is at:
 - [WitWeaverVariableStore](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverVariableStore.html): Scoped variable storage -- Global, Conversation, Session scopes; Set/Get for String/Int/Float/Bool; OnVariableChanged
 - [IWitWeaverSaveProvider](https://docs.wolfstaginteractive.com/witweaver/api/interfaceWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1IWitWeaverSaveProvider.html): Interface for custom save backends -- Load, Save, Delete, SlotExists, GetAllSlots
 - [WitWeaverSnapshotMigrator](https://docs.wolfstaginteractive.com/witweaver/api/classWolfstagInteractive_1_1WitWeaver_1_1SaveSystem_1_1WitWeaverSnapshotMigrator.html): Schema migration utility -- Register migration steps, auto-called on Load
+
+## Legal
+
+Copyright © 2025-2026 Wolfstag Interactive LLC. All rights reserved. WitWeaver™ is a trademark of Wolfstag Interactive LLC. Unity is a trademark or registered trademark of Unity Technologies. FMOD is a trademark of Firelight Technologies Pty Ltd. Wwise is a trademark of Audiokinetic Inc. All other product names are trademarks of their respective owners.

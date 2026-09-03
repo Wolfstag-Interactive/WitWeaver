@@ -5,7 +5,7 @@ title: YAML Format
 
 # YAML Format
 
-This page is the complete field reference for WitWeaver's YAML dialogue format. Every supported field is documented here with an explanation of its purpose, whether it is required, and examples showing correct usage.
+This page is the complete field reference for WitWeaver™'s YAML dialogue format. Every supported field is documented here with an explanation of its purpose, whether it is required, and examples showing correct usage.
 
 ---
 

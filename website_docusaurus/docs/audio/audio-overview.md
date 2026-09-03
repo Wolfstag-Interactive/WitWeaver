@@ -5,7 +5,7 @@ title: Audio Overview
 
 # Audio Overview
 
-WitWeaver includes a full voice-line audio system that is designed to be backend-agnostic. You can play dialogue audio through Unity's built-in AudioSource, FMOD Studio, Wwise, or any custom audio engine — without changing your conversation data or YAML files.
+WitWeaver™ includes a full voice-line audio system that is designed to be backend-agnostic. You can play dialogue audio through Unity's built-in AudioSource, FMOD Studio, Wwise, or any custom audio engine — without changing your conversation data or YAML files.
 
 ---
 

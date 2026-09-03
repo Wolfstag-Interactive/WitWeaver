@@ -11,7 +11,7 @@ A save provider handles the actual reading and writing of save data to a storage
 
 ## Built-in providers
 
-WitWeaver ships with two built-in providers. Select between them via the **Use Yaml** checkbox on your `WitWeaverSaveManager` asset.
+WitWeaver™ ships with two built-in providers. Select between them via the **Use Yaml** checkbox on your `WitWeaverSaveManager` asset.
 
 ### JsonFileWitWeaverSaveProvider (default)
 

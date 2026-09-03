@@ -5,7 +5,7 @@ title: Display Components
 
 # Display Components
 
-A display component is a `MonoBehaviour` you add to a prefab character that translates WitWeaver expression calls into concrete visual changes. When the runner applies an expression to a character, the display component is what decides what actually happens on screen: an Animator state change, a blend shape transition, or a custom action.
+A display component is a `MonoBehaviour` you add to a prefab character that translates WitWeaver™ expression calls into concrete visual changes. When the runner applies an expression to a character, the display component is what decides what actually happens on screen: an Animator state change, a blend shape transition, or a custom action.
 
 All display components implement `IWitWeaverCharacterDisplay` and extend `WitWeaverCharacterDisplayBase`.
 

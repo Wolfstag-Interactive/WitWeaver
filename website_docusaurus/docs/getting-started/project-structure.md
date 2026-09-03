@@ -5,7 +5,7 @@ title: Project Structure
 
 # Project Structure
 
-This page explains how WitWeaver's files are organized inside the package itself, where to put your own project files, and how the framework's assembly structure works. Understanding this layout will help you avoid common file-placement mistakes and make it easier to navigate the codebase as your project grows.
+This page explains how WitWeaver™'s files are organized inside the package itself, where to put your own project files, and how the framework's assembly structure works. Understanding this layout will help you avoid common file-placement mistakes and make it easier to navigate the codebase as your project grows.
 
 ---
 

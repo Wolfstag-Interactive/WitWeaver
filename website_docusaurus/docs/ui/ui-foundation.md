@@ -7,7 +7,7 @@ title: UI Foundation
 
 ## What is WitWeaverUIFoundation?
 
-`WitWeaverUIFoundation` is a concrete `MonoBehaviour` that defines the contract between the WitWeaver runner and your dialogue display. It is the bridge: WitWeaver calls methods on this class to say what should be shown, and your subclass overrides those methods to decide how to show it. All methods have default no-op implementations; override only what your UI needs.
+`WitWeaverUIFoundation` is a concrete `MonoBehaviour` that defines the contract between the WitWeaver runner and your dialogue display. It is the bridge: WitWeaver™ calls methods on this class to say what should be shown, and your subclass overrides those methods to decide how to show it. All methods have default no-op implementations; override only what your UI needs.
 
 Attach a subclass of `WitWeaverUIFoundation` to any GameObject in the scene, then drag that GameObject into the **Conversation UI** field on the `WitWeaver` component.
 

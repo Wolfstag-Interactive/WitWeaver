@@ -25,7 +25,7 @@ The Configuration screen collects the source folder, destination folder, and imp
 
 ### Input YAML Folder
 
-The folder WitWeaver will scan for `.yml` and `.yaml` files. Assign the folder using the object field (drag a folder from the Project panel) or click **Browse** to open a folder picker.
+The folder WitWeaver™ will scan for `.yml` and `.yaml` files. Assign the folder using the object field (drag a folder from the Project panel) or click **Browse** to open a folder picker.
 
 :::warning
 The input folder must be inside your project's `Assets/` directory. The Scan button is disabled while the folder is invalid or empty.

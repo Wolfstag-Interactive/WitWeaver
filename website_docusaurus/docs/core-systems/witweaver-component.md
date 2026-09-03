@@ -22,7 +22,7 @@ The `WitWeaver` MonoBehaviour is the central piece of the runtime system. Attach
 
 ### Input
 
-A `[SerializeReference]` field that accepts either a `SingleConversationInput` or a `ContainerInput`. This is the "default" conversation source. When you call `PlayConversation()` with no arguments, WitWeaver asks the configured input to resolve which conversation to start.
+A `[SerializeReference]` field that accepts either a `SingleConversationInput` or a `ContainerInput`. This is the "default" conversation source. When you call `PlayConversation()` with no arguments, WitWeaver™ asks the configured input to resolve which conversation to start.
 
 You can also pass a `WitWeaverConversationData` directly to `PlayConversation(data)` to bypass this field entirely.
 

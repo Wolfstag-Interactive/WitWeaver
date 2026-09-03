@@ -44,7 +44,7 @@ One profile can hold many representations. For example, a guard character might 
 
 ## Built-in Representation Types
 
-WitWeaver ships with three ready-to-use representation types.
+WitWeaver™ ships with three ready-to-use representation types.
 
 ### SpriteCharacterRepresentationData
 

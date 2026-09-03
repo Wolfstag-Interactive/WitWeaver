@@ -5,7 +5,7 @@ title: WitWeaver Settings
 
 # WitWeaver Settings
 
-`WitWeaverSettings` is a sealed `ScriptableObject` that controls global WitWeaver configuration. It is the single configuration file for the entire framework. Language support, YAML source resolution order, save system keys, debug logging, and history renderer profiles are all managed here.
+`WitWeaverSettings` is a sealed `ScriptableObject` that controls global WitWeaver™ configuration. It is the single configuration file for the entire framework. Language support, YAML source resolution order, save system keys, debug logging, and history renderer profiles are all managed here.
 
 ---
 

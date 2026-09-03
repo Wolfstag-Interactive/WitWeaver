@@ -5,7 +5,7 @@ title: Overview
 
 # Prefab Characters
 
-WitWeaver supports 3D prefab characters in addition to flat sprites. Where a sprite representation stores a set of images, a prefab representation stores a reference to a Unity prefab. The prefab is a real GameObject that can be spawned into a scene, driven by an Animator, and fully integrated into your world.
+WitWeaver™ supports 3D prefab characters in addition to flat sprites. Where a sprite representation stores a set of images, a prefab representation stores a reference to a Unity prefab. The prefab is a real GameObject that can be spawned into a scene, driven by an Animator, and fully integrated into your world.
 
 This section covers the full workflow: how prefab characters are placed, how they receive expressions, and how to choose between the two display modes WitWeaver provides.
 

@@ -5,7 +5,7 @@ title: Unity Audio Setup
 
 # Unity Audio Setup
 
-The `UnityAudioSource` backend is the quickest way to add voice audio to a WitWeaver conversation. Drag `AudioClip` assets directly into the manifest, and WitWeaver handles everything else — including automatically adding an `AudioSource` component to the runner's GameObject if one is not already present.
+The `UnityAudioSource` backend is the quickest way to add voice audio to a WitWeaver™ conversation. Drag `AudioClip` assets directly into the manifest, and WitWeaver handles everything else — including automatically adding an `AudioSource` component to the runner's GameObject if one is not already present.
 
 ---
 

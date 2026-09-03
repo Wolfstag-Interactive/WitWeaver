@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'WitWeaver Documentation',
+  title: 'WitWeaver™ Documentation',
   tagline: 'A modular Unity dialogue framework',
   url: 'https://docs.wolfstaginteractive.com',
   baseUrl: '/',
@@ -40,11 +40,15 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: 'WitWeaver',
+      title: 'WitWeaver™',
       items: [
         {to: '/witweaver/', label: 'Guide', position: 'left'},
         {href: 'https://docs.wolfstaginteractive.com/witweaver/api/', label: 'API', position: 'left'},
       ],
+    },
+    footer: {
+      style: 'dark',
+      copyright: 'Copyright © 2025-2026 Wolfstag Interactive LLC. All rights reserved. WitWeaver™ is a trademark of Wolfstag Interactive LLC. Unity is a trademark or registered trademark of Unity Technologies. FMOD is a trademark of Firelight Technologies Pty Ltd. Wwise is a trademark of Audiokinetic Inc. All other product names are trademarks of their respective owners.',
     },
     prism: {
       theme: prismThemes.github,

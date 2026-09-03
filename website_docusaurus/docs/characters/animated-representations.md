@@ -13,7 +13,7 @@ Each expression on the asset (Happy, Angry, Neutral, etc.) holds up to two anima
 
 ## What Can Be Animated
 
-Out of the box, WitWeaver ships two animation types (called payloads):
+Out of the box, WitWeaver™ ships two animation types (called payloads):
 
 | Payload | What it is | Good for |
 |---|---|---|

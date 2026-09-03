@@ -44,7 +44,7 @@ Use short, lowercase IDs with underscores: `town_guard`, `merchant`, `player`. A
 :::
 
 :::warning
-A mismatched Character ID (wrong case, typo, or a profile simply missing from the conversation's participant list) causes WitWeaver to log a warning at runtime and skip character resolution for that line. The dialogue still advances, but the speaker will appear as unknown and no character representation will be displayed. If a character's portrait or name never appears, this is the first thing to check.
+A mismatched Character ID (wrong case, typo, or a profile simply missing from the conversation's participant list) causes WitWeaver™ to log a warning at runtime and skip character resolution for that line. The dialogue still advances, but the speaker will appear as unknown and no character representation will be displayed. If a character's portrait or name never appears, this is the first thing to check.
 :::
 
 ---

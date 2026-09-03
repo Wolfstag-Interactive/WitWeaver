@@ -30,7 +30,7 @@ Implement this interface on a `MonoBehaviour` and attach it to the same GameObje
 
 ### `PlayVoiceLine(line, reference)`
 
-Called by WitWeaver when it is ready to play the audio for a dialogue line. The `line` argument is the full `DialogueLineInfo`, giving you access to `LineID`, `characterID`, expression data, and anything else from the dialogue data. The `reference` argument is the resolved audio reference from the manifest.
+Called by WitWeaver™ when it is ready to play the audio for a dialogue line. The `line` argument is the full `DialogueLineInfo`, giving you access to `LineID`, `characterID`, expression data, and anything else from the dialogue data. The `reference` argument is the resolved audio reference from the manifest.
 
 Depending on the backend you select on the manifest, `reference` will be one of:
 

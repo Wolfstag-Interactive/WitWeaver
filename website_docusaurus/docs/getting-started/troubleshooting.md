@@ -5,7 +5,7 @@ title: Troubleshooting
 
 # Troubleshooting
 
-This page covers the most common problems encountered when setting up or using WitWeaver, along with their causes and fixes.
+This page covers the most common problems encountered when setting up or using WitWeaver™, along with their causes and fixes.
 
 ---
 

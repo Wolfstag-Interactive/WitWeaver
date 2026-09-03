@@ -5,7 +5,7 @@ title: Sample UI
 
 # Sample UI
 
-WitWeaver includes a fully working dialogue UI in its Samples package. If you want a real, working display layer to learn from or build on top of rather than creating one from scratch, this is the fastest way to get started.
+WitWeaver™ includes a fully working dialogue UI in its Samples package. If you want a real, working display layer to learn from or build on top of rather than creating one from scratch, this is the fastest way to get started.
 
 ---
 

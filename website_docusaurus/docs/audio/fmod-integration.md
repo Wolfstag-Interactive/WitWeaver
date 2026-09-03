@@ -5,7 +5,7 @@ title: FMOD Integration
 
 # FMOD Integration
 
-WitWeaver can drive voice dialogue through FMOD Studio by mapping each dialogue line to an FMOD event path. WitWeaver passes the event path to a provider component; the provider calls the FMOD API. This keeps the WitWeaver core assembly free of FMOD compile dependencies.
+WitWeaver™ can drive voice dialogue through FMOD Studio by mapping each dialogue line to an FMOD event path. WitWeaver passes the event path to a provider component; the provider calls the FMOD API. This keeps the WitWeaver core assembly free of FMOD compile dependencies.
 
 ---
 

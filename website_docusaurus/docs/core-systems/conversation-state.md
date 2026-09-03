@@ -5,7 +5,7 @@ title: Conversation State
 
 # Conversation State
 
-WitWeaver tracks the lifecycle of a running conversation through the `ConversationState` enum, accessible at any time via the `CurrentDialogueState` property. Understanding state transitions is important for writing reliable UI code, integrating with other game systems, and avoiding common bugs like double-starting a conversation.
+WitWeaver™ tracks the lifecycle of a running conversation through the `ConversationState` enum, accessible at any time via the `CurrentDialogueState` property. Understanding state transitions is important for writing reliable UI code, integrating with other game systems, and avoiding common bugs like double-starting a conversation.
 
 ---
 

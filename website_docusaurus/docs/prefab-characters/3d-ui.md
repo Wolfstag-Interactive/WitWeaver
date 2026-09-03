@@ -89,7 +89,7 @@ Fill in the standard dialogue UI fields: dialogue text, speaker name, choice pan
 
 ## Character Persistence Across Lines
 
-3D characters are persistent. Once a character appears in a conversation, they remain in the scene for the entire conversation. WitWeaver does not despawn a character just because they aren't listed on the current line.
+3D characters are persistent. Once a character appears in a conversation, they remain in the scene for the entire conversation. WitWeaver™ does not despawn a character just because they aren't listed on the current line.
 
 When the runner processes a line:
 - Characters on that line have their expressions updated via `ApplyExpression()`.
