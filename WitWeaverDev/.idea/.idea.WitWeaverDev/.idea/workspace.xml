@@ -6,14 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b120c558-4353-4d0c-87e7-1fcf0e9c31fe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WitWeaverDev/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WitWeaverDev/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleConversationData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SampleAssetsRepo/1.0.0/Sample Assets/2D Sample/WitWeaver2DSampleConversationData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST EXCEL.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST EXCEL.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/WitWeaverSampleConversationData TEST.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverConversationData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverYaml/WitWeaverYamlTextSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverYaml/WitWeaverYamlTextSync.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverYaml/WitWeaverYamlUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../WolfstagInteractive/WitWeaver/Scripts/WitWeaverYaml/WitWeaverYamlUtilities.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="4" />
+    <option name="cachedIndexableFilesCount" value="3" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
