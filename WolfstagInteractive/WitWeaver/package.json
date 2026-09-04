@@ -2,7 +2,7 @@
   "name": "com.wolfstaginteractive.witweaver",
   "version": "1.0.0",
   "displayName": "WitWeaver",
-  "description": "WitWeaver™ is a Unity native dialogue framework for building the dialogue system your project deserves, in any genre, at any scale, while staying in its lane.",
+  "description": "WitWeaver\u2122 is a Unity native dialogue framework for building the dialogue system your project deserves, in any genre, at any scale, while staying in its lane.",
   "unity": "6000.5",
   "author": {
     "name": "Dylan Alter",
@@ -24,5 +24,6 @@
       "description": "Audio provider for Audiokinetic Wwise. Requires the Wwise Unity Integration (https://www.audiokinetic.com/en/public-library/?source=Unity&id=index.html). After importing, add WITWEAVER_WWISE to Project Settings > Player > Scripting Define Symbols.",
       "path": "Samples~/Audio/WwiseIntegration"
     }
-  ]
+  ],
+  "documentationUrl": "https://docs.wolfstaginteractive.com/witweaver/"
 }

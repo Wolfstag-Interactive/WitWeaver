@@ -1678,7 +1678,7 @@ MonoBehaviour:
   AudioManifest: {fileID: 0}
   ConversationYaml: {fileID: -7622796456671618352}
   AllowPersistentOverrides: 1
-  FilePath: WitWeaver/Dialogue/WitWeaver3DDialogueSampleConversation
+  FilePath: WitWeaver3DDialogueSampleConversation
   SourceYaml: {fileID: 102900000, guid: 24d61ad70f2f49441891f99c350c0620, type: 3}
   SourceYamlAssetPath: Assets/SampleAssets/1.0.0/Sample Assets/3D Sample/WitWeaver3DDialogueSampleConversation.yml
   SourceSpreadsheetAsset: {fileID: 0}

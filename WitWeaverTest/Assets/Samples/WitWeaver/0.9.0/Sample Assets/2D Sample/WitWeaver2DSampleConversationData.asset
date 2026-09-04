@@ -168,7 +168,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_cb8d04d73eed
     ConversationLineIndex: 1
@@ -210,7 +209,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_8205ac8c4e8a
     ConversationLineIndex: 2
@@ -252,7 +250,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_9cd861a48566
     ConversationLineIndex: 3
@@ -294,7 +291,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_e01c38d35e8f
     ConversationLineIndex: 4
@@ -350,7 +346,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_8e7776524b04
     ConversationLineIndex: 5
@@ -406,7 +401,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_ec0dec9027e2
     ConversationLineIndex: 6
@@ -449,7 +443,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_603c3f4ba4d6
     ConversationLineIndex: 7
@@ -491,7 +484,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_d1cfb2aa2db7
     ConversationLineIndex: 8
@@ -533,7 +525,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_16a17b3396e4
     ConversationLineIndex: 9
@@ -578,7 +569,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_fecc5a327214
     ConversationLineIndex: 10
@@ -620,7 +610,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_4e12510204f1
     ConversationLineIndex: 11
@@ -676,7 +665,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_81d918d79d10
     ConversationLineIndex: 12
@@ -721,7 +709,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_44b11d6cd642
     ConversationLineIndex: 13
@@ -763,7 +750,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_b06da097d428
     ConversationLineIndex: 14
@@ -805,7 +791,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_9379a5301f7e
     ConversationLineIndex: 15
@@ -847,7 +832,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_b5e5b1e08f68
     ConversationLineIndex: 16
@@ -889,7 +873,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_6c2df39ca769
     ConversationLineIndex: 17
@@ -931,7 +914,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_ff77ae8df82b
     ConversationLineIndex: 18
@@ -976,7 +958,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_dc490e2592df
     ConversationLineIndex: 19
@@ -1021,7 +1002,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_2e2673368a71
     ConversationLineIndex: 20
@@ -1063,7 +1043,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_4c04459eaeba
     ConversationLineIndex: 21
@@ -1109,7 +1088,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_6e955da171a6
     ConversationLineIndex: 22
@@ -1166,7 +1144,6 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   - ConversationID: Conversation1
     LineID: L_1d54676a6a5b
     ConversationLineIndex: 23
@@ -1225,17 +1202,14 @@ MonoBehaviour:
       PushReturnPoint: 0
       Choices: []
       AllowGoBack: 0
-      TargetLineID: 
   DefaultPresentationMode: 2
   AudioManifest: {fileID: 0}
   ConversationYaml: {fileID: -4732311180001108802}
   AllowPersistentOverrides: 1
-  FilePath: DialogueScriptSample.yml
+  FilePath: DialogueScriptSample
   SourceYaml: {fileID: 102900000, guid: 4612376414d9cc742be9c4b790213e6a, type: 3}
   SourceYamlAssetPath: Assets/SampleAssets/1.0.0/Sample Assets/2D Sample/DialogueScriptSample.yml
   SourceSpreadsheetAsset: {fileID: 0}
   SourceSpreadsheetAssetPath: 
   ConversationKey: Conversation1
   _conversationGuid: ed8dd2e7-9336-4ec4-b74c-36ec4f3c4b5d
-  GraphAssetGuid: 
-  AuthoringMode: 0

@@ -193,11 +193,10 @@
       "url": "https://packages.unity.com"
     },
     "com.wolfstaginteractive.witweaver": {
-      "version": "https://github.com/Wolfstag-Interactive/WitWeaver.git?path=WolfstagInteractive/WitWeaver",
+      "version": "file:C:/Users/alter/Downloads/Test Export Witweaver/com.wolfstaginteractive.witweaver-0.9.0.tgz",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "17f8ae932121220018020ff63bfb5a4c8507d01b"
+      "source": "local-tarball",
+      "dependencies": {}
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
